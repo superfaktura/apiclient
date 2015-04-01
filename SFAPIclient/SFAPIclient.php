@@ -267,6 +267,17 @@
 			$response_data = json_decode($response->body);
 			return $response_data;
 		}
+		
+		public function setInvoiceLanguage($id, $lang = 'slo') {
+			if(!class_exists('Requests')){
+				trigger_error("Unable to load Requests class", E_USER_WARNING);
+				return false;
+			}
+			
+			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoices/setinvoicelanguage/'.$id.'/lang:'.$lang, $this->headers);
+			$response_data = json_decode($response->body);
+			return $response_data;
+		}
 
 		public function markAsSent($invoice_id, $email, $subject = '', $message = ''){
 			if(!class_exists('Requests')){
