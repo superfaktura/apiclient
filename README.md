@@ -38,10 +38,10 @@
     + **Email** - prihlasovací email do SuperFaktúry
     + **Token** - API token, ktorý nájdete v SuperFaktúre po prihlásení do svojho účtu "*Nástroje > API prístup*"
   ```php
-    require_once('SFAPIclient/SFAPIclient.php');  // inc. SuperFaktúra PHP-API
-    $login_email = 'login@example.com';  // moja.superfaktura.sk login email
-    $api_token = 'abcd1234';  // token from my account
-    $sf_api = new SFAPIclient($login_email, $api_token);  // create SF PHP-API object
+require_once('SFAPIclient/SFAPIclient.php');  // inc. SuperFaktúra PHP-API
+$login_email = 'login@example.com';  // moja.superfaktura.sk login email
+$api_token = 'abcd1234';  // token from my account
+$sf_api = new SFAPIclient($login_email, $api_token);  // create SF PHP-API object
   ```
   
 ### 3. Používanie PHP-API volaní
@@ -49,27 +49,27 @@
   *Všetky PHP funkcie nášho API sú verejné členské funkcie triedy SFAPIclient*.
   Príklad vystavenia jednoduchej faktúry (pokračovanie predch. príkladu)
   ```php
-    // set client for new invoice
-    $sf_api->setClient(array(
-      'name' => 'MyClient',
-      'address' => 'MyClient address 1',
-      'zip' => 12345,
-      'city' => 'MyClientCity'
-    ));
-    // set invoice attributes
-    $sf_api->setInvoice(array(
-      'name' => 'MyInvoice'
-    ));
-    // add new invoice item
-    $sf_api->addItem(array(
-      'name' => 'MyInvoiceItem',
-      'description' => 'Inv. item no. 1',
-      'unit_price' => 10,
-      'tax' => 20
-    ));
-    // save invoice in SuperFaktura
-    $json_response = $sf_api->save();
-    // TODO: handle exceptions
+// set client for new invoice
+$sf_api->setClient(array(
+'name' => 'MyClient',
+'address' => 'MyClient address 1',
+'zip' => 12345,
+'city' => 'MyClientCity'
+));
+// set invoice attributes
+$sf_api->setInvoice(array(
+'name' => 'MyInvoice'
+));
+// add new invoice item
+$sf_api->addItem(array(
+'name' => 'MyInvoiceItem',
+'description' => 'Inv. item no. 1',
+'unit_price' => 10,
+'tax' => 20
+));
+// save invoice in SuperFaktura
+$json_response = $sf_api->save();
+// TODO: handle exceptions
   ```
 ## Zoznam volaní (verejných členských funkcií vrátane konštruktora triedy SFAPIclient)
   * *__construct($email, $apikey)*
@@ -117,7 +117,7 @@
 
 ##### Formát fakturačnej položky
  ```php
- array(
+array(
 	'name'          	   => 'Názov položky',
 	'description'   	   => 'Popis',
 	'quantity'       	   => 1, //množstvo
@@ -143,13 +143,13 @@
 
 ##### Možné parametre pre filtrovanie, číselníky hodnôt sa nachádzajú pod zoznamom parametrov
  ```php
- array(
+array(
 	'search' => '', //Hľadaný výraz v klientovi. Prehľadáva všetky polia.
 )
  ```
 ##### Formát vrátených dát
   ```php
-  {
+{
     "itemCount": 67,
     "pageCount": 7,
     "perPage": 10,
@@ -230,7 +230,7 @@ Vráti zoznam vystavených faktúr.
 * *$list_info* bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
 ##### Možné parametre pre filtrovanie, číselníky hodnôt sa nachádzajú pod zoznamom parametrov
   ```php
-  rray(
+Array(
 	'page'          => 1, //Strana
 	'per_page'      => 10, //Počet položiek na stranu
 	'created'       => 0, //Dátum vystavenia.
@@ -250,7 +250,6 @@ Vráti zoznam vystavených faktúr.
    ```
 ##### Formát vrátených dát
   ```php
-  
 {
     "itemCount": 67,
     "pageCount": 7,
@@ -268,7 +267,7 @@ Vráti zoznam vystavených faktúr.
 ##### Číselníky pre filtrovanie faktúr
 Obdobie vystavenia a dodania faktúry
   ```php
-  Array
+Array
 (
     [0] => Všetko
     [1] => Dnes
@@ -283,7 +282,7 @@ Obdobie vystavenia a dodania faktúry
   ```
   Typ faktúry
   ```php
-  Array
+Array
 (
 	[regular]  => Bežná
 	[proforma] => Zálohová faktúra
@@ -293,7 +292,7 @@ Obdobie vystavenia a dodania faktúry
   ```
   Spôsob dodania
   ```php  
-  Array
+Array
 (
 	[mail]     => Poštou
 	[courier]  => Kuriérom
@@ -396,7 +395,7 @@ Príklad použitia:
 $api->setInvoice('name', 'nazov faktury');
   ```
   ```php   
- $api->setInvoice(array(
+$api->setInvoice(array(
 		'name' => 'nazov faktury',
 		'variable' => '123456',
 		'constant' => '0308'
@@ -466,16 +465,14 @@ Odošle faktúru poštou.
 
 Príklad použitia:
   ```php 
- 
-		$api->sendInvoicePost(array(
-			'invoice_id' => 123456, // povinné
-			/** > POKIAL NIE SU NASTAVENE VYTIAHNU SA Z FAKTURY < *
-			 ******************************************************
-			 'delivery_address' => 'Adresa 123',
-			 'delivery_city' => 'Mesto',
-			 'delivery_state' => 'Slovenská republika'
-			 ******************************************************/
-		));
-	
+$api->sendInvoicePost(array(
+	'invoice_id' => 123456, // povinné
+	/** > POKIAL NIE SU NASTAVENE VYTIAHNU SA Z FAKTURY < *
+	 ******************************************************
+	 'delivery_address' => 'Adresa 123',
+	 'delivery_city' => 'Mesto',
+	 'delivery_state' => 'Slovenská republika'
+	 ******************************************************/
+));
   ```
   
