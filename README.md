@@ -14,7 +14,7 @@
 
 ### 1. spôsob (vyžaduje nainštalovaný systém Git)
   1. vytvorte si adresár, ktorý má obsahovať SuperFaktúra PHP-API napr. (*$> mkdir /var/www/myproject/libs*)
-  2. prepnite sa do novo vytvoreného adresára a spustite cez konzolu 
+  2. vstúpte do novo vytvoreného adresára a spustite cez konzolu 
   príkaz *$> git clone https://github.com/superfaktura/apiclient.git*
   
 ### 2. spôsob (nevyžaduje nainštalovaný systém Git)
