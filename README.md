@@ -10,16 +10,23 @@
  pripravili sme pre Vás jednoduchého API klienta, vďaka ktorému môžete Vaše faktúry vystavovať nadiaľku s 
  minimálnym úsilím.
  
-## Postup ako získať PHP-API klienta
+## Inštalácia PHP-API klienta
 
-### 1. spôsob (vyžaduje nainštalovaný systém Git)
-  1. vytvorte si adresár, ktorý má obsahovať SuperFaktúra PHP-API napr. (*$> mkdir /var/www/myproject/libs*)
-  2. prepnite sa do novo vytvoreného adresára a spustite cez konzolu 
-  príkaz *$> git clone https://github.com/superfaktura/apiclient.git*
+### 1. pomocou [composer-u](https://getcomposer.org/) (doporučený spôsob)
+
+```sh
+$ composer require superfaktura/apiclient
+```
+
+### 2. pomocou git-u (vyžaduje nainštalovaný systém [git](https://git-scm.com/))
+
+```sh
+$ mkdir /var/www/myproject/libs
+$ git clone https://github.com/superfaktura/apiclient.git
+```
   
-### 2. spôsob (nevyžaduje nainštalovaný systém Git)
-  1. Stiahnite si SuperFaktúra PHP-API kliknutím na tlačidlo "Stiahnuť ZIP", ktoré sa nachádza na 
-  github stránke nášho API.
+### 3. stiahnutie ZIP balíčka
+Stiahnite si SuperFaktúra PHP-API kliknutím na tlačidlo ["Stiahnuť ZIP"](https://github.com/superfaktura/apiclient/archive/master.zip), ktoré sa nachádza na github stránke nášho API.
 
 ## Ukážky kódu
   Aby sme vám uľahčili prácu pri implementácii nášho API, vytvorili sme ukážky kódu 
