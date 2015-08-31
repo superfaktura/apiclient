@@ -202,11 +202,280 @@ Vráti detaily nákladu.
 ##### Parametre
 * *$expense_id* int povinné. Získané z Expense->id.
 
+### 12. getCountries
+Vráti číselník krajín.
 
+### 13. getSequences
+Vráti číselník číselných radov podľa typov dokumentov.
 
+### 14. getPDF
+Vráti PDF súbor s faktúrou.
+##### Parametre
+* *$invoice_id* int povinné. Získané z Invoice->id.
+* *$token* string povinné. Získané z Invoice->token.
+* *$language* string nepovinné. Jazyk požadovaného PDF. Možné hodnoty sú {slo, cze, eng}
 
- 
+### 15. getTags
+Vráti číselník existujúcich tagov.
+
+### 16. invoice
+Vráti detaily faktúry.
+##### Parametre
+* *$invoice_id* int povinné. Získané z Invoice->id.
+
+### 17. invoices
+Vráti zoznam vystavených faktúr.
+##### Parametre
+* *$params* pole povinné. Parametre pre filtrovanie a stránkovanie.
+* *$list_info* bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
+##### Možné parametre pre filtrovanie, číselníky hodnôt sa nachádzajú pod zoznamom parametrov
+  ```php
+  rray(
+	'page'          => 1, //Strana
+	'per_page'      => 10, //Počet položiek na stranu
+	'created'       => 0, //Dátum vystavenia.
+	'delivery'      => 0, //Dátum dodania.
+	'type'          => 'regular', //Typ faktúry. Viacero typov je možné kombinovať pomocou "|" napr. "regular|cancel"
+	'delivery_type' => 'mail', //Typ faktúry. Viacero typov je možné kombinovať pomocou "|" napr. "mail|personal"
+	'payment_type'  => 'transfer', //Typ faktúry. Viacero typov je možné kombinovať pomocou "|" napr. "mail|personal"
+	'status'        => 0, //Stav faktúry.
+	'client_id'     => 1, //ID klienta. Zoznam klientov je možné získať metódou clients()
+	'amount_from'   => 0, //Suma faktúry od
+	'amount_to'     => 0, //Suma faktúry do
+	'paid_since'    => 0, //Faktúra uhradená od
+	'paid_to'       => 0, //Faktúra uhradená do
+	'search'        => '', //Hľadaný výraz vo faktúre. Prehľadáva všetky polia.
+	'ignore'        => '1|2|3', //ID faktúr, ktoré sa majú ignorovať.
+)
+   ```
+##### Formát vrátených dát
+  ```php
   
+{
+    "itemCount": 67,
+    "pageCount": 7,
+    "perPage": 10,
+    "page": 1,
+    "items": [{
+        "Client": {...},
+        "Invoice": {"id": "8358",...}
+        "InvoicePayment": {},
+        "InvoiceEmail": {},
+        "PostStamp": {}
+    },...]
+}
+  ```
+##### Číselníky pre filtrovanie faktúr
+Obdobie vystavenia a dodania faktúry
+  ```php
+  Array
+(
+    [0] => Všetko
+    [1] => Dnes
+    [2] => Včera
+    [4] => Tento mesiac
+    [5] => Minulý mesiac
+    [8] => Tento kvartál
+    [7] => Minulý rok
+    [6] => Tento rok
+    [3] => od - do //v prípade hodnoty od - do je potrebné uviesť aj parametre created_since a created_to
+)
+  ```
+  Typ faktúry
+  ```php
+  Array
+(
+	[regular]  => Bežná
+	[proforma] => Zálohová faktúra
+	[estimate] => Cenová ponuka
+	[cancel]   => Dobropis
+)
+  ```
+  Spôsob dodania
+  ```php  
+  Array
+(
+	[mail]     => Poštou
+	[courier]  => Kuriérom
+	[personal] => Osobný odber
+	[haulage]  => Nákladná doprava
+)
+  ```
+  Stav faktúry
+  ```php   
+  Array
+(
+	[0]  => Všetko
+	[1]  => Čakajú na úhradu
+	[2]  => Čiastočne uhradené
+	[3]  => Uhradené
+	[99] => Po splatnosti
+)
+  ```
+  
+### 18. markAsSent
+Označí faktúru ako odoslanú emailom. Užitočné, pokiaľ vytvorené faktúry odosielate vlastným systémom, avšak chcete toto odoslanie evidovať aj v SuperFaktúre.
+##### Parametre
+* *$invoice_id* int povinné. Získané z Invoice->id
+* *$email* string povinné. Emailová adresa, kam bola faktúra odoslaná.
+* *$subject* string nepovinné. Predmet emailu.
+* *$message* string nepovinné. Text emailu.
+##### Návratová hodnota: objekt
 
+### 19. payInvoice
+Dodatočne pridá úhradu ku faktúre.
+##### Parametre
+* *$invoice_id* int povinné. Získané z Invoice->id
+* *$amount* float povinné. Uhradená suma.
+* *$currency* string nepovinné. Mena úhrady, predvolené EUR.
+* *$date* string nepovinné. Dátum úhrady, predvolený aktuálny dátum.
+* *$payment_type* string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {cash,transfer,credit,paypal,cod}
 
+### 20. payExpense
+Dodatočne pridá úhradu k nákladu.
+##### Parametre
+* *$expense_id* int povinné. Získané z Expense->id
+* *$amount* float povinné. Uhradená suma.
+* *$currency* string nepovinné. Mena úhrady, predvolené EUR.
+* *$date* string nepovinné. Dátum úhrady, predvolený aktuálny dátum.
+* *$payment_type* string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {cash,transfer,credit,paypal,cod}
+
+### 21. save
+Uloží nastavené dáta a vystaví faktúru.
+##### Paramete: žiadne
+##### Návratová hodnota: objekt
+##### Kódy chýb
+* **2** Dáta neboli odoslané metódou POST.
+* **3** Nesprávne dáta. Odoslané dáta nemajú správny formát.
+* **5** Validačný error. Povinné údaje chýbajú alebo sú nesprávne vyplnené.
+
+### 22. setExpense
+Nastaví hodnoty pre náklad.
+##### Paramete
+* *$key* mixed povinné. Môže byť string, alebo pole. Ak je string, nastaví sa konkrétna hodnota v $data['Expense'][$key]. Ak je pole, nastaví sa viacero hodmôt naraz.
+* *$value* mixed nepovinné. Ak je $key string, hodnota $value sa nastaví v $data['Expense'][$key]. Ak je $key pole, $value sa ignoruje.
+
+Príklad použitia:
+  ```php 
+$api->setExpense('name', 'nazov nakladu');
+  ```
+  ```php 
+$api->setExpense(array(
+		'name' => 'nazov nakladu', // povinný udaj
+		'amount' => 10, // suma bez DPH
+		'vat' => 20, // DPH v percentách
+		'variable' => '123456', // variabilný symbol
+		'constant' => '0308' // konštantný symbol
+	));
+  ```
+
+Zoznam možných vlastností nákladu:
+* **name** - názov nákladu (povinný údaj)
+* **amount** - suma bez dane
+* **vat** - DPH (percentá)
+* **already_paid** - bola už faktúra uhradená? true/false
+* **created** - dátum vystavenia
+* **comment** - komentár
+* **constant** - konštantný symbol
+* **delivery** - dátum dodania
+* **due** - dátum splatnosti
+* **currency** - mena, v ktorej je faktúra vystavená. Možnosti: EUR, USD, GBP, HUF, CZK, PLN, CHF, RUB
+* **payment_type** - Spôsob úhrady, číselník hodnôt
+* **specific** - špecifický symbol
+* **type** - typ faktúry. Možnosti: invoice - prijatá faktúra, bill - pokladničný blok, internal - interný doklad, contribution - odvody
+* **variable** - variabilný symbol
+
+### 23. setInvoice
+Nastaví hodnoty pre faktúru
+##### Parametre
+* *$key* mixed povinné. Môže byť string, alebo pole. Ak je string, nastaví sa konkrétna hodnota v $data['Invoice'][$key]. Ak je pole, nastaví sa viacero hodmôt naraz.
+* *$value* mixed nepovinné. Ak je $key string, hodnota $value sa nastaví v $data['Invoice'][$key]. Ak je $key pole, $value sa ignoruje.
+
+Príklad použitia:
+  ```php 
+$api->setInvoice('name', 'nazov faktury');
+  ```
+  ```php   
+ $api->setInvoice(array(
+		'name' => 'nazov faktury',
+		'variable' => '123456',
+		'constant' => '0308'
+	));
+  ``` 
+  
+Zoznam možných vlastností faktúry:
+* **already_paid** - bola už faktúra uhradená? true/false
+* **created** - dátum vystavenia
+* **comment** - komentár
+* **constant** - konštantný symbol
+* **delivery** - dátum dodania
+* **delivery_type** - spôsob dodania, číselník hodnôt
+* **deposit** - uhradená záloha
+* **discount** - zľava v %
+* **due** - dátum splatnosti
+* **estimate_id** - ID cenovej ponuky, na základe ktorej je faktúra vystavená
+* **header_comment** - Text nad položkami faktúry
+* **internal_comment** - Interná poznánka, nezobrazuje sa klientovi
+* **invoice_currency** - mena, v ktorej je faktúra vystavená. Možnosti: EUR, USD, GBP, HUF, CZK, PLN, CHF, RUB
+* **invoice_no_formatted** - číslo faktúry
+* **issued_by** - faktúru vystavil
+* **issued_by_phone** - faktúru vystavil telefón
+* **issued_by_email** - faktúru vystavil email
+* **name** - názov faktúry
+* **payment_type** - Spôsob úhrady, číselník hodnôt
+* **proforma_id** - ID proforma faktúry, na základe ktorej sa vystavuje ostrá faktúra. Ostrá faktúra tak preberie údaje o uhradenej zálohe
+* **rounding** - Spôsob zaokrúhľovania DPH. 'document' => za celý dokument, 'item' => po položkaćh (predvolená hodnota)
+* **specific** - špecifický symbol
+* **sequence_id** - ID číselníka, zoznam číselníkov je možné získať metódou getSequences
+* **type** - typ faktúry. Možnosti: regular - bežná faktúra, proforma - zálohová faktúra, cancel - dobropis, estimate - cenová ponuka, order - prijatá objednávka
+* **variable** - variabilný symbol
+
+### 24. sendInvoiceEmail
+Odošle faktúru emailom.
+##### Parametre
+* **$options** *array*, povinné.
+Príklad použitia:
+
+ ```php 
+$api->sendInvoiceEmail(array(
+			'invoice_id' => 123456, // povinné
+			'to' => 'example@example.com', // povinné
+			'cc' => array(
+				'examplecc@examplecc.com'
+			),
+			'bcc' => array(
+				'examplebcc@examplebcc.com'
+			),
+			// 'subject' => 'Predmet', // pokial nie je nastaveny subject nastavi sa automaticky podla nastaveni
+			// 'body' => 'Sprava' // pokial nie je nastaveny body nastavi sa automaticky podla nastaveni
+		));
+ ```
  
+Zoznam možných nastavení:
+* **invoice_id** *integer*, id faktúry, ktorú chcete odoslať (povinné)
+* **to** *string*, na akú emailovú adresu sa má faktúra odoslať (povinné)
+* **cc** *array*, cc
+* **bcc** *array*, bcc
+* **subject** *string*, predmet
+* **body** *string*, telo správy
+
+### 25. sendInvoicePost
+Odošle faktúru poštou.
+##### Parametre
+* **$options** *array*, povinné.
+
+Príklad použitia:
+  ```php 
+ 
+		$api->sendInvoicePost(array(
+			'invoice_id' => 123456, // povinné
+			/** > POKIAL NIE SU NASTAVENE VYTIAHNU SA Z FAKTURY < *
+			 ******************************************************
+			 'delivery_address' => 'Adresa 123',
+			 'delivery_city' => 'Mesto',
+			 'delivery_state' => 'Slovenská republika'
+			 ******************************************************/
+		));
+	
+  ```
+  
