@@ -222,6 +222,148 @@ github stránke nášho API.</li>
 <em>$tags_ids</em> pole povinné, pole ID požadovaných tagov</li>
 </ul>
 
+<h3>
+<a id="4-clients" class="anchor" href="#4-clients" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. clients</h3>
+
+<p>Vráti zoznam klientov</p>
+
+<h5>
+<a id="parametre-3" class="anchor" href="#parametre-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$params</em> pole povinné. Parametre pre filtrovanie a stránkovanie.</li>
+<li>
+<em>$list_info</em> bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)</li>
+</ul>
+
+<h5>
+<a id="možné-parametre-pre-filtrovanie-číselníky-hodnôt-sa-nachádzajú-pod-zoznamom-parametrov" class="anchor" href="#mo%C5%BEn%C3%A9-parametre-pre-filtrovanie-%C4%8D%C3%ADseln%C3%ADky-hodn%C3%B4t-sa-nach%C3%A1dzaj%C3%BA-pod-zoznamom-parametrov" aria-hidden="true"><span class="octicon octicon-link"></span></a>Možné parametre pre filtrovanie, číselníky hodnôt sa nachádzajú pod zoznamom parametrov</h5>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"> <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>search<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>, <span class="pl-c">//Hľadaný výraz v klientovi. Prehľadáva všetky polia.</span></span>
+<span class="pl-s1">)</span></pre></div>
+
+<h5>
+<a id="formát-vrátených-dát" class="anchor" href="#form%C3%A1t-vr%C3%A1ten%C3%BDch-d%C3%A1t" aria-hidden="true"><span class="octicon octicon-link"></span></a>Formát vrátených dát</h5>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1">  {</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>itemCount<span class="pl-pds">"</span></span>: <span class="pl-c1">67</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>pageCount<span class="pl-pds">"</span></span>: <span class="pl-c1">7</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>perPage<span class="pl-pds">"</span></span>: <span class="pl-c1">10</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>page<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span>: [{</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>Client<span class="pl-pds">"</span></span>: {<span class="pl-k">...</span>},</span>
+<span class="pl-s1">    },<span class="pl-k">...</span>]</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="5-delete" class="anchor" href="#5-delete" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. delete</h3>
+
+<p>Zmaže faktúru.</p>
+
+<h5>
+<a id="parametre-4" class="anchor" href="#parametre-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$id int</em> povinné. Získané z Invoice-&gt;id.</li>
+</ul>
+
+<h3>
+<a id="6-deleteinvoiceitem" class="anchor" href="#6-deleteinvoiceitem" aria-hidden="true"><span class="octicon octicon-link"></span></a>6. deleteInvoiceItem</h3>
+
+<p>Zmaže položku na faktúre.</p>
+
+<h5>
+<a id="parametre-5" class="anchor" href="#parametre-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$invoice_id</em> int povinné. Získané z Invoice-&gt;id.</li>
+<li>
+<em>$id</em> int povinné. Získané z InvoiceItem-&gt;id.</li>
+</ul>
+
+<h3>
+<a id="7-deleteexpense" class="anchor" href="#7-deleteexpense" aria-hidden="true"><span class="octicon octicon-link"></span></a>7. deleteExpense</h3>
+
+<p>Zmaže náklad.</p>
+
+<h5>
+<a id="parametre-6" class="anchor" href="#parametre-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$id</em> int povinné. Získané z Expense-&gt;id.</li>
+</ul>
+
+<h3>
+<a id="8-deletestockitem" class="anchor" href="#8-deletestockitem" aria-hidden="true"><span class="octicon octicon-link"></span></a>8. deleteStockItem</h3>
+
+<p>Zmaže skladovú položku.</p>
+
+<h5>
+<a id="parametre-7" class="anchor" href="#parametre-7" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$id</em> int povinné. Získané z StockItem-&gt;id.</li>
+</ul>
+
+<h3>
+<a id="9-edit" class="anchor" href="#9-edit" aria-hidden="true"><span class="octicon octicon-link"></span></a>9. edit</h3>
+
+<p>Uloží nastavené dáta a aktualizuje faktúru.</p>
+
+<h5>
+<a id="parametre-žiadne" class="anchor" href="#parametre-%C5%BEiadne" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre: žiadne</h5>
+
+<h5>
+<a id="návratová-hodnota-objekt" class="anchor" href="#n%C3%A1vratov%C3%A1-hodnota-objekt" aria-hidden="true"><span class="octicon octicon-link"></span></a>Návratová hodnota: objekt</h5>
+
+<h5>
+<a id="kódy-chýb" class="anchor" href="#k%C3%B3dy-ch%C3%BDb" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kódy chýb</h5>
+
+<ul>
+<li>
+<strong>1</strong> Id dokladu má nesprávny formát</li>
+<li>
+<strong>2</strong> Neexistujúce id dokladu</li>
+<li>
+<strong>3</strong> Chyba pri editácii faktúry. Volanie treba opakovať.</li>
+<li>
+<strong>6</strong> Chyba pri validácii úrajov. Povinné údaje chýbajú alebo nemajú správny formát.</li>
+</ul>
+
+<h3>
+<a id="10-expenses" class="anchor" href="#10-expenses" aria-hidden="true"><span class="octicon octicon-link"></span></a>10. expenses</h3>
+
+<p>Vráti zoznam nákladov.</p>
+
+<h5>
+<a id="parametre-8" class="anchor" href="#parametre-8" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$params</em> pole povinné. Parametre pre filtrovanie a stránkovanie.</li>
+<li>
+<em>$list_info</em> bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)</li>
+</ul>
+
+<h3>
+<a id="11-expense" class="anchor" href="#11-expense" aria-hidden="true"><span class="octicon octicon-link"></span></a>11. expense</h3>
+
+<p>Vráti detaily nákladu.</p>
+
+<h5>
+<a id="parametre-9" class="anchor" href="#parametre-9" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$expense_id</em> int povinné. Získané z Expense-&gt;id.</li>
+</ul>
+
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/superfaktura/apiclient">Apiclient</a> is maintained by <a href="https://github.com/superfaktura">superfaktura</a>.</span>
 
