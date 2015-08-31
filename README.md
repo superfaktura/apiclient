@@ -34,7 +34,7 @@
   
 ### 2. Urobiť základné nastavenia v kóde
   * Vytvoriť novú inštanciu triedy *SFAPIclient*
-  * Poskytnúť v konštruktore prihlasovacie údaje do API
+  * Poskytnúť konštruktoru prihlasovacie údaje do API
     + **Email** - prihlasovací email do SuperFaktúry
     + **Token** - API token, ktorý nájdete v SuperFaktúre po prihlásení do svojho účtu "*Nástroje > API prístup*"
   ```php
