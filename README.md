@@ -671,3 +671,120 @@ Zoznam možných vlastností klienta:
 * **phone** - telefón
 * **zip** - PSČ
 * **match_address** (boolean) - pokiaľ je tento parameter nastavený, do hľadania klienta vstupuje aj adresa.
+
+### 33. stockItems
+Vráti zoznam skladových položiek.
+##### Parametre
+* *$params* pole povinné. Parametre pre filtrovanie a stránkovanie.
+* *$list_info* bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
+
+##### Možné parametre pre filtrovanie
+ ```php
+ array(
+	'page'          => 1, //Strana
+	'per_page'      => 10, //Počet položiek na stranu
+	'price_from'    => 0, //Cena od
+	'price_to'      => 0, //Cena do
+	'search'        => '', //Hľadaný výraz. Prehľadáva všetky polia.
+)
+ ```
+##### Formát vrátených dát
+##### Možné parametre pre filtrovanie
+ ```php
+{
+    "itemCount": 67,
+    "pageCount": 7,
+    "perPage": 10,
+    "page": 1,
+    "items": [{
+        "StockItem": {...},
+    },...]
+}
+ ```
+ 
+### 34. stockItem
+Vráti detaily skladovej položky.
+##### Parametre
+* *$stock_item_id* int povinné. Získané z StockItem->id.
+
+### Autorizácia
+Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
+Samotná autorizácia sa vykonáva pomocou hlavičky "Authorization", ktorá ma nasledujúci tvar:
+ ```php
+"Authorization: SFAPI email=EMAIL&apikey=APITOKEN"
+ ```
+ Túto hlavičku musí obsahovať každý request na SF API!
+ 
+### Vystavenie faktúry
+Pokiaľ sa Vám nepáči náš SF API klient a chcete si faktúry vystavovať posvojom, tak nech sa páči:
+Endpoint pre vystavenie faktúry sa nachádza na adrese https://moja.superfaktura.sk/invoices/create
+Dáta pre vystavenie faktúry očakáva vo formáte JSON v $POST['data'] v nasledujúcej forme:
+```php
+$data = array(
+	'Invoice' => array(
+		//vsetky polozky su nepovinne, v pripade ze nie su uvedene, budu doplnene automaticky
+		'name'                 => 'nazov faktury',
+		'variable'             => '123456',
+		'constant'             => '0308',
+		'specific'             => '2015', //specificky symbol
+		'already_paid'         => true, // bola uz faktura uhradena?
+		'invoice_no_formatted' => '2015001', //ak nie je uvedene, SF ho doplni podla ciselnika
+		'created'              => '2015-08-31', //datum vystavenia
+		'delivery'             => '2015-08-31', //datum dodania
+		'due'                  => '2015-08-31', //datum splatnosti
+		'comment'              => 'komentar',
+	),
+	'Client' => array(
+		'name'    => 'Janko Hrasko',
+		'ico'     => '12345678',
+		'dic'     => '12345678',
+		'ic_dph'  => 'SK12345678',
+		'email'   => 'janko@hrasko.sk',
+		'address' => 'adresa',
+		'city'    => 'mesto',
+		'zip'     => 'psc',
+		'phone'   => 'telefon',
+	),
+	'InvoiceItem' => array(
+		array(
+			'name'        => 'Superfaktura.sk',
+			'description' => 'Členstvo',
+			'quantity'    => 1,
+			'unit'        => 'ks',
+			'unit_price'  => 40.83,
+			'tax'         => 20
+		),
+		array(
+			'name'        => 'Druhá položka',
+			'description' => '',
+			'quantity'    => 10,
+			'unit'        => 'ks',
+			'unit_price'  => 5,
+			'tax'         => 10
+		)
+	)
+);
+Samotný request s použitím napr. Requests knižnice potom môže vyzerať nasledovne:
+Requests::register_autoloader();
+$response = Requests::post('https://moja.superfaktura.sk/invoices/create',
+	$headers,
+	array('data' => json_encode($data))
+);
+$response_data = json_decode($response->body, true);
+výsledkom tohto volania je JSON odpoveď v nasledujúcej forme
+$response_data = array(
+	'error'         => 0,
+	'error_message' => 'Chybova hlaska',
+	'data'          => array(),
+);
+ ```
+ V prípade, ak došlo k nejakej chybe, bude error = 1 a error_message bude obsahovať popis chyby, ktorá nastala. V prípade, že chýb nastalo viac, bude error_message obsahovať pole s chybovými hláškami.
+ 
+Ak bola faktúra úspešne vytvorená, budú v kľúči data uložené kompletné informácie o vytvorenej faktúre.
+
+### PDF faktúry
+Po vytvorení faktúry je možné stiahnuť jej PDF na adrese
+ ```php
+https://moja.superfaktura.sk/invoices/pdf/ID_FAKTURY/token:TOKEN
+ ```
+ kde ID FAKTURY sa nachádza v $data['Invoice']['id'] a token v $data['Invoice']['token'].
