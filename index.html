@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Apiclient by superfaktura</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Apiclient</h1>
+      <h2 class="project-tagline">SuperFaktúra oficiálny PHP-API klient.</h2>
+      <a href="https://github.com/superfaktura/apiclient" class="btn">View on GitHub</a>
+      <a href="https://github.com/superfaktura/apiclient/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/superfaktura/apiclient/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="superfaktúra-php-api-klient" class="anchor" href="#superfakt%C3%BAra-php-api-klient" aria-hidden="true"><span class="octicon octicon-link"></span></a>SuperFaktúra PHP-API klient</h1>
+
+<h2>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
+
+<p>API SuperFaktúry umožňuje prepojenie externých aplikácií so SuperFaktúrou a 
+ dovoľuje tak vzdialene vytvárať doklady a získavať údaje o nich. 
+ Umožňuje tiež odosielať faktúry emailom alebo poštou.</p>
+
+<h2>
+<a id="quickstart" class="anchor" href="#quickstart" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quickstart</h2>
+
+<p>Aby ste sa nemusli trápiť s priamymi volaniami API funkcií a spôsobom prenosu dát, 
+ pripravili sme pre Vás jednoduchého API klienta, vďaka ktorému môžete Vaše faktúry vystavovať nadiaľku s 
+ minimálnym úsilím.</p>
+
+<h2>
+<a id="postup-ako-získať-php-api-klienta" class="anchor" href="#postup-ako-z%C3%ADska%C5%A5-php-api-klienta" aria-hidden="true"><span class="octicon octicon-link"></span></a>Postup ako získať PHP-API klienta</h2>
+
+<h3>
+<a id="1-spôsob-vyžaduje-nainštalovaný-systém-git" class="anchor" href="#1-sp%C3%B4sob-vy%C5%BEaduje-nain%C5%A1talovan%C3%BD-syst%C3%A9m-git" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. spôsob (vyžaduje nainštalovaný systém Git)</h3>
+
+<ol>
+<li>vytvorte si adresár, ktorý má obsahovať SuperFaktúra PHP-API napr. (<em>$&gt; mkdir /var/www/myproject/libs</em>)</li>
+<li>prepnite sa do novo vytvoreného adresára a spustite cez konzolu 
+príkaz <em>$&gt; git clone <a href="https://github.com/superfaktura/apiclient.git">https://github.com/superfaktura/apiclient.git</a></em>
+</li>
+</ol>
+
+<h3>
+<a id="2-spôsob-nevyžaduje-nainštalovaný-systém-git" class="anchor" href="#2-sp%C3%B4sob-nevy%C5%BEaduje-nain%C5%A1talovan%C3%BD-syst%C3%A9m-git" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. spôsob (nevyžaduje nainštalovaný systém Git)</h3>
+
+<ol>
+<li>Stiahnite si SuperFaktúra PHP-API kliknutím na tlačidlo "Stiahnuť ZIP", ktoré sa nachádza na 
+github stránke nášho API.</li>
+</ol>
+
+<h2>
+<a id="ukážky-kódu" class="anchor" href="#uk%C3%A1%C5%BEky-k%C3%B3du" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ukážky kódu</h2>
+
+<p>Aby sme vám uľahčili prácu pri implementácii nášho API, vytvorili sme ukážky kódu 
+  (<a href="https://github.com/superfaktura/apiclient/blob/master/sample.php">sample.php</a> a <a href="https://github.com/superfaktura/apiclient/blob/master/sample2.php">sample2.php</a>),
+  ktoré demonštrujú jeho funkcionalitu a dpĺňajú našu dokumentáciu o fungujúce príklady.</p>
+
+<h2>
+<a id="začíname-používať-superfaktúra-php-api" class="anchor" href="#za%C4%8D%C3%ADname-pou%C5%BE%C3%ADva%C5%A5-superfakt%C3%BAra-php-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>Začíname používať SuperFaktúra PHP-API</h2>
+
+<p>Na to, aby ste mohli začať API na plno využívať, je potrebné:</p>
+
+<h3>
+<a id="1-zaregistrovať-sa-v-superfaktúre" class="anchor" href="#1-zaregistrova%C5%A5-sa-v-superfakt%C3%BAre" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Zaregistrovať sa v SuperFaktúre</h3>
+
+<ul>
+<li>Na stránke <a href="https://moja.superfaktura.sk/registracia">https://moja.superfaktura.sk/registracia</a> vykonajte registráciu. Automaticky získate 30 dní zadarmo.</li>
+<li>Po prihlásení vystavte skúšobnú faktúru cez GUI SuperFaktúry</li>
+</ul>
+
+<h3>
+<a id="2-urobiť-základné-nastavenia-v-kóde" class="anchor" href="#2-urobi%C5%A5-z%C3%A1kladn%C3%A9-nastavenia-v-k%C3%B3de" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Urobiť základné nastavenia v kóde</h3>
+
+<ul>
+<li>Vytvoriť novú inštanciu triedy <em>SFAPIclient</em>
+</li>
+<li>Poskytnúť v konštruktore prihlasovacie údaje do API
+
+<ul>
+<li>
+<strong>Email</strong> - prihlasovací email do SuperFaktúry</li>
+<li>
+<strong>Token</strong> - API token, ktorý nájdete v SuperFaktúre po prihlásení do svojho účtu "<em>Nástroje &gt; API prístup</em>"</li>
+</ul>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1">  <span class="pl-k">require_once</span>(<span class="pl-s"><span class="pl-pds">'</span>SFAPIclient/SFAPIclient.php<span class="pl-pds">'</span></span>);  <span class="pl-c">// inc. SuperFaktúra PHP-API</span></span>
+<span class="pl-s1">  <span class="pl-smi">$login_email</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>login@example.com<span class="pl-pds">'</span></span>;  <span class="pl-c">// moja.superfaktura.sk login email</span></span>
+<span class="pl-s1">  <span class="pl-smi">$api_token</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>abcd1234<span class="pl-pds">'</span></span>;  <span class="pl-c">// token from my account</span></span>
+<span class="pl-s1">  <span class="pl-smi">$sf_api</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">SFAPIclient</span>(<span class="pl-smi">$login_email</span>, <span class="pl-smi">$api_token</span>);  <span class="pl-c">// create SF PHP-API object</span></span></pre></div>
+</li>
+</ul>
+
+<h3>
+<a id="3-používanie-php-api-volaní" class="anchor" href="#3-pou%C5%BE%C3%ADvanie-php-api-volan%C3%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Používanie PHP-API volaní</h3>
+
+<p>Nižšie je uvedený zoznam všetkých možných volaní, ktoré obsahuje najnovšia verzia nášho API.
+  <em>Všetky PHP funkcie nášho API sú verejné členské funkcie triedy SFAPIclient</em>.
+  Príklad vystavenia jednoduchej faktúry (pokračovanie predch. príkladu)</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1">    <span class="pl-c">// set client for new invoice</span></span>
+<span class="pl-s1">    <span class="pl-smi">$sf_api</span><span class="pl-k">-&gt;</span>setClient(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyClient<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>address<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyClient address 1<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>zip<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">12345</span>,</span>
+<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>city<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyClientCity<span class="pl-pds">'</span></span></span>
+<span class="pl-s1">    ));</span>
+<span class="pl-s1">    <span class="pl-c">// set invoice attributes</span></span>
+<span class="pl-s1">    <span class="pl-smi">$sf_api</span><span class="pl-k">-&gt;</span>setInvoice(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyInvoice<span class="pl-pds">'</span></span></span>
+<span class="pl-s1">    ));</span>
+<span class="pl-s1">    <span class="pl-c">// add new invoice item</span></span>
+<span class="pl-s1">    <span class="pl-smi">$sf_api</span><span class="pl-k">-&gt;</span>addItem(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyInvoiceItem<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>description<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Inv. item no. 1<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>unit_price<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">10</span>,</span>
+<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>tax<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">20</span></span>
+<span class="pl-s1">    ));</span>
+<span class="pl-s1">    <span class="pl-c">// save invoice in SuperFaktura</span></span>
+<span class="pl-s1">    <span class="pl-smi">$json_response</span> <span class="pl-k">=</span> <span class="pl-smi">$sf_api</span><span class="pl-k">-&gt;</span>save();</span>
+<span class="pl-s1">    <span class="pl-c">// TODO: handle exceptions</span></span></pre></div>
+
+<h2>
+<a id="zoznam-volaní-verejných-členských-funkcií-vrátane-konštruktora-triedy-sfapiclient" class="anchor" href="#zoznam-volan%C3%AD-verejn%C3%BDch-%C4%8Dlensk%C3%BDch-funkci%C3%AD-vr%C3%A1tane-kon%C5%A1truktora-triedy-sfapiclient" aria-hidden="true"><span class="octicon octicon-link"></span></a>Zoznam volaní (verejných členských funkcií vrátane konštruktora triedy SFAPIclient)</h2>
+
+<ul>
+<li><em>__construct($email, $apikey)</em></li>
+<li><em>addItem($item = array())</em></li>
+<li><em>addStockItem($item = array())</em></li>
+<li><em>addStockMovement($item = array())</em></li>
+<li><em>addTags($tag_ids = array())</em></li>
+<li><em>clients($params = array(), $list_info = true)</em></li>
+<li><em>delete($id)</em></li>
+<li><em>deleteInvoiceItem($invoice_id, $id)</em></li>
+<li><em>deleteExpense($id)</em></li>
+<li><em>deleteStockItem($id)</em></li>
+<li><em>edit()</em></li>
+<li><em>expense()</em></li>
+<li><em>expenses()</em></li>
+<li><em>getCountries()</em></li>
+<li><em>getSequences()</em></li>
+<li><em>getPDF($invoice_id, $token, $language = 'slo')</em></li>
+<li><em>getTags()</em></li>
+<li><em>invoice($id)</em></li>
+<li><em>invoices($params = array(), $list_info = true)</em></li>
+<li><em>markAsSent($invoice_id, $email, $subject = '', $message = '')</em></li>
+<li><em>payInvoice($invoice_id, $amount, $currency = 'EUR', $date = null, $payment_type = 'transfer')</em></li>
+<li><em>payExpense($expense_id, $amount, $currency = 'EUR', $date = null, $payment_type = 'transfer')</em></li>
+<li><em>save()</em></li>
+<li><em>setClient($key, $value = '')</em></li>
+<li><em>setExpense($key, $value = '')</em></li>
+<li><em>setInvoice($key, $value = '')</em></li>
+<li><em>sendInvoiceEmail($options = array())</em></li>
+<li><em>sendInvoicePost($options = array())</em></li>
+<li><em>stockItemEdit($item = array())</em></li>
+<li><em>stockItems($params = array(), $list_info = true)</em></li>
+<li><em>stockItem($id)</em></li>
+</ul>
+
+<h3>
+<a id="1-__construct" class="anchor" href="#1-__construct" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. __construct</h3>
+
+<p>Konštruktor. Nastaví email a API token pre autorizáciu.</p>
+
+<h5>
+<a id="parametre" class="anchor" href="#parametre" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$email</em> string povinný</li>
+<li>
+<em>$token</em> string povinný</li>
+</ul>
+
+<h3>
+<a id="2-additem" class="anchor" href="#2-additem" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. addItem</h3>
+
+<p>Pridá položku na faktúru.</p>
+
+<h5>
+<a id="parametre-1" class="anchor" href="#parametre-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$item</em> pole povinné</li>
+</ul>
+
+<h5>
+<a id="formát-fakturačnej-položky" class="anchor" href="#form%C3%A1t-faktura%C4%8Dnej-polo%C5%BEky" aria-hidden="true"><span class="octicon octicon-link"></span></a>Formát fakturačnej položky</h5>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"> <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>                 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Názov položky<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>description<span class="pl-pds">'</span></span>          <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Popis<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>quantity<span class="pl-pds">'</span></span>             <span class="pl-k">=&gt;</span> <span class="pl-c1">1</span>, <span class="pl-c">//množstvo</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>unit<span class="pl-pds">'</span></span>                 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>ks<span class="pl-pds">'</span></span>, <span class="pl-c">//jednotka</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>unit_price<span class="pl-pds">'</span></span>           <span class="pl-k">=&gt;</span> <span class="pl-c1">40.83</span>, <span class="pl-c">//cena bez dph, resp. celková cena, ak nie ste platcami DPH</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>tax<span class="pl-pds">'</span></span>                  <span class="pl-k">=&gt;</span> <span class="pl-c1">20</span>, <span class="pl-c">//sadzba DPH, ak nie ste platcom DPH, zadajte 0</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>stock_item_id<span class="pl-pds">'</span></span>        <span class="pl-k">=&gt;</span> <span class="pl-c1">123</span>, <span class="pl-c">//id skladovej polozky</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>sku<span class="pl-pds">'</span></span>                  <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>SKU123<span class="pl-pds">'</span></span>, <span class="pl-c">//skladove oznacenie</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>discount<span class="pl-pds">'</span></span>             <span class="pl-k">=&gt;</span> <span class="pl-c1">50</span>, <span class="pl-c">//Zľava na položku v %</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>load_data_from_stock<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">true</span> <span class="pl-c">//Načíta nevyplnené údaje položky zo skladu</span></span>
+<span class="pl-s1">)</span></pre></div>
+
+<h3>
+<a id="3-addtags" class="anchor" href="#3-addtags" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. addTags</h3>
+
+<p>Pridá faktúre tagy podľa číselníka</p>
+
+<h5>
+<a id="parametre-2" class="anchor" href="#parametre-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$tags_ids</em> pole povinné, pole ID požadovaných tagov</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/superfaktura/apiclient">Apiclient</a> is maintained by <a href="https://github.com/superfaktura">superfaktura</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
