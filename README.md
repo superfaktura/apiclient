@@ -14,7 +14,7 @@
 
 ### 1. spôsob (vyžaduje nainštalovaný systém Git)
   1. vytvorte si adresár, ktorý má obsahovať SuperFaktúra PHP-API napr. (*$> mkdir /var/www/myproject/libs*)
-  2. vstúpte do novo vytvoreného adresára a spustite cez konzolu 
+  2. prepnite sa do novo vytvoreného adresára a spustite cez konzolu 
   príkaz *$> git clone https://github.com/superfaktura/apiclient.git*
   
 ### 2. spôsob (nevyžaduje nainštalovaný systém Git)
@@ -34,7 +34,7 @@
   
 ### 2. Urobiť základné nastavenia v kóde
   * Vytvoriť novú inštanciu triedy *SFAPIclient*
-  * Poskytnúť konštruktoru prihlasovacie údaje do API
+  * Poskytnúť v konštruktore prihlasovacie údaje do API
     + **Email** - prihlasovací email do SuperFaktúry
     + **Token** - API token, ktorý nájdete v SuperFaktúre po prihlásení do svojho účtu "*Nástroje > API prístup*"
   ```php
@@ -307,7 +307,7 @@ Array
   ```
   Stav faktúry
   ```php   
-Array
+  Array
 (
 	[0]  => Všetko
 	[1]  => Čakajú na úhradu
@@ -480,4 +480,194 @@ $api->sendInvoicePost(array(
 	 ******************************************************/
 ));
   ```
+Zoznam možných nastavení: 
+* **invoice_id** *integer*, id faktúry, ktorú chcete odoslať (povinné)
+
+### 26. stockItemEdit
+Aktualizuje skladovú položku.
+##### Parametre 
+* **$item** *array*, povinné.
+
+Príklad použitia:
+  ```php 
   
+		$api->stockItemEdit(array(
+			'stock_item_id' => 123456, // povinné
+			'name' => '*New stock item name', // novy nazov skladovej polozky
+			'sku' => 'NEWST06K1T3M1D' // nove SKU
+		));
+	
+  ```  
+Zoznam možných nastavení:
+* **id** *integer*, id skladovej položky
+* **name** *string*, názov skladovej položky
+* **description** *string*, popis skladovej položky
+* **sku** *string*, skladové číslo
+* **unit_price** *integer*, jednotková cena bez DPH
+* **vat** *integer*, DPH v percentách
+* **stock** *integer*, počet kusov na sklade. Pokiaľ sa vynechá nebude sa sledovať stav zásob.
+* **unit** *string*, jednotka napr. ks, mm, m2, dm3, l.
+
+### 27. addStockItem
+Pridá skladovú položku.
+##### Parametre 
+* **$item** *array*, povinné.
+
+Príklad použitia:
+  ```php 
+$api->addStockItem(array(
+			'name' => 'Stock item example', // nazov skladovej polozky
+			'description' => 'Stock item description', // popis
+			'sku' => 'SKU12345REF', // skladove cislo
+			'unit_price' => 10, // jednotkova cena bez DPH
+			'vat' => 20, // DPH v percentach
+			'stock' => 100 // pocet kusov na sklade, ak nie je definovane nebudu sa sledovat pohyby
+		));
+	
+  ```  
+Zoznam možných nastavení:
+* **name** *string*, názov skladovej položky
+* **description** *string*, popis skladovej položky
+* **sku** *string*, skladové číslo
+* **unit_price** *integer*, jednotková cena bez DPH
+* **vat** *integer*, DPH v percentách
+* **stock** *integer*, počet kusov na sklade. Pokiaľ sa vynechá nebude sa sledovať stav zásob.
+* **unit** *string*, jednotka napr. ks, mm, m2, dm3, l.
+
+### 28. addStockMovement
+Pridá pohyb na sklade.
+##### Parametre 
+* **$item** *array*, povinné.
+
+Príklad použitia:
+  ```php
+  
+		$api->addStockMovement(array(
+			'stock_item_id' => 0, // id skladovej polozky
+			'name' => 'Stock item example', // nazov skladovej polozky
+			'description' => 'Stock item description', // popis
+			'sku' => 'SKU12345REF', // skladove cislo
+			'unit_price' => 10, // jednotkova cena bez DPH
+			'vat' => 20, // DPH v percentach
+			'stock' => 100 // pocet kusov na sklade, ak nie je definovane nebudu sa sledovat pohyby
+		));
+  ```   
+Zoznam možných nastavení:
+* **stock_item_id** *iteger*, id skladovej položky, ku ktorej chceme pridať pohyb
+* **quantity** *integer*, pohyb - záporné číslo je výdaj, kladné príjem
+* **note** *string*, popis pohybu
+* **created** *date* 'YEAR-MONTH-DAY' formát, dátum
+
+### 29. setClient
+Nastaví hodnoty pre klienta.
+##### Parametre
+Zhodné so setInvoice.
+
+Zoznam možných vlastností klienta:
+* **address** - adresa
+* **bank_account** - bankový účet
+* **city** - mesto
+* **comment** - komentár
+* **country_id** - ID krajiny, číselník krajín je možné získať metódou getCountries
+* **country_iso_id** ISO 3166-1 (Alpha-2) kod krajiny
+* **country** - vlastný názov krajiny
+* **delivery_address** - dodacia adresa
+* **delivery_city** - dodacie mesto
+* **delivery_country** - vlastná dodacia krajina
+* **delivery_country_id** - ID dodacej krajiny
+* **delivery_country_iso_id** ISO 3166-1 (Alpha-2) kod krajiny
+* **delivery_name** - názov klienta pre dodanie
+* **delivery_zip** - dodacie PSČ
+* **dic** - DIČ
+* **email** - email
+* **fax** - fax
+* **ic_dph** - IČ DPH
+* **ico** - IČO
+* **name** - názov klienta
+* **phone** - telefón
+* **zip** - PSČ
+* **match_address** (boolean) - pokiaľ je tento parameter nastavený, do hľadania klienta vstupuje aj adresa.
+
+### 30. stockItems
+Vráti zoznam skladových položiek.
+##### Parametre
+* *$params* pole povinné. Parametre pre filtrovanie a stránkovanie.
+* *$list_info* bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
+
+##### Možné parametre pre filtrovanie
+  ```php
+ array(
+	'page'          => 1, //Strana
+	'per_page'      => 10, //Počet položiek na stranu
+	'price_from'    => 0, //Cena od
+	'price_to'      => 0, //Cena do
+	'search'        => '', //Hľadaný výraz. Prehľadáva všetky polia.
+) 
+  ``` 
+##### Formát vrátených dát
+  ```php
+  
+{
+    "itemCount": 67,
+    "pageCount": 7,
+    "perPage": 10,
+    "page": 1,
+    "items": [{
+        "StockItem": {...},
+    },...]
+}
+  ``` 
+ 
+### 31. addStockMovement 
+Pridá pohyb na sklade.
+##### Parametre
+* **$item** *array*, povinné.
+
+Príklad použitia:
+ ```php
+$api->addStockMovement(array(
+			'stock_item_id' => 0, // id skladovej polozky
+			'name' => 'Stock item example', // nazov skladovej polozky
+			'description' => 'Stock item description', // popis
+			'sku' => 'SKU12345REF', // skladove cislo
+			'unit_price' => 10, // jednotkova cena bez DPH
+			'vat' => 20, // DPH v percentach
+			'stock' => 100 // pocet kusov na sklade, ak nie je definovane nebudu sa sledovat pohyby
+		));
+	
+  ``` 
+Zoznam možných nastavení:
+* **stock_item_id** *iteger*, id skladovej položky, ku ktorej chceme pridať pohyb
+* **quantity** *integer*, pohyb - záporné číslo je výdaj, kladné príjem
+* **note** *string*, popis pohybu
+* **created** *date* 'YEAR-MONTH-DAY' formát, dátum
+
+### 32. setClient
+Nastaví hodnoty pre klienta.
+##### Parametre
+Zhodné so setInvoice
+
+Zoznam možných vlastností klienta:
+* **address** - adresa
+* **bank_account** - bankový účet
+* **city** - mesto
+* **comment** - komentár
+* **country_id** - ID krajiny, číselník krajín je možné získať metódou getCountries
+* **country_iso_id** ISO 3166-1 (Alpha-2) kod krajiny
+* **country** - vlastný názov krajiny
+* **delivery_address** - dodacia adresa
+* **delivery_city** - dodacie mesto
+* **delivery_country** - vlastná dodacia krajina
+* **delivery_country_id** - ID dodacej krajiny
+* **delivery_country_iso_id** ISO 3166-1 (Alpha-2) kod krajiny
+* **delivery_name** - názov klienta pre dodanie
+* **delivery_zip** - dodacie PSČ
+* **dic** - DIČ
+* **email** - email
+* **fax** - fax
+* **ic_dph** - IČ DPH
+* **ico** - IČO
+* **name** - názov klienta
+* **phone** - telefón
+* **zip** - PSČ
+* **match_address** (boolean) - pokiaľ je tento parameter nastavený, do hľadania klienta vstupuje aj adresa.
