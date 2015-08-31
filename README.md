@@ -307,7 +307,7 @@ Array
   ```
   Stav faktúry
   ```php   
-  Array
+Array
 (
 	[0]  => Všetko
 	[1]  => Čakajú na úhradu
