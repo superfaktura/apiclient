@@ -135,6 +135,74 @@
 ##### Parametre
 * *$tags_ids* pole povinné, pole ID požadovaných tagov
 
+### 4. clients
+ Vráti zoznam klientov
+##### Parametre
+* *$params* pole povinné. Parametre pre filtrovanie a stránkovanie.
+* *$list_info* bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
+
+##### Možné parametre pre filtrovanie, číselníky hodnôt sa nachádzajú pod zoznamom parametrov
+ ```php
+ array(
+	'search' => '', //Hľadaný výraz v klientovi. Prehľadáva všetky polia.
+)
+ ```
+##### Formát vrátených dát
+  ```php
+  {
+    "itemCount": 67,
+    "pageCount": 7,
+    "perPage": 10,
+    "page": 1,
+    "items": [{
+        "Client": {...},
+    },...]
+}
+ ```
+
+### 5. delete
+Zmaže faktúru.
+##### Parametre
+* *$id int* povinné. Získané z Invoice->id.
+
+### 6. deleteInvoiceItem
+Zmaže položku na faktúre.
+##### Parametre
+* *$invoice_id* int povinné. Získané z Invoice->id.
+* *$id* int povinné. Získané z InvoiceItem->id.
+
+### 7. deleteExpense
+Zmaže náklad.
+##### Parametre
+* *$id* int povinné. Získané z Expense->id.
+
+### 8. deleteStockItem
+Zmaže skladovú položku.
+##### Parametre
+* *$id* int povinné. Získané z StockItem->id.
+
+### 9. edit
+Uloží nastavené dáta a aktualizuje faktúru.
+##### Parametre: žiadne
+##### Návratová hodnota: objekt
+##### Kódy chýb
+* **1** Id dokladu má nesprávny formát
+* **2** Neexistujúce id dokladu
+* **3** Chyba pri editácii faktúry. Volanie treba opakovať.
+* **6** Chyba pri validácii úrajov. Povinné údaje chýbajú alebo nemajú správny formát.
+
+### 10. expenses
+Vráti zoznam nákladov.
+##### Parametre
+* *$params* pole povinné. Parametre pre filtrovanie a stránkovanie.
+* *$list_info* bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
+
+### 11. expense
+Vráti detaily nákladu.
+##### Parametre
+* *$expense_id* int povinné. Získané z Expense->id.
+
+
 
 
  
