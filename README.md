@@ -71,6 +71,73 @@
     $json_response = $sf_api->save();
     // TODO: handle exceptions
   ```
+## Zoznam volaní (verejných členských funkcií vrátane konštruktora triedy SFAPIclient)
+  * *__construct($email, $apikey)*
+  * *addItem($item = array())*
+  * *addStockItem($item = array())*
+  * *addStockMovement($item = array())*
+  * *addTags($tag_ids = array())*
+  * *clients($params = array(), $list_info = true)*
+  * *delete($id)*
+  * *deleteInvoiceItem($invoice_id, $id)*
+  * *deleteExpense($id)*
+  * *deleteStockItem($id)*
+  * *edit()*
+  * *expense()*
+  * *expenses()*
+  * *getCountries()*
+  * *getSequences()*
+  * *getPDF($invoice_id, $token, $language = 'slo')*
+  * *getTags()*
+  * *invoice($id)*
+  * *invoices($params = array(), $list_info = true)*
+  * *markAsSent($invoice_id, $email, $subject = '', $message = '')*
+  * *payInvoice($invoice_id, $amount, $currency = 'EUR', $date = null, $payment_type = 'transfer')*
+  * *payExpense($expense_id, $amount, $currency = 'EUR', $date = null, $payment_type = 'transfer')*
+  * *save()*
+  * *setClient($key, $value = '')*
+  * *setExpense($key, $value = '')*
+  * *setInvoice($key, $value = '')*
+  * *sendInvoiceEmail($options = array())*
+  * *sendInvoicePost($options = array())*
+  * *stockItemEdit($item = array())*
+  * *stockItems($params = array(), $list_info = true)*
+  * *stockItem($id)*
+ 
+### 1. __construct
+ Konštruktor. Nastaví email a API token pre autorizáciu.
+##### Parametre
+  * *$email* string povinný
+  * *$token* string povinný
+
+### 2. addItem
+ Pridá položku na faktúru.
+##### Parametre
+ * *$item* pole povinné
+
+##### Formát fakturačnej položky
+ ```php
+ array(
+	'name'          	   => 'Názov položky',
+	'description'   	   => 'Popis',
+	'quantity'       	   => 1, //množstvo
+	'unit'         	 	   => 'ks', //jednotka
+	'unit_price'     	   => 40.83, //cena bez dph, resp. celková cena, ak nie ste platcami DPH
+	'tax'           	   => 20, //sadzba DPH, ak nie ste platcom DPH, zadajte 0
+	'stock_item_id'  	   => 123, //id skladovej polozky
+	'sku'             	   => 'SKU123', //skladove oznacenie
+	'discount'        	   => 50, //Zľava na položku v %
+	'load_data_from_stock' => true //Načíta nevyplnené údaje položky zo skladu
+)
+ ```
+### 3. addTags
+ Pridá faktúre tagy podľa číselníka
+##### Parametre
+* *$tags_ids* pole povinné, pole ID požadovaných tagov
+
+
+
+ 
   
 
 
