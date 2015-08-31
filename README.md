@@ -225,11 +225,14 @@ Vráti detaily faktúry.
 
 ### 17. invoices
 Vráti zoznam vystavených faktúr.
+
 ##### Parametre
 * *$params* pole povinné. Parametre pre filtrovanie a stránkovanie.
 * *$list_info* bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
-##### Možné parametre pre filtrovanie, číselníky hodnôt sa nachádzajú pod zoznamom parametrov
-  ```php
+
+##### Možné parametre pre filtrovanie, číselníky hodnôt sa nachádzajú pod zoznamom parametrov  
+
+```php
 Array(
 	'page'          => 1, //Strana
 	'per_page'      => 10, //Počet položiek na stranu
@@ -247,9 +250,11 @@ Array(
 	'search'        => '', //Hľadaný výraz vo faktúre. Prehľadáva všetky polia.
 	'ignore'        => '1|2|3', //ID faktúr, ktoré sa majú ignorovať.
 )
-   ```
+```
+
 ##### Formát vrátených dát
-  ```php
+
+```php
 {
     "itemCount": 67,
     "pageCount": 7,
@@ -263,10 +268,10 @@ Array(
         "PostStamp": {}
     },...]
 }
-  ```
+```
 ##### Číselníky pre filtrovanie faktúr
 Obdobie vystavenia a dodania faktúry
-  ```php
+```php
 Array
 (
     [0] => Všetko
@@ -279,9 +284,9 @@ Array
     [6] => Tento rok
     [3] => od - do //v prípade hodnoty od - do je potrebné uviesť aj parametre created_since a created_to
 )
-  ```
+```
   Typ faktúry
-  ```php
+```php
 Array
 (
 	[regular]  => Bežná
