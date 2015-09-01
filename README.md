@@ -40,16 +40,15 @@ Stiahnite si SuperFaktúra PHP-API kliknutím na tlačidlo ["Stiahnuť ZIP"](htt
   * Po prihlásení vystavte skúšobnú faktúru cez GUI SuperFaktúry
   
 ### 2. Urobiť základné nastavenia v kóde
-  * Vytvoriť novú inštanciu triedy *SFAPIclient*
-  * Poskytnúť v konštruktore prihlasovacie údaje do API
-    + **Email** - prihlasovací email do SuperFaktúry
-    + **Token** - API token, ktorý nájdete v SuperFaktúre po prihlásení do svojho účtu "*Nástroje > API prístup*"
-  ```php
-require_once('SFAPIclient/SFAPIclient.php');  // inc. SuperFaktúra PHP-API
-$login_email = 'login@example.com';  // moja.superfaktura.sk login email
-$api_token = 'abcd1234';  // token from my account
-$sf_api = new SFAPIclient($login_email, $api_token);  // create SF PHP-API object
-  ```
+
+```php
+require_once('SFAPIclient/SFAPIclient.php');  // len v prípade, že nepoužívate Composer
+
+$sf_api = new SFAPIClient(
+    $login, // prihlasovací email do SuperFaktúry
+    $token  // API token, ktorý nájdete v SuperFaktúre po prihlásení do svojho účtu "Nástroje > API prístup"
+);
+```
   
 ### 3. Používanie PHP-API volaní
   Nižšie je uvedený zoznam všetkých možných volaní, ktoré obsahuje najnovšia verzia nášho API.
