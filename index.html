@@ -1,25 +1,44 @@
-<!DOCTYPE html>
-<html lang="en-us">
+<!doctype html>
+<html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>SuperFaktúra PHP-API klient by superfaktura</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
-    <section class="page-header">
-      <h1 class="project-name">SuperFaktúra PHP-API klient</h1>
-      <h2 class="project-tagline">SuperFaktúra oficiálny PHP-API klient.</h2>
-      <a href="https://github.com/superfaktura/apiclient" class="btn">View on GitHub</a>
-      <a href="https://github.com/superfaktura/apiclient/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/superfaktura/apiclient/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/superfaktura/apiclient">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/superfaktura/apiclient/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/superfaktura/apiclient/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <section class="main-content">
-      <h1>
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>SuperFaktúra PHP-API klient</h1>
+          <p>SuperFaktúra oficiálny PHP-API klient.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/superfaktura">superfaktura</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
 <a id="superfaktúra-php-api-klient" class="anchor" href="#superfakt%C3%BAra-php-api-klient" aria-hidden="true"><span class="octicon octicon-link"></span></a>SuperFaktúra PHP-API klient</h1>
 
 <h2>
@@ -92,10 +111,10 @@ github stránke nášho API.</li>
 <strong>Token</strong> - API token, ktorý nájdete v SuperFaktúre po prihlásení do svojho účtu "<em>Nástroje &gt; API prístup</em>"</li>
 </ul>
 
-<div class="highlight highlight-php"><pre><span class="pl-s1">  <span class="pl-k">require_once</span>(<span class="pl-s"><span class="pl-pds">'</span>SFAPIclient/SFAPIclient.php<span class="pl-pds">'</span></span>);  <span class="pl-c">// inc. SuperFaktúra PHP-API</span></span>
-<span class="pl-s1">  <span class="pl-smi">$login_email</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>login@example.com<span class="pl-pds">'</span></span>;  <span class="pl-c">// moja.superfaktura.sk login email</span></span>
-<span class="pl-s1">  <span class="pl-smi">$api_token</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>abcd1234<span class="pl-pds">'</span></span>;  <span class="pl-c">// token from my account</span></span>
-<span class="pl-s1">  <span class="pl-smi">$sf_api</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">SFAPIclient</span>(<span class="pl-smi">$login_email</span>, <span class="pl-smi">$api_token</span>);  <span class="pl-c">// create SF PHP-API object</span></span></pre></div>
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-k">require_once</span>(<span class="pl-s"><span class="pl-pds">'</span>SFAPIclient/SFAPIclient.php<span class="pl-pds">'</span></span>);  <span class="pl-c">// inc. SuperFaktúra PHP-API</span></span>
+<span class="pl-s1"><span class="pl-smi">$login_email</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>login@example.com<span class="pl-pds">'</span></span>;  <span class="pl-c">// moja.superfaktura.sk login email</span></span>
+<span class="pl-s1"><span class="pl-smi">$api_token</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>abcd1234<span class="pl-pds">'</span></span>;  <span class="pl-c">// token from my account</span></span>
+<span class="pl-s1"><span class="pl-smi">$sf_api</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">SFAPIclient</span>(<span class="pl-smi">$login_email</span>, <span class="pl-smi">$api_token</span>);  <span class="pl-c">// create SF PHP-API object</span></span></pre></div>
 </li>
 </ul>
 
@@ -106,27 +125,27 @@ github stránke nášho API.</li>
   <em>Všetky PHP funkcie nášho API sú verejné členské funkcie triedy SFAPIclient</em>.
   Príklad vystavenia jednoduchej faktúry (pokračovanie predch. príkladu)</p>
 
-<div class="highlight highlight-php"><pre><span class="pl-s1">    <span class="pl-c">// set client for new invoice</span></span>
-<span class="pl-s1">    <span class="pl-smi">$sf_api</span><span class="pl-k">-&gt;</span>setClient(<span class="pl-c1">array</span>(</span>
-<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyClient<span class="pl-pds">'</span></span>,</span>
-<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>address<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyClient address 1<span class="pl-pds">'</span></span>,</span>
-<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>zip<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">12345</span>,</span>
-<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>city<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyClientCity<span class="pl-pds">'</span></span></span>
-<span class="pl-s1">    ));</span>
-<span class="pl-s1">    <span class="pl-c">// set invoice attributes</span></span>
-<span class="pl-s1">    <span class="pl-smi">$sf_api</span><span class="pl-k">-&gt;</span>setInvoice(<span class="pl-c1">array</span>(</span>
-<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyInvoice<span class="pl-pds">'</span></span></span>
-<span class="pl-s1">    ));</span>
-<span class="pl-s1">    <span class="pl-c">// add new invoice item</span></span>
-<span class="pl-s1">    <span class="pl-smi">$sf_api</span><span class="pl-k">-&gt;</span>addItem(<span class="pl-c1">array</span>(</span>
-<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyInvoiceItem<span class="pl-pds">'</span></span>,</span>
-<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>description<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Inv. item no. 1<span class="pl-pds">'</span></span>,</span>
-<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>unit_price<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">10</span>,</span>
-<span class="pl-s1">      <span class="pl-s"><span class="pl-pds">'</span>tax<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">20</span></span>
-<span class="pl-s1">    ));</span>
-<span class="pl-s1">    <span class="pl-c">// save invoice in SuperFaktura</span></span>
-<span class="pl-s1">    <span class="pl-smi">$json_response</span> <span class="pl-k">=</span> <span class="pl-smi">$sf_api</span><span class="pl-k">-&gt;</span>save();</span>
-<span class="pl-s1">    <span class="pl-c">// TODO: handle exceptions</span></span></pre></div>
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">// set client for new invoice</span></span>
+<span class="pl-s1"><span class="pl-smi">$sf_api</span><span class="pl-k">-&gt;</span>setClient(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyClient<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>address<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyClient address 1<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>zip<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">12345</span>,</span>
+<span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>city<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyClientCity<span class="pl-pds">'</span></span></span>
+<span class="pl-s1">));</span>
+<span class="pl-s1"><span class="pl-c">// set invoice attributes</span></span>
+<span class="pl-s1"><span class="pl-smi">$sf_api</span><span class="pl-k">-&gt;</span>setInvoice(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyInvoice<span class="pl-pds">'</span></span></span>
+<span class="pl-s1">));</span>
+<span class="pl-s1"><span class="pl-c">// add new invoice item</span></span>
+<span class="pl-s1"><span class="pl-smi">$sf_api</span><span class="pl-k">-&gt;</span>addItem(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>MyInvoiceItem<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>description<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Inv. item no. 1<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>unit_price<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">10</span>,</span>
+<span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>tax<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">20</span></span>
+<span class="pl-s1">));</span>
+<span class="pl-s1"><span class="pl-c">// save invoice in SuperFaktura</span></span>
+<span class="pl-s1"><span class="pl-smi">$json_response</span> <span class="pl-k">=</span> <span class="pl-smi">$sf_api</span><span class="pl-k">-&gt;</span>save();</span>
+<span class="pl-s1"><span class="pl-c">// TODO: handle exceptions</span></span></pre></div>
 
 <h2>
 <a id="zoznam-volaní-verejných-členských-funkcií-vrátane-konštruktora-triedy-sfapiclient" class="anchor" href="#zoznam-volan%C3%AD-verejn%C3%BDch-%C4%8Dlensk%C3%BDch-funkci%C3%AD-vr%C3%A1tane-kon%C5%A1truktora-triedy-sfapiclient" aria-hidden="true"><span class="octicon octicon-link"></span></a>Zoznam volaní (verejných členských funkcií vrátane konštruktora triedy SFAPIclient)</h2>
@@ -196,7 +215,7 @@ github stránke nášho API.</li>
 <h5>
 <a id="formát-fakturačnej-položky" class="anchor" href="#form%C3%A1t-faktura%C4%8Dnej-polo%C5%BEky" aria-hidden="true"><span class="octicon octicon-link"></span></a>Formát fakturačnej položky</h5>
 
-<div class="highlight highlight-php"><pre><span class="pl-s1"> <span class="pl-c1">array</span>(</span>
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c1">array</span>(</span>
 <span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>                 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Názov položky<span class="pl-pds">'</span></span>,</span>
 <span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>description<span class="pl-pds">'</span></span>          <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Popis<span class="pl-pds">'</span></span>,</span>
 <span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>quantity<span class="pl-pds">'</span></span>             <span class="pl-k">=&gt;</span> <span class="pl-c1">1</span>, <span class="pl-c">//množstvo</span></span>
@@ -240,14 +259,14 @@ github stránke nášho API.</li>
 <h5>
 <a id="možné-parametre-pre-filtrovanie-číselníky-hodnôt-sa-nachádzajú-pod-zoznamom-parametrov" class="anchor" href="#mo%C5%BEn%C3%A9-parametre-pre-filtrovanie-%C4%8D%C3%ADseln%C3%ADky-hodn%C3%B4t-sa-nach%C3%A1dzaj%C3%BA-pod-zoznamom-parametrov" aria-hidden="true"><span class="octicon octicon-link"></span></a>Možné parametre pre filtrovanie, číselníky hodnôt sa nachádzajú pod zoznamom parametrov</h5>
 
-<div class="highlight highlight-php"><pre><span class="pl-s1"> <span class="pl-c1">array</span>(</span>
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c1">array</span>(</span>
 <span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>search<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>, <span class="pl-c">//Hľadaný výraz v klientovi. Prehľadáva všetky polia.</span></span>
 <span class="pl-s1">)</span></pre></div>
 
 <h5>
 <a id="formát-vrátených-dát" class="anchor" href="#form%C3%A1t-vr%C3%A1ten%C3%BDch-d%C3%A1t" aria-hidden="true"><span class="octicon octicon-link"></span></a>Formát vrátených dát</h5>
 
-<div class="highlight highlight-php"><pre><span class="pl-s1">  {</span>
+<div class="highlight highlight-php"><pre><span class="pl-s1">{</span>
 <span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>itemCount<span class="pl-pds">"</span></span>: <span class="pl-c1">67</span>,</span>
 <span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>pageCount<span class="pl-pds">"</span></span>: <span class="pl-c1">7</span>,</span>
 <span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>perPage<span class="pl-pds">"</span></span>: <span class="pl-c1">10</span>,</span>
@@ -364,14 +383,1268 @@ github stránke nášho API.</li>
 <em>$expense_id</em> int povinné. Získané z Expense-&gt;id.</li>
 </ul>
 
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/superfaktura/apiclient">SuperFaktúra PHP-API klient</a> is maintained by <a href="https://github.com/superfaktura">superfaktura</a>.</span>
+<h3>
+<a id="12-getcountries" class="anchor" href="#12-getcountries" aria-hidden="true"><span class="octicon octicon-link"></span></a>12. getCountries</h3>
 
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
+<p>Vráti číselník krajín.</p>
 
-    </section>
+<h3>
+<a id="13-getsequences" class="anchor" href="#13-getsequences" aria-hidden="true"><span class="octicon octicon-link"></span></a>13. getSequences</h3>
 
-  
+<p>Vráti číselník číselných radov podľa typov dokumentov.</p>
+
+<h3>
+<a id="14-getpdf" class="anchor" href="#14-getpdf" aria-hidden="true"><span class="octicon octicon-link"></span></a>14. getPDF</h3>
+
+<p>Vráti PDF súbor s faktúrou.</p>
+
+<h5>
+<a id="parametre-10" class="anchor" href="#parametre-10" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$invoice_id</em> int povinné. Získané z Invoice-&gt;id.</li>
+<li>
+<em>$token</em> string povinné. Získané z Invoice-&gt;token.</li>
+<li>
+<em>$language</em> string nepovinné. Jazyk požadovaného PDF. Možné hodnoty sú {slo, cze, eng}</li>
+</ul>
+
+<h3>
+<a id="15-gettags" class="anchor" href="#15-gettags" aria-hidden="true"><span class="octicon octicon-link"></span></a>15. getTags</h3>
+
+<p>Vráti číselník existujúcich tagov.</p>
+
+<h3>
+<a id="16-invoice" class="anchor" href="#16-invoice" aria-hidden="true"><span class="octicon octicon-link"></span></a>16. invoice</h3>
+
+<p>Vráti detaily faktúry.</p>
+
+<h5>
+<a id="parametre-11" class="anchor" href="#parametre-11" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$invoice_id</em> int povinné. Získané z Invoice-&gt;id.</li>
+</ul>
+
+<h3>
+<a id="17-invoices" class="anchor" href="#17-invoices" aria-hidden="true"><span class="octicon octicon-link"></span></a>17. invoices</h3>
+
+<p>Vráti zoznam vystavených faktúr.</p>
+
+<h5>
+<a id="parametre-12" class="anchor" href="#parametre-12" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$params</em> pole povinné. Parametre pre filtrovanie a stránkovanie.</li>
+<li>
+<em>$list_info</em> bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)</li>
+</ul>
+
+<h5>
+<a id="možné-parametre-pre-filtrovanie-číselníky-hodnôt-sa-nachádzajú-pod-zoznamom-parametrov-1" class="anchor" href="#mo%C5%BEn%C3%A9-parametre-pre-filtrovanie-%C4%8D%C3%ADseln%C3%ADky-hodn%C3%B4t-sa-nach%C3%A1dzaj%C3%BA-pod-zoznamom-parametrov-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Možné parametre pre filtrovanie, číselníky hodnôt sa nachádzajú pod zoznamom parametrov</h5>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-k">Array</span>(</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>page<span class="pl-pds">'</span></span>          <span class="pl-k">=&gt;</span> <span class="pl-c1">1</span>, <span class="pl-c">//Strana</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>per_page<span class="pl-pds">'</span></span>      <span class="pl-k">=&gt;</span> <span class="pl-c1">10</span>, <span class="pl-c">//Počet položiek na stranu</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>created<span class="pl-pds">'</span></span>       <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">//Dátum vystavenia.</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>delivery<span class="pl-pds">'</span></span>      <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">//Dátum dodania.</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>type<span class="pl-pds">'</span></span>          <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>regular<span class="pl-pds">'</span></span>, <span class="pl-c">//Typ faktúry. Viacero typov je možné kombinovať pomocou "|" napr. "regular|cancel"</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>delivery_type<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>mail<span class="pl-pds">'</span></span>, <span class="pl-c">//Typ faktúry. Viacero typov je možné kombinovať pomocou "|" napr. "mail|personal"</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>payment_type<span class="pl-pds">'</span></span>  <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>transfer<span class="pl-pds">'</span></span>, <span class="pl-c">//Typ faktúry. Viacero typov je možné kombinovať pomocou "|" napr. "mail|personal"</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>status<span class="pl-pds">'</span></span>        <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">//Stav faktúry.</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>client_id<span class="pl-pds">'</span></span>     <span class="pl-k">=&gt;</span> <span class="pl-c1">1</span>, <span class="pl-c">//ID klienta. Zoznam klientov je možné získať metódou clients()</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>amount_from<span class="pl-pds">'</span></span>   <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">//Suma faktúry od</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>amount_to<span class="pl-pds">'</span></span>     <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">//Suma faktúry do</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>paid_since<span class="pl-pds">'</span></span>    <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">//Faktúra uhradená od</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>paid_to<span class="pl-pds">'</span></span>       <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">//Faktúra uhradená do</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>search<span class="pl-pds">'</span></span>        <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>, <span class="pl-c">//Hľadaný výraz vo faktúre. Prehľadáva všetky polia.</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>ignore<span class="pl-pds">'</span></span>        <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>1|2|3<span class="pl-pds">'</span></span>, <span class="pl-c">//ID faktúr, ktoré sa majú ignorovať.</span></span>
+<span class="pl-s1">)</span></pre></div>
+
+<h5>
+<a id="formát-vrátených-dát-1" class="anchor" href="#form%C3%A1t-vr%C3%A1ten%C3%BDch-d%C3%A1t-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Formát vrátených dát</h5>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>itemCount<span class="pl-pds">"</span></span>: <span class="pl-c1">67</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>pageCount<span class="pl-pds">"</span></span>: <span class="pl-c1">7</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>perPage<span class="pl-pds">"</span></span>: <span class="pl-c1">10</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>page<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span>: [{</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>Client<span class="pl-pds">"</span></span>: {<span class="pl-k">...</span>},</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>Invoice<span class="pl-pds">"</span></span>: {<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>8358<span class="pl-pds">"</span></span>,<span class="pl-k">...</span>}</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>InvoicePayment<span class="pl-pds">"</span></span>: {},</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>InvoiceEmail<span class="pl-pds">"</span></span>: {},</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>PostStamp<span class="pl-pds">"</span></span>: {}</span>
+<span class="pl-s1">    },<span class="pl-k">...</span>]</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h5>
+<a id="Číselníky-pre-filtrovanie-faktúr" class="anchor" href="#%C4%8C%C3%ADseln%C3%ADky-pre-filtrovanie-fakt%C3%BAr" aria-hidden="true"><span class="octicon octicon-link"></span></a>Číselníky pre filtrovanie faktúr</h5>
+
+<p>Obdobie vystavenia a dodania faktúry</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-k">Array</span></span>
+<span class="pl-s1">(</span>
+<span class="pl-s1">    [<span class="pl-c1">0</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">V</span>š<span class="pl-c1">etko</span></span>
+<span class="pl-s1">    [<span class="pl-c1">1</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">Dnes</span></span>
+<span class="pl-s1">    [<span class="pl-c1">2</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">V</span>č<span class="pl-c1">era</span></span>
+<span class="pl-s1">    [<span class="pl-c1">4</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">Tento</span> <span class="pl-c1">mesiac</span></span>
+<span class="pl-s1">    [<span class="pl-c1">5</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">Minulý</span> <span class="pl-c1">mesiac</span></span>
+<span class="pl-s1">    [<span class="pl-c1">8</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">Tento</span> <span class="pl-c1">kvartál</span></span>
+<span class="pl-s1">    [<span class="pl-c1">7</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">Minulý</span> <span class="pl-c1">rok</span></span>
+<span class="pl-s1">    [<span class="pl-c1">6</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">Tento</span> <span class="pl-c1">rok</span></span>
+<span class="pl-s1">    [<span class="pl-c1">3</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">od</span> <span class="pl-k">-</span> <span class="pl-k">do</span> <span class="pl-c">//v prípade hodnoty od - do je potrebné uviesť aj parametre created_since a created_to</span></span>
+<span class="pl-s1">)</span></pre></div>
+
+<p>Typ faktúry</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-k">Array</span></span>
+<span class="pl-s1">(</span>
+<span class="pl-s1">    [<span class="pl-c1">regular</span>]  <span class="pl-k">=&gt;</span> <span class="pl-c1">Be</span>ž<span class="pl-c1">ná</span></span>
+<span class="pl-s1">    [<span class="pl-c1">proforma</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">Zálohová</span> <span class="pl-c1">faktúra</span></span>
+<span class="pl-s1">    [<span class="pl-c1">estimate</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">Cenová</span> <span class="pl-c1">ponuka</span></span>
+<span class="pl-s1">    [<span class="pl-c1">cancel</span>]   <span class="pl-k">=&gt;</span> <span class="pl-c1">Dobropis</span></span>
+<span class="pl-s1">)</span></pre></div>
+
+<p>Spôsob dodania</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-k">Array</span></span>
+<span class="pl-s1">(</span>
+<span class="pl-s1">    [<span class="pl-c1">mail</span>]     <span class="pl-k">=&gt;</span> <span class="pl-c1">Po</span>š<span class="pl-c1">tou</span></span>
+<span class="pl-s1">    [<span class="pl-c1">courier</span>]  <span class="pl-k">=&gt;</span> <span class="pl-c1">Kuriérom</span></span>
+<span class="pl-s1">    [<span class="pl-c1">personal</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">Osobný</span> <span class="pl-c1">odber</span></span>
+<span class="pl-s1">    [<span class="pl-c1">haulage</span>]  <span class="pl-k">=&gt;</span> <span class="pl-c1">Nákladná</span> <span class="pl-c1">doprava</span></span>
+<span class="pl-s1">)</span></pre></div>
+
+<p>Stav faktúry</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1">  <span class="pl-k">Array</span></span>
+<span class="pl-s1">(</span>
+<span class="pl-s1">    [<span class="pl-c1">0</span>]  <span class="pl-k">=&gt;</span> <span class="pl-c1">V</span>š<span class="pl-c1">etko</span></span>
+<span class="pl-s1">    [<span class="pl-c1">1</span>]  <span class="pl-k">=&gt;</span> Č<span class="pl-c1">akajú</span> <span class="pl-c1">na</span> <span class="pl-c1">úhradu</span></span>
+<span class="pl-s1">    [<span class="pl-c1">2</span>]  <span class="pl-k">=&gt;</span> Č<span class="pl-c1">iasto</span>č<span class="pl-c1">ne</span> <span class="pl-c1">uhradené</span></span>
+<span class="pl-s1">    [<span class="pl-c1">3</span>]  <span class="pl-k">=&gt;</span> <span class="pl-c1">Uhradené</span></span>
+<span class="pl-s1">    [<span class="pl-c1">99</span>] <span class="pl-k">=&gt;</span> <span class="pl-c1">Po</span> <span class="pl-c1">splatnosti</span></span>
+<span class="pl-s1">)</span></pre></div>
+
+<h3>
+<a id="18-markassent" class="anchor" href="#18-markassent" aria-hidden="true"><span class="octicon octicon-link"></span></a>18. markAsSent</h3>
+
+<p>Označí faktúru ako odoslanú emailom. Užitočné, pokiaľ vytvorené faktúry odosielate vlastným systémom, avšak chcete toto odoslanie evidovať aj v SuperFaktúre.</p>
+
+<h5>
+<a id="parametre-13" class="anchor" href="#parametre-13" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$invoice_id</em> int povinné. Získané z Invoice-&gt;id</li>
+<li>
+<em>$email</em> string povinné. Emailová adresa, kam bola faktúra odoslaná.</li>
+<li>
+<em>$subject</em> string nepovinné. Predmet emailu.</li>
+<li>
+<em>$message</em> string nepovinné. Text emailu.
+##### Návratová hodnota: objekt</li>
+</ul>
+
+<h3>
+<a id="19-payinvoice" class="anchor" href="#19-payinvoice" aria-hidden="true"><span class="octicon octicon-link"></span></a>19. payInvoice</h3>
+
+<p>Dodatočne pridá úhradu ku faktúre.</p>
+
+<h5>
+<a id="parametre-14" class="anchor" href="#parametre-14" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$invoice_id</em> int povinné. Získané z Invoice-&gt;id</li>
+<li>
+<em>$amount</em> float povinné. Uhradená suma.</li>
+<li>
+<em>$currency</em> string nepovinné. Mena úhrady, predvolené EUR.</li>
+<li>
+<em>$date</em> string nepovinné. Dátum úhrady, predvolený aktuálny dátum.</li>
+<li>
+<em>$payment_type</em> string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {cash,transfer,credit,paypal,cod}</li>
+</ul>
+
+<h3>
+<a id="20-payexpense" class="anchor" href="#20-payexpense" aria-hidden="true"><span class="octicon octicon-link"></span></a>20. payExpense</h3>
+
+<p>Dodatočne pridá úhradu k nákladu.</p>
+
+<h5>
+<a id="parametre-15" class="anchor" href="#parametre-15" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$expense_id</em> int povinné. Získané z Expense-&gt;id</li>
+<li>
+<em>$amount</em> float povinné. Uhradená suma.</li>
+<li>
+<em>$currency</em> string nepovinné. Mena úhrady, predvolené EUR.</li>
+<li>
+<em>$date</em> string nepovinné. Dátum úhrady, predvolený aktuálny dátum.</li>
+<li>
+<em>$payment_type</em> string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {cash,transfer,credit,paypal,cod}</li>
+</ul>
+
+<h3>
+<a id="21-save" class="anchor" href="#21-save" aria-hidden="true"><span class="octicon octicon-link"></span></a>21. save</h3>
+
+<p>Uloží nastavené dáta a vystaví faktúru.</p>
+
+<h5>
+<a id="paramete-žiadne" class="anchor" href="#paramete-%C5%BEiadne" aria-hidden="true"><span class="octicon octicon-link"></span></a>Paramete: žiadne</h5>
+
+<h5>
+<a id="návratová-hodnota-objekt-1" class="anchor" href="#n%C3%A1vratov%C3%A1-hodnota-objekt-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Návratová hodnota: objekt</h5>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>error<span class="pl-pds">"</span></span>: <span class="pl-c1">0</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>error_message<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Invoice created<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>data<span class="pl-pds">"</span></span>: {</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>Invoice<span class="pl-pds">"</span></span>: {</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>947592<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>user_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>15968<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>user_profile_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>10156<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>client_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>518992<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>parent_id<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>proforma_id<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>estimate_id<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>sequence_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>41008<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>import_type<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>import_id<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>import_parent_id<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>regular<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>tax_document<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Faktura test<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>lang<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>client_data<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>{<span class="pl-cce">\"</span>Client<span class="pl-cce">\"</span>:{<span class="pl-cce">\"</span>user_id<span class="pl-cce">\"</span>:<span class="pl-cce">\"</span>15968<span class="pl-cce">\"</span>,<span class="pl-cce">\"</span>user_profile_id<span class="pl-cce">\"</span>:<span class="pl-cce">\"</span>10156<span class="pl-cce">\"</span>,<span class="pl-cce">\"</span>country_id<span class="pl-cce">\"</span>:<span class="pl-cce">\"</span>191<span class="pl-cce">\"</span>,<span class="pl-cce">\"</span>name<span class="pl-cce">\"</span>:<span class="pl-cce">\"</span>Klient test<span class="pl-cce">\"</span>,<span class="pl-cce">\"</span>ico<span class="pl-cce">\"</span>:987654321,<span class="pl-cce">\"</span>dic<span class="pl-cce">\"</span>:314,<span class="pl-cce">\"</span>ic_dph<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>bank_account<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>email<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>address<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>city<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>zip<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>state<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>country<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>delivery_name<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>delivery_address<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>delivery_city<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>delivery_zip<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>delivery_state<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>delivery_country<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>delivery_country_id<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>phone<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>fax<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>due_date<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>default_variable<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>discount<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>currency<span class="pl-cce">\"</span>:<span class="pl-cce">\"</span>EUR<span class="pl-cce">\"</span>,<span class="pl-cce">\"</span>comment<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>tags<span class="pl-cce">\"</span>:null,<span class="pl-cce">\"</span>demo<span class="pl-cce">\"</span>:<span class="pl-cce">\"</span>0<span class="pl-cce">\"</span>,<span class="pl-cce">\"</span>update_addressbook<span class="pl-cce">\"</span>:true}}<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            "my_data": "{\"MyData\":{\"id\":\"10156\",\"user_id\":\"15968\",\"country_id\":\"191\",\"company_name\":\"Jan Doczy\",\"ico\":\"41432312\",\"dic\":\"CZ29413893fdsafdasfdsadfasfdjasf\",\"ic_dph\":\"012345678fjdksjfkldajklfdjasklfj\",\"business_register\":\"Okr. s\\u00fad BA 1, odd. SRO, vl. \\u010d 1234\\/B\",\"address\":\"\",\"city\":\"\",\"zip\":\"\",\"tax_payer\":\"1\",\"country\":\"Slovensko\",\"BankAccount\":[{\"id\":\"9998\",\"user_id\":\"15968\",\"user_profile_id\":\"10156\",\"default\":\"1\",\"country_id\":\"191\",\"bank_name\":\"UniCredit Bank Slovakia\",\"bank_code\":\"1111\",\"account\":\"1119090001\",\"iban\":\"SK8011110000001119090001\",\"swift\":\"UNCRSKBX\",\"created\":\"2014-10-06 13:25:30\",\"modified\":\"2015-08-21 08:09:07\"},{\"id\":\"10121\",\"user_id\":\"15968\",\"user_profile_id\":\"10156\",\"default\":null,\"country_id\":\"191\",\"bank_name\":\"\",\"bank_code\":\"\",\"account\":\"\",\"iban\":\"\",\"swift\":\"\",\"created\":\"2014-10-17 09:05:54\",\"modified\":\"2014-10-17 09:05:54\"},{\"id\":\"10434\",\"user_id\":\"15968\",\"user_profile_id\":\"10156\",\"default\":null,\"country_id\":\"191\",\"bank_name\":\"\",\"bank_code\":\"\",\"account\":\"\",\"iban\":\"\",\"swift\":\"\",\"created\":\"2014-11-18 14:29:46\",\"modified\":\"2014-11-18 14:29:46\"},{\"id\":\"10502\",\"user_id\":\"15968\",\"user_profile_id\":\"10156\",\"default\":null,\"country_id\":\"191\",\"bank_name\":\"\",\"bank_code\":\"\",\"account\":\"\",\"iban\":\"\",\"swift\":\"\",\"created\":\"2014-11-25 09:33:31\",\"modified\":\"2014-11-25 09:33:31\"},{\"id\":\"10530\",\"user_id\":\"15968\",\"user_profile_id\":\"10156\",\"default\":null,\"country_id\":\"191\",\"bank_name\":\"\",\"bank_code\":\"\",\"account\":\"\",\"iban\":\"\",\"swift\":\"\",\"created\":\"2014-11-27 09:20:29\",\"modified\":\"2014-11-27 09:20:29\"},{\"id\":\"10774\",\"user_id\":\"15968\",\"user_profile_id\":\"10156\",\"default\":null,\"country_id\":\"191\",\"bank_name\":\"\",\"bank_code\":\"\",\"account\":\"\",\"iban\":\"\",\"swift\":\"\",\"created\":\"2014-12-15 14:29:54\",\"modified\":\"2014-12-15 14:29:54\"}]}}",</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>items_data<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Polozka test , <span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>invoice_no<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>9<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>order_no<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>invoice_no_formatted<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>201500009<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>mask<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>YYYYNNN<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>variable<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>201500009<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>constant<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0308<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>specific<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>payment_type<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>status<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>home_currency<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>EUR<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>invoice_currency<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>EUR<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>exchange_rate<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1.00000000000000<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>amount<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>15.00<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>vat<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0.00<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>discount<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>items_name<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>issued_by<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>issued_by_phone<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>+421000000000<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>issued_by_email<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>email@example.com<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>paid<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0.00<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>amount_paid<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0.00<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>deposit<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0.00<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>header_comment<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>comment<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Toto je poznamka.<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>internal_comment<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>created<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2015-09-02 00:00:00<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>modified<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2015-09-02 08:53:35<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>recurring<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>paydate<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>delivery<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2015-09-02 00:00:00<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>delivery_type<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>due<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2015-09-16<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>demo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>token<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bd1f145f<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>tags<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>rounding<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>item<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>vat_transfer<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>special_vat_scheme<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>issued_by_web<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>summary_invoice<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>show_items_with_dph<span class="pl-pds">"</span></span>: <span class="pl-c1">false</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>show_special_vat<span class="pl-pds">"</span></span>: <span class="pl-c1">false</span></span>
+<span class="pl-s1">        },</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>Client<span class="pl-pds">"</span></span>: {</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>518992<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>user_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>15968<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>user_profile_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>10156<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>country_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>191<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Klient test<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>ico<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>987654321<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>dic<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>314<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>ic_dph<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>bank_account<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>email<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>address<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>city<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>zip<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>state<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>country<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>delivery_name<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>delivery_address<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>delivery_city<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>delivery_zip<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>delivery_state<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>delivery_country<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>delivery_country_id<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>phone<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>fax<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>due_date<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>default_variable<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>discount<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>currency<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>EUR<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>comment<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>tags<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>created<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2015-09-02 08:52:49<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>modified<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2015-09-02 08:53:35<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>demo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span></span>
+<span class="pl-s1">        },</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>InvoicePayment<span class="pl-pds">"</span></span>: [],</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>InvoiceEmail<span class="pl-pds">"</span></span>: [],</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>PostStamp<span class="pl-pds">"</span></span>: [],</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>Tag<span class="pl-pds">"</span></span>: [],</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>Logo<span class="pl-pds">"</span></span>: [</span>
+<span class="pl-s1">            {</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>24688<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>model<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>User<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>foreign_key<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>10156<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>dirname<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>img<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>basename<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>10156_logo.jpg<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>checksum<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>5239f6774ced537687cf90c4561dd438<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>group<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>logo<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>alternative<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>created<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2014-11-27 09:20:29<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>modified<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2014-11-27 09:20:29<span class="pl-pds">"</span></span></span>
+<span class="pl-s1">            }</span>
+<span class="pl-s1">        ],</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>Signature<span class="pl-pds">"</span></span>: {</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>25789<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>model<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>User<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>foreign_key<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>10156<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>dirname<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>img<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>basename<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>10156_sig.png<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>checksum<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>d20820f675efdedaef5839a6da30bf97<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>group<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>signature<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>alternative<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>created<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2014-12-16 14:28:09<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>modified<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2015-04-15 09:41:08<span class="pl-pds">"</span></span></span>
+<span class="pl-s1">        },</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>MyData<span class="pl-pds">"</span></span>: {</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>10156<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>user_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>15968<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>country_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>191<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>company_name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Jan Doczy<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>ico<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>41432312<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>dic<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>CZ29413893fdsafdasfdsadfasfdjasf<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>ic_dph<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>012345678fjdksjfkldajklfdjasklfj<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>business_register<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Okr. súd BA 1, odd. SRO, vl. č 1234/B<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>address<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>city<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>zip<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>tax_payer<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>country<span class="pl-pds">"</span></span>: {</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>191<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Slovensko<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>iso<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>sk<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                <span class="pl-s"><span class="pl-pds">"</span>eu<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span></span>
+<span class="pl-s1">            },</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">"</span>BankAccount<span class="pl-pds">"</span></span>: [</span>
+<span class="pl-s1">                {</span>
+<span class="pl-s1">                    <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>9998<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                    <span class="pl-s"><span class="pl-pds">"</span>user_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>15968<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                    <span class="pl-s"><span class="pl-pds">"</span>user_profile_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>10156<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                    <span class="pl-s"><span class="pl-pds">"</span>default<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                    <span class="pl-s"><span class="pl-pds">"</span>country_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>191<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                    <span class="pl-s"><span class="pl-pds">"</span>bank_name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>UniCredit Bank Slovakia<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                    <span class="pl-s"><span class="pl-pds">"</span>bank_code<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1111<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                    <span class="pl-s"><span class="pl-pds">"</span>account<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>xxxxxxxx<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">                    <span class="pl-s"><span class="pl-pds">"</span>iban<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>SKxxxxxxxxxxxxxxxxxxxxxxx,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">swift</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">UNCRSKBX</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">created</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2014</span><span class="pl-k">-</span><span class="pl-c1">10</span><span class="pl-k">-</span><span class="pl-c1">06</span> <span class="pl-c1">13</span>:<span class="pl-c1">25</span>:<span class="pl-c1">30</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">modified</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2015</span><span class="pl-k">-</span><span class="pl-c1">08</span><span class="pl-k">-</span><span class="pl-c1">21</span> <span class="pl-c1">08</span>:<span class="pl-c1">09</span>:<span class="pl-c1">07</span><span class="pl-s"><span class="pl-pds">"</span></span></span>
+<span class="pl-s1"><span class="pl-s">                },</span></span>
+<span class="pl-s1"><span class="pl-s">                {</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">10121</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">user_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">15968</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">user_profile_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">10156</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-k">default</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">country_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">191</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">bank_name</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">bank_code</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">account</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">iban</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">swift</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">created</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2014</span><span class="pl-k">-</span><span class="pl-c1">10</span><span class="pl-k">-</span><span class="pl-c1">17</span> <span class="pl-c1">09</span>:<span class="pl-c1">05</span>:<span class="pl-c1">54</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">modified</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2014</span><span class="pl-k">-</span><span class="pl-c1">10</span><span class="pl-k">-</span><span class="pl-c1">17</span> <span class="pl-c1">09</span>:<span class="pl-c1">05</span>:<span class="pl-c1">54</span><span class="pl-s"><span class="pl-pds">"</span></span></span>
+<span class="pl-s1"><span class="pl-s">                },</span></span>
+<span class="pl-s1"><span class="pl-s">                {</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">10434</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">user_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">15968</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">user_profile_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">10156</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-k">default</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">country_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">191</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">bank_name</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">bank_code</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">account</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">iban</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">swift</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">created</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2014</span><span class="pl-k">-</span><span class="pl-c1">11</span><span class="pl-k">-</span><span class="pl-c1">18</span> <span class="pl-c1">14</span>:<span class="pl-c1">29</span>:<span class="pl-c1">46</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">modified</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2014</span><span class="pl-k">-</span><span class="pl-c1">11</span><span class="pl-k">-</span><span class="pl-c1">18</span> <span class="pl-c1">14</span>:<span class="pl-c1">29</span>:<span class="pl-c1">46</span><span class="pl-s"><span class="pl-pds">"</span></span></span>
+<span class="pl-s1"><span class="pl-s">                },</span></span>
+<span class="pl-s1"><span class="pl-s">                {</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">10502</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">user_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">15968</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">user_profile_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">10156</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-k">default</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">country_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">191</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">bank_name</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">bank_code</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">account</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">iban</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">swift</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">created</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2014</span><span class="pl-k">-</span><span class="pl-c1">11</span><span class="pl-k">-</span><span class="pl-c1">25</span> <span class="pl-c1">09</span>:<span class="pl-c1">33</span>:<span class="pl-c1">31</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">modified</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2014</span><span class="pl-k">-</span><span class="pl-c1">11</span><span class="pl-k">-</span><span class="pl-c1">25</span> <span class="pl-c1">09</span>:<span class="pl-c1">33</span>:<span class="pl-c1">31</span><span class="pl-s"><span class="pl-pds">"</span></span></span>
+<span class="pl-s1"><span class="pl-s">                },</span></span>
+<span class="pl-s1"><span class="pl-s">                {</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">10530</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">user_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">15968</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">user_profile_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">10156</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-k">default</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">country_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">191</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">bank_name</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">bank_code</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">account</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">iban</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">swift</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">created</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2014</span><span class="pl-k">-</span><span class="pl-c1">11</span><span class="pl-k">-</span><span class="pl-c1">27</span> <span class="pl-c1">09</span>:<span class="pl-c1">20</span>:<span class="pl-c1">29</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">modified</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2014</span><span class="pl-k">-</span><span class="pl-c1">11</span><span class="pl-k">-</span><span class="pl-c1">27</span> <span class="pl-c1">09</span>:<span class="pl-c1">20</span>:<span class="pl-c1">29</span><span class="pl-s"><span class="pl-pds">"</span></span></span>
+<span class="pl-s1"><span class="pl-s">                },</span></span>
+<span class="pl-s1"><span class="pl-s">                {</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">10774</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">user_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">15968</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">user_profile_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">10156</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-k">default</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">country_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">191</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">bank_name</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">bank_code</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">account</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">iban</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">swift</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">created</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2014</span><span class="pl-k">-</span><span class="pl-c1">12</span><span class="pl-k">-</span><span class="pl-c1">15</span> <span class="pl-c1">14</span>:<span class="pl-c1">29</span>:<span class="pl-c1">54</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                    <span class="pl-pds">"</span></span><span class="pl-c1">modified</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2014</span><span class="pl-k">-</span><span class="pl-c1">12</span><span class="pl-k">-</span><span class="pl-c1">15</span> <span class="pl-c1">14</span>:<span class="pl-c1">29</span>:<span class="pl-c1">54</span><span class="pl-s"><span class="pl-pds">"</span></span></span>
+<span class="pl-s1"><span class="pl-s">                }</span></span>
+<span class="pl-s1"><span class="pl-s">            ]</span></span>
+<span class="pl-s1"><span class="pl-s">        },</span></span>
+<span class="pl-s1"><span class="pl-s">        <span class="pl-pds">"</span></span><span class="pl-c1">ClientData</span><span class="pl-s"><span class="pl-pds">"</span>: {</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">user_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">15968</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">user_profile_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">10156</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">country_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">191</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">name</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">Klient</span> <span class="pl-c1">test</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">ico</span><span class="pl-s"><span class="pl-pds">"</span>: 987654321,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">dic</span><span class="pl-s"><span class="pl-pds">"</span>: 314,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">ic_dph</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">bank_account</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">email</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">address</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">city</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">zip</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">state</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">country</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">delivery_name</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">delivery_address</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">delivery_city</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">delivery_zip</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">delivery_state</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">delivery_country</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">delivery_country_id</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">phone</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">fax</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">due_date</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">default_variable</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">discount</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">currency</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">EUR</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">comment</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">tags</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">demo</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">0</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">update_addressbook</span><span class="pl-s"><span class="pl-pds">"</span>: true,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">Country</span><span class="pl-s"><span class="pl-pds">"</span>: {</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">191</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">name</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">Slovensko</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">iso</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">sk</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">eu</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">1</span><span class="pl-s"><span class="pl-pds">"</span></span></span>
+<span class="pl-s1"><span class="pl-s">            }</span></span>
+<span class="pl-s1"><span class="pl-s">        },</span></span>
+<span class="pl-s1"><span class="pl-s">        <span class="pl-pds">"</span></span><span class="pl-c1">InvoiceItem</span><span class="pl-s"><span class="pl-pds">"</span>: [</span></span>
+<span class="pl-s1"><span class="pl-s">            {</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">2384612</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">invoice_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">947592</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">user_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">15968</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">user_profile_id</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">10156</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">stock_item_id</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">name</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">Polozka</span> <span class="pl-c1">test</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">description</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">sku</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">quantity</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">unit</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">unit_price</span><span class="pl-s"><span class="pl-pds">"</span>: 15,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">tax</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">0</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">discount</span><span class="pl-s"><span class="pl-pds">"</span>: 0,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">discount_description</span><span class="pl-s"><span class="pl-pds">"</span>: null,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">ordernum</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">0</span><span class="pl-s"><span class="pl-pds">"</span>,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">unit_price_discount</span><span class="pl-s"><span class="pl-pds">"</span>: 15,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">item_price</span><span class="pl-s"><span class="pl-pds">"</span>: 15,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">item_price_no_discount</span><span class="pl-s"><span class="pl-pds">"</span>: 15,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">discount_no_vat</span><span class="pl-s"><span class="pl-pds">"</span>: 0,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">discount_with_vat</span><span class="pl-s"><span class="pl-pds">"</span>: 0,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">discount_with_vat_total</span><span class="pl-s"><span class="pl-pds">"</span>: 0,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">discount_no_vat_total</span><span class="pl-s"><span class="pl-pds">"</span>: 0,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">unit_price_vat</span><span class="pl-s"><span class="pl-pds">"</span>: 15,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">unit_price_vat_no_discount</span><span class="pl-s"><span class="pl-pds">"</span>: 15,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">item_price_vat</span><span class="pl-s"><span class="pl-pds">"</span>: 15,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">item_price_vat_no_discount</span><span class="pl-s"><span class="pl-pds">"</span>: 15,</span></span>
+<span class="pl-s1"><span class="pl-s">                <span class="pl-pds">"</span></span><span class="pl-c1">item_price_vat_check</span><span class="pl-s"><span class="pl-pds">"</span>: 15</span></span>
+<span class="pl-s1"><span class="pl-s">            }</span></span>
+<span class="pl-s1"><span class="pl-s">        ],</span></span>
+<span class="pl-s1"><span class="pl-s">        <span class="pl-pds">"</span></span><span class="pl-c1">Summary</span><span class="pl-s"><span class="pl-pds">"</span>: {</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">vat_base_separate</span><span class="pl-s"><span class="pl-pds">"</span>: [</span></span>
+<span class="pl-s1"><span class="pl-s">                15</span></span>
+<span class="pl-s1"><span class="pl-s">            ],</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">vat_base_total</span><span class="pl-s"><span class="pl-pds">"</span>: 15,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">vat_separate</span><span class="pl-s"><span class="pl-pds">"</span>: [</span></span>
+<span class="pl-s1"><span class="pl-s">                0</span></span>
+<span class="pl-s1"><span class="pl-s">            ],</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">vat_total</span><span class="pl-s"><span class="pl-pds">"</span>: 0,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">invoice_total</span><span class="pl-s"><span class="pl-pds">"</span>: 15,</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">discount</span><span class="pl-s"><span class="pl-pds">"</span>: 0</span></span>
+<span class="pl-s1"><span class="pl-s">        },</span></span>
+<span class="pl-s1"><span class="pl-s">        <span class="pl-pds">"</span></span><span class="pl-c1">SummaryInvoice</span><span class="pl-s"><span class="pl-pds">"</span>: {</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">vat_base_separate_positive</span><span class="pl-s"><span class="pl-pds">"</span>: [</span></span>
+<span class="pl-s1"><span class="pl-s">                15</span></span>
+<span class="pl-s1"><span class="pl-s">            ],</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">vat_base_separate_negative</span><span class="pl-s"><span class="pl-pds">"</span>: [</span></span>
+<span class="pl-s1"><span class="pl-s">                0</span></span>
+<span class="pl-s1"><span class="pl-s">            ],</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">vat_separate_positive</span><span class="pl-s"><span class="pl-pds">"</span>: [</span></span>
+<span class="pl-s1"><span class="pl-s">                0</span></span>
+<span class="pl-s1"><span class="pl-s">            ],</span></span>
+<span class="pl-s1"><span class="pl-s">            <span class="pl-pds">"</span></span><span class="pl-c1">vat_separate_negative</span><span class="pl-s"><span class="pl-pds">"</span>: [</span></span>
+<span class="pl-s1"><span class="pl-s">                0</span></span>
+<span class="pl-s1"><span class="pl-s">            ]</span></span>
+<span class="pl-s1"><span class="pl-s">        },</span></span>
+<span class="pl-s1"><span class="pl-s">        <span class="pl-pds">"</span></span><span class="pl-c1">UnitCount</span><span class="pl-s"><span class="pl-pds">"</span>: [],</span></span>
+<span class="pl-s1"><span class="pl-s">        <span class="pl-pds">"</span></span><span class="pl-c1">Paypal</span><span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span><span class="pl-c1">https</span>:<span class="pl-c">//www.paypal.com/",</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>PaymentLink<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span></span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h5>
+<a id="kódy-chýb-1" class="anchor" href="#k%C3%B3dy-ch%C3%BDb-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kódy chýb</h5>
+
+<ul>
+<li>
+<strong>2</strong> Dáta neboli odoslané metódou POST.</li>
+<li>
+<strong>3</strong> Nesprávne dáta. Odoslané dáta nemajú správny formát.</li>
+<li>
+<strong>5</strong> Validačný error. Povinné údaje chýbajú alebo sú nesprávne vyplnené.</li>
+</ul>
+
+<h3>
+<a id="22-setexpense" class="anchor" href="#22-setexpense" aria-hidden="true"><span class="octicon octicon-link"></span></a>22. setExpense</h3>
+
+<p>Nastaví hodnoty pre náklad.</p>
+
+<h5>
+<a id="paramete" class="anchor" href="#paramete" aria-hidden="true"><span class="octicon octicon-link"></span></a>Paramete</h5>
+
+<ul>
+<li>
+<em>$key</em> mixed povinné. Môže byť string, alebo pole. Ak je string, nastaví sa konkrétna hodnota v $data['Expense'][$key]. Ak je pole, nastaví sa viacero hodmôt naraz.</li>
+<li>
+<em>$value</em> mixed nepovinné. Ak je $key string, hodnota $value sa nastaví v $data['Expense'][$key]. Ak je $key pole, $value sa ignoruje.</li>
+</ul>
+
+<p>Príklad použitia:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$api</span><span class="pl-k">-&gt;</span>setExpense(<span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>nazov nakladu<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$api</span><span class="pl-k">-&gt;</span>setExpense(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>nazov nakladu<span class="pl-pds">'</span></span>, <span class="pl-c">// povinný udaj</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>amount<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">10</span>, <span class="pl-c">// suma bez DPH</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>vat<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">20</span>, <span class="pl-c">// DPH v percentách</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>variable<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>123456<span class="pl-pds">'</span></span>, <span class="pl-c">// variabilný symbol</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>constant<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>0308<span class="pl-pds">'</span></span> <span class="pl-c">// konštantný symbol</span></span>
+<span class="pl-s1">    ));</span></pre></div>
+
+<p>Zoznam možných vlastností nákladu:</p>
+
+<ul>
+<li>
+<strong>name</strong> - názov nákladu (povinný údaj)</li>
+<li>
+<strong>amount</strong> - suma bez dane</li>
+<li>
+<strong>vat</strong> - DPH (percentá)</li>
+<li>
+<strong>already_paid</strong> - bola už faktúra uhradená? true/false</li>
+<li>
+<strong>created</strong> - dátum vystavenia</li>
+<li>
+<strong>comment</strong> - komentár</li>
+<li>
+<strong>constant</strong> - konštantný symbol</li>
+<li>
+<strong>delivery</strong> - dátum dodania</li>
+<li>
+<strong>due</strong> - dátum splatnosti</li>
+<li>
+<strong>currency</strong> - mena, v ktorej je faktúra vystavená. Možnosti: EUR, USD, GBP, HUF, CZK, PLN, CHF, RUB</li>
+<li>
+<strong>payment_type</strong> - Spôsob úhrady, číselník hodnôt</li>
+<li>
+<strong>specific</strong> - špecifický symbol</li>
+<li>
+<strong>type</strong> - typ faktúry. Možnosti: invoice - prijatá faktúra, bill - pokladničný blok, internal - interný doklad, contribution - odvody</li>
+<li>
+<strong>variable</strong> - variabilný symbol</li>
+</ul>
+
+<h3>
+<a id="23-setinvoice" class="anchor" href="#23-setinvoice" aria-hidden="true"><span class="octicon octicon-link"></span></a>23. setInvoice</h3>
+
+<p>Nastaví hodnoty pre faktúru</p>
+
+<h5>
+<a id="parametre-16" class="anchor" href="#parametre-16" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$key</em> mixed povinné. Môže byť string, alebo pole. Ak je string, nastaví sa konkrétna hodnota v $data['Invoice'][$key]. Ak je pole, nastaví sa viacero hodmôt naraz.</li>
+<li>
+<em>$value</em> mixed nepovinné. Ak je $key string, hodnota $value sa nastaví v $data['Invoice'][$key]. Ak je $key pole, $value sa ignoruje.</li>
+</ul>
+
+<p>Príklad použitia:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$api</span><span class="pl-k">-&gt;</span>setInvoice(<span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>nazov faktury<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$api</span><span class="pl-k">-&gt;</span>setInvoice(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>nazov faktury<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>variable<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>123456<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>constant<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>0308<span class="pl-pds">'</span></span></span>
+<span class="pl-s1">    ));</span></pre></div>
+
+<p>Zoznam možných vlastností faktúry:</p>
+
+<ul>
+<li>
+<strong>already_paid</strong> - bola už faktúra uhradená? true/false</li>
+<li>
+<strong>created</strong> - dátum vystavenia</li>
+<li>
+<strong>comment</strong> - komentár</li>
+<li>
+<strong>constant</strong> - konštantný symbol</li>
+<li>
+<strong>delivery</strong> - dátum dodania</li>
+<li>
+<strong>delivery_type</strong> - spôsob dodania, číselník hodnôt</li>
+<li>
+<strong>deposit</strong> - uhradená záloha</li>
+<li>
+<strong>discount</strong> - zľava v %</li>
+<li>
+<strong>due</strong> - dátum splatnosti</li>
+<li>
+<strong>estimate_id</strong> - ID cenovej ponuky, na základe ktorej je faktúra vystavená</li>
+<li>
+<strong>header_comment</strong> - Text nad položkami faktúry</li>
+<li>
+<strong>internal_comment</strong> - Interná poznánka, nezobrazuje sa klientovi</li>
+<li>
+<strong>invoice_currency</strong> - mena, v ktorej je faktúra vystavená. Možnosti: EUR, USD, GBP, HUF, CZK, PLN, CHF, RUB</li>
+<li>
+<strong>invoice_no_formatted</strong> - číslo faktúry</li>
+<li>
+<strong>issued_by</strong> - faktúru vystavil</li>
+<li>
+<strong>issued_by_phone</strong> - faktúru vystavil telefón</li>
+<li>
+<strong>issued_by_email</strong> - faktúru vystavil email</li>
+<li>
+<strong>name</strong> - názov faktúry</li>
+<li>
+<strong>payment_type</strong> - Spôsob úhrady, číselník hodnôt</li>
+<li>
+<strong>proforma_id</strong> - ID proforma faktúry, na základe ktorej sa vystavuje ostrá faktúra. Ostrá faktúra tak preberie údaje o uhradenej zálohe</li>
+<li>
+<strong>rounding</strong> - Spôsob zaokrúhľovania DPH. 'document' =&gt; za celý dokument, 'item' =&gt; po položkaćh (predvolená hodnota)</li>
+<li>
+<strong>specific</strong> - špecifický symbol</li>
+<li>
+<strong>sequence_id</strong> - ID číselníka, zoznam číselníkov je možné získať metódou getSequences</li>
+<li>
+<strong>type</strong> - typ faktúry. Možnosti: regular - bežná faktúra, proforma - zálohová faktúra, cancel - dobropis, estimate - cenová ponuka, order - prijatá objednávka</li>
+<li>
+<strong>variable</strong> - variabilný symbol</li>
+</ul>
+
+<h3>
+<a id="24-sendinvoiceemail" class="anchor" href="#24-sendinvoiceemail" aria-hidden="true"><span class="octicon octicon-link"></span></a>24. sendInvoiceEmail</h3>
+
+<p>Odošle faktúru emailom.</p>
+
+<h5>
+<a id="parametre-17" class="anchor" href="#parametre-17" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<p><strong>$options</strong> <em>array</em>, povinné.
+Príklad použitia:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$api</span><span class="pl-k">-&gt;</span>sendInvoiceEmail(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>invoice_id<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">123456</span>, <span class="pl-c">// povinné</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>to<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>example@example.com<span class="pl-pds">'</span></span>, <span class="pl-c">// povinné</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>cc<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>examplecc@examplecc.com<span class="pl-pds">'</span></span></span>
+<span class="pl-s1">        ),</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>bcc<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>examplebcc@examplebcc.com<span class="pl-pds">'</span></span></span>
+<span class="pl-s1">        ),</span>
+<span class="pl-s1">        <span class="pl-c">// 'subject' =&gt; 'Predmet', // pokial nie je nastaveny subject nastavi sa automaticky podla nastaveni</span></span>
+<span class="pl-s1">        <span class="pl-c">// 'body' =&gt; 'Sprava' // pokial nie je nastaveny body nastavi sa automaticky podla nastaveni</span></span>
+<span class="pl-s1">    ));</span></pre></div>
+</li>
+</ul>
+
+<p>Zoznam možných nastavení:</p>
+
+<ul>
+<li>
+<strong>invoice_id</strong> <em>integer</em>, id faktúry, ktorú chcete odoslať (povinné)</li>
+<li>
+<strong>to</strong> <em>string</em>, na akú emailovú adresu sa má faktúra odoslať (povinné)</li>
+<li>
+<strong>cc</strong> <em>array</em>, cc</li>
+<li>
+<strong>bcc</strong> <em>array</em>, bcc</li>
+<li>
+<strong>subject</strong> <em>string</em>, predmet</li>
+<li>
+<strong>body</strong> <em>string</em>, telo správy</li>
+</ul>
+
+<h3>
+<a id="25-sendinvoicepost" class="anchor" href="#25-sendinvoicepost" aria-hidden="true"><span class="octicon octicon-link"></span></a>25. sendInvoicePost</h3>
+
+<p>Odošle faktúru poštou.</p>
+
+<h5>
+<a id="parametre-18" class="anchor" href="#parametre-18" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<strong>$options</strong> <em>array</em>, povinné.</li>
+</ul>
+
+<p>Príklad použitia:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$api</span><span class="pl-k">-&gt;</span>sendInvoicePost(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>invoice_id<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">123456</span>, <span class="pl-c">// povinné</span></span>
+<span class="pl-s1">    <span class="pl-c">/** &gt; POKIAL NIE SU NASTAVENE VYTIAHNU SA Z FAKTURY &lt; *</span></span>
+<span class="pl-s1"><span class="pl-c">     ******************************************************</span></span>
+<span class="pl-s1"><span class="pl-c">     'delivery_address' =&gt; 'Adresa 123',</span></span>
+<span class="pl-s1"><span class="pl-c">     'delivery_city' =&gt; 'Mesto',</span></span>
+<span class="pl-s1"><span class="pl-c">     'delivery_state' =&gt; 'Slovenská republika'</span></span>
+<span class="pl-s1"><span class="pl-c">     ******************************************************/</span></span>
+<span class="pl-s1">));</span></pre></div>
+
+<p>Zoznam možných nastavení: </p>
+
+<ul>
+<li>
+<strong>invoice_id</strong> <em>integer</em>, id faktúry, ktorú chcete odoslať (povinné)</li>
+</ul>
+
+<h3>
+<a id="26-stockitemedit" class="anchor" href="#26-stockitemedit" aria-hidden="true"><span class="octicon octicon-link"></span></a>26. stockItemEdit</h3>
+
+<p>Aktualizuje skladovú položku.</p>
+
+<h5>
+<a id="parametre-19" class="anchor" href="#parametre-19" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<strong>$item</strong> <em>array</em>, povinné.</li>
+</ul>
+
+<p>Príklad použitia:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"></span>
+<span class="pl-s1">        <span class="pl-smi">$api</span><span class="pl-k">-&gt;</span>stockItemEdit(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>stock_item_id<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">123456</span>, <span class="pl-c">// povinné</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>*New stock item name<span class="pl-pds">'</span></span>, <span class="pl-c">// novy nazov skladovej polozky</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>sku<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>NEWST06K1T3M1D<span class="pl-pds">'</span></span> <span class="pl-c">// nove SKU</span></span>
+<span class="pl-s1">        ));</span>
+<span class="pl-s1"></span></pre></div>
+
+<p>Zoznam možných nastavení:</p>
+
+<ul>
+<li>
+<strong>id</strong> <em>integer</em>, id skladovej položky</li>
+<li>
+<strong>name</strong> <em>string</em>, názov skladovej položky</li>
+<li>
+<strong>description</strong> <em>string</em>, popis skladovej položky</li>
+<li>
+<strong>sku</strong> <em>string</em>, skladové číslo</li>
+<li>
+<strong>unit_price</strong> <em>integer</em>, jednotková cena bez DPH</li>
+<li>
+<strong>vat</strong> <em>integer</em>, DPH v percentách</li>
+<li>
+<strong>stock</strong> <em>integer</em>, počet kusov na sklade. Pokiaľ sa vynechá nebude sa sledovať stav zásob.</li>
+<li>
+<strong>unit</strong> <em>string</em>, jednotka napr. ks, mm, m2, dm3, l.</li>
+</ul>
+
+<h3>
+<a id="27-addstockitem" class="anchor" href="#27-addstockitem" aria-hidden="true"><span class="octicon octicon-link"></span></a>27. addStockItem</h3>
+
+<p>Pridá skladovú položku.</p>
+
+<h5>
+<a id="parametre-20" class="anchor" href="#parametre-20" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<strong>$item</strong> <em>array</em>, povinné.</li>
+</ul>
+
+<p>Príklad použitia:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$api</span><span class="pl-k">-&gt;</span>addStockItem(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Stock item example<span class="pl-pds">'</span></span>, <span class="pl-c">// nazov skladovej polozky</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>description<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Stock item description<span class="pl-pds">'</span></span>, <span class="pl-c">// popis</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>sku<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>SKU12345REF<span class="pl-pds">'</span></span>, <span class="pl-c">// skladove cislo</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>unit_price<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">10</span>, <span class="pl-c">// jednotkova cena bez DPH</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>vat<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">20</span>, <span class="pl-c">// DPH v percentach</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>stock<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">100</span> <span class="pl-c">// pocet kusov na sklade, ak nie je definovane nebudu sa sledovat pohyby</span></span>
+<span class="pl-s1">        ));</span>
+<span class="pl-s1"></span></pre></div>
+
+<p>Zoznam možných nastavení:</p>
+
+<ul>
+<li>
+<strong>name</strong> <em>string</em>, názov skladovej položky</li>
+<li>
+<strong>description</strong> <em>string</em>, popis skladovej položky</li>
+<li>
+<strong>sku</strong> <em>string</em>, skladové číslo</li>
+<li>
+<strong>unit_price</strong> <em>integer</em>, jednotková cena bez DPH</li>
+<li>
+<strong>vat</strong> <em>integer</em>, DPH v percentách</li>
+<li>
+<strong>stock</strong> <em>integer</em>, počet kusov na sklade. Pokiaľ sa vynechá nebude sa sledovať stav zásob.</li>
+<li>
+<strong>unit</strong> <em>string</em>, jednotka napr. ks, mm, m2, dm3, l.</li>
+</ul>
+
+<h3>
+<a id="28-addstockmovement" class="anchor" href="#28-addstockmovement" aria-hidden="true"><span class="octicon octicon-link"></span></a>28. addStockMovement</h3>
+
+<p>Pridá pohyb na sklade.</p>
+
+<h5>
+<a id="parametre-21" class="anchor" href="#parametre-21" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<strong>$item</strong> <em>array</em>, povinné.</li>
+</ul>
+
+<p>Príklad použitia:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"></span>
+<span class="pl-s1">        <span class="pl-smi">$api</span><span class="pl-k">-&gt;</span>addStockMovement(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>stock_item_id<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">// id skladovej polozky</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Stock item example<span class="pl-pds">'</span></span>, <span class="pl-c">// nazov skladovej polozky</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>description<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Stock item description<span class="pl-pds">'</span></span>, <span class="pl-c">// popis</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>sku<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>SKU12345REF<span class="pl-pds">'</span></span>, <span class="pl-c">// skladove cislo</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>unit_price<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">10</span>, <span class="pl-c">// jednotkova cena bez DPH</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>vat<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">20</span>, <span class="pl-c">// DPH v percentach</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>stock<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">100</span> <span class="pl-c">// pocet kusov na sklade, ak nie je definovane nebudu sa sledovat pohyby</span></span>
+<span class="pl-s1">        ));</span></pre></div>
+
+<p>Zoznam možných nastavení:</p>
+
+<ul>
+<li>
+<strong>stock_item_id</strong> <em>iteger</em>, id skladovej položky, ku ktorej chceme pridať pohyb</li>
+<li>
+<strong>quantity</strong> <em>integer</em>, pohyb - záporné číslo je výdaj, kladné príjem</li>
+<li>
+<strong>note</strong> <em>string</em>, popis pohybu</li>
+<li>
+<strong>created</strong> <em>date</em> 'YEAR-MONTH-DAY' formát, dátum</li>
+</ul>
+
+<h3>
+<a id="29-setclient" class="anchor" href="#29-setclient" aria-hidden="true"><span class="octicon octicon-link"></span></a>29. setClient</h3>
+
+<p>Nastaví hodnoty pre klienta.</p>
+
+<h5>
+<a id="parametre-22" class="anchor" href="#parametre-22" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<p>Zhodné so setInvoice.</p>
+
+<p>Zoznam možných vlastností klienta:</p>
+
+<ul>
+<li>
+<strong>address</strong> - adresa</li>
+<li>
+<strong>bank_account</strong> - bankový účet</li>
+<li>
+<strong>city</strong> - mesto</li>
+<li>
+<strong>comment</strong> - komentár</li>
+<li>
+<strong>country_id</strong> - ID krajiny, číselník krajín je možné získať metódou getCountries</li>
+<li>
+<strong>country_iso_id</strong> ISO 3166-1 (Alpha-2) kod krajiny</li>
+<li>
+<strong>country</strong> - vlastný názov krajiny</li>
+<li>
+<strong>delivery_address</strong> - dodacia adresa</li>
+<li>
+<strong>delivery_city</strong> - dodacie mesto</li>
+<li>
+<strong>delivery_country</strong> - vlastná dodacia krajina</li>
+<li>
+<strong>delivery_country_id</strong> - ID dodacej krajiny</li>
+<li>
+<strong>delivery_country_iso_id</strong> ISO 3166-1 (Alpha-2) kod krajiny</li>
+<li>
+<strong>delivery_name</strong> - názov klienta pre dodanie</li>
+<li>
+<strong>delivery_zip</strong> - dodacie PSČ</li>
+<li>
+<strong>dic</strong> - DIČ</li>
+<li>
+<strong>email</strong> - email</li>
+<li>
+<strong>fax</strong> - fax</li>
+<li>
+<strong>ic_dph</strong> - IČ DPH</li>
+<li>
+<strong>ico</strong> - IČO</li>
+<li>
+<strong>name</strong> - názov klienta</li>
+<li>
+<strong>phone</strong> - telefón</li>
+<li>
+<strong>zip</strong> - PSČ</li>
+<li>
+<strong>match_address</strong> (boolean) - pokiaľ je tento parameter nastavený, do hľadania klienta vstupuje aj adresa.</li>
+</ul>
+
+<h3>
+<a id="30-stockitems" class="anchor" href="#30-stockitems" aria-hidden="true"><span class="octicon octicon-link"></span></a>30. stockItems</h3>
+
+<p>Vráti zoznam skladových položiek.</p>
+
+<h5>
+<a id="parametre-23" class="anchor" href="#parametre-23" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$params</em> pole povinné. Parametre pre filtrovanie a stránkovanie.</li>
+<li>
+<em>$list_info</em> bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)</li>
+</ul>
+
+<h5>
+<a id="možné-parametre-pre-filtrovanie" class="anchor" href="#mo%C5%BEn%C3%A9-parametre-pre-filtrovanie" aria-hidden="true"><span class="octicon octicon-link"></span></a>Možné parametre pre filtrovanie</h5>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"> <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>page<span class="pl-pds">'</span></span>          <span class="pl-k">=&gt;</span> <span class="pl-c1">1</span>, <span class="pl-c">//Strana</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>per_page<span class="pl-pds">'</span></span>      <span class="pl-k">=&gt;</span> <span class="pl-c1">10</span>, <span class="pl-c">//Počet položiek na stranu</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>price_from<span class="pl-pds">'</span></span>    <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">//Cena od</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>price_to<span class="pl-pds">'</span></span>      <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">//Cena do</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>search<span class="pl-pds">'</span></span>        <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>, <span class="pl-c">//Hľadaný výraz. Prehľadáva všetky polia.</span></span>
+<span class="pl-s1">) </span></pre></div>
+
+<h5>
+<a id="formát-vrátených-dát-2" class="anchor" href="#form%C3%A1t-vr%C3%A1ten%C3%BDch-d%C3%A1t-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Formát vrátených dát</h5>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"></span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>itemCount<span class="pl-pds">"</span></span>: <span class="pl-c1">67</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>pageCount<span class="pl-pds">"</span></span>: <span class="pl-c1">7</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>perPage<span class="pl-pds">"</span></span>: <span class="pl-c1">10</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>page<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span>: [{</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>StockItem<span class="pl-pds">"</span></span>: {<span class="pl-k">...</span>},</span>
+<span class="pl-s1">    },<span class="pl-k">...</span>]</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="31-addstockmovement" class="anchor" href="#31-addstockmovement" aria-hidden="true"><span class="octicon octicon-link"></span></a>31. addStockMovement</h3>
+
+<p>Pridá pohyb na sklade.</p>
+
+<h5>
+<a id="parametre-24" class="anchor" href="#parametre-24" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<strong>$item</strong> <em>array</em>, povinné.</li>
+</ul>
+
+<p>Príklad použitia:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$api</span><span class="pl-k">-&gt;</span>addStockMovement(<span class="pl-c1">array</span>(</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>stock_item_id<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">// id skladovej polozky</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Stock item example<span class="pl-pds">'</span></span>, <span class="pl-c">// nazov skladovej polozky</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>description<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Stock item description<span class="pl-pds">'</span></span>, <span class="pl-c">// popis</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>sku<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>SKU12345REF<span class="pl-pds">'</span></span>, <span class="pl-c">// skladove cislo</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>unit_price<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">10</span>, <span class="pl-c">// jednotkova cena bez DPH</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>vat<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">20</span>, <span class="pl-c">// DPH v percentach</span></span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>stock<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">100</span> <span class="pl-c">// pocet kusov na sklade, ak nie je definovane nebudu sa sledovat pohyby</span></span>
+<span class="pl-s1">        ));</span>
+<span class="pl-s1"></span></pre></div>
+
+<p>Zoznam možných nastavení:</p>
+
+<ul>
+<li>
+<strong>stock_item_id</strong> <em>iteger</em>, id skladovej položky, ku ktorej chceme pridať pohyb</li>
+<li>
+<strong>quantity</strong> <em>integer</em>, pohyb - záporné číslo je výdaj, kladné príjem</li>
+<li>
+<strong>note</strong> <em>string</em>, popis pohybu</li>
+<li>
+<strong>created</strong> <em>date</em> 'YEAR-MONTH-DAY' formát, dátum</li>
+</ul>
+
+<h3>
+<a id="32-setclient" class="anchor" href="#32-setclient" aria-hidden="true"><span class="octicon octicon-link"></span></a>32. setClient</h3>
+
+<p>Nastaví hodnoty pre klienta.</p>
+
+<h5>
+<a id="parametre-25" class="anchor" href="#parametre-25" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<p>Zhodné so setInvoice</p>
+
+<p>Zoznam možných vlastností klienta:</p>
+
+<ul>
+<li>
+<strong>address</strong> - adresa</li>
+<li>
+<strong>bank_account</strong> - bankový účet</li>
+<li>
+<strong>city</strong> - mesto</li>
+<li>
+<strong>comment</strong> - komentár</li>
+<li>
+<strong>country_id</strong> - ID krajiny, číselník krajín je možné získať metódou getCountries</li>
+<li>
+<strong>country_iso_id</strong> ISO 3166-1 (Alpha-2) kod krajiny</li>
+<li>
+<strong>country</strong> - vlastný názov krajiny</li>
+<li>
+<strong>delivery_address</strong> - dodacia adresa</li>
+<li>
+<strong>delivery_city</strong> - dodacie mesto</li>
+<li>
+<strong>delivery_country</strong> - vlastná dodacia krajina</li>
+<li>
+<strong>delivery_country_id</strong> - ID dodacej krajiny</li>
+<li>
+<strong>delivery_country_iso_id</strong> ISO 3166-1 (Alpha-2) kod krajiny</li>
+<li>
+<strong>delivery_name</strong> - názov klienta pre dodanie</li>
+<li>
+<strong>delivery_zip</strong> - dodacie PSČ</li>
+<li>
+<strong>dic</strong> - DIČ</li>
+<li>
+<strong>email</strong> - email</li>
+<li>
+<strong>fax</strong> - fax</li>
+<li>
+<strong>ic_dph</strong> - IČ DPH</li>
+<li>
+<strong>ico</strong> - IČO</li>
+<li>
+<strong>name</strong> - názov klienta</li>
+<li>
+<strong>phone</strong> - telefón</li>
+<li>
+<strong>zip</strong> - PSČ</li>
+<li>
+<strong>match_address</strong> (boolean) - pokiaľ je tento parameter nastavený, do hľadania klienta vstupuje aj adresa.</li>
+</ul>
+
+<h3>
+<a id="33-stockitems" class="anchor" href="#33-stockitems" aria-hidden="true"><span class="octicon octicon-link"></span></a>33. stockItems</h3>
+
+<p>Vráti zoznam skladových položiek.</p>
+
+<h5>
+<a id="parametre-26" class="anchor" href="#parametre-26" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$params</em> pole povinné. Parametre pre filtrovanie a stránkovanie.</li>
+<li>
+<em>$list_info</em> bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)</li>
+</ul>
+
+<h5>
+<a id="možné-parametre-pre-filtrovanie-1" class="anchor" href="#mo%C5%BEn%C3%A9-parametre-pre-filtrovanie-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Možné parametre pre filtrovanie</h5>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"> <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>page<span class="pl-pds">'</span></span>          <span class="pl-k">=&gt;</span> <span class="pl-c1">1</span>, <span class="pl-c">//Strana</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>per_page<span class="pl-pds">'</span></span>      <span class="pl-k">=&gt;</span> <span class="pl-c1">10</span>, <span class="pl-c">//Počet položiek na stranu</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>price_from<span class="pl-pds">'</span></span>    <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">//Cena od</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>price_to<span class="pl-pds">'</span></span>      <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>, <span class="pl-c">//Cena do</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>search<span class="pl-pds">'</span></span>        <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>, <span class="pl-c">//Hľadaný výraz. Prehľadáva všetky polia.</span></span>
+<span class="pl-s1">)</span></pre></div>
+
+<h5>
+<a id="formát-vrátených-dát-3" class="anchor" href="#form%C3%A1t-vr%C3%A1ten%C3%BDch-d%C3%A1t-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Formát vrátených dát</h5>
+
+<h5>
+<a id="možné-parametre-pre-filtrovanie-2" class="anchor" href="#mo%C5%BEn%C3%A9-parametre-pre-filtrovanie-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Možné parametre pre filtrovanie</h5>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>itemCount<span class="pl-pds">"</span></span>: <span class="pl-c1">67</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>pageCount<span class="pl-pds">"</span></span>: <span class="pl-c1">7</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>perPage<span class="pl-pds">"</span></span>: <span class="pl-c1">10</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>page<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span>: [{</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">"</span>StockItem<span class="pl-pds">"</span></span>: {<span class="pl-k">...</span>},</span>
+<span class="pl-s1">    },<span class="pl-k">...</span>]</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="34-stockitem" class="anchor" href="#34-stockitem" aria-hidden="true"><span class="octicon octicon-link"></span></a>34. stockItem</h3>
+
+<p>Vráti detaily skladovej položky.</p>
+
+<h5>
+<a id="parametre-27" class="anchor" href="#parametre-27" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parametre</h5>
+
+<ul>
+<li>
+<em>$stock_item_id</em> int povinné. Získané z StockItem-&gt;id.</li>
+</ul>
+
+<h3>
+<a id="autorizácia" class="anchor" href="#autoriz%C3%A1cia" aria-hidden="true"><span class="octicon octicon-link"></span></a>Autorizácia</h3>
+
+<p>Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch &gt; API.
+Samotná autorizácia sa vykonáva pomocou hlavičky "Authorization", ktorá ma nasledujúci tvar:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-s"><span class="pl-pds">"</span>Authorization: SFAPI email=EMAIL&amp;apikey=APITOKEN<span class="pl-pds">"</span></span></span></pre></div>
+
+<p>Túto hlavičku musí obsahovať každý request na SF API!</p>
+
+<h3>
+<a id="vystavenie-faktúry" class="anchor" href="#vystavenie-fakt%C3%BAry" aria-hidden="true"><span class="octicon octicon-link"></span></a>Vystavenie faktúry</h3>
+
+<p>Pokiaľ sa Vám nepáči náš SF API klient a chcete si faktúry vystavovať posvojom, tak nech sa páči:
+Endpoint pre vystavenie faktúry sa nachádza na adrese <a href="https://moja.superfaktura.sk/invoices/create">https://moja.superfaktura.sk/invoices/create</a>
+Dáta pre vystavenie faktúry očakáva vo formáte JSON v $POST['data'] v nasledujúcej forme:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$data</span> <span class="pl-k">=</span> <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>Invoice<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">        <span class="pl-c">//vsetky polozky su nepovinne, v pripade ze nie su uvedene, budu doplnene automaticky</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>                 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>nazov faktury<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>variable<span class="pl-pds">'</span></span>             <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>123456<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>constant<span class="pl-pds">'</span></span>             <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>0308<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>specific<span class="pl-pds">'</span></span>             <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>2015<span class="pl-pds">'</span></span>, <span class="pl-c">//specificky symbol</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>already_paid<span class="pl-pds">'</span></span>         <span class="pl-k">=&gt;</span> <span class="pl-c1">true</span>, <span class="pl-c">// bola uz faktura uhradena?</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>invoice_no_formatted<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>2015001<span class="pl-pds">'</span></span>, <span class="pl-c">//ak nie je uvedene, SF ho doplni podla ciselnika</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>created<span class="pl-pds">'</span></span>              <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>2015-08-31<span class="pl-pds">'</span></span>, <span class="pl-c">//datum vystavenia</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>delivery<span class="pl-pds">'</span></span>             <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>2015-08-31<span class="pl-pds">'</span></span>, <span class="pl-c">//datum dodania</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>due<span class="pl-pds">'</span></span>                  <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>2015-08-31<span class="pl-pds">'</span></span>, <span class="pl-c">//datum splatnosti</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>comment<span class="pl-pds">'</span></span>              <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>komentar<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">    ),</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>Client<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>    <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Janko Hrasko<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>ico<span class="pl-pds">'</span></span>     <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>12345678<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>dic<span class="pl-pds">'</span></span>     <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>12345678<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>ic_dph<span class="pl-pds">'</span></span>  <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>SK12345678<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>email<span class="pl-pds">'</span></span>   <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>janko@hrasko.sk<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>address<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>adresa<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>city<span class="pl-pds">'</span></span>    <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>mesto<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>zip<span class="pl-pds">'</span></span>     <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>psc<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>phone<span class="pl-pds">'</span></span>   <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>telefon<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">    ),</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>InvoiceItem<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">        <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>        <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Superfaktura.sk<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>description<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Členstvo<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>quantity<span class="pl-pds">'</span></span>    <span class="pl-k">=&gt;</span> <span class="pl-c1">1</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>unit<span class="pl-pds">'</span></span>        <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>ks<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>unit_price<span class="pl-pds">'</span></span>  <span class="pl-k">=&gt;</span> <span class="pl-c1">40.83</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>tax<span class="pl-pds">'</span></span>         <span class="pl-k">=&gt;</span> <span class="pl-c1">20</span></span>
+<span class="pl-s1">        ),</span>
+<span class="pl-s1">        <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>        <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Druhá položka<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>description<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>quantity<span class="pl-pds">'</span></span>    <span class="pl-k">=&gt;</span> <span class="pl-c1">10</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>unit<span class="pl-pds">'</span></span>        <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>ks<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>unit_price<span class="pl-pds">'</span></span>  <span class="pl-k">=&gt;</span> <span class="pl-c1">5</span>,</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>tax<span class="pl-pds">'</span></span>         <span class="pl-k">=&gt;</span> <span class="pl-c1">10</span></span>
+<span class="pl-s1">        )</span>
+<span class="pl-s1">    )</span>
+<span class="pl-s1">);</span>
+<span class="pl-s1"><span class="pl-c1">Samotný</span> <span class="pl-c1">request</span> <span class="pl-c1">s</span> <span class="pl-c1">pou</span>ž<span class="pl-c1">itím</span> <span class="pl-c1">napr</span><span class="pl-k">.</span> <span class="pl-c1">Requests</span> <span class="pl-c1">kni</span>ž<span class="pl-c1">nice</span> <span class="pl-c1">potom</span> <span class="pl-c1">mô</span>ž<span class="pl-c1">e</span> <span class="pl-c1">vyzera</span>ť <span class="pl-c1">nasledovne</span>:</span>
+<span class="pl-s1"><span class="pl-c1">Requests</span><span class="pl-k">::</span>register_autoloader();</span>
+<span class="pl-s1"><span class="pl-smi">$response</span> <span class="pl-k">=</span> <span class="pl-c1">Requests</span><span class="pl-k">::</span>post(<span class="pl-s"><span class="pl-pds">'</span>https://moja.superfaktura.sk/invoices/create<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">    <span class="pl-smi">$headers</span>,</span>
+<span class="pl-s1">    <span class="pl-c1">array</span>(<span class="pl-s"><span class="pl-pds">'</span>data<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">json_encode</span>(<span class="pl-smi">$data</span>))</span>
+<span class="pl-s1">);</span>
+<span class="pl-s1"><span class="pl-smi">$response_data</span> <span class="pl-k">=</span> <span class="pl-c1">json_decode</span>(<span class="pl-smi">$response</span><span class="pl-k">-&gt;</span><span class="pl-smi">body</span>, <span class="pl-c1">true</span>);</span>
+<span class="pl-s1"><span class="pl-c1">výsledkom</span> <span class="pl-c1">tohto</span> <span class="pl-c1">volania</span> <span class="pl-c1">je</span> <span class="pl-c1">JSON</span> <span class="pl-c1">odpove</span>ď <span class="pl-c1">v</span> <span class="pl-c1">nasledujúcej</span> <span class="pl-c1">forme</span></span>
+<span class="pl-s1"><span class="pl-smi">$response_data</span> <span class="pl-k">=</span> <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>error<span class="pl-pds">'</span></span>         <span class="pl-k">=&gt;</span> <span class="pl-c1">0</span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>error_message<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Chybova hlaska<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>data<span class="pl-pds">'</span></span>          <span class="pl-k">=&gt;</span> <span class="pl-c1">array</span>(),</span>
+<span class="pl-s1">);</span></pre></div>
+
+<p>V prípade, ak došlo k nejakej chybe, bude error = 1 a error_message bude obsahovať popis chyby, ktorá nastala. V prípade, že chýb nastalo viac, bude error_message obsahovať pole s chybovými hláškami.</p>
+
+<p>Ak bola faktúra úspešne vytvorená, budú v kľúči data uložené kompletné informácie o vytvorenej faktúre.</p>
+
+<h3>
+<a id="pdf-faktúry" class="anchor" href="#pdf-fakt%C3%BAry" aria-hidden="true"><span class="octicon octicon-link"></span></a>PDF faktúry</h3>
+
+<p>Po vytvorení faktúry je možné stiahnuť jej PDF na adrese</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-en">https</span>:<span class="pl-c">//moja.superfaktura.sk/invoices/pdf/ID_FAKTURY/token:TOKEN</span></span></pre></div>
+
+<p>kde ID FAKTURY sa nachádza v $data['Invoice']['id'] a token v $data['Invoice']['token'].</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
   </body>
 </html>
