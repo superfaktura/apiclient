@@ -348,7 +348,7 @@ Dodatočne pridá úhradu k nákladu.
 Uloží nastavené dáta a vystaví faktúru.
 ##### Paramete: žiadne
 ##### Návratová hodnota: objekt
-```json
+```php
 {
     "error": 0,
     "error_message": "Invoice created",
