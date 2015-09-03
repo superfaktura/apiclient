@@ -107,8 +107,8 @@ $json_response = $sf_api->save();
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
 ##### Parametre
-  * *$email* string povinný
-  * *$token* string povinný
+  * **$email** string povinný
+  * **$token** string povinný
 
 ### 2. addItem
  Pridá položku na faktúru.
@@ -133,13 +133,13 @@ array(
 ### 3. addTags
  Pridá faktúre tagy podľa číselníka
 ##### Parametre
-* *$tags_ids* pole povinné, pole ID požadovaných tagov
+* **$tags_ids** pole povinné, pole ID požadovaných tagov
 
 ### 4. clients
  Vráti zoznam klientov
 ##### Parametre
-* *$params* pole povinné. Parametre pre filtrovanie a stránkovanie.
-* *$list_info* bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
+* **$params** pole povinné. Parametre pre filtrovanie a stránkovanie.
+* **$list_info** bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
 
 ##### Možné parametre pre filtrovanie, číselníky hodnôt sa nachádzajú pod zoznamom parametrov
  ```php
@@ -163,23 +163,23 @@ array(
 ### 5. delete
 Zmaže faktúru.
 ##### Parametre
-* *$id int* povinné. Získané z Invoice->id.
+* **$id** povinné. Získané z Invoice->id.
 
 ### 6. deleteInvoiceItem
 Zmaže položku na faktúre.
 ##### Parametre
-* *$invoice_id* int povinné. Získané z Invoice->id.
-* *$id* int povinné. Získané z InvoiceItem->id.
+* **$invoice_id** int povinné. Získané z Invoice->id.
+* **$id** int povinné. Získané z InvoiceItem->id.
 
 ### 7. deleteExpense
 Zmaže náklad.
 ##### Parametre
-* *$id* int povinné. Získané z Expense->id.
+* **$id** int povinné. Získané z Expense->id.
 
 ### 8. deleteStockItem
 Zmaže skladovú položku.
 ##### Parametre
-* *$id* int povinné. Získané z StockItem->id.
+* **$id** int povinné. Získané z StockItem->id.
 
 ### 9. edit
 Uloží nastavené dáta a aktualizuje faktúru.
@@ -194,13 +194,13 @@ Uloží nastavené dáta a aktualizuje faktúru.
 ### 10. expenses
 Vráti zoznam nákladov.
 ##### Parametre
-* *$params* pole povinné. Parametre pre filtrovanie a stránkovanie.
-* *$list_info* bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
+* **$params** pole povinné. Parametre pre filtrovanie a stránkovanie.
+* **$list_info** bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
 
 ### 11. expense
 Vráti detaily nákladu.
 ##### Parametre
-* *$expense_id* int povinné. Získané z Expense->id.
+* **$expense_id** int povinné. Získané z Expense->id.
 
 ### 12. getCountries
 Vráti číselník krajín.
@@ -211,9 +211,9 @@ Vráti číselník číselných radov podľa typov dokumentov.
 ### 14. getPDF
 Vráti PDF súbor s faktúrou.
 ##### Parametre
-* *$invoice_id* int povinné. Získané z Invoice->id.
-* *$token* string povinné. Získané z Invoice->token.
-* *$language* string nepovinné. Jazyk požadovaného PDF. Možné hodnoty sú {slo, cze, eng}
+* **$invoice_id** int povinné. Získané z Invoice->id.
+* **$token** string povinné. Získané z Invoice->token.
+* **$language** string nepovinné. Jazyk požadovaného PDF. Možné hodnoty sú {slo, cze, eng}
 
 ### 15. getTags
 Vráti číselník existujúcich tagov.
@@ -221,14 +221,14 @@ Vráti číselník existujúcich tagov.
 ### 16. invoice
 Vráti detaily faktúry.
 ##### Parametre
-* *$invoice_id* int povinné. Získané z Invoice->id.
+* **$invoice_id** int povinné. Získané z Invoice->id.
 
 ### 17. invoices
 Vráti zoznam vystavených faktúr.
 
 ##### Parametre
-* *$params* pole povinné. Parametre pre filtrovanie a stránkovanie.
-* *$list_info* bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
+* **$params** pole povinné. Parametre pre filtrovanie a stránkovanie.
+* **$list_info** bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
 
 ##### Možné parametre pre filtrovanie, číselníky hodnôt sa nachádzajú pod zoznamom parametrov  
 
@@ -320,29 +320,29 @@ Array
 ### 18. markAsSent
 Označí faktúru ako odoslanú emailom. Užitočné, pokiaľ vytvorené faktúry odosielate vlastným systémom, avšak chcete toto odoslanie evidovať aj v SuperFaktúre.
 ##### Parametre
-* *$invoice_id* int povinné. Získané z Invoice->id
-* *$email* string povinné. Emailová adresa, kam bola faktúra odoslaná.
-* *$subject* string nepovinné. Predmet emailu.
-* *$message* string nepovinné. Text emailu.
+* **$invoice_id** int povinné. Získané z Invoice->id
+* **$email** string povinné. Emailová adresa, kam bola faktúra odoslaná.
+* **$subject** string nepovinné. Predmet emailu.
+* **$message** string nepovinné. Text emailu.
 ##### Návratová hodnota: objekt
 
 ### 19. payInvoice
 Dodatočne pridá úhradu ku faktúre.
 ##### Parametre
-* *$invoice_id* int povinné. Získané z Invoice->id
-* *$amount* float povinné. Uhradená suma.
-* *$currency* string nepovinné. Mena úhrady, predvolené EUR.
-* *$date* string nepovinné. Dátum úhrady, predvolený aktuálny dátum.
-* *$payment_type* string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {cash,transfer,credit,paypal,cod}
+* **$invoice_id** int povinné. Získané z Invoice->id
+* **$amount** float povinné. Uhradená suma.
+* **$currency** string nepovinné. Mena úhrady, predvolené EUR.
+* **$date** string nepovinné. Dátum úhrady, predvolený aktuálny dátum.
+* **$payment_type** string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {cash,transfer,credit,paypal,cod}
 
 ### 20. payExpense
 Dodatočne pridá úhradu k nákladu.
 ##### Parametre
-* *$expense_id* int povinné. Získané z Expense->id
-* *$amount* float povinné. Uhradená suma.
-* *$currency* string nepovinné. Mena úhrady, predvolené EUR.
-* *$date* string nepovinné. Dátum úhrady, predvolený aktuálny dátum.
-* *$payment_type* string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {cash,transfer,credit,paypal,cod}
+* **$expense_id** int povinné. Získané z Expense->id
+* **$amount** float povinné. Uhradená suma.
+* **$currency** string nepovinné. Mena úhrady, predvolené EUR.
+* **$date** string nepovinné. Dátum úhrady, predvolený aktuálny dátum.
+* **$payment_type** string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {cash,transfer,credit,paypal,cod}
 
 ### 21. save
 Uloží nastavené dáta a vystaví faktúru.
@@ -696,8 +696,8 @@ Uloží nastavené dáta a vystaví faktúru.
 ### 22. setExpense
 Nastaví hodnoty pre náklad.
 ##### Paramete
-* *$key* mixed povinné. Môže byť string, alebo pole. Ak je string, nastaví sa konkrétna hodnota v $data['Expense'][$key]. Ak je pole, nastaví sa viacero hodmôt naraz.
-* *$value* mixed nepovinné. Ak je $key string, hodnota $value sa nastaví v $data['Expense'][$key]. Ak je $key pole, $value sa ignoruje.
+* **$key** mixed povinné. Môže byť string, alebo pole. Ak je string, nastaví sa konkrétna hodnota v $data['Expense'][$key]. Ak je pole, nastaví sa viacero hodmôt naraz.
+* **$value** mixed nepovinné. Ak je $key string, hodnota $value sa nastaví v $data['Expense'][$key]. Ak je $key pole, $value sa ignoruje.
 
 Príklad použitia:
   ```php 
@@ -931,8 +931,8 @@ Zoznam možných vlastností klienta:
 ### 30. stockItems
 Vráti zoznam skladových položiek.
 ##### Parametre
-* *$params* pole povinné. Parametre pre filtrovanie a stránkovanie.
-* *$list_info* bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
+* **$params** pole povinné. Parametre pre filtrovanie a stránkovanie.
+* **$list_info** bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
 
 ##### Možné parametre pre filtrovanie
   ```php
@@ -1015,8 +1015,8 @@ Zoznam možných vlastností klienta:
 ### 33. stockItems
 Vráti zoznam skladových položiek.
 ##### Parametre
-* *$params* pole povinné. Parametre pre filtrovanie a stránkovanie.
-* *$list_info* bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
+* **$params** pole povinné. Parametre pre filtrovanie a stránkovanie.
+* **$list_info** bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
 
 ##### Možné parametre pre filtrovanie
  ```php
@@ -1045,7 +1045,7 @@ Vráti zoznam skladových položiek.
 ### 34. stockItem
 Vráti detaily skladovej položky.
 ##### Parametre
-* *$stock_item_id* int povinné. Získané z StockItem->id.
+* **$stock_item_id** int povinné. Získané z StockItem->id.
 
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
