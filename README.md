@@ -710,7 +710,7 @@ $api->setExpense(array(
 		'vat' => 20, // DPH v percentách
 		'variable' => '123456', // variabilný symbol
 		'constant' => '0308' // konštantný symbol
-	));
+));
   ```
 
 Zoznam možných vlastností nákladu:
@@ -744,7 +744,7 @@ $api->setInvoice(array(
 		'name' => 'nazov faktury',
 		'variable' => '123456',
 		'constant' => '0308'
-	));
+));
   ``` 
   
 Zoznam možných vlastností faktúry:
@@ -792,7 +792,7 @@ $api->sendInvoiceEmail(array(
 			),
 			// 'subject' => 'Predmet', // pokial nie je nastaveny subject nastavi sa automaticky podla nastaveni
 			// 'body' => 'Sprava' // pokial nie je nastaveny body nastavi sa automaticky podla nastaveni
-		));
+));
  ```
  
 Zoznam možných nastavení:
@@ -830,13 +830,11 @@ Aktualizuje skladovú položku.
 
 Príklad použitia:
   ```php 
-  
-		$api->stockItemEdit(array(
-			'stock_item_id' => 123456, // povinné
-			'name' => '*New stock item name', // novy nazov skladovej polozky
-			'sku' => 'NEWST06K1T3M1D' // nove SKU
-		));
-	
+$api->stockItemEdit(array(
+	'stock_item_id' => 123456, // povinné
+	'name' => '*New stock item name', // novy nazov skladovej polozky
+	'sku' => 'NEWST06K1T3M1D' // nove SKU
+));
   ```  
 Zoznam možných nastavení:
 * **id** *integer*, id skladovej položky
@@ -862,8 +860,7 @@ $api->addStockItem(array(
 			'unit_price' => 10, // jednotkova cena bez DPH
 			'vat' => 20, // DPH v percentach
 			'stock' => 100 // pocet kusov na sklade, ak nie je definovane nebudu sa sledovat pohyby
-		));
-	
+));
   ```  
 Zoznam možných nastavení:
 * **name** *string*, názov skladovej položky
@@ -881,16 +878,15 @@ Pridá pohyb na sklade.
 
 Príklad použitia:
   ```php
-  
-		$api->addStockMovement(array(
-			'stock_item_id' => 0, // id skladovej polozky
-			'name' => 'Stock item example', // nazov skladovej polozky
-			'description' => 'Stock item description', // popis
-			'sku' => 'SKU12345REF', // skladove cislo
-			'unit_price' => 10, // jednotkova cena bez DPH
-			'vat' => 20, // DPH v percentach
-			'stock' => 100 // pocet kusov na sklade, ak nie je definovane nebudu sa sledovat pohyby
-		));
+$api->addStockMovement(array(
+	'stock_item_id' => 0, // id skladovej polozky
+	'name' => 'Stock item example', // nazov skladovej polozky
+	'description' => 'Stock item description', // popis
+	'sku' => 'SKU12345REF', // skladove cislo
+	'unit_price' => 10, // jednotkova cena bez DPH
+	'vat' => 20, // DPH v percentach
+	'stock' => 100 // pocet kusov na sklade, ak nie je definovane nebudu sa sledovat pohyby
+));
   ```   
 Zoznam možných nastavení:
 * **stock_item_id** *iteger*, id skladovej položky, ku ktorej chceme pridať pohyb
@@ -946,7 +942,6 @@ Vráti zoznam skladových položiek.
   ``` 
 ##### Formát vrátených dát
   ```php
-  
 {
     "itemCount": 67,
     "pageCount": 7,
@@ -956,7 +951,7 @@ Vráti zoznam skladových položiek.
         "StockItem": {...},
     },...]
 }
-  ``` 
+``` 
  
 ### 31. addStockMovement 
 Pridá pohyb na sklade.
@@ -966,16 +961,15 @@ Pridá pohyb na sklade.
 Príklad použitia:
  ```php
 $api->addStockMovement(array(
-			'stock_item_id' => 0, // id skladovej polozky
-			'name' => 'Stock item example', // nazov skladovej polozky
-			'description' => 'Stock item description', // popis
-			'sku' => 'SKU12345REF', // skladove cislo
-			'unit_price' => 10, // jednotkova cena bez DPH
-			'vat' => 20, // DPH v percentach
-			'stock' => 100 // pocet kusov na sklade, ak nie je definovane nebudu sa sledovat pohyby
-		));
-	
-  ``` 
+	'stock_item_id' => 0, // id skladovej polozky
+	'name' => 'Stock item example', // nazov skladovej polozky
+	'description' => 'Stock item description', // popis
+	'sku' => 'SKU12345REF', // skladove cislo
+	'unit_price' => 10, // jednotkova cena bez DPH
+	'vat' => 20, // DPH v percentach
+	'stock' => 100 // pocet kusov na sklade, ak nie je definovane nebudu sa sledovat pohyby
+));
+``` 
 Zoznam možných nastavení:
 * **stock_item_id** *iteger*, id skladovej položky, ku ktorej chceme pridať pohyb
 * **quantity** *integer*, pohyb - záporné číslo je výdaj, kladné príjem
