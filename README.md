@@ -113,7 +113,7 @@ $json_response = $sf_api->save();
 ### 2. addItem
  Pridá položku na faktúru.
 ##### Parametre
- * *$item* pole povinné
+ * **$item** pole povinné
 
 ##### Formát fakturačnej položky
  ```php
