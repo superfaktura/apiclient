@@ -982,6 +982,7 @@ Nastaví hodnoty pre klienta.
 Zhodné so setInvoice
 
 Zoznam možných vlastností klienta:
+* **update_addressbook** - !!! pri vystavení faktúry upraviť aj údaje klienta v kontaktoch
 * **address** - adresa
 * **bank_account** - bankový účet
 * **city** - mesto
