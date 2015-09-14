@@ -103,6 +103,7 @@ $json_response = $sf_api->save();
   * *stockItemEdit($item = array())*
   * *stockItems($params = array(), $list_info = true)*
   * *stockItem($id)*
+  * *addContactPerson($data)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -1041,6 +1042,18 @@ Vráti zoznam skladových položiek.
 Vráti detaily skladovej položky.
 ##### Parametre
 * **$stock_item_id** int povinné. Získané z StockItem->id.
+
+### 35. addContactPerson($data)
+Pridá novú kontaktnú osobu k existujúcemu klientovi. Návratová hodnota je objekt (JSON). Pokiaľ operácia prebehla bez problémov je nastavený atribút status na hodnotu (string) 'SUCCESS'.
+```php
+$result = $api->addContactPerson(array(
+	'client_id' => ID_KLIENTA,  // ID existujuceho klienta
+	'name' => 'Contact Person',  // Nazov kotaktnej osoby
+	'email' => 'email@example.com'  // Email pre kontaktnu osobu
+));
+if ($result->status === 'SUCCESS')
+	...;
+```
 
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
