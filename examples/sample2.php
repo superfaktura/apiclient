@@ -14,7 +14,7 @@
 	DEFINE('SFAPI_MODULE', 'API'); 				  		 // TITLE OF MODULE FE. 'WOOCOMMERCE MODULE'
 	DEFINE('SFAPI_APPTITLE', 'Example API application'); // TITLE OF YOUR APPLICATION FE. 'SUPERFAKTURA.SK'
 
-	require_once('SFAPIclient/SFAPIclient.php');
+	require_once('../SFAPIclient/SFAPIclient.php');
 
 	// Create and init SFAPIclient
 	$api = new SFAPIclient(SFAPI_EMAIL, SFAPI_KEY, SFAPI_APPTITLE, SFAPI_MODULE);

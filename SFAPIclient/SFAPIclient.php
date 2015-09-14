@@ -21,7 +21,6 @@
 		const
 			API_AUTH_KEYWORD = 'SFAPI',
 			SFAPI_URL = 'https://moja.superfaktura.sk';
-
 		public function __construct($email, $apikey, $apptitle = '', $module = 'API'){
 			Requests::register_autoloader();
 			$this->className = get_class($this);
@@ -344,6 +343,21 @@
 						$response = Requests::post($this->getConstant('SFAPI_URL').'/invoice_payments/add/ajax:1/api:1', $this->headers, array('data' => json_encode($request_data)));
 			$response_data = json_decode($response->body);
 			return $response_data;
+		}
+		
+		public function addContactPerson($data) {
+			if (!class_exists('Requests')) {
+				trigger_error("Unable to load Requests class", E_USER_WARNING);
+                                return false;
+			}
+			$request_data['ContactPerson'] = $data;
+			$response = 
+				Requests::post(
+						$this->getConstant('SFAPI_URL').'/contact_people/add/api:1', 
+						$this->headers,
+						array('data' => json_encode($request_data))
+				);
+			return json_decode($response->body);			
 		}
 
 		public function payExpense($expense_id, $amount, $currency = null, $date = null, $payment_type = 'transfer') {

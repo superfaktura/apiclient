@@ -2,7 +2,7 @@
 	DEFINE('SFAPI_EMAIL', 'example@example.com');
 	DEFINE('SFAPI_KEY', 'apikey');
 
-	require_once('SFAPIclient/SFAPIclient.php');
+	require_once('../SFAPIclient/SFAPIclient.php');
 
 	$api = new SFAPIclient(SFAPI_EMAIL, SFAPI_KEY);
 
