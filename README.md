@@ -920,7 +920,7 @@ Zoznam možných vlastností klienta:
 * **fax** - fax
 * **ic_dph** - IČ DPH
 * **ico** - IČO
-* **name** - názov klienta
+* **name** - názov klienta *(údaj je povinný)*
 * **phone** - telefón
 * **zip** - PSČ
 * **match_address** (boolean) - pokiaľ je tento parameter nastavený, do hľadania klienta vstupuje aj adresa.
