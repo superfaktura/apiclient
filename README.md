@@ -742,12 +742,21 @@ $api->setInvoice('name', 'nazov faktury');
   ```
   ```php   
 $api->setInvoice(array(
-		'name' => 'nazov faktury',
-		'variable' => '123456',
-		'constant' => '0308'
+	'name' => 'nazov faktury',
+	'variable' => '123456',
+	'constant' => '0308',
+	'bank_accounts' => array(
+		array(
+			'bank_name' => 'MyBank',
+			'account' => '012345678',
+			'bank_code' => '1234',
+			'iban' => 'SK0000000000000000',
+			'swift' => '12345',
+		)
+	)
 ));
   ``` 
-  
+
 Zoznam možných vlastností faktúry:
 * **already_paid** - bola už faktúra uhradená? true/false
 * **created** - dátum vystavenia
@@ -774,6 +783,7 @@ Zoznam možných vlastností faktúry:
 * **sequence_id** - ID číselníka, zoznam číselníkov je možné získať metódou getSequences
 * **type** - typ faktúry. Možnosti: regular - bežná faktúra, proforma - zálohová faktúra, cancel - dobropis, estimate - cenová ponuka, order - prijatá objednávka
 * **variable** - variabilný symbol
+* **bank_accounts** - (pole) zoznam bankových účtov (pozri príklad vyššie)
 
 ### 24. sendInvoiceEmail
 Odošle faktúru emailom.
