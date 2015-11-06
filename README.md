@@ -23,7 +23,7 @@
 
 ## Ukážky kódu
   Aby sme vám uľahčili prácu pri implementácii nášho API, vytvorili sme ukážky kódu 
-  ([sample.php](https://github.com/superfaktura/apiclient/blob/master/sample.php) a [sample2.php](https://github.com/superfaktura/apiclient/blob/master/sample2.php)),
+  ([sample.php](https://github.com/superfaktura/apiclient/blob/master/examples/sample.php) a [sample2.php](https://github.com/superfaktura/apiclient/blob/master/examples/sample2.php)),
   ktoré demonštrujú jeho funkcionalitu a dpĺňajú našu dokumentáciu o fungujúce príklady.
 
 ## Začíname používať SuperFaktúra PHP-API
