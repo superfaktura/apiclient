@@ -37,3 +37,10 @@ URL volania */invoices/view/ID*. Popis štruktúry údajov nájdete v README.md.
 curl https://moja.superfaktura.sk/invoices/view/1068009.json -H"Authorization: SFAPI email=your@email.com&apikey=yourtoken" 
 ```
 Volaním načítate faktúru s ID '1068009'
+
+## Príklad vrátenia zoznamu vystavených faktúr
+URL volania */invoices/index*. Popis štruktúry údajov nájdete v README.md.
+```shell
+curl https://moja.superfaktura.sk/invoices/index.json/page:1/per_page:20/delivery:1 -H"Authorization: SFAPI email=email@email.com&apikey=yourtoken" 
+```
+Volanie vráti zoznam vystavených faktúr v počte 20 faktúr na stránku, s dnešným dátumom dodania.
