@@ -733,7 +733,7 @@ Zoznam možných vlastností nákladu:
 ### 23. setInvoice
 Nastaví hodnoty pre faktúru
 ##### Parametre
-* *$key* mixed povinné. Môže byť string, alebo pole. Ak je string, nastaví sa konkrétna hodnota v $data['Invoice'][$key]. Ak je pole, nastaví sa viacero hodmôt naraz.
+* *$key* mixed povinné. Môže byť string, alebo pole. Ak je string, nastaví sa konkrétna hodnota v $data['Invoice'][$key]. Ak je pole, nastaví sa viacero hodnôt naraz.
 * *$value* mixed nepovinné. Ak je $key string, hodnota $value sa nastaví v $data['Invoice'][$key]. Ak je $key pole, $value sa ignoruje.
 
 Príklad použitia:
