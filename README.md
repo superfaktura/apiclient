@@ -697,7 +697,7 @@ Uloží nastavené dáta a vystaví faktúru.
 ### 22. setExpense
 Nastaví hodnoty pre náklad.
 ##### Paramete
-* **$key** mixed povinné. Môže byť string, alebo pole. Ak je string, nastaví sa konkrétna hodnota v $data['Expense'][$key]. Ak je pole, nastaví sa viacero hodmôt naraz.
+* **$key** mixed povinné. Môže byť string, alebo pole. Ak je string, nastaví sa konkrétna hodnota v $data['Expense'][$key]. Ak je pole, nastaví sa viacero hodnôt naraz.
 * **$value** mixed nepovinné. Ak je $key string, hodnota $value sa nastaví v $data['Expense'][$key]. Ak je $key pole, $value sa ignoruje.
 
 Príklad použitia:
