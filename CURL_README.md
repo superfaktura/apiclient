@@ -32,7 +32,7 @@ curl https://moja.superfaktura.sk/invoice_payments/add -H"Authorization: SFAPI e
 Volaním pridáte úhradu 12 EUR k faktúre s ID '1067146'.
 
 ## Príklad načítania faktúry
-URL volania */invoices/view/1068009*. Popis štruktúry údajov nájdete v README.md.
+URL volania */invoices/view/ID*. Popis štruktúry údajov nájdete v README.md.
 ```shell
 curl https://moja.superfaktura.sk/invoices/view/1068009.json -H"Authorization: SFAPI email=your@email.com&apikey=yourtoken" 
 ```
