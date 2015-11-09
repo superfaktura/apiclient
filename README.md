@@ -190,7 +190,7 @@ Uloží nastavené dáta a aktualizuje faktúru.
 * **1** Id dokladu má nesprávny formát
 * **2** Neexistujúce id dokladu
 * **3** Chyba pri editácii faktúry. Volanie treba opakovať.
-* **6** Chyba pri validácii úrajov. Povinné údaje chýbajú alebo nemajú správny formát.
+* **6** Chyba pri validácii údajov. Povinné údaje chýbajú alebo nemajú správny formát.
 
 ### 10. expenses
 Vráti zoznam nákladov.
