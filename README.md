@@ -934,6 +934,7 @@ Zoznam možných vlastností klienta:
 * **phone** - telefón
 * **zip** - PSČ
 * **match_address** (boolean) - pokiaľ je tento parameter nastavený, do hľadania klienta vstupuje aj adresa.
+* **update_addressbook** (boolean) - pri vystavení faktúry aktualizuje údaje klienta !!!
 
 ### 30. stockItems
 Vráti zoznam skladových položiek.
