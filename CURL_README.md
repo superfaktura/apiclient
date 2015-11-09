@@ -19,7 +19,7 @@ Autorizačné pole obsahuje prihlasovací email do SuperFaktúry a token, ktorý
 URL volania */invoices/create*. Popis štruktúry údajov nájdete v README.md.
 ```shell
 curl https://moja.superfaktura.sk/invoices/create -H"Authorization: SFAPI email=your@email.com&apikey=yourtoken" \
--d 'data={"Invoice":{"name":"Invoice Sample"},"Client":{"name":"Sample Client","ico":"12345678"},"InvoiceItem":[{"name":"Sample Item","unit_price":3.14,"quantity":2,"tax":20}]}'
+-d "data={\"Invoice\":{\"name\":\"Invoice Sample\"},\"Client\":{\"name\":\"Sample Client\",\"ico\":\"12345678\"},\"InvoiceItem\":[{\"name\":\"Sample Item\",\"unit_price\":3.14,\"quantity\":2,\"tax\":20}]}"
 ```
 Volaním vystavíme novú faktúru s názvom 'Sample Invoice' pre klienta 'Sample Client' s IČO '12345678'. Faktúra bude obsahovať jednu fakturačnú položku s názvom 'Sample Item', jednotkovou cenou 3.14 EUR za kus, v počte 2 kusy a s 20% DPH.
 
@@ -27,13 +27,13 @@ Volaním vystavíme novú faktúru s názvom 'Sample Invoice' pre klienta 'Sampl
 URL volania */invoice_payments/add*. Popis štruktúry údajov nájdete v README.md.
 ```shell
 curl https://moja.superfaktura.sk/invoice_payments/add -H"Authorization: SFAPI email=your@email.com&apikey=yourtoken" \
--d 'data={"InvoicePayment":{"invoice_id":"1067146","amount":"12.00"}}'
+-d "data={\"InvoicePayment\":{\"invoice_id\":\"1067146\",\"amount\":\"12.00\"}}"
 ```
 Volaním pridáte úhradu 12 EUR k faktúre s ID '1067146'.
 
 ## Príklad načítania faktúry
 URL volania */invoices/view/1068009*. Popis štruktúry údajov nájdete v README.md.
 ```shell
-curl https://moja.superfaktura.sk/invoices/view/1068009.json' -H"Authorization: SFAPI email=your@email.com&apikey=yourtoken" 
+curl https://moja.superfaktura.sk/invoices/view/1068009.json -H"Authorization: SFAPI email=your@email.com&apikey=yourtoken" 
 ```
 Volaním načítate faktúru s ID '1068009'
