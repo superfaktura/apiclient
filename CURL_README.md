@@ -23,3 +23,11 @@ curl https://moja.superfaktura.sk/invoices/create -H"Authorization: SFAPI email=
 ```
 Volaním vystavíme novú faktúru s názvom 'Sample Invoice' pre klienta 'Sample Client' s IČO '12345678'. Faktúra bude obsahovať jednu fakturačnú položku s názvom 'Sample Item', jednotkovou cenou 3.14 EUR za kus, v počte 2 kusy a s 20% DPH.
 
+## Príklad dodatočnej úhrady faktúry
+URL volania */invoice_payments/add*. Popis štruktúry údajov nájdete v README.md.
+```shell
+curl https://moja.superfaktura.sk/invoice_payments/add -H"Authorization: SFAPI email=your@email.com&apikey=yourtoken" \
+-d 'data={"InvoicePayment":{"invoice_id":"1067146","amount":"12.00"}}'
+```
+Volaním pridáte úhradu 12 EUR k faktúre s ID '1067146'.
+
