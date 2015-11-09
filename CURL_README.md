@@ -27,7 +27,7 @@ Volaním vystavíme novú faktúru s názvom 'Sample Invoice' pre klienta 'Sampl
 URL volania */invoice_payments/add*. Popis štruktúry údajov nájdete v README.md.
 ```shell
 curl https://moja.superfaktura.sk/invoice_payments/add -H"Authorization: SFAPI email=your@email.com&apikey=yourtoken" \
--d "data={\"InvoicePayment\":{\"invoice_id\":\"1067146\",\"amount\":\"12.00\"}}"
+-d "data={\"InvoicePayment\":{\"invoice_id\":1067146,\"amount\":12.00}}"
 ```
 Volaním pridáte úhradu 12 EUR k faktúre s ID '1067146'.
 
