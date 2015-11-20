@@ -43,3 +43,10 @@ URL volania */invoices/index*. Popis štruktúry údajov nájdete v README.md.
 curl https://moja.superfaktura.sk/invoices/index.json/page:1/per_page:20/delivery:1 -H"Authorization: SFAPI email=email@email.com&apikey=yourtoken" 
 ```
 Volanie vráti zoznam vystavených faktúr v počte 20 faktúr na stránku, s dnešným dátumom dodania.
+
+## Príklad odoslania faktúry na email prostredníctvom API
+URL volania */invoices/send*. Popis štruktúry údajov nájdete v README.md.
+```shell
+curl https://moja.superfaktura.sk/invoices/send -H "Authorization: SFAPI email=your@email.com&apikey=yourtoken" -d "data={\"Email\":{\"invoice_id\":1068288,\"to\":\"example@example.com\"}}"
+```
+SuperFaktúra odošle email s faktúrou ID 1068288 (v prílohe) na adresu example@example.com (o celú komunikáciu sa postará SuperFaktúra). Vykoná sa tá istá akcia, ako pri odoslaní faktúry cez používateľské prostredie. Týmto jednoduchým volaním si môžete odosielanie faktúr vo svojom systéme úplne automatizovať.
