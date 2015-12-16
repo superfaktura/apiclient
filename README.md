@@ -317,6 +317,17 @@ Array
 	[99] => Po splatnosti
 )
   ```
+  Príklad filtrovania faktúr pomocou ID číselníka
+  ```php
+require_once('SFAPIclient/SFAPIclient.php');  // inc. SuperFaktúra PHP-API
+$login_email = 'login@example.com';  // moja.superfaktura.sk login email
+$api_token = 'abcd1234';  // token from my account
+$sf_api = new SFAPIclient($login_email, $api_token);  // create SF PHP-API object
+$json_response = $sf_api->invoices(array(
+	'sequence_id' => ID číselníka pomocou ktorého chceme filtrovať,
+	'type' => 'regular'
+));
+  ```
   
 ### 18. markAsSent
 Označí faktúru ako odoslanú emailom. Užitočné, pokiaľ vytvorené faktúry odosielate vlastným systémom, avšak chcete toto odoslanie evidovať aj v SuperFaktúre.
