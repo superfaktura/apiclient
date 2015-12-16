@@ -324,7 +324,7 @@ $login_email = 'login@example.com';  // moja.superfaktura.sk login email
 $api_token = 'abcd1234';  // token from my account
 $sf_api = new SFAPIclient($login_email, $api_token);  // create SF PHP-API object
 $json_response = $sf_api->invoices(array(
-	'sequence_id' => ID číselníka pomocou ktorého chceme filtrovať,
+	'sequence_id' => ID, // integer
 	'type' => 'regular'
 ));
   ```
