@@ -525,76 +525,6 @@ Uloží nastavené dáta a vystaví faktúru.
                     "swift": "UNCRSKBX",
                     "created": "2014-10-06 13:25:30",
                     "modified": "2015-08-21 08:09:07"
-                },
-                {
-                    "id": "10121",
-                    "user_id": "15968",
-                    "user_profile_id": "10156",
-                    "default": null,
-                    "country_id": "191",
-                    "bank_name": "",
-                    "bank_code": "",
-                    "account": "",
-                    "iban": "",
-                    "swift": "",
-                    "created": "2014-10-17 09:05:54",
-                    "modified": "2014-10-17 09:05:54"
-                },
-                {
-                    "id": "10434",
-                    "user_id": "15968",
-                    "user_profile_id": "10156",
-                    "default": null,
-                    "country_id": "191",
-                    "bank_name": "",
-                    "bank_code": "",
-                    "account": "",
-                    "iban": "",
-                    "swift": "",
-                    "created": "2014-11-18 14:29:46",
-                    "modified": "2014-11-18 14:29:46"
-                },
-                {
-                    "id": "10502",
-                    "user_id": "15968",
-                    "user_profile_id": "10156",
-                    "default": null,
-                    "country_id": "191",
-                    "bank_name": "",
-                    "bank_code": "",
-                    "account": "",
-                    "iban": "",
-                    "swift": "",
-                    "created": "2014-11-25 09:33:31",
-                    "modified": "2014-11-25 09:33:31"
-                },
-                {
-                    "id": "10530",
-                    "user_id": "15968",
-                    "user_profile_id": "10156",
-                    "default": null,
-                    "country_id": "191",
-                    "bank_name": "",
-                    "bank_code": "",
-                    "account": "",
-                    "iban": "",
-                    "swift": "",
-                    "created": "2014-11-27 09:20:29",
-                    "modified": "2014-11-27 09:20:29"
-                },
-                {
-                    "id": "10774",
-                    "user_id": "15968",
-                    "user_profile_id": "10156",
-                    "default": null,
-                    "country_id": "191",
-                    "bank_name": "",
-                    "bank_code": "",
-                    "account": "",
-                    "iban": "",
-                    "swift": "",
-                    "created": "2014-12-15 14:29:54",
-                    "modified": "2014-12-15 14:29:54"
                 }
             ]
         },
@@ -1050,14 +980,14 @@ $data = array(
 		)
 	)
 );
-Samotný request s použitím napr. Requests knižnice potom môže vyzerať nasledovne:
+//Samotný request s použitím napr. Requests knižnice potom môže vyzerať nasledovne:
 Requests::register_autoloader();
 $response = Requests::post('https://moja.superfaktura.sk/invoices/create',
 	$headers,
 	array('data' => json_encode($data))
 );
 $response_data = json_decode($response->body, true);
-výsledkom tohto volania je JSON odpoveď v nasledujúcej forme
+//výsledkom tohto volania je JSON odpoveď v nasledujúcej forme
 $response_data = array(
 	'error'         => 0,
 	'error_message' => 'Chybova hlaska',
