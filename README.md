@@ -294,6 +294,8 @@ Array
 	[proforma] => Zálohová faktúra
 	[estimate] => Cenová ponuka
 	[cancel]   => Dobropis
+	[order] => Prijatá objednávka
+	[delivery] => Dodací list
 )
   ```
   Spôsob dodania
@@ -670,6 +672,8 @@ Zoznam možných vlastností nákladu:
 * **specific** - špecifický symbol
 * **type** - typ faktúry. Možnosti: invoice - prijatá faktúra, bill - pokladničný blok, internal - interný doklad, contribution - odvody
 * **variable** - variabilný symbol
+*  **taxable_supply** - Dátum zdaniteľného plnenia
+*  **document_number** - Číslo dokladu. Napríklad číslo došlej faktúry, číslo pokladničného bloku a podobne.
 
 ### 23. setInvoice
 Nastaví hodnoty pre faktúru
