@@ -729,6 +729,7 @@ Zoznam možných vlastností faktúry:
 * **type** - typ faktúry. Možnosti: regular - bežná faktúra, proforma - zálohová faktúra, cancel - dobropis, estimate - cenová ponuka, order - prijatá objednávka
 * **variable** - variabilný symbol
 * **bank_accounts** - (pole) zoznam bankových účtov (pozri príklad vyššie)
+* **order_no** - číslo objednávky
 
 ### 24. sendInvoiceEmail
 Odošle faktúru emailom.
