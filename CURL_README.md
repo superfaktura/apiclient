@@ -26,8 +26,8 @@ Autorizačné pole obsahuje prihlasovací email do SuperFaktúry a token, ktorý
   *  [zoznam faktúr v json formáte - GET: /invoices/index.json](#príklad-vrátenia-zoznamu-vystavených-faktúr)
   *  označ faktúru ako odoslanú - POST: /invoices/mark_as_sent
   *  [pridanie úhradu k faktúre - POST: /invoice_payments/add](#príklad-dodatočnej-úhrady-faktúry)
-  *  [pošli faktúru emailom - POST: /invoices/send](#príklad-odoslania-faktúry-na-email-prostredníctvom-API)
-  *  [pošli faktúru poštou - POST: /invoices/post](#príklad-odoslania-faktúry-POŠTOU-prostredníctvom-API)
+  *  [pošli faktúru emailom - POST: /invoices/send](#príklad-odoslania-faktúry-na-email-prostredníctvom-api)
+  *  [pošli faktúru poštou - POST: /invoices/post](#príklad-odoslania-faktúry-poštou-prostredníctvom-api)
 
 ### Náklady:
   *  vytvorenie nákladu - POST: /expenses/add
