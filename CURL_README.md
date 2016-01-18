@@ -95,7 +95,7 @@ curl https://moja.superfaktura.sk/invoices/send -H "Authorization: SFAPI email=y
 ```
 SuperFaktúra odošle email s faktúrou ID 1068288 (v prílohe) na adresu example@example.com (o celú komunikáciu sa postará SuperFaktúra). Vykoná sa tá istá akcia, ako pri odoslaní faktúry cez používateľské prostredie. Týmto jednoduchým volaním si môžete odosielanie faktúr vo svojom systéme úplne automatizovať.
 
-## Príklad odoslania faktúry POŠTOU prostredníctvom API
+## Príklad odoslania faktúry poštou prostredníctvom API
 URL volania */invoices/post*. Popis štruktúry údajov nájdete v README.md.
 ```shell
 curl https:/moja.superfaktura.sk/invoices/post -H "Authorization: SFAPI email=your@email.com&apikey=yourtoken" \
