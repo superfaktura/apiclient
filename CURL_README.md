@@ -22,12 +22,12 @@ Autorizačné pole obsahuje prihlasovací email do SuperFaktúry a token, ktorý
   *  zmazanie položky z faktúry - GET: /invoice_items/delete/item_id/invoice_id:id_faktury
   *  editácia faktúry - POST:/invoices/edit
   *  pdf faktúry - GET: /language/invoices/pdf/id_faktúry/token:token_faktúry
-  *  vrátenie detailu faktúry v json formáte - GET: /invoices/view/id.json
-  *  zoznam faktúr v json formáte - GET: /invoices/index.json
+  *  [vrátenie detailu faktúry v json formáte - GET: /invoices/view/id.json](#príklad-načítania-faktúry)
+  *  [zoznam faktúr v json formáte - GET: /invoices/index.json](#príklad-vrátenia-zoznamu-vystavených-faktúr)
   *  označ faktúru ako odoslanú - POST: /invoices/mark_as_sent
-  *  pridanie úhradu k faktúre - POST: /invoice_payments/add
-  *  pošli faktúru emailom - POST: /invoices/send
-  *  pošli faktúru poštou - POST: /invoices/post
+  *  [pridanie úhradu k faktúre - POST: /invoice_payments/add](#príklad-dodatočnej-úhrady-faktúry)
+  *  [pošli faktúru emailom - POST: /invoices/send](#príklad-odoslania-faktúry-na-email-prostredníctvom-API)
+  *  [pošli faktúru poštou - POST: /invoices/post](#príklad-odoslania-faktúry-POŠTOU-prostredníctvom-API)
 
 ### Náklady:
   *  vytvorenie nákladu - POST: /expenses/add
