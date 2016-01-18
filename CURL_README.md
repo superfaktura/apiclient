@@ -17,7 +17,7 @@ Autorizačné pole obsahuje prihlasovací email do SuperFaktúry a token, ktorý
 
 ## Zoznam všetkých endpointov 
 ### Faktúry:
-  *  [vystavenie faktúry - POST: /invoices/create](##príklad vystavenia novej faktúry)
+  *  [vystavenie faktúry - POST: /invoices/create](#príklad vystavenia novej faktúry)
   *  zmazanie faktúry - GET: /invoices/delete/id
   *  zmazanie položky z faktúry - GET: /invoice_items/delete/item_id/invoice_id:id_faktury
   *  editácia faktúry - POST:/invoices/edit
