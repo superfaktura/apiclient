@@ -15,6 +15,50 @@ Authorization: SFAPI email=your@email.com&apikey=yourtoken
 Autorizačné pole obsahuje prihlasovací email do SuperFaktúry a token, ktorý môžete nájsť v SuperFaktúre po prihlásení v 
 '*Nástroje - API prístup*'
 
+## Zoznam všetkých endpointov
+### Faktúry:
+  *  vytvorenue faktúry - POST: /invoices/create
+  *  zmazanie faktúry - GET: /invoices/delete/id
+  *  zmazanie položky z faktúry - GET: /invoice_items/delete/item_id/invoice_id:id_faktury
+  *  editácia faktúry - POST:/invoices/edit
+  *  pdf faktúry - GET: /language/invoices/pdf/id_faktúry/token:token_faktúry
+  *  vrátenie detailu faktúry v json formáte - GET: /invoices/view/id.json
+  *  zoznam faktúr v json formáte - GET: /invoices/index.json
+  *  označ faktúru ako odoslanú - POST: /invoices/mark_as_sent
+  *  pridanie úhradu k faktúre - POST: /invoice_payments/add
+  *  pošli faktúru emailom - POST: /invoices/send
+  *  pošli faktúru poštou - POST: /invoices/post
+
+### Náklady:
+  *  vytvorenie nákladu - POST: /expenses/add
+  *  zmazanie nákladu - GET: /expenses/delete/id
+  *  editácia nákladu - POST: /expense/edit
+  *  vratenie detailu nákladu v json formáte - GET: /expenses/edit/id.json
+  *  zoznam nákladov v json formáte - GET: /expenses/index.json
+  *  pridanie úhrady k nákladu - POST: /expense_payments/add
+  
+### Sklad:
+  *  pridanie skladovej položky - POST: /stock_items/add
+  *  pridanie pohybu v sklade - POST: /stock_items/addstockmovement
+  *  zmazanie položky zo skladu - GET: /stock_items/delete/id
+  *  editacia skladovej položky - POST: /stock_items/edit
+  *  zoznam všetkých skladových položiek v json formáte - GET: /stock_items/index.json
+  *  detail skladovej položky v json formáte - GET: /stock_items/edit/id.json
+
+### Kontakty:
+  *  vytvorenie klienta - POST: /clients/create
+  *  zoznam klientov v json formáte - GET: /clients/index.json
+  *  pridanie kontaktnej osoby - POST: /contact_people/add
+
+### Číselníky:
+  *  zoznam číselníkov v json formáte - GET: /sequences/index.json
+
+### Krajiny:  
+  *  zoznam krajín v json formáte - GET: /countries
+
+### Tagy: 
+  *  zoznam tagov v json formáte - GET: /tags/index.json
+
 ## Príklad vystavenia novej faktúry
 URL volania */invoices/create*. Popis štruktúry údajov nájdete v README.md.
 ```shell
