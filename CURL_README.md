@@ -15,9 +15,9 @@ Authorization: SFAPI email=your@email.com&apikey=yourtoken
 Autorizačné pole obsahuje prihlasovací email do SuperFaktúry a token, ktorý môžete nájsť v SuperFaktúre po prihlásení v 
 '*Nástroje - API prístup*'
 
-## Zoznam všetkých endpointov
+## Zoznam všetkých endpointov 
 ### Faktúry:
-  *  vytvorenue faktúry - POST: /invoices/create
+  *  [vystavenie faktúry - POST: /invoices/create](## Príklad vystavenia novej faktúry)
   *  zmazanie faktúry - GET: /invoices/delete/id
   *  zmazanie položky z faktúry - GET: /invoice_items/delete/item_id/invoice_id:id_faktury
   *  editácia faktúry - POST:/invoices/edit
@@ -58,7 +58,7 @@ Autorizačné pole obsahuje prihlasovací email do SuperFaktúry a token, ktorý
 
 ### Tagy: 
   *  zoznam tagov v json formáte - GET: /tags/index.json
-
+  
 ## Príklad vystavenia novej faktúry
 URL volania */invoices/create*. Popis štruktúry údajov nájdete v README.md.
 ```shell
