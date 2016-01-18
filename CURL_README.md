@@ -17,7 +17,7 @@ Autorizačné pole obsahuje prihlasovací email do SuperFaktúry a token, ktorý
 
 ## Zoznam všetkých endpointov 
 ### Faktúry:
-  *  vystavenie faktúry - POST: /invoices/create
+  *  [vystavenie faktúry - POST: /invoices/create](##príklad vystavenia novej faktúry)
   *  zmazanie faktúry - GET: /invoices/delete/id
   *  zmazanie položky z faktúry - GET: /invoice_items/delete/item_id/invoice_id:id_faktury
   *  editácia faktúry - POST:/invoices/edit
@@ -59,7 +59,7 @@ Autorizačné pole obsahuje prihlasovací email do SuperFaktúry a token, ktorý
 ### Tagy: 
   *  zoznam tagov v json formáte - GET: /tags/index.json
   
-##Príklad vystavenia novej faktúry
+## Príklad vystavenia novej faktúry
 URL volania */invoices/create*. Popis štruktúry údajov nájdete v README.md.
 ```shell
 curl https://moja.superfaktura.sk/invoices/create -H"Authorization: SFAPI email=your@email.com&apikey=yourtoken" -d "data={\"Invoice\":{\"name\":\"Invoice Sample\",\"bank_accounts\":[{\"bank_name\":\"MyBank\",\"account\":\"0123456789\",\"bank_code\":8855,\"iban\":\"SK0000000000000\",\"swift\":\"xxxx\"}]},\"Client\":{\"name\":\"Sample Client\",\"ico\":\"12345678\"},\"InvoiceItem\":[{\"name\":\"Sample Item\",\"unit_price\":3.14,\"quantity\":2,\"tax\":20}]}"
