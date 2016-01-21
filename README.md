@@ -347,7 +347,7 @@ Dodatočne pridá úhradu ku faktúre.
 * **$amount** float povinné. Uhradená suma.
 * **$currency** string nepovinné. Mena úhrady, predvolené EUR.
 * **$date** string nepovinné. Dátum úhrady, predvolený aktuálny dátum.
-* **$payment_type** string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {cash,transfer,credit,paypal,cod}
+* **$payment_type** string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {transfer, cash, paypal, trustpay, credit, debit, cod, accreditation, gopay, viamo}
 
 ### 20. payExpense
 Dodatočne pridá úhradu k nákladu.
@@ -356,7 +356,7 @@ Dodatočne pridá úhradu k nákladu.
 * **$amount** float povinné. Uhradená suma.
 * **$currency** string nepovinné. Mena úhrady, predvolené EUR.
 * **$date** string nepovinné. Dátum úhrady, predvolený aktuálny dátum.
-* **$payment_type** string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {cash,transfer,credit,paypal,cod}
+* **$payment_type** string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {transfer, cash, paypal, credit, debit, cod, accreditation, gopay, viamo}
 
 ### 21. save
 Uloží nastavené dáta a vystaví faktúru.
