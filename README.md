@@ -104,6 +104,7 @@ $json_response = $sf_api->save();
   * *stockItems($params = array(), $list_info = true)*
   * *stockItem($id)*
   * *addContactPerson($data)*
+  * *getLogos()*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -927,6 +928,9 @@ $result = $api->addContactPerson(array(
 if ($result->status === 'SUCCESS')
 	...;
 ```
+
+### 33. getLogos()
+Vráti detaily všetkých lôg. Návratová hodnota je objekt (JSON).
 
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
