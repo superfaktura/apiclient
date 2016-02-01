@@ -58,6 +58,9 @@ Autorizačné pole obsahuje prihlasovací email do SuperFaktúry a token, ktorý
 
 ### Tagy: 
   *  zoznam tagov v json formáte - GET: /tags/index.json
+ 
+### Logo:
+ * vráti zoznam všetkých lôg v json formáte - GET: /users/logo 
   
 ## Príklad vystavenia novej faktúry
 URL volania */invoices/create*. Popis štruktúry údajov nájdete v README.md.
