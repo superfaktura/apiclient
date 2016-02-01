@@ -251,6 +251,7 @@ Array(
 	'paid_to'       => 0, //Faktúra uhradená do
 	'search'        => '', //Hľadaný výraz vo faktúre. Prehľadáva všetky polia.
 	'ignore'        => '1|2|3', //ID faktúr, ktoré sa majú ignorovať.
+	'order_no'        => '2016001', //číslo cenovej ponuky z ktorej bola FA vytvorená
 )
 ```
 
