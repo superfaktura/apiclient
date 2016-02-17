@@ -239,6 +239,7 @@ Array(
 	'page'          => 1, //Strana
 	'per_page'      => 10, //Počet položiek na stranu
 	'created'       => 0, //Dátum vystavenia.
+	'modified'       => 0, //Dátum vykonania poslednej zmeny.
 	'delivery'      => 0, //Dátum dodania.
 	'type'          => 'regular', //Typ faktúry. Viacero typov je možné kombinovať pomocou "|" napr. "regular|cancel"
 	'delivery_type' => 'mail', //Typ faktúry. Viacero typov je možné kombinovať pomocou "|" napr. "mail|personal"
