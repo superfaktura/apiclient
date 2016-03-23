@@ -750,6 +750,7 @@ $api->sendInvoiceEmail(array(
 			'bcc' => array(
 				'examplebcc@examplebcc.com'
 			),
+			'pdf_language' => eng, //pokial nie je nastaveny nastavi sa automaticky podla nastaveni
 			// 'subject' => 'Predmet', // pokial nie je nastaveny subject nastavi sa automaticky podla nastaveni
 			// 'body' => 'Sprava' // pokial nie je nastaveny body nastavi sa automaticky podla nastaveni
 ));
@@ -762,6 +763,16 @@ Zoznam možných nastavení:
 * **bcc** *array*, bcc
 * **subject** *string*, predmet
 * **body** *string*, telo správy
+* **pdf_language** *string*, jazyk dokladu
+
+Zoznam možných jazykov pre doklady:
+* 'slo' => slovenčina
+* 'cze' => čeština
+* 'eng' => angličtina
+* 'deu' => nemčina
+* 'rus' => ruština
+* 'ukr' => ukrajinčina
+* 'hun' => maďarčina
 
 ### 25. sendInvoicePost
 Odošle faktúru poštou.
