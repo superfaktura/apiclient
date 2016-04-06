@@ -46,7 +46,7 @@ require_once('SFAPIclient/SFAPIclient.php');  // len v prípade, že nepoužíva
 
 $sf_api = new SFAPIClient(
     $login, // prihlasovací email do SuperFaktúry
-    $token  // API token, ktorý nájdete v SuperFaktúre po prihlásení do svojho účtu "Nástroje > API prístup"
+    $token  // API token, ktorý nájdete v SuperFaktúre po prihlásení do svojho účtu "[Nástroje > API prístup](https://moja.superfaktura.sk/api_access)"
 );
 ```
   
