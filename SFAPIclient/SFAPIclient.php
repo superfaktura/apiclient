@@ -31,8 +31,6 @@ class SFAPIclient{
 	const
 		API_AUTH_KEYWORD = 'SFAPI',
 		SFAPI_URL = 'https://moja.superfaktura.sk';
-		// SFAPI_URL = 'http://superfaktura';
-		// SFAPI_URL = 'http://ekonlight.2day.sk';
 
 	public function __construct($email, $apikey, $apptitle = '', $module = 'API', $company_id = ''){
 		Requests::register_autoloader();
