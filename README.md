@@ -84,7 +84,7 @@ $json_response = $sf_api->save();
 ```
 
 ## Zoznam volaní (verejných členských funkcií vrátane konštruktora triedy SFAPIclient)
-  * *__construct($email, $apikey)*
+  * *__construct($email, $apikey, $apptitle = '', $module = 'API', $company_id = '')*
   * *addItem($item = array())*
   * *addStockItem($item = array())*
   * *addStockMovement($item = array())*
@@ -117,12 +117,16 @@ $json_response = $sf_api->save();
   * *stockItem($id)*
   * *addContactPerson($data)*
   * *getLogos()*
+  * *getExpenseCategories()*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
 ##### Parametre
   * **$email** string povinný
   * **$token** string povinný
+  * **$apptitle** string nepovinný, názov aplikácie
+  * **$module** string nepovinný, názov modulu 
+  * **$company_id** integer nepovinný, ID spoločnosti, s ktorou cez API pracujete (v prípade, že máte len jednu spoločnosti nemusíte uvádzať)
 
 ### 2. addItem
  Pridá položku na faktúru.
@@ -964,13 +968,17 @@ if ($result->status === 'SUCCESS')
 ### 33. getLogos()
 Vráti detaily všetkých lôg. Návratová hodnota je objekt (JSON).
 
+## 34. getExpenseCategories()
+Vráti zoznam všetkých kategórií nákladov. Návratová hodnota je objekt (JSON). 
+
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
 Samotná autorizácia sa vykonáva pomocou hlavičky "Authorization", ktorá ma nasledujúci tvar:
 
  ```php
-"Authorization: SFAPI email=EMAIL&apikey=APITOKEN"
+"Authorization: SFAPI email=EMAIL&apikey=APITOKEN&company_id=COMPANYID"
  ```
+company_id je nepovinný údaj, uvádza sa iba v prípade, že máte pod vašim emailov vytvorených viac spoločností a potrebujete určiť, s ktorou chcete pracovať
 
 > **Túto hlavičku musí obsahovať každý request na SF API!**
  
