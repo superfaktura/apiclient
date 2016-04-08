@@ -914,6 +914,7 @@ Zoznam možných vlastností klienta:
 * **ico** - IČO
 * **name** - názov klienta *(údaj je povinný)*
 * **phone** - telefón
+* **delivery_phone** - telefónne číslo pre dodanie
 * **zip** - PSČ
 * **match_address** (boolean) - pokiaľ je tento parameter nastavený, do hľadania klienta vstupuje aj adresa.
 * **update_addressbook** (boolean) - pri vystavení faktúry aktualizuje údaje klienta !!!
