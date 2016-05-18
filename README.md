@@ -371,6 +371,8 @@ Dodatočne pridá úhradu ku faktúre.
 * **$currency** string nepovinné. Mena úhrady, predvolené EUR.
 * **$date** string nepovinné. Dátum úhrady, predvolený aktuálny dátum.
 * **$payment_type** string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {transfer, cash, paypal, trustpay, credit, debit, cod, accreditation, gopay, viamo}
+* **$force_pay** bool nepovinné. Určuje, či sa úhrada pridá aj ak už je faktúra plne uhradená.
+
 
 ### 20. payExpense
 Dodatočne pridá úhradu k nákladu.
