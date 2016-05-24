@@ -463,7 +463,6 @@ class SFAPIclient{
 class SFAPIclientCZ extends SFAPIclient{
 	const
 		SFAPI_URL = 'https://moje.superfaktura.cz';
-		// SFAPI_URL = 'http://superfaktura';
 }
 
 class SFAPIclientAT extends SFAPIclient {
