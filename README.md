@@ -753,7 +753,7 @@ Zoznam možných vlastností faktúry:
 * **specific** - špecifický symbol
 * **sequence_id** - ID číselníka, zoznam číselníkov je možné získať metódou getSequences
 * **type** - typ faktúry. Možnosti: regular - bežná faktúra, proforma - zálohová faktúra, cancel - dobropis, estimate - cenová ponuka, order - prijatá objednávka
-* **variable** - variabilný symbol
+* **variable** - variabilný symbol (v prípade nevyplnenia variabilného symbolu sa automaticky doplní číslo faktúry)
 * **bank_accounts** - (pole) zoznam bankových účtov (pozri príklad vyššie)
 * **order_no** - číslo objednávky
 
