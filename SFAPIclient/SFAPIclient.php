@@ -32,6 +32,7 @@ class SFAPIclient{
 	const
 		API_AUTH_KEYWORD = 'SFAPI',
 		SFAPI_URL = 'https://moja.superfaktura.sk';
+		// SFAPI_URL = 'http://superfaktura';
 
 	public function __construct($email, $apikey, $apptitle = '', $module = 'API', $company_id = ''){
 		Requests::register_autoloader();
@@ -71,6 +72,15 @@ class SFAPIclient{
 		return $request_params;
 	}
 
+	private function exceptionHandling($e){
+		$response_data = new stdClass();
+		$response_data->error = 99;
+		$response_data->error_message = $e->getMessage();
+
+		return $response_data;
+
+	}
+
 	public function resetData($options = array()) {
 		if (empty($options)) {
 			$options = array('Invoice', 'InvoiceItem', 'Expense', 'Client');
@@ -94,12 +104,8 @@ class SFAPIclient{
 			$response_data = json_decode($response->body);
 			return $response_data;
 		}
-		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+		catch (Exception $e) {		
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -114,11 +120,7 @@ class SFAPIclient{
 			return $response_data;
 		}
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -137,11 +139,7 @@ class SFAPIclient{
 			return $response_data;
 		}
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}		
 
 	}
@@ -157,11 +155,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); ;
 		}
 	}
 
@@ -176,11 +170,7 @@ class SFAPIclient{
 			return $response_data;
 		}	
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}	
 	}
 
@@ -195,11 +185,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -213,11 +199,7 @@ class SFAPIclient{
 			return json_decode($response->body);
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -227,11 +209,7 @@ class SFAPIclient{
 			return json_decode($response->body);
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -241,11 +219,7 @@ class SFAPIclient{
 			return json_decode($response->body);
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}	
 	}
 
@@ -256,11 +230,7 @@ class SFAPIclient{
 			return $response->body;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -275,11 +245,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -294,11 +260,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -313,11 +275,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); ;
 		}
 	}
 
@@ -332,11 +290,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -362,11 +316,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -382,11 +332,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -402,11 +348,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -421,11 +363,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 	
@@ -440,11 +378,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -466,11 +400,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -487,11 +417,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -508,11 +434,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -539,11 +461,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 	
@@ -563,11 +481,7 @@ class SFAPIclient{
 			return json_decode($response->body);
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}			
 	}
 
@@ -594,11 +508,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -618,11 +528,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -642,11 +548,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -661,11 +563,7 @@ class SFAPIclient{
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -690,11 +588,7 @@ class SFAPIclient{
 			return json_decode($response->body);
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 
@@ -704,11 +598,7 @@ class SFAPIclient{
 			return json_decode($response->body);
 		}		
 		catch (Exception $e) {
-			$response_data = new stdClass();
-			$response_data->error = 99;
-			$response_data->error_message = $e->getMessage();
-			
-			return $response_data;
+			return $this->exceptionHandling($e); 
 		}
 	}
 }
