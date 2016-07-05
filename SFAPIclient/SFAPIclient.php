@@ -26,6 +26,7 @@ class SFAPIclient{
 		$data = array(
 			'Invoice' => array(),
 			'Client' => array(),
+			'Expense' => array(),
 			'InvoiceItem' => array()
 		);
 
