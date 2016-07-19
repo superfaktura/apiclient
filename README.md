@@ -921,6 +921,8 @@ Zoznam možných vlastností klienta:
 * **match_address** (boolean) - pokiaľ je tento parameter nastavený, do hľadania klienta vstupuje aj adresa.
 * **update_addressbook** (boolean) - pri vystavení faktúry aktualizuje údaje klienta !!!
 
+V prípade zahraničného klienta je potrebné správne vyplnenie country_id. AK country_id ostane prázdne, použije sa preddefinovaná hodnota pre Slovensko. Na zistenie country_id dannej krajiny použite funkciu [getCountries()](#12-getcountries).
+
 ### 30. stockItems
 Vráti zoznam skladových položiek.
 ##### Parametre
