@@ -14,7 +14,7 @@ if(!class_exists('Requests')){
 
 class SFAPIclient{
 
-	private
+	protected
 		$email,
 		$apikey,
 		$company_id,
@@ -73,13 +73,12 @@ class SFAPIclient{
 		return $request_params;
 	}
 
-	private function exceptionHandling($e){
+	protected function exceptionHandling($e){
 		$response_data = new stdClass();
 		$response_data->error = 99;
 		$response_data->error_message = $e->getMessage();
 
 		return $response_data;
-
 	}
 
 	public function resetData($options = array()) {
@@ -190,7 +189,7 @@ class SFAPIclient{
 		}
 	}
 
-	private function getConstant($const){
+	protected function getConstant($const){
 		return constant(get_class($this)."::".$const);
 	}
 
@@ -607,6 +606,7 @@ class SFAPIclient{
 class SFAPIclientCZ extends SFAPIclient{
 	const
 		SFAPI_URL = 'https://moje.superfaktura.cz';
+		// SFAPI_URL = 'http://superfaktura';
 }
 
 class SFAPIclientAT extends SFAPIclient {
