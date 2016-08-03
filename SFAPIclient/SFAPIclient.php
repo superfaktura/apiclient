@@ -42,7 +42,7 @@ class SFAPIclient{
 		$this->apikey     = $apikey;
 		$this->company_id = $company_id;
 		$this->headers    = array(
-			'Authorization' => self::API_AUTH_KEYWORD." email=".$this->email."&apikey=".$this->apikey."&company_id=".$this->company_id
+			'Authorization' => self::API_AUTH_KEYWORD." " . http_build_query(array('email' => $this->email, 'apikey' => $this->apikey, 'company_id' => $this->company_id))
 		);
 		$this->data['apptitle'] = $apptitle;
 		$this->data['module'] = $module;
