@@ -324,10 +324,11 @@ Spôsob dodania
 ```php  
 Array
 (
-	[mail]     => Poštou
-	[courier]  => Kuriérom
-	[personal] => Osobný odber
-	[haulage]  => Nákladná doprava
+	[mail]          => Poštou
+	[courier]       => Kuriérom
+	[personal]      => Osobný odber
+	[haulage]       => Nákladná doprava
+	[pickup_point]  => Odberné miesto
 )
 ```
   
