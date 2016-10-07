@@ -700,6 +700,7 @@ Zoznam možných vlastností nákladu:
 * **variable** - variabilný symbol
 *  **taxable_supply** - Dátum zdaniteľného plnenia
 *  **document_number** - Číslo dokladu. Napríklad číslo došlej faktúry, číslo pokladničného bloku a podobne.
+*  **expense_category_id** - ID príslušnej kategórie. Zoznam všetkých kategórií je možné získať pomocou funkcie getExpenseCategories()
 
 ### 23. setInvoice
 Nastaví hodnoty pre faktúru
