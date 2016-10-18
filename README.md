@@ -758,6 +758,7 @@ Zoznam možných vlastností faktúry:
 * **variable** - variabilný symbol (v prípade nevyplnenia variabilného symbolu sa automaticky doplní číslo faktúry)
 * **bank_accounts** - (pole) zoznam bankových účtov (pozri príklad vyššie)
 * **order_no** - číslo objednávky
+* **logo_id** - ID loga
 
 ### 24. sendInvoiceEmail
 Odošle faktúru emailom.
