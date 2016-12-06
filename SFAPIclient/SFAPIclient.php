@@ -2,8 +2,8 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.3
- * @lastUpdate 2.6.2016
+ * @version    1.4
+ * @lastUpdate 6. 12.2016
  *
  */
 
@@ -33,7 +33,6 @@ class SFAPIclient{
 	const
 		API_AUTH_KEYWORD = 'SFAPI',
 		SFAPI_URL = 'https://moja.superfaktura.sk';
-		// SFAPI_URL = 'http://superfaktura';
 
 	public function __construct($email, $apikey, $apptitle = '', $module = 'API', $company_id = ''){
 		Requests::register_autoloader();
@@ -601,12 +600,25 @@ class SFAPIclient{
 			return $this->exceptionHandling($e); 
 		}
 	}
+	
+	public function register($email, $send_email = true){
+		try{
+			$request_data['User'] = array(
+				'email' => $email,
+				'send_email' => $send_email
+			);
+			$response = Requests::post($this->getConstant('SFAPI_URL').'/users/create', $this->headers, array('data' => json_encode($request_data)), array('timeout' => $this->timeout));
+			return json_decode($response->body);
+		}		
+		catch (Exception $e) {
+			return $this->exceptionHandling($e); 
+		}
+	}
 }
 
 class SFAPIclientCZ extends SFAPIclient{
 	const
 		SFAPI_URL = 'https://moje.superfaktura.cz';
-		// SFAPI_URL = 'http://superfaktura';
 }
 
 class SFAPIclientAT extends SFAPIclient {
