@@ -118,6 +118,7 @@ $json_response = $sf_api->save();
   * *addContactPerson($data)*
   * *getLogos()*
   * *getExpenseCategories()*
+  * *register($email,$send_email= true)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -981,6 +982,12 @@ Vráti detaily všetkých lôg. Návratová hodnota je objekt (JSON).
 
 ## 34. getExpenseCategories()
 Vráti zoznam všetkých kategórií nákladov. Návratová hodnota je objekt (JSON). 
+
+## 35. register($email, $send_email= true)
+vytvorí používateľský prístup 
+##### Parametre 
+* **$email** *string*, povinné.
+* **$send_email** *boolean*, nepovinné. Rozhoduje o tom, či sa odošle email o uspšenej registrácii.
 
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
