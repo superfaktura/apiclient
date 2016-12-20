@@ -749,7 +749,7 @@ Zoznam možných vlastností faktúry:
 * **issued_by** - faktúru vystavil
 * **issued_by_phone** - faktúru vystavil telefón
 * **issued_by_email** - faktúru vystavil email
-* **issued_by_web** - 	webová stránka zobrazena na faktúre
+* **issued_by_web** - 	webová stránka zobrazená na faktúre
 * **name** - názov faktúry
 * **payment_type** - Spôsob úhrady, číselník hodnôt
 * **proforma_id** - ID proforma faktúry, na základe ktorej sa vystavuje ostrá faktúra. Ostrá faktúra tak preberie údaje o uhradenej zálohe
