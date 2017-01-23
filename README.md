@@ -995,6 +995,7 @@ vytvorí používateľský prístup
 nastaví vlastnosti pri zobrazovaní faktúry
 ##### Parametre 
 * **$settings** *array*, povinné.
+
 Zoznam možných vlastností faktúry:
 * **language** *string*, nastaví jazyk faktúry.
 * **signature** *boolean*, zobrazovať podpis.
