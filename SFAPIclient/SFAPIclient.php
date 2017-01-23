@@ -3,7 +3,7 @@
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
  * @version    1.4
- * @lastUpdate 6. 12.2016
+ * @lastUpdate 23.01.2017
  *
  */
 
@@ -14,7 +14,7 @@ if(!class_exists('Requests')){
 
 class SFAPIclient{
 
-	protected
+	private
 		$email,
 		$apikey,
 		$company_id,
@@ -25,14 +25,16 @@ class SFAPIclient{
 	public
 		$data = array(
 			'Invoice' => array(),
-			'Client' => array(),
 			'Expense' => array(),
+			'Client' => array(),
 			'InvoiceItem' => array()
 		);
 
 	const
 		API_AUTH_KEYWORD = 'SFAPI',
-		SFAPI_URL = 'https://moja.superfaktura.sk';
+			SFAPI_URL = 'https://moja.superfaktura.sk';
+		
+
 
 	public function __construct($email, $apikey, $apptitle = '', $module = 'API', $company_id = ''){
 		Requests::register_autoloader();
@@ -72,12 +74,13 @@ class SFAPIclient{
 		return $request_params;
 	}
 
-	protected function exceptionHandling($e){
+	private function exceptionHandling($e){
 		$response_data = new stdClass();
 		$response_data->error = 99;
 		$response_data->error_message = $e->getMessage();
 
 		return $response_data;
+
 	}
 
 	public function resetData($options = array()) {
@@ -188,7 +191,7 @@ class SFAPIclient{
 		}
 	}
 
-	protected function getConstant($const){
+	private function getConstant($const){
 		return constant(get_class($this)."::".$const);
 	}
 
@@ -452,7 +455,9 @@ class SFAPIclient{
 				'payment_type' => $payment_type,
 				'amount' => $amount,
 				'currency' => $currency,
-				'created' => date('Y-m-d', strtotime($date))
+				'created' => date('Y-m-d', strtotime($date)),
+				// 'import_type' => 'prestashop',
+				// 'import_id' => 1
 			);
 
 			$response = Requests::post($this->getConstant('SFAPI_URL').'/invoice_payments/add/ajax:1/api:1', $this->headers, array('data' => json_encode($request_data)), array('timeout' => $this->timeout));
@@ -600,7 +605,7 @@ class SFAPIclient{
 			return $this->exceptionHandling($e); 
 		}
 	}
-	
+
 	public function register($email, $send_email = true){
 		try{
 			$request_data['User'] = array(
@@ -614,11 +619,18 @@ class SFAPIclient{
 			return $this->exceptionHandling($e); 
 		}
 	}
+
+	public function setInvoiceSettings($settings){
+		if (!empty($this->data['Invoice']) && !empty($settings)){
+			$this->data['InvoiceSetting']['settings'] = json_encode($settings);
+		}
+	}
 }
 
 class SFAPIclientCZ extends SFAPIclient{
 	const
 		SFAPI_URL = 'https://moje.superfaktura.cz';
+		// SFAPI_URL = 'http://superfaktura';
 }
 
 class SFAPIclientAT extends SFAPIclient {
