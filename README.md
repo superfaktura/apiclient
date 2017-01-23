@@ -119,6 +119,7 @@ $json_response = $sf_api->save();
   * *getLogos()*
   * *getExpenseCategories()*
   * *register($email,$send_email= true)*
+  * *setInvoiceSettings($settings)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -989,6 +990,19 @@ vytvorí používateľský prístup
 ##### Parametre 
 * **$email** *string*, povinné.
 * **$send_email** *boolean*, nepovinné. Rozhoduje o tom, či sa odošle email o uspšenej registrácii.
+
+## 36. setInvoiceSettings($settings)
+nastaví vlastnosti faktúry
+##### Parametre 
+* **$settings** *array*, povinné.
+Zoznam možných vlastností faktúry:
+* **language** *string*, nastaví jazyk faktúry.
+* **signature** *boolean*, zobrazovať podpis.
+* **payment_info** *boolean*, zobrazovať informáciu o úhrade.
+* **online_payment** *boolean*, zobrazovať online platby.
+* **bysquare** *boolean*, zobrazovať pay by square    
+* **paypal** *boolean*, zobrazovať PayPal
+
 
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
