@@ -618,8 +618,13 @@ class SFAPIclient{
 	}
 
 	public function setInvoiceSettings($settings){
-		if (!empty($this->data['Invoice']) && !empty($settings)){
-			$this->data['InvoiceSetting']['settings'] = json_encode($settings);
+		try{
+			if (is_array($settings)){
+				$this->data['InvoiceSetting']['settings'] = json_encode($settings);
+			}
+		}
+		catch (Exception $e) {
+			return $this->exceptionHandling($e); 
 		}
 	}
 }
