@@ -992,7 +992,7 @@ vytvorí používateľský prístup
 * **$send_email** *boolean*, nepovinné. Rozhoduje o tom, či sa odošle email o uspšenej registrácii.
 
 ## 36. setInvoiceSettings($settings)
-nastaví vlastnosti faktúry
+nastaví vlastnosti pri zobrazovaní faktúry
 ##### Parametre 
 * **$settings** *array*, povinné.
 Zoznam možných vlastností faktúry:
