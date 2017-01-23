@@ -32,7 +32,7 @@ class SFAPIclient{
 
 	const
 		API_AUTH_KEYWORD = 'SFAPI',
-			SFAPI_URL = 'https://moja.superfaktura.sk';
+		SFAPI_URL = 'https://moja.superfaktura.sk';
 		
 
 
