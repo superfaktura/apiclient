@@ -148,6 +148,12 @@ array(
 	'sku'             	   => 'SKU123', //skladove oznacenie
 	'discount'        	   => 50, //Zľava na položku v %
 	'load_data_from_stock' => true //Načíta nevyplnené údaje položky zo skladu
+	'AccountingDetail' => array( // účtovnícke detaily položky, 
+        	'place' => 'Stredisko Bratislava', //nazov strediska   
+        	'type'  => 'item', // typ polozky (item(tovar), service(služba))     
+        	'analytics_account' => '311', //analytický účet 
+        	'synthetic_account' => '000', //syntetický účet
+        )
 )
  ```
 ### 3. addTags
