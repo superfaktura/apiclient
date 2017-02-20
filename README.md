@@ -1095,3 +1095,21 @@ Po vytvorení faktúry je možné stiahnuť jej PDF na adrese
 https://moja.superfaktura.sk/invoices/pdf/ID_FAKTURY/token:TOKEN
  ```
  kde ID FAKTURY sa nachádza v $data['Invoice']['id'] a token v $data['Invoice']['token'].
+ 
+ ### Zaevidovanie EET pohybu
+ 
+ Pro správné zaevidování platby do EET je potřebné mít vytvořenou EET pokladnu s platným certifikátem a odpovídajícím ID provozovny. Pohyb můžeme zaevidovat dvěma způsoby, při obou je nutné znát ID EET pokladny vytvořené v SuperFaktuře.
+
+Při vytváření faktury je nutné do setInvoice nastavit already_paid (což rozhoduje o tom, zda se faktura vystaví jako uhrazená, nebo neuhrazená) na true, dále je nutné nastavit cash_register_id (ID EET pokladny) s odpovídající měnou faktury
+```php
+$api->setInvoice(array(
+  'type' => "regular",
+  'already_paid' => true,
+  'cash_register_id' => 879
+));
+```
+
+[Pomocí funkce payInvoice](#19-payinvoice) (měna úhrady a EET pokladny musí být shodná)
+```php
+$api->payInvoice(1459738, null, 'CZK', null, 'transfer', 879);
+```
