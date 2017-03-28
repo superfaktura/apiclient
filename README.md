@@ -1011,6 +1011,16 @@ Zoznam možných vlastností faktúry:
 * **bysquare** *boolean*, zobrazovať pay by square    
 * **paypal** *boolean*, zobrazovať PayPal
 
+```php
+	$api->setInvoiceSettings(array(
+            'language' => 'slo',
+            'signature' => true,
+            'payment_info' => true,
+            'online_payment' => true,
+            'bysquare'     => true,
+            'paypal' => true,
+	));
+```
 
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
