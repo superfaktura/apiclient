@@ -3,7 +3,7 @@
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
  * @version    1.6
- * @lastUpdate 17.0.2017
+ * @lastUpdate 13.07.2017
  *
  */
 
@@ -455,7 +455,7 @@ class SFAPIclient{
 				'amount' => $amount,
 				'currency' => $currency,
 				'created' => date('Y-m-d', strtotime($date)),
-				'cash_register_id' => $cash_register_id 
+				'cash_register_id' => $cash_register_id
 			);
 
 			$response = Requests::post($this->getConstant('SFAPI_URL').'/invoice_payments/add/ajax:1/api:1', $this->headers, array('data' => json_encode($request_data)), array('timeout' => $this->timeout));
@@ -622,6 +622,17 @@ class SFAPIclient{
 		try{
 			if (is_array($settings)){
 				$this->data['InvoiceSetting']['settings'] = json_encode($settings);
+			}
+		}
+		catch (Exception $e) {
+			return $this->exceptionHandling($e); 
+		}
+	}
+
+	public function setInvoiceExtras($extras){
+		try{
+			if (is_array($extras)){
+				$this->data['InvoiceExtra'] = $extras;
 			}
 		}
 		catch (Exception $e) {
