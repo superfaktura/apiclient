@@ -120,6 +120,7 @@ $json_response = $sf_api->save();
   * *getExpenseCategories()*
   * *register($email,$send_email= true)*
   * *setInvoiceSettings($settings)*
+  * *setInvoiceExtras($extras)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -1021,6 +1022,14 @@ Zoznam možných vlastností faktúry:
             'paypal' => true,
 	));
 ```
+
+## 37. setInvoiceExtras($extras)
+rozžírené parametre faktúry
+##### Parametre 
+* **$extras** *array*, povinné.
+
+Zoznam možných parametrov:
+* **pickup_point_id** *int*, ID odberného miesta pre Zásielkovňu
 
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
