@@ -771,6 +771,7 @@ Zoznam možných vlastností faktúry:
 * **bank_accounts** - (pole) zoznam bankových účtov (pozri príklad vyššie)
 * **order_no** - číslo objednávky
 * **logo_id** - ID loga
+* **tax_document** - (boolean) daňový doklad k prijatej platbe (pre správne prepojenie so zálohovou faktúrou je potrebné zadať proforma_id)
 
 ### 24. sendInvoiceEmail
 Odošle faktúru emailom.
