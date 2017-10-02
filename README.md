@@ -121,6 +121,8 @@ $json_response = $sf_api->save();
   * *register($email,$send_email= true)*
   * *setInvoiceSettings($settings)*
   * *setInvoiceExtras($extras)*
+  * *deleteInvoicePayment($payment_id)*
+  * *deleteExpensePayment($payment_id)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -1031,6 +1033,16 @@ rozžírené parametre faktúry
 
 Zoznam možných parametrov:
 * **pickup_point_id** *int*, ID odberného miesta pre Zásielkovňu
+
+### 38. deleteInvoicePayment
+Zmaže  úhradu k faktúre.
+##### Parametre
+* **$id** int povinné. 
+
+### 39. deleteExpensePayment
+Zmaže  úhradu k nákladu.
+##### Parametre
+* **$id** int povinné. 
 
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
