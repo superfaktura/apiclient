@@ -2,8 +2,8 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.6
- * @lastUpdate 13.07.2017
+ * @version    1.7
+ * @lastUpdate 02.10.2017
  *
  */
 
