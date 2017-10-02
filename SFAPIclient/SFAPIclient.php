@@ -639,6 +639,36 @@ class SFAPIclient{
 			return $this->exceptionHandling($e); 
 		}
 	}
+	public function deleteInvoicePayment($payment_id){
+		if(!class_exists('Requests')){
+			trigger_error("Unable to load Requests class", E_USER_WARNING);
+			return false;
+		}
+		try{
+			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoice_payments/delete/'.$payment_id, $this->headers, array('timeout' => $this->timeout));
+			$response_data = json_decode($response->body);
+			return $response_data;
+		}
+		catch (Exception $e) {
+			return $this->exceptionHandling($e); 
+		}
+	}
+
+	public function deleteExpensePayment($payment_id){
+		if(!class_exists('Requests')){
+			trigger_error("Unable to load Requests class", E_USER_WARNING);
+			return false;
+		}
+		try{
+			$response = Requests::get($this->getConstant('SFAPI_URL').'/expense_payments/delete/'.$payment_id, $this->headers, array('timeout' => $this->timeout));
+			$response_data = json_decode($response->body);
+			return $response_data;
+		}
+		catch (Exception $e) {
+			return $this->exceptionHandling($e); 
+		}
+	}
+
 }
 
 class SFAPIclientCZ extends SFAPIclient{
