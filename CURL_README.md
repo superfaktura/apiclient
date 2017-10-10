@@ -20,7 +20,7 @@ Autorizačné pole obsahuje prihlasovací email do SuperFaktúry a token, ktorý
   *  [vystavenie faktúry - POST: /invoices/create](#príklad-vystavenia-novej-faktúry)
   *  zmazanie faktúry - GET: /invoices/delete/id
   *  zmazanie položky z faktúry - GET: /invoice_items/delete/item_id/invoice_id:id_faktury
-  *  editácia faktúry - POST:/invoices/edit
+  *  [editácia faktúry - POST:/invoices/edit](#príklad-editovania-faktúry-prostredníctvom-api)
   *  pdf faktúry - GET: /language/invoices/pdf/id_faktúry/token:token_faktúry
   *  [vrátenie detailu faktúry v json formáte - GET: /invoices/view/id.json](#príklad-načítania-faktúry)
   *  [zoznam faktúr v json formáte - GET: /invoices/index.json](#príklad-vrátenia-zoznamu-vystavených-faktúr)
@@ -106,3 +106,10 @@ curl https:/moja.superfaktura.sk/invoices/post -H "Authorization: SFAPI email=yo
 ```
 Odošle faktúru s ID "INVOICE_ID" poštou. Pri odoslaní sa kontroluje správnosť údajov príjemcu (ulica, PSC, mesto). Tiež je potrebné mať zakúpené poštové známky v SuperFaktúre. Pre viac info prosím navštívte stránku https://moja.superfaktura.sk/post_stamps alebo *Nástroje > Pošta*.
 
+## Príklad editovania faktúry prostredníctvom API
+URL volania */invoices/edit*. Popis štruktúry údajov nájdete v README.md.
+```shell
+curl https:/moja.superfaktura.sk/invoices/post -H "Authorization: SFAPI email=your@email.com&apikey=yourtoken" \
+-d "data={\"Invoice\":{\"id\":\"INVOICE_ID\"},\"InvoiceItem\":[{\"id\":\"INVOICE_ITEM_ID\",\"name\":\"novy nazov\"}]}"
+```
+Upraví na faktúre s ID "INVOICE_ID" názov položky s ID INVOICE_ITEM_ID na "novy nazov"
