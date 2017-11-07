@@ -1014,6 +1014,7 @@ Zoznam možných vlastností faktúry:
 * **online_payment** *boolean*, zobrazovať online platby.
 * **bysquare** *boolean*, zobrazovať pay by square    
 * **paypal** *boolean*, zobrazovať PayPal
+* **show_prices** *boolean*, zobrazovať ceny (toto nastavenie sa týka výhradne dodacích listov)
 
 ```php
 	$api->setInvoiceSettings(array(
