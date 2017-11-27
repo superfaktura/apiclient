@@ -101,7 +101,10 @@ class SFAPIclient{
 			return false;
 		}
 		try{
-			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoice_items/delete/'.$item_id.'/invoice_id:'.$invoice_id, $this->headers, array('timeout' => $this->timeout));
+			if(!is_array($item_id)){
+				$item_id = [$item_id];
+			}
+			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoice_items/delete/'.implode(",", $item_id).'/invoice_id:'.$invoice_id, $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
 			return $response_data;
 		}
