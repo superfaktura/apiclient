@@ -2,8 +2,8 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.7
- * @lastUpdate 02.10.2017
+ * @version    1.8
+ * @lastUpdate 07.12.2017
  *
  */
 
@@ -490,7 +490,7 @@ class SFAPIclient{
 		}			
 	}
 
-	public function payExpense($expense_id, $amount, $currency = null, $date = null, $payment_type = 'transfer') {
+	public function payExpense($expense_id, $amount, $currency = null, $date = null, $payment_type = 'transfer', $cash_register_id = null) {
 		if(!class_exists('Requests')){
 			trigger_error("Unable to load Requests class", E_USER_WARNING);
 			return false;
@@ -506,6 +506,7 @@ class SFAPIclient{
 				'amount' => $amount,
 				'currency' => $currency,
 				'created' => date('Y-m-d', strtotime($date)),
+				'cash_register_id' => $cash_register_id
 			);
 
 			$response = Requests::post($this->getConstant('SFAPI_URL').'/expense_payments/add', $this->headers, array('data' => json_encode($request_data)), array('timeout' => $this->timeout));
