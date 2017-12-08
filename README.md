@@ -123,6 +123,7 @@ $json_response = $sf_api->save();
   * *setInvoiceExtras($extras)*
   * *deleteInvoicePayment($payment_id)*
   * *deleteExpensePayment($payment_id)*
+  * *cashRegister($cash_register_id)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -1042,6 +1043,11 @@ Zmaže  úhradu k faktúre.
 
 ### 39. deleteExpensePayment
 Zmaže  úhradu k nákladu.
+##### Parametre
+* **$id** int povinné. 
+
+### 40. cashRegister
+Vrati detail pokladne vrátane pohybov v pokladni.
 ##### Parametre
 * **$id** int povinné. 
 
