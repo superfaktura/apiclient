@@ -672,13 +672,13 @@ class SFAPIclient{
 			return $this->exceptionHandling($e); 
 		}
 	}
-	public function cashRegister($cash_register_id) {
+	public function cashRegister($cash_register_id, $params = array()) {
 		if(!class_exists('Requests')){
 			trigger_error("Unable to load Requests class", E_USER_WARNING);
 			return false;
 		}
 		try{
-			$response = Requests::get($this->getConstant('SFAPI_URL').'/cash_register_items/index/'.$cash_register_id, $this->headers, array('timeout' => $this->timeout));
+			$response = Requests::get($this->getConstant('SFAPI_URL').'/cash_register_items/index/'.$cash_register_id. $this->_getRequestParams($params), $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
 			return $response_data;
 		}
