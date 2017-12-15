@@ -2,8 +2,8 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.9
- * @lastUpdate 08.12.2017
+ * @version    1.10
+ * @lastUpdate 15.12.2017
  *
  */
 
@@ -679,6 +679,20 @@ class SFAPIclient{
 		}
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/cash_register_items/index/'.$cash_register_id. $this->_getRequestParams($params), $this->headers, array('timeout' => $this->timeout));
+			$response_data = json_decode($response->body);
+			return $response_data;
+		}
+		catch (Exception $e) {
+			return $this->exceptionHandling($e); 
+		}
+	}
+	public function sendSMS($data) {
+		if(!class_exists('Requests')){
+			trigger_error("Unable to load Requests class", E_USER_WARNING);
+			return false;
+		}
+		try{
+			$response = Requests::post($this->getConstant('SFAPI_URL').'/sms/send', $this->headers, array('data' => json_encode($data)), array('timeout' => $this->timeout));	
 			$response_data = json_decode($response->body);
 			return $response_data;
 		}
