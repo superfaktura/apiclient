@@ -124,6 +124,7 @@ $json_response = $sf_api->save();
   * *deleteInvoicePayment($payment_id)*
   * *deleteExpensePayment($payment_id)*
   * *cashRegister($cash_register_id)*
+  * *sendSMS($data)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -1050,6 +1051,18 @@ Zmaže  úhradu k nákladu.
 Vrati detail pokladne vrátane pohybov v pokladni.
 ##### Parametre
 * **$id** int povinné. 
+
+### 41. sendSMS($data)
+odošle SMS.
+##### Parametre 
+* **$data** *array*, povinné.
+
+Zoznam možných parametrov:
+* **$invoice_id** *int*, povinné.
+* **$text** *string*, povinné  Text SMS.
+* **$phone** *string*, nepovinné  ak nie je zadané tel. číslo použije  sa  tel. číslo klienta z faktúry
+
+
 
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
