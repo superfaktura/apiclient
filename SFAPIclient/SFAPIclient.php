@@ -3,7 +3,7 @@
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
  * @version    1.10
- * @lastUpdate 15.12.2017
+ * @lastUpdate 16.01.2018
  *
  */
 
@@ -102,7 +102,7 @@ class SFAPIclient{
 		}
 		try{
 			if(!is_array($item_id)){
-				$item_id = [$item_id];
+				$item_id = array($item_id);
 			}
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoice_items/delete/'.implode(",", $item_id).'/invoice_id:'.$invoice_id, $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
