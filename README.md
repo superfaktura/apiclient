@@ -156,6 +156,7 @@ array(
 	'AccountingDetail' => array( // účtovnícke detaily položky, 
 		'place' => 'Stredisko Bratislava', //nazov strediska
 		'order' => 'názov', //nazov zákazky 
+		'operation' => 'názov', //činnosť 
 		'type'  => 'item', // typ polozky (item(tovar), service(služba))
 		'analytics_account' => '311', //analytický účet 
 		'synthetic_account' => '000', //syntetický účet
