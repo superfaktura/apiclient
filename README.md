@@ -160,6 +160,7 @@ array(
 		'type'  => 'item', // typ polozky (item(tovar), service(služba))
 		'analytics_account' => '311', //analytický účet 
 		'synthetic_account' => '000', //syntetický účet
+		'preconfidence' => '5ZV' // predkontácia
 	)
 )
  ```
