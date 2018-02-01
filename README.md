@@ -152,6 +152,7 @@ array(
 	'stock_item_id'  	   => 123, //id skladovej polozky
 	'sku'             	   => 'SKU123', //skladove oznacenie
 	'discount'        	   => 50, //Zľava na položku v %
+	'discount_description' => 'Popis zľavy',
 	'load_data_from_stock' => true //Načíta nevyplnené údaje položky zo skladu
 	'AccountingDetail' => array( // účtovnícke detaily položky, 
 		'place' => 'Stredisko Bratislava', //nazov strediska
@@ -755,6 +756,7 @@ Zoznam možných vlastností faktúry:
 * **delivery_type** - spôsob dodania, číselník hodnôt
 * **deposit** - uhradená záloha
 * **discount** - zľava v %
+* **discount_total** - nominálna zľava, použije sa iba ak nie je nastavená vlastnosť discount
 * **due** - dátum splatnosti
 * **estimate_id** - ID cenovej ponuky, na základe ktorej je faktúra vystavená
 * **header_comment** - Text nad položkami faktúry
