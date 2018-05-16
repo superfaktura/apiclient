@@ -118,7 +118,6 @@ $json_response = $sf_api->save();
   * *addContactPerson($data)*
   * *getLogos()*
   * *getExpenseCategories()*
-  * *register($email,$send_email= true)*
   * *setInvoiceSettings($settings)*
   * *setInvoiceExtras($extras)*
   * *deleteInvoicePayment($payment_id)*
@@ -1002,13 +1001,7 @@ Vráti detaily všetkých lôg. Návratová hodnota je objekt (JSON).
 ## 34. getExpenseCategories()
 Vráti zoznam všetkých kategórií nákladov. Návratová hodnota je objekt (JSON). 
 
-## 35. register($email, $send_email= true)
-vytvorí používateľský prístup 
-##### Parametre 
-* **$email** *string*, povinné.
-* **$send_email** *boolean*, nepovinné. Rozhoduje o tom, či sa odošle email o uspšenej registrácii.
-
-## 36. setInvoiceSettings($settings)
+## 35. setInvoiceSettings($settings)
 nastaví vlastnosti pri zobrazovaní faktúry
 ##### Parametre 
 * **$settings** *array*, povinné.
@@ -1033,7 +1026,7 @@ Zoznam možných vlastností faktúry:
 	));
 ```
 
-## 37. setInvoiceExtras($extras)
+## 36. setInvoiceExtras($extras)
 rozžírené parametre faktúry
 ##### Parametre 
 * **$extras** *array*, povinné.
@@ -1041,22 +1034,22 @@ rozžírené parametre faktúry
 Zoznam možných parametrov:
 * **pickup_point_id** *int*, ID odberného miesta pre Zásielkovňu
 
-### 38. deleteInvoicePayment
+### 37. deleteInvoicePayment
 Zmaže  úhradu k faktúre.
 ##### Parametre
 * **$id** int povinné. 
 
-### 39. deleteExpensePayment
+### 38. deleteExpensePayment
 Zmaže  úhradu k nákladu.
 ##### Parametre
 * **$id** int povinné. 
 
-### 40. cashRegister
+### 39. cashRegister
 Vrati detail pokladne vrátane pohybov v pokladni.
 ##### Parametre
 * **$id** int povinné. 
 
-### 41. sendSMS($data)
+### 40. sendSMS($data)
 odošle SMS.
 ##### Parametre 
 * **$data** *array*, povinné.
