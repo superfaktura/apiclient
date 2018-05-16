@@ -2,8 +2,8 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.10
- * @lastUpdate 16.01.2018
+ * @version    1.11
+ * @lastUpdate 16.05.2018
  *
  */
 
@@ -601,20 +601,6 @@ class SFAPIclient{
 	public function getExpenseCategories(){
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/expenses/expense_categories', $this->headers, array('timeout' => $this->timeout));
-			return json_decode($response->body);
-		}		
-		catch (Exception $e) {
-			return $this->exceptionHandling($e); 
-		}
-	}
-
-	public function register($email, $send_email = true){
-		try{
-			$request_data['User'] = array(
-				'email' => $email,
-				'send_email' => $send_email
-			);
-			$response = Requests::post($this->getConstant('SFAPI_URL').'/users/create', $this->headers, array('data' => json_encode($request_data)), array('timeout' => $this->timeout));
 			return json_decode($response->body);
 		}		
 		catch (Exception $e) {
