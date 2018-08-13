@@ -899,12 +899,9 @@ Príklad použitia:
 ```php
 $api->addStockMovement(array(
 	'stock_item_id' => 0, // id skladovej polozky
-	'name' => 'Stock item example', // nazov skladovej polozky
-	'description' => 'Stock item description', // popis
-	'sku' => 'SKU12345REF', // skladove cislo
-	'unit_price' => 10, // jednotkova cena bez DPH
-	'vat' => 20, // DPH v percentach
-	'stock' => 100 // pocet kusov na sklade, ak nie je definovane nebudu sa sledovat pohyby
+	'quantity' => 10, // pocet kusov
+	'note' => 'Stock movement description', // popis
+	'created' => '2018-08-13', // datum pohybu
 ));
 ```
 
