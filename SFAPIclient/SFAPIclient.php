@@ -2,8 +2,8 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.11
- * @lastUpdate 16.05.2018
+ * @version    1.12
+ * @lastUpdate 07.09.2018
  *
  */
 
@@ -66,6 +66,8 @@ class SFAPIclient{
 		}
 		if(isset($params['search'])){
 			$params['search'] = base64_encode($params['search']);
+		}elseif(isset($params['sku'])){
+			$params['sku'] = base64_encode($params['sku']);
 		}
 		foreach ($params as $k => $v) {
 			$request_params .= "/$k:$v";
