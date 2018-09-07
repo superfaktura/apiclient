@@ -958,6 +958,7 @@ array(
 	'per_page'      => 10, //Počet položiek na stranu
 	'price_from'    => 0, //Cena od
 	'price_to'      => 0, //Cena do
+	'sku'           => '' //Unikátne číslo skladovej položky pomôže položku jednoducho identifikovať
 	'search'        => '', //Hľadaný výraz. Prehľadáva všetky polia.
 ) 
 ``` 
