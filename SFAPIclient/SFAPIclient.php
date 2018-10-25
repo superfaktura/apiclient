@@ -2,17 +2,17 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.13
- * @lastUpdate 01.10.2018
+ * @version    1.14
+ * @lastUpdate 25.10.2018
  *
  */
 
-if(!class_exists('Requests')){
+if (!class_exists('Requests')) {
     require_once('Requests.php');
 }
 
 
-class SFAPIclient{
+class SFAPIclient {
 
 	protected
 		$email,
@@ -27,8 +27,7 @@ class SFAPIclient{
 			'Invoice' => array(),
 			'Expense' => array(),
 			'Client' => array(),
-			'InvoiceItem' => array(),
-			'MyData' => array(),
+			'InvoiceItem' => array()
 		);
 
 	const
@@ -36,8 +35,13 @@ class SFAPIclient{
 		SFAPI_URL = 'https://moja.superfaktura.sk';
 
 
-	public function __construct($email, $apikey, $apptitle = '', $module = 'API', $company_id = ''){
+	public function __construct($email, $apikey, $apptitle = '', $module = 'API', $company_id = '') {
 		Requests::register_autoloader();
+		if (!class_exists('Requests')) {
+			trigger_error("Unable to load Requests class", E_USER_WARNING);
+			return false;
+		}
+		
 		$this->className  = get_class($this);
 		$this->email      = $email;
 		$this->apikey     = $apikey;
@@ -47,10 +51,11 @@ class SFAPIclient{
 		);
 		$this->data['apptitle'] = $apptitle;
 		$this->data['module'] = $module;
+
 	}
 
-	private function _setData($dataSet, $key, $value){
-		if(is_array($key)){
+	private function _setData($dataSet, $key, $value) {
+		if (is_array($key)) {
 			$this->data[$dataSet] = array_merge($this->data[$dataSet], $key);
 			if (empty($key)) {
 				$this->data[$dataSet] = array();
@@ -60,23 +65,24 @@ class SFAPIclient{
 		}
 	}
 
-	private function _getRequestParams($params, $list_info = true){
+	private function _getRequestParams($params, $list_info = true) {
 		$request_params = "";
-		if($list_info){
+		if ($list_info) {
 			$request_params .= "/listinfo:1";
 		}
-		if(isset($params['search'])){
+		if (isset($params['search'])) {
 			$params['search'] = base64_encode($params['search']);
-		}elseif(isset($params['sku'])){
+		}elseif (isset($params['sku'])) {
 			$params['sku'] = base64_encode($params['sku']);
 		}
+		
 		foreach ($params as $k => $v) {
 			$request_params .= "/$k:$v";
 		}
 		return $request_params;
 	}
 
-	protected function exceptionHandling($e){
+	protected function exceptionHandling($e) {
 		$response_data = new stdClass();
 		$response_data->error = 99;
 		$response_data->error_message = $e->getMessage();
@@ -94,18 +100,14 @@ class SFAPIclient{
 		} 
 	}
 
-	public function addItem($item = array()){
+	public function addItem($item = array()) {
 		$this->data['InvoiceItem'][] = $item;
 	}
 
 	public function deleteInvoiceItem($invoice_id, $item_id) {
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
 		try{
-			if(!is_array($item_id)){
-				$item_id = array($item_id);
+			if (!is_array($item_id)) {
+				$item_id = [$item_id];
 			}
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoice_items/delete/'.implode(",", $item_id).'/invoice_id:'.$invoice_id, $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -117,10 +119,6 @@ class SFAPIclient{
 	}
 
 	public function deleteExpense($id) {
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/expenses/delete/'.$id, $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -131,15 +129,11 @@ class SFAPIclient{
 		}
 	}
 
-	public function addTags($tag_ids = array()){
+	public function addTags($tag_ids = array()) {
 		$this->data['Tag']['Tag'] = $tag_ids;
 	}
 
-	public function clients($params = array(), $list_info = true){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+	public function clients($params = array(), $list_info = true) {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/clients/index.json'.$this->_getRequestParams($params, $list_info), $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -151,11 +145,7 @@ class SFAPIclient{
 
 	}
 
-	public function delete($id){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+	public function delete($id) {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoices/delete/'.$id, $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -167,10 +157,6 @@ class SFAPIclient{
 	}
 
 	public function deleteStockItem($id) {
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/stock_items/delete/'.$id, $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -181,11 +167,7 @@ class SFAPIclient{
 		}	
 	}
 
-	public function expenses($params = array(), $list_info = true){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+	public function expenses($params = array(), $list_info = true) {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/expenses/index.json'.$this->_getRequestParams($params, $list_info), $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -196,11 +178,11 @@ class SFAPIclient{
 		}
 	}
 
-	protected function getConstant($const){
+	protected function getConstant($const) {
 		return constant(get_class($this)."::".$const);
 	}
 
-	public function getCountries(){
+	public function getCountries() {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/countries', $this->headers, array('timeout' => $this->timeout));
 			return json_decode($response->body);
@@ -210,7 +192,7 @@ class SFAPIclient{
 		}
 	}
 
-	public function getSequences(){
+	public function getSequences() {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/sequences/index.json', $this->headers, array('timeout' => $this->timeout));
 			return json_decode($response->body);
@@ -220,7 +202,7 @@ class SFAPIclient{
 		}
 	}
 
-	public function getTags(){
+	public function getTags() {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/tags/index.json', $this->headers, array('timeout' => $this->timeout));
 			return json_decode($response->body);
@@ -230,7 +212,7 @@ class SFAPIclient{
 		}	
 	}
 
-	public function getPDF($invoice_id, $token, $language = 'slo'){
+	public function getPDF($invoice_id, $token, $language = 'slo') {
 		try{
 			//mozne hodnoty language [eng,slo,cze]
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/'.$language.'/invoices/pdf/'.$invoice_id.'/token:'.$token, $this->headers, array('timeout' => $this->timeout));
@@ -241,11 +223,7 @@ class SFAPIclient{
 		}
 	}
 
-	public function invoice($id){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+	public function invoice($id) {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoices/view/'.$id.'.json', $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -256,11 +234,7 @@ class SFAPIclient{
 		}
 	}
 
-	public function invoices($params = array(), $list_info = true){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+	public function invoices($params = array(), $list_info = true) {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoices/index.json'.$this->_getRequestParams($params, $list_info), $this->headers, array('timeout' => $this->timeout));			
 			$response_data = json_decode($response->body);
@@ -271,11 +245,7 @@ class SFAPIclient{
 		}
 	}
 
-	public function expense($id){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+	public function expense($id) {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/expenses/edit/'.$id.'.json', $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -286,11 +256,7 @@ class SFAPIclient{
 		}
 	}
 
-	public function stockItem($id){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+	public function stockItem($id) {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/stock_items/edit/'.$id.'.json', $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -302,11 +268,6 @@ class SFAPIclient{
 	}
 
 	public function addStockMovement($options) {
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
-		
 		$data = array();
 		$data['StockLog'] = array();
 
@@ -328,10 +289,6 @@ class SFAPIclient{
 	}
 
 	public function addStockItem($options) {
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
 		try{	
 			$data['StockItem'] = $options;
 			$response = Requests::post($this->getConstant('SFAPI_URL').'/stock_items/add', $this->headers, array('data' => json_encode($data)), array('timeout' => $this->timeout));
@@ -344,10 +301,6 @@ class SFAPIclient{
 	}
 
 	public function stockItemEdit($options) {
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
 		try{
 			$data['StockItem'] = $options;
 			$response = Requests::post($this->getConstant('SFAPI_URL').'/stock_items/edit', $this->headers, array('data' => json_encode($data)), array('timeout' => $this->timeout));
@@ -359,11 +312,7 @@ class SFAPIclient{
 		}
 	}
 
-	public function stockItems($params = array(), $list_info = true){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+	public function stockItems($params = array(), $list_info = true) {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/stock_items/index.json'.$this->_getRequestParams($params, $list_info), $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -375,10 +324,6 @@ class SFAPIclient{
 	}
 	
 	public function setInvoiceLanguage($id, $lang = 'slo') {
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoices/setinvoicelanguage/'.$id.'/lang:'.$lang, $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -389,12 +334,7 @@ class SFAPIclient{
 		}
 	}
 
-	public function markAsSent($invoice_id, $email, $subject = '', $message = ''){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
-
+	public function markAsSent($invoice_id, $email, $subject = '', $message = '') {
 		try{
 			$request_data['InvoiceEmail'] = array(
 				'invoice_id' => $invoice_id,
@@ -412,10 +352,6 @@ class SFAPIclient{
 	}
 
 	public function sendInvoiceEmail($options) {
-		if (!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
 		try{
 			$request_data['Email'] = $options;
 
@@ -429,10 +365,6 @@ class SFAPIclient{
 	}
 
 	public function sendInvoicePost($options) {
-		if (!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
 		try{
 			$request_data['Post'] = $options;
 
@@ -445,13 +377,9 @@ class SFAPIclient{
 		}
 	}
 
-	public function payInvoice($invoice_id, $amount = null, $currency = 'EUR', $date = null, $payment_type = 'transfer', $cash_register_id = null){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+	public function payInvoice($invoice_id, $amount = null, $currency = 'EUR', $date = null, $payment_type = 'transfer', $cash_register_id = null) {
 		try{
-			if(is_null($date)){
+			if (is_null($date)) {
 				$date = date('Y-m-d');
 			}
 
@@ -474,10 +402,6 @@ class SFAPIclient{
 	}
 	
 	public function addContactPerson($data) {
-		if (!class_exists('Requests')) {
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-            return false;
-		}
 		try{
 			$request_data['ContactPerson'] = $data;
 			$response = Requests::post(
@@ -494,12 +418,8 @@ class SFAPIclient{
 	}
 
 	public function payExpense($expense_id, $amount, $currency = null, $date = null, $payment_type = 'transfer', $cash_register_id = null) {
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
 		try{
-			if(is_null($date)){
+			if (is_null($date)) {
 				$date = date('Y-m-d');
 			}
 
@@ -521,11 +441,7 @@ class SFAPIclient{
 		}
 	}
 
-	public function save(){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+	public function save() {
 		try{
 			if (empty($this->data['Expense'])) {
 				$response = Requests::post($this->getConstant('SFAPI_URL').'/invoices/create', $this->headers, array('data' => json_encode($this->data)), array('timeout' => $this->timeout));
@@ -542,10 +458,6 @@ class SFAPIclient{
 	}
 
 	public function edit() {
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
 		try{
 			if (empty($this->data['Expense'])) {
 				$response = Requests::post($this->getConstant('SFAPI_URL').'/invoices/edit', $this->headers, array('data' => json_encode($this->data)), array('timeout' => $this->timeout));
@@ -561,11 +473,7 @@ class SFAPIclient{
 		}
 	}
 
-	public function saveClient(){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+	public function saveClient() {
 		try{
 			$response = Requests::post($this->getConstant('SFAPI_URL').'/clients/create', $this->headers, array('data' => json_encode($this->data)), array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -576,11 +484,11 @@ class SFAPIclient{
 		}
 	}
 
-	public function setClient($key, $value = ''){
+	public function setClient($key, $value = '') {
 		return $this->_setData('Client', $key, $value);
 	}
 
-	public function setInvoice($key, $value = ''){
+	public function setInvoice($key, $value = '') {
 		$this->data['Expense'] = array();
 		return $this->_setData('Invoice', $key, $value);
 	}
@@ -590,12 +498,8 @@ class SFAPIclient{
 		$this->data['InvoiceItem'] = array();
 		return $this->_setData('Expense', $key, $value);
 	}
-	
-	public function setMyData($key, $value = ''){
-		return $this->_setData('MyData', $key, $value);
-	}
 
-	public function getLogos(){
+	public function getLogos() {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/users/logo', $this->headers, array('timeout' => $this->timeout));
 			return json_decode($response->body);
@@ -605,7 +509,7 @@ class SFAPIclient{
 		}
 	}
 
-	public function getExpenseCategories(){
+	public function getExpenseCategories() {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/expenses/expense_categories', $this->headers, array('timeout' => $this->timeout));
 			return json_decode($response->body);
@@ -615,9 +519,23 @@ class SFAPIclient{
 		}
 	}
 
-	public function setInvoiceSettings($settings){
+	public function register($email, $send_email = true) {
 		try{
-			if (is_array($settings)){
+			$request_data['User'] = array(
+				'email' => $email,
+				'send_email' => $send_email
+			);
+			$response = Requests::post($this->getConstant('SFAPI_URL').'/users/create', $this->headers, array('data' => json_encode($request_data)), array('timeout' => $this->timeout));
+			return json_decode($response->body);
+		}		
+		catch (Exception $e) {
+			return $this->exceptionHandling($e); 
+		}
+	}
+
+	public function setInvoiceSettings($settings) {
+		try{
+			if (is_array($settings)) {
 				$this->data['InvoiceSetting']['settings'] = json_encode($settings);
 			}
 		}
@@ -626,9 +544,9 @@ class SFAPIclient{
 		}
 	}
 
-	public function setInvoiceExtras($extras){
+	public function setInvoiceExtras($extras) {
 		try{
-			if (is_array($extras)){
+			if (is_array($extras)) {
 				$this->data['InvoiceExtra'] = $extras;
 			}
 		}
@@ -636,11 +554,8 @@ class SFAPIclient{
 			return $this->exceptionHandling($e); 
 		}
 	}
-	public function deleteInvoicePayment($payment_id){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+
+	public function deleteInvoicePayment($payment_id) {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoice_payments/delete/'.$payment_id, $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -651,11 +566,7 @@ class SFAPIclient{
 		}
 	}
 
-	public function deleteExpensePayment($payment_id){
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
+	public function deleteExpensePayment($payment_id) {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/expense_payments/delete/'.$payment_id, $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -665,11 +576,29 @@ class SFAPIclient{
 			return $this->exceptionHandling($e); 
 		}
 	}
-	public function cashRegister($cash_register_id, $params = array()) {
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
+
+	public function getCourierData($courier_type, $data) {
+		try{
+			if (empty($courier_type)) {
+				throw new Exception("Empty courier type");
+			}
+			elseif (!in_array($courier_type, array('slp','csp'))) {
+				throw new Exception("Wrong courier type");
+			}
+			if (empty($data)) {
+				throw new Exception("Empty data");
+			}
+			$response = Requests::post($this->getConstant('SFAPI_URL').'/'.$courier_type.'_exports/export', $this->headers, array('data' => json_encode($data)), array('timeout' => $this->timeout));
+			$result = json_decode($response->body);
+			$result->data = base64_decode($result->data);
+			return $result;
 		}
+		catch (Exception $e) {
+			return $this->exceptionHandling($e); 
+		}
+	}
+
+	public function cashRegister($cash_register_id, $params = array()) {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/cash_register_items/index/'.$cash_register_id. $this->_getRequestParams($params), $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -679,11 +608,8 @@ class SFAPIclient{
 			return $this->exceptionHandling($e); 
 		}
 	}
+
 	public function sendSMS($data) {
-		if(!class_exists('Requests')){
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
 		try{
 			$response = Requests::post($this->getConstant('SFAPI_URL').'/sms/send', $this->headers, array('data' => json_encode($data)), array('timeout' => $this->timeout));	
 			$response_data = json_decode($response->body);
@@ -693,7 +619,6 @@ class SFAPIclient{
 			return $this->exceptionHandling($e); 
 		}
 	}
-
 }
 
 class SFAPIclientCZ extends SFAPIclient{
