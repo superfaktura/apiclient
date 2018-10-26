@@ -37,11 +37,7 @@ class SFAPIclient {
 
 	public function __construct($email, $apikey, $apptitle = '', $module = 'API', $company_id = '') {
 		Requests::register_autoloader();
-		if (!class_exists('Requests')) {
-			trigger_error("Unable to load Requests class", E_USER_WARNING);
-			return false;
-		}
-		
+	
 		$this->className  = get_class($this);
 		$this->email      = $email;
 		$this->apikey     = $apikey;
