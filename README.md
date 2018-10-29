@@ -125,6 +125,7 @@ $json_response = $sf_api->save();
   * *cashRegister($cash_register_id)*
   * *sendSMS($data)*
   * *setMyData($key, $value = '')*
+  * *getInvoiceDetails($ids = '')*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -1074,8 +1075,8 @@ $api->setMyData(array(
 	'ic_dph' => 'SK1234567890',
 	'country_id' => '57'
 ));
-  ``` 
-
+  ```
+  
 Zoznam možných úprav v údajoch dodávateľa:
 * **country_id** - ID krajiny, číselník krajín je možné získať metódou getCountries
 * **company_name** - Názov spoločnosti
@@ -1086,6 +1087,17 @@ Zoznam možných úprav v údajoch dodávateľa:
 * **city** - Adresa spoločnosti - mesto
 * **zip** - Adresa spoločnosti - PSČ
 * **update_profile** - Boolean hodnota. Ak sa pošle s hodnotou true, aktualizujú sa aj údaje v profile. Ak sa pošle s hodnotou false alebo sa nepošle vôbec, údaje sa zmenia len na faktúre, ale profilové údaje zostanú nezmenené
+
+### 42. getInvoiceDetails($ids)
+vráti detaily faktúr
+##### Parametre 
+* **$ids** *array*, limit 100
+
+Príklad použitia:
+```php
+$api->getInvoiceDetails(array(1, 2, 3, 4, 5, 6, 7, 8));
+  ```
+
 
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
