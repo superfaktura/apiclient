@@ -27,7 +27,8 @@ class SFAPIclient {
 			'Invoice' => array(),
 			'Expense' => array(),
 			'Client' => array(),
-			'InvoiceItem' => array()
+			'InvoiceItem' => array(),
+			'MyData' => array(),
 		);
 
 	const
@@ -494,6 +495,10 @@ class SFAPIclient {
 		$this->data['InvoiceItem'] = array();
 		return $this->_setData('Expense', $key, $value);
 	}
+	
+	public function setMyData($key, $value = '') {
+        	return $this->_setData('MyData', $key, $value);
+    	}
 
 	public function getLogos() {
 		try{
