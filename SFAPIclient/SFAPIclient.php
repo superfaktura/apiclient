@@ -2,8 +2,8 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.14
- * @lastUpdate 25.10.2018
+ * @version    1.15
+ * @lastUpdate 29.10.2018
  *
  */
 
@@ -608,6 +608,18 @@ class SFAPIclient {
 	public function sendSMS($data) {
 		try{
 			$response = Requests::post($this->getConstant('SFAPI_URL').'/sms/send', $this->headers, array('data' => json_encode($data)), array('timeout' => $this->timeout));	
+			$response_data = json_decode($response->body);
+			return $response_data;
+		}
+		catch (Exception $e) {
+			return $this->exceptionHandling($e); 
+		}
+	}
+	
+	public function getInvoiceDetails($ids) {
+		try{
+			$ids = is_array($ids) ? $ids : [$ids]; 
+			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoices/getInvoiceDetails/'.implode(',', $ids), $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
 			return $response_data;
 		}
