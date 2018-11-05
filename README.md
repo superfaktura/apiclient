@@ -126,6 +126,7 @@ $json_response = $sf_api->save();
   * *sendSMS($data)*
   * *setMyData($key, $value = '')*
   * *getInvoiceDetails($ids = '')*
+  * *getUserCompaniesData($getAllCompanies = false)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -1096,6 +1097,18 @@ vráti detaily faktúr
 Príklad použitia:
 ```php
 $api->getInvoiceDetails(array(1, 2, 3, 4, 5, 6, 7, 8));
+  ```
+  
+### 43. getUserCompaniesData($getAllCompanies)
+Vráti údaje o firme, do ktorej ste momentálne prihlásený, prípadne o všetkých firmách, ku ktorým má účet prístup.
+
+##### Parametre 
+* **$getAllCompanies** bool nepovinné. Ak je parameter true, vracia údaje o všetkých firmách, ku ktorým má účet prístup. Default je false - vráti údaje len o firme, v ktorej je účet momentálne prihlásený.
+
+Príklad použitia:
+```php
+$api->getUserCompaniesData();
+$api->getUserCompaniesData(true);
   ```
 
 
