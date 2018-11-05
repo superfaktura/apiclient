@@ -632,6 +632,16 @@ class SFAPIclient {
 			return $this->exceptionHandling($e); 
 		}
 	}
+	
+	public function getUserCompaniesData($getAllCompanies = false) {
+		try {
+		    $response = Requests::get($this->getConstant('SFAPI_URL').'/users/getUserCompaniesData/'.$getAllCompanies, $this->headers, array('timeout' => $this->timeout));
+		    $response_data = json_decode($response->body);
+		    return $response_data;
+		} catch (Exception $e) {
+		    return $this->exceptionHandling($e);
+		}
+        }
 }
 
 class SFAPIclientCZ extends SFAPIclient{
