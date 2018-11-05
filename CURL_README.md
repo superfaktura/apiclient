@@ -61,7 +61,10 @@ Autorizačné pole obsahuje prihlasovací email do SuperFaktúry a token, ktorý
  
 ### Logo:
  * vráti zoznam všetkých lôg v json formáte - GET: /users/logo 
-  
+
+### Firmy / spoločnosti:
+  * vráti údaje o firme / firmách, v ktorých ste prihlásený v json formáte - GET: /users/getUserCompaniesData 
+
 ## Príklad vystavenia novej faktúry
 URL volania */invoices/create*. Popis štruktúry údajov nájdete v README.md.
 ```shell
@@ -113,3 +116,10 @@ curl https:/moja.superfaktura.sk/invoices/post -H "Authorization: SFAPI email=yo
 -d "data={\"Invoice\":{\"id\":\"INVOICE_ID\"},\"InvoiceItem\":[{\"id\":\"INVOICE_ITEM_ID\",\"name\":\"novy nazov\"}]}"
 ```
 Upraví na faktúre s ID "INVOICE_ID" názov položky s ID INVOICE_ITEM_ID na "novy nazov"
+
+## Príklad vrátenia údajov o firme
+URL volania */users/getUserCompaniesData*. Popis štruktúry údajov nájdete v README.md.
+```shell
+curl https://moja.superfaktura.sk/users/getUserCompaniesData/1 -H"Authorization: SFAPI email=email@email.com&apikey=yourtoken" 
+```
+Volanie vráti údaje o firme, v ktorej ste práve prihlásený. Volaná funckia má 1 nepovinný parameter - pokiaľ je true (1), vráti info o všetkých firmách, do ktorých má daný účet prístup. Default je false.
