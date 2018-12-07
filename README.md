@@ -256,7 +256,7 @@ Vráti PDF súbor s faktúrou.
 Vráti číselník existujúcich tagov.
 
 ### 16. invoice
-Vráti detaily faktúry.
+Vráti detaily faktúry. Ak potrebujete získať detaily viacerých faktúr použite funkciu [getInvoiceDetails](#42-getinvoicedetailsids) 
 ##### Parametre
 * **$invoice_id** int povinné. Získané z Invoice->id.
 
@@ -326,6 +326,18 @@ Array
 )
 ```
 
+Pre filtrovanie pomocou modified odporúčame využiť jednu z nižšie uvedených možností:
+```php
+Array
+(
+    [1]  => Dnes
+    [2]  => Včera
+    [3]  => od – do (v prípade hodnoty od – do je potrebné zadať aj parametre modified_since modified_to)
+    [11] => posledná hodina (ak sa dopytujem o 8:36, hľadá doklady zmenené za obdobie 7:36 – 8:36)
+    [12] => aktuálna hodina (ak sa dopytujem o 8:36, hľadá doklady zmenené za obdobie väčšie ako 7:59)
+)
+```
+
 Typ faktúry
 ```php
 Array
@@ -362,6 +374,18 @@ Array
 	[99] => Po splatnosti
 )
   ```
+   Príklad filtrovania faktúr zmenených za poslednú hodinu
+  ```php
+require_once('SFAPIclient/SFAPIclient.php');  // inc. SuperFaktúra PHP-API
+$login_email = 'login@example.com';  // moja.superfaktura.sk login email
+$api_token = 'abcd1234';  // token from my account
+$sf_api = new SFAPIclient($login_email, $api_token);  // create SF PHP-API object
+$json_response = $sf_api->invoices(array(
+	'modified' => 11, // posledná hodina
+	'type' => 'regular'
+));
+  ```
+  
   Príklad filtrovania faktúr pomocou ID číselníka
   ```php
 require_once('SFAPIclient/SFAPIclient.php');  // inc. SuperFaktúra PHP-API
