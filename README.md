@@ -55,6 +55,8 @@ $sf_api = new SFAPIClient(
   *Všetky PHP funkcie nášho API sú verejné členské funkcie triedy SFAPIclient*.
   Príklad vystavenia jednoduchej faktúry (pokračovanie predch. príkladu)
   
+  
+ #### Vystavenie faktúry 
 ```php
 // set client for new invoice
 $sf_api->setClient(array(
@@ -82,6 +84,36 @@ $json_response = $sf_api->save();
 
 // TODO: handle exceptions
 ```
+#### Ako vybrať doklady, kde nastala úhrada alebo iná zmena ?
+Cez API je možné získať zoznam faktúr, kde nastala zmena (akákoľkvek zmena, čiže editácia, úhrada, odoslanie, ...) za zvolené obdobie.
+
+Príklad filtrovania faktúr zmenených za poslednú hodinu 
+```php
+require_once('SFAPIclient/SFAPIclient.php');  // inc. SuperFaktúra PHP-API
+$login_email = 'login@example.com';  // moja.superfaktura.sk login email
+$api_token = 'abcd1234';  // token from my account
+$sf_api = new SFAPIclient($login_email, $api_token);  // create SF PHP-API object
+$json_response = $sf_api->invoices(array(
+	'modified' => 11, // posledná hodina
+	'type' => 'regular'
+));
+  ```
+    
+Pre filtrovanie pomocou modified odporúčame využiť jednu z nižšie uvedených možností:
+```php
+Array
+(
+    [1]  => Dnes
+    [2]  => Včera
+    [3]  => od – do (v prípade hodnoty od – do je potrebné zadať aj parametre modified_since modified_to)
+    [11] => posledná hodina (ak sa dopytujem o 8:36, hľadá doklady zmenené za obdobie 7:36 – 8:36)
+    [12] => aktuálna hodina (ak sa dopytujem o 8:36, hľadá doklady zmenené za obdobie väčšie ako 7:59)
+)
+```
+
+Informácia o tom, či bola faktúra uhradená sa nachádza vo vrátenom zozname dokladov Invoice->status, (1 = neuhradena, 2 = ciastocne, 3 = uhradena)
+
+V prípade že potrebujete detailnejšie informácie k faktúram, stačí následne zavolať funkciu [getInvoiceDetails](#42-getinvoicedetailsids), ktorá vráti detaily viacerých faktúr súčastne.
 
 ## Zoznam volaní (verejných členských funkcií vrátane konštruktora triedy SFAPIclient)
   * *__construct($email, $apikey, $apptitle = '', $module = 'API', $company_id = '')*
