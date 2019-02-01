@@ -159,6 +159,7 @@ V prípade že potrebujete detailnejšie informácie k faktúram, stačí násle
   * *setMyData($key, $value = '')*
   * *getInvoiceDetails($ids = '')*
   * *getUserCompaniesData($getAllCompanies = false)*
+  * *createRegularFromProforma($proforma_id)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -829,7 +830,7 @@ Zoznam možných vlastností faktúry:
 * **payment_type** - Spôsob úhrady, číselník hodnôt
 * **proforma_id** - ID proforma faktúry, na základe ktorej sa vystavuje ostrá faktúra. Ostrá faktúra tak preberie údaje o uhradenej zálohe
 * **parent_id** - ID faktúry, ktorú chceme dobropisovať.
-* **rounding** - Spôsob zaokrúhľovania DPH. 'document' => za celý dokument, 'item' => po položkaćh (predvolená hodnota)
+* **rounding** - Spôsob zaokrúhľovania DPH. 'document' => za celý dokument, 'item' => po položkaćh (predvolená hodnota), 'item_ext' => maloobchod (odporúčaný typ pre eshopy)
 * **specific** - špecifický symbol
 * **sequence_id** - ID číselníka, zoznam číselníkov je možné získať metódou getSequences
 * **type** - typ faktúry. Možnosti: regular - bežná faktúra, proforma - zálohová faktúra, cancel - dobropis, estimate - cenová ponuka, order - prijatá objednávka
@@ -1167,6 +1168,18 @@ Príklad použitia:
 $api->getUserCompaniesData();
 $api->getUserCompaniesData(true);
   ```
+  
+### 44. createRegularFromProforma($proforma_id)
+vystaví ostrú faktúru zo zálohovej faktúry
+
+##### Parametre 
+* **$proforma_id** *int* povinné. Id zálohovej faktúry
+
+Príklad použitia:
+```php
+$api->createRegularFromProforma(123);
+  ```
+
 
 
 ### Autorizácia
