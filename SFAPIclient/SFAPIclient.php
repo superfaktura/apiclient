@@ -2,8 +2,8 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.16
- * @lastUpdate 05.11.2018
+ * @version    1.17
+ * @lastUpdate 01.02.2019
  *
  */
 
@@ -642,6 +642,27 @@ class SFAPIclient {
 		    return $this->exceptionHandling($e);
 		}
         }
+	
+	public function createRegularFromProforma($proforma_id){
+		try{
+			if (empty($proforma_id)) {
+				throw new Exception("Item not found");
+			}
+			$proforma = Requests::get($this->getConstant('SFAPI_URL').'/invoices/regular.json/' . $proforma_id, $this->headers, ['timeout' => $this->timeout]);
+			$proforma_data = json_decode($proforma->body);
+			
+			if (!empty($proforma_data->error)) {
+				throw new Exception($proforma_data->error_message);
+			}
+			$response = Requests::post($this->getConstant('SFAPI_URL').'/invoices/create', $this->headers, array('data' => $proforma->body), array('timeout' => $this->timeout));
+			
+			$response_data = json_decode($response->body);
+			return $response_data;
+		}		
+		catch (Exception $e) {
+			return $this->exceptionHandling($e); 
+		}
+	}
 }
 
 class SFAPIclientCZ extends SFAPIclient{
