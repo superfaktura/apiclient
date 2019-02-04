@@ -2,8 +2,8 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.17
- * @lastUpdate 01.02.2019
+ * @version    1.18
+ * @lastUpdate 04.02.2019
  *
  */
 
@@ -663,7 +663,26 @@ class SFAPIclient {
 			return $this->exceptionHandling($e); 
 		}
 	}
-}
+	
+	 public function setEstimateStatus($estimate_id, $status) {
+		try{
+		    if (empty($estimate_id)) {
+			throw new Exception("Item not found");
+		    }
+
+		    if (empty($status)) {
+			throw new Exception("Empty status");
+		    }
+
+		    $response = Requests::get($this->getConstant('SFAPI_URL').'/invoices/set_estimate_status/' . $estimate_id . '/' . $status . '/ajax:1', $this->headers, array('timeout' => $this->timeout));
+		    $response_data = json_decode($response->body);
+		    return $response_data;
+		}
+		catch (Exception $e) {
+		    return $this->exceptionHandling($e);
+		}
+	    }
+	}
 
 class SFAPIclientCZ extends SFAPIclient{
 	const
