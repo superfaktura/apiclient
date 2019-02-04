@@ -160,6 +160,7 @@ V prípade že potrebujete detailnejšie informácie k faktúram, stačí násle
   * *getInvoiceDetails($ids = '')*
   * *getUserCompaniesData($getAllCompanies = false)*
   * *createRegularFromProforma($proforma_id)*
+  * *setEstimateStatus($estimate_id, $status)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -1179,8 +1180,18 @@ Príklad použitia:
 ```php
 $api->createRegularFromProforma(123);
   ```
+  
+### 45. setEstimateStatus($estimate_id, $status)
+zmení stav cenovej ponuky
 
+##### Parametre 
+* **$estimate_id** *int* povinné. Id cenovej ponuky
+* **$status** *int* povinné. Id stavu objednávky
 
+Zoznam možných stavov cenovej ponuky:
+*  1 => neschválená
+*  2 => schválená
+*  3 => zamietnutá
 
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
