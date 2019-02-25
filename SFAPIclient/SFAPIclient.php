@@ -203,10 +203,10 @@ class SFAPIclient {
 		try{
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/tags/index.json', $this->headers, array('timeout' => $this->timeout));
 			return json_decode($response->body);
-		}		
+		}
 		catch (Exception $e) {
 			return $this->exceptionHandling($e); 
-		}	
+		}
 	}
 
 	public function getPDF($invoice_id, $token, $language = 'slo') {
@@ -695,12 +695,173 @@ class SFAPIclient {
 		} catch (Exception $e) {
 		    return $this->exceptionHandling($e);
 		}
-	    }
-	}
+    }
 
-class SFAPIclientCZ extends SFAPIclient{
-	const
-		SFAPI_URL = 'https://moje.superfaktura.cz';
+    /**
+     * Get list bank accounts
+     */
+    public function getBankAccounts()
+    {
+        try {
+            $response = Requests::get(
+                $this->getConstant('SFAPI_URL') . '/bank_accounts/index',
+                $this->headers,
+                array('timeout' => $this->timeout)
+            );
+
+            return json_decode($response->body);
+        } catch (Exception $e) {
+            return $this->exceptionHandling($e);
+        }
+    }
+
+    /**
+     * Create new bank account
+     *
+     * @param array $data
+     *
+     * @return mixed|stdClass
+     */
+    public function addBankAccount(array $data)
+    {
+        try {
+            $response = Requests::post(
+                $this->getConstant('SFAPI_URL') . '/bank_accounts/add',
+                $this->headers,
+                array('data' => json_encode($data)),
+                array('timeout' => $this->timeout)
+            );
+            $response_data = json_decode($response->body);
+
+            return $response_data;
+        } catch (Exception $e) {
+            return $this->exceptionHandling($e);
+        }
+    }
+
+    /**
+     * Delete existing bank account
+     *
+     * @param int $id
+     *
+     * @return mixed|stdClass
+     */
+    public function deleteBankAccount($id)
+    {
+        try {
+            $response = Requests::get(
+                $this->getConstant('SFAPI_URL') . '/bank_accounts/delete/' . $id,
+                $this->headers,
+                array('timeout' => $this->timeout)
+            );
+            $response_data = json_decode($response->body);
+
+            return $response_data;
+        } catch (Exception $e) {
+            return $this->exceptionHandling($e);
+        }
+    }
+
+    /**
+     * Update existing bank account
+     *
+     * @param int $id
+     * @param array $data
+     *
+     * @return mixed|stdClass
+     */
+    public function updateBankAccount($id, array $data)
+    {
+        try {
+            $response = Requests::post(
+                $this->getConstant('SFAPI_URL') . '/bank_accounts/update/' . $id,
+                $this->headers,
+                array('data' => json_encode($data)),
+                array('timeout' => $this->timeout)
+            );
+            $response_data = json_decode($response->body);
+
+            return $response_data;
+        } catch (Exception $e) {
+            return $this->exceptionHandling($e);
+        }
+    }
+
+    /**
+     * Create new tag.
+     *
+     * @param array $data
+     * @return mixed|stdClass
+     */
+    public function addTag(array $data)
+    {
+        try{
+            $response = Requests::post(
+                $this->getConstant('SFAPI_URL') . '/tags/add',
+                $this->headers,
+                array('data' => json_encode($data)),
+                array('timeout' => $this->timeout)
+            );
+            $response_data = json_decode($response->body);
+
+            return $response_data;
+        } catch (Exception $e) {
+            return $this->exceptionHandling($e);
+        }
+    }
+
+    /**
+     * Delete existing tag.
+     *
+     * @param int $id
+     * @return mixed|stdClass
+     */
+    public function deleteTag($id)
+    {
+        try{
+            $response = Requests::get(
+                $this->getConstant('SFAPI_URL') . '/tags/delete/' . $id,
+                $this->headers,
+                array('timeout' => $this->timeout)
+            );
+            $response_data = json_decode($response->body);
+
+            return $response_data;
+        } catch (Exception $e) {
+            return $this->exceptionHandling($e);
+        }
+    }
+
+    /**
+     * Edit existing tag.
+     *
+     * @param int $id
+     * @param array $data
+     *
+     * @return mixed|stdClass
+     */
+    public function editTag($id, array $data)
+    {
+        try {
+            $response = Requests::post(
+                $this->getConstant('SFAPI_URL') . '/tags/edit/' . $id,
+                $this->headers,
+                array('data' => json_encode($data)),
+                array('timeout' => $this->timeout)
+            );
+            $response_data = json_decode($response->body);
+
+            return $response_data;
+        } catch (Exception $e) {
+            return $this->exceptionHandling($e);
+        }
+    }
+
+}
+
+class SFAPIclientCZ extends SFAPIclient
+{
+	const SFAPI_URL = 'https://moje.superfaktura.cz';
 }
 
 class SFAPIclientAT extends SFAPIclient
