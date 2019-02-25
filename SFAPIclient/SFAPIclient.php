@@ -79,7 +79,7 @@ class SFAPIclient {
 		return $request_params;
 	}
 
-	protected function exceptionHandling($e) {
+	protected function exceptionHandling(Exception $e) {
 		$response_data = new stdClass();
 		$response_data->error = 99;
 		$response_data->error_message = $e->getMessage();
@@ -104,7 +104,7 @@ class SFAPIclient {
 	public function deleteInvoiceItem($invoice_id, $item_id) {
 		try{
 			if (!is_array($item_id)) {
-				$item_id = [$item_id];
+				$item_id = array($item_id);
 			}
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoice_items/delete/'.implode(",", $item_id).'/invoice_id:'.$invoice_id, $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
@@ -149,7 +149,7 @@ class SFAPIclient {
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			return $this->exceptionHandling($e); ;
+			return $this->exceptionHandling($e);
 		}
 	}
 
@@ -249,7 +249,7 @@ class SFAPIclient {
 			return $response_data;
 		}		
 		catch (Exception $e) {
-			return $this->exceptionHandling($e); ;
+			return $this->exceptionHandling($e);
 		}
 	}
 
@@ -482,23 +482,23 @@ class SFAPIclient {
 	}
 
 	public function setClient($key, $value = '') {
-		return $this->_setData('Client', $key, $value);
+		$this->_setData('Client', $key, $value);
 	}
 
 	public function setInvoice($key, $value = '') {
 		$this->data['Expense'] = array();
-		return $this->_setData('Invoice', $key, $value);
+		$this->_setData('Invoice', $key, $value);
 	}
 
 	public function setExpense($key, $value = '') {
 		$this->data['Invoice'] = array();
 		$this->data['InvoiceItem'] = array();
-		return $this->_setData('Expense', $key, $value);
+		$this->_setData('Expense', $key, $value);
 	}
 	
 	public function setMyData($key, $value = '') {
-        	return $this->_setData('MyData', $key, $value);
-    	}
+        $this->_setData('MyData', $key, $value);
+    }
 
 	public function getLogos() {
 		try{
@@ -623,7 +623,7 @@ class SFAPIclient {
 	
 	public function getInvoiceDetails($ids) {
 		try{
-			$ids = is_array($ids) ? $ids : [$ids]; 
+			$ids = is_array($ids) ? $ids : array($ids);
 			$response = Requests::get($this->getConstant('SFAPI_URL').'/invoices/getInvoiceDetails/'.implode(',', $ids), $this->headers, array('timeout' => $this->timeout));
 			$response_data = json_decode($response->body);
 			return $response_data;
@@ -635,50 +635,64 @@ class SFAPIclient {
 	
 	public function getUserCompaniesData($getAllCompanies = false) {
 		try {
-		    $response = Requests::get($this->getConstant('SFAPI_URL').'/users/getUserCompaniesData/'.$getAllCompanies, $this->headers, array('timeout' => $this->timeout));
+		    $response = Requests::get(
+		        $this->getConstant('SFAPI_URL') . '/users/getUserCompaniesData/' . $getAllCompanies,
+                $this->headers,
+                array('timeout' => $this->timeout)
+            );
 		    $response_data = json_decode($response->body);
+
 		    return $response_data;
 		} catch (Exception $e) {
 		    return $this->exceptionHandling($e);
 		}
-        }
+    }
 	
 	public function createRegularFromProforma($proforma_id){
-		try{
+		try {
 			if (empty($proforma_id)) {
 				throw new Exception("Item not found");
 			}
-			$proforma = Requests::get($this->getConstant('SFAPI_URL').'/invoices/regular.json/' . $proforma_id, $this->headers, ['timeout' => $this->timeout]);
+
+			$proforma = Requests::get(
+			    $this->getConstant('SFAPI_URL') . '/invoices/regular.json/' . $proforma_id,
+                $this->headers,
+                array('timeout' => $this->timeout)
+            );
 			$proforma_data = json_decode($proforma->body);
 			
 			if (!empty($proforma_data->error)) {
 				throw new Exception($proforma_data->error_message);
 			}
+
 			$response = Requests::post($this->getConstant('SFAPI_URL').'/invoices/create', $this->headers, array('data' => $proforma->body), array('timeout' => $this->timeout));
-			
 			$response_data = json_decode($response->body);
+
 			return $response_data;
-		}		
-		catch (Exception $e) {
+		} catch (Exception $e) {
 			return $this->exceptionHandling($e); 
 		}
 	}
 	
 	 public function setEstimateStatus($estimate_id, $status) {
-		try{
+		try {
 		    if (empty($estimate_id)) {
-			throw new Exception("Item not found");
+			    throw new Exception("Item not found");
 		    }
 
 		    if (empty($status)) {
-			throw new Exception("Empty status");
+			    throw new Exception("Empty status");
 		    }
 
-		    $response = Requests::get($this->getConstant('SFAPI_URL').'/invoices/set_estimate_status/' . $estimate_id . '/' . $status . '/ajax:1', $this->headers, array('timeout' => $this->timeout));
+		    $response = Requests::get(
+		        $this->getConstant('SFAPI_URL') . '/invoices/set_estimate_status/' . $estimate_id . '/' . $status . '/ajax:1',
+                $this->headers,
+                array('timeout' => $this->timeout)
+            );
 		    $response_data = json_decode($response->body);
+
 		    return $response_data;
-		}
-		catch (Exception $e) {
+		} catch (Exception $e) {
 		    return $this->exceptionHandling($e);
 		}
 	    }
@@ -689,7 +703,7 @@ class SFAPIclientCZ extends SFAPIclient{
 		SFAPI_URL = 'https://moje.superfaktura.cz';
 }
 
-class SFAPIclientAT extends SFAPIclient {
-	const
-		SFAPI_URL = 'http://meine.superfaktura.at';
+class SFAPIclientAT extends SFAPIclient
+{
+	const SFAPI_URL = 'http://meine.superfaktura.at';
 }
