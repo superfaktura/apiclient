@@ -161,6 +161,13 @@ V prípade že potrebujete detailnejšie informácie k faktúram, stačí násle
   * *getUserCompaniesData($getAllCompanies = false)*
   * *createRegularFromProforma($proforma_id)*
   * *setEstimateStatus($estimate_id, $status)*
+  * *getBankAccounts()*
+  * *addBankAccount(array $data)*
+  * *updateBankAccount(int $id, array $data)*
+  * *deleteBankAccount(int $id)*
+  * *addTag(array $data)*
+  * *updateTag(int $id, array $data)*
+  * *deleteTag(int $id)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -1169,7 +1176,7 @@ Príklad použitia:
 $api->getUserCompaniesData();
 $api->getUserCompaniesData(true);
   ```
-  
+
 ### 44. createRegularFromProforma($proforma_id)
 vystaví ostrú faktúru zo zálohovej faktúry
 
@@ -1192,6 +1199,129 @@ Zoznam možných stavov cenovej ponuky:
 *  1 => neschválená
 *  2 => schválená
 *  3 => zamietnutá
+
+
+
+### 46. getBankAccounts()
+
+Vráti zoznam bankových účtov.
+
+```php
+$api->getBankAccounts();
+```
+
+### 47. addBankAccount(array $data)
+
+Pridá bankový účet.
+
+##### Parametre
+
+* **$data** *array* povinné. Údaje o bankovom účte
+
+Zoznam možných vlastností bankového účtu:
+* **bank_name** - názov banky
+* **default** - je účet prednastavený?
+* **iban** - IBAN
+* **show** - zobrazuj účet na dokumentoch
+* **swift** - SWIFT
+* **bank_account** - číslo účtu
+* **bank_code** - čislo banky
+
+```php
+$api->addBankAccount([
+    'iban' => 'SK0000000123',
+    'swift' => 'ABCDE12',
+    'bank_name' => 'Prvá Fiktívna Banka',
+    'default' => 1,
+]);
+```
+
+### 48. updateBankAccount(int $id, array $data)
+
+Uprav bankový účet.
+
+
+##### Parametre
+
+* **$id** *int* povinné. ID bankového účtu
+* **$data** *array* povinné. Údaje o bankovom účte
+
+Zoznam možných vlastností bankového účtu:
+* **bank_name** - názov banky
+* **default** - je účet prednastavený?
+* **iban** - IBAN
+* **show** - zobrazuj účet na dokumentoch
+* **swift** - SWIFT
+* **bank_account** - číslo účtu
+* **bank_code** - čislo banky
+
+```php
+$api->updateBankAccount(123, [
+    'bank_name' => 'Originálna Fiktívna Banka',
+    'default' => 0,
+]);
+```
+
+
+### 49. deleteBankAccount(int $id)
+
+Zmaže bankový účet.
+
+##### Parametre
+
+* **$id** *int* povinné. ID bankového účtu
+
+```php
+$api->deleteBankAccount(123);
+```
+
+
+
+### 50. addTag(array $data)
+
+Pridá nový tag.
+
+##### Parametre
+
+* **$data** *array* povinné. Údaje o tagu
+
+Zoznam možných vlastností tagu:
+* **name** - názov tagu
+
+```php
+$api->addTag(['name' => 'nový tag',]);
+```
+
+
+### 51. updateTag(int $id, array $data)
+
+Upraví existujúci tag.
+
+##### Parametre
+
+* **$id** *int* povinné. ID tagu
+* **$data** *array* povinné. Údaje o tagu
+
+Zoznam možných vlastností tagu:
+* **name** - názov tagu
+
+```php
+$api->editTag(123, ['name' => 'starý tag',]);
+```
+
+### 52. deleteTag(int $id)
+
+Zmaže tag.
+
+##### Parametre
+
+* **$id** *int* povinné. ID tagu
+
+```php
+$api->deleteTag(123);
+```
+
+
 
 ### Autorizácia
 Pre prihlásenie sa do API je potrebný email, na ktorý je konto zaregistrované a API Token, ktorý je možné nájsť v Nástrojoch > API.
