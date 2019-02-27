@@ -6,9 +6,11 @@
  Umožňuje tiež odosielať faktúry emailom alebo poštou.
  
 ## Quickstart
- Aby ste sa nemusli trápiť s priamymi volaniami API funkcií a spôsobom prenosu dát, 
- pripravili sme pre Vás jednoduchého API klienta, vďaka ktorému môžete Vaše faktúry vystavovať nadiaľku s 
- minimálnym úsilím.
+Aby ste sa nemusli trápiť s priamymi volaniami API funkcií a spôsobom prenosu dát, 
+pripravili sme pre Vás jednoduchého API klienta, vďaka ktorému môžete Vaše faktúry vystavovať nadiaľku s 
+minimálnym úsilím.
+
+Ak si však chcete vytvoriť vlastného API klienta, máme aj [všeobecnú dokumentáciu](https://github.com/superfaktura/docs).
  
 ## Inštalácia PHP-API klienta
 
@@ -211,10 +213,17 @@ array(
 ### 3. addTags
  Pridá faktúre tagy podľa číselníka
 ##### Parametre
-* **$tags_ids** pole povinné. Pole ID, alebo názvov požadovaných tagov. Ak tag s daným názvom neexistuje, vytvorí sa a následne sa priradí k dokladu (slúži na vytváranie nových tagov). ID a názvy je možné v poli kombinovať.
+* **$tags_ids** pole povinné. Pole ID tagov.
+
+Kvôli možnému konfliktu názvov tagov a ich ID-čiek (napr. `2019` - rok vs ID) nie je možné pridávať priamo názvy tagov.
+Ak chcete uložiť nový tag, je potrebné ho predtým pridať `addTag`.
+
 
 ### 4. clients
- Vráti zoznam klientov
+Vráti zoznam klientov
+ 
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/clients.md#get-client-list))
+ 
 ##### Parametre
 * **$params** pole povinné. Parametre pre filtrovanie a stránkovanie.
 * **$list_info** bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
@@ -240,27 +249,42 @@ array(
 
 ### 5. delete
 Zmaže faktúru.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#delete-invoice))
+
 ##### Parametre
 * **$id** povinné. Získané z Invoice->id.
 
 ### 6. deleteInvoiceItem
 Zmaže položku na faktúre.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#delete-invoice-item))
+
 ##### Parametre
 * **$invoice_id** int povinné. Získané z Invoice->id.
 * **$id** int povinné. Získané z InvoiceItem->id.
 
 ### 7. deleteExpense
 Zmaže náklad.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/expenses.md#delete-expense))
+
 ##### Parametre
 * **$id** int povinné. Získané z Expense->id.
 
 ### 8. deleteStockItem
 Zmaže skladovú položku.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/stock.md#delete-stock-item))
+
 ##### Parametre
 * **$id** int povinné. Získané z StockItem->id.
 
 ### 9. edit
 Uloží nastavené dáta a aktualizuje faktúru.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#edit))
+
 ##### Parametre: žiadne
 ##### Návratová hodnota: objekt
 ##### Kódy chýb
@@ -271,23 +295,36 @@ Uloží nastavené dáta a aktualizuje faktúru.
 
 ### 10. expenses
 Vráti zoznam nákladov.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/expenses.md#get-list-of-expenses))
+
 ##### Parametre
 * **$params** pole povinné. Parametre pre filtrovanie a stránkovanie.
 * **$list_info** bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
 
 ### 11. expense
 Vráti detaily nákladu.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/expenses.md#expense-detail))
+
 ##### Parametre
 * **$expense_id** int povinné. Získané z Expense->id.
 
 ### 12. getCountries
 Vráti číselník krajín.
 
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/value-lists.md#country-list))
+
 ### 13. getSequences
 Vráti číselník číselných radov podľa typov dokumentov.
 
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/value-lists.md#sequences))
+
 ### 14. getPDF
 Vráti PDF súbor s faktúrou.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#get-invoice-pdf))
+
 ##### Parametre
 * **$invoice_id** int povinné. Získané z Invoice->id.
 * **$token** string povinné. Získané z Invoice->token.
@@ -296,13 +333,20 @@ Vráti PDF súbor s faktúrou.
 ### 15. getTags
 Vráti číselník existujúcich tagov.
 
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/tags.md#get-list-of-tags))
+
 ### 16. invoice
-Vráti detaily faktúry. Ak potrebujete získať detaily viacerých faktúr použite funkciu [getInvoiceDetails](#42-getinvoicedetailsids) 
+Vráti detaily faktúry. Ak potrebujete získať detaily viacerých faktúr použite funkciu [getInvoiceDetails](#42-getinvoicedetailsids)
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#get-invoice-detail))
+ 
 ##### Parametre
 * **$invoice_id** int povinné. Získané z Invoice->id.
 
 ### 17. invoices
 Vráti zoznam vystavených faktúr.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#get-list-of-invoices))
 
 ##### Parametre
 * **$params** pole povinné. Parametre pre filtrovanie a stránkovanie.
@@ -441,6 +485,9 @@ $json_response = $sf_api->invoices(array(
   
 ### 18. markAsSent
 Označí faktúru ako odoslanú emailom. Užitočné, pokiaľ vytvorené faktúry odosielate vlastným systémom, avšak chcete toto odoslanie evidovať aj v SuperFaktúre.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#mark-invoice-as-sent-via-email))
+
 ##### Parametre
 * **$invoice_id** int povinné. Získané z Invoice->id
 * **$email** string povinné. Emailová adresa, kam bola faktúra odoslaná.
@@ -450,6 +497,9 @@ Označí faktúru ako odoslanú emailom. Užitočné, pokiaľ vytvorené faktúr
 
 ### 19. payInvoice
 Dodatočne pridá úhradu ku faktúre.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#pay-invoice))
+
 ##### Parametre
 * **$invoice_id** int povinné. Získané z Invoice->id
 * **$amount** float povinné. Uhradená suma.
@@ -461,6 +511,9 @@ Dodatočne pridá úhradu ku faktúre.
 
 ### 20. payExpense
 Dodatočne pridá úhradu k nákladu.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/expenses.md#add-expense-payment))
+
 ##### Parametre
 * **$expense_id** int povinné. Získané z Expense->id
 * **$amount** float povinné. Uhradená suma.
@@ -470,6 +523,9 @@ Dodatočne pridá úhradu k nákladu.
 
 ### 21. save
 Uloží nastavené dáta a vystaví faktúru.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#add-invoice))
+
 ##### Paramete: žiadne
 ##### Návratová hodnota: objekt
 ```php
@@ -749,6 +805,7 @@ Uloží nastavené dáta a vystaví faktúru.
 
 ### 22. setExpense
 Nastaví hodnoty pre náklad.
+
 ##### Paramete
 * **$key** mixed povinné. Môže byť string, alebo pole. Ak je string, nastaví sa konkrétna hodnota v $data['Expense'][$key]. Ak je pole, nastaví sa viacero hodnôt naraz.
 * **$value** mixed nepovinné. Ak je $key string, hodnota $value sa nastaví v $data['Expense'][$key]. Ak je $key pole, $value sa ignoruje.
@@ -850,6 +907,9 @@ Zoznam možných vlastností faktúry:
 
 ### 24. sendInvoiceEmail
 Odošle faktúru emailom.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#send-invoice-via-mail))
+
 ##### Parametre
 * **$options** *array*, povinné.
 Príklad použitia:
@@ -892,6 +952,9 @@ Zoznam možných jazykov pre doklady:
 
 ### 25. sendInvoicePost
 Odošle faktúru poštou.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#send-invoice-via-post))
+
 ##### Parametre
 * **$options** *array*, povinné.
 
@@ -911,6 +974,9 @@ Zoznam možných nastavení:
 
 ### 26. stockItemEdit
 Aktualizuje skladovú položku.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/stock.md#edit-stock-item))
+
 ##### Parametre 
 * **$item** *array*, povinné.
 
@@ -935,6 +1001,9 @@ Zoznam možných nastavení:
 
 ### 27. addStockItem
 Pridá skladovú položku.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/stock.md#add-stock-item))
+
 ##### Parametre 
 * **$item** *array*, povinné.
 
@@ -961,6 +1030,9 @@ Zoznam možných nastavení:
 
 ### 28. addStockMovement
 Pridá pohyb na sklade.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/stock.md#add-stock-movement))
+
 ##### Parametre 
 * **$item** *array*, povinné.
 
@@ -1016,6 +1088,9 @@ V prípade zahraničného klienta je potrebné správne vyplnenie country_id. AK
 
 ### 30. stockItems
 Vráti zoznam skladových položiek.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/stock.md#get-list-of-stock-items))
+
 ##### Parametre
 * **$params** pole povinné. Parametre pre filtrovanie a stránkovanie.
 * **$list_info** bool nepovinné. Určuje, či vrátené dáta budú obsahovať aj údaje o zozname (celkový počet položiek, počet strán...)
@@ -1047,11 +1122,17 @@ array(
  
 ### 31. stockItem
 Vráti detaily skladovej položky.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/stock.md#view-stock-item-details))
+
 ##### Parametre
 * **$stock_item_id** int povinné. Získané z StockItem->id.
 
 ### 32. addContactPerson($data)
 Pridá novú kontaktnú osobu k existujúcemu klientovi. Návratová hodnota je objekt (JSON). Pokiaľ operácia prebehla bez problémov je nastavený atribút status na hodnotu (string) 'SUCCESS'.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/contact-persons.md#add-contact-person))
+
 ```php
 $result = $api->addContactPerson(array(
 	'client_id' => ID_KLIENTA,  // ID existujuceho klienta
@@ -1065,11 +1146,16 @@ if ($result->status === 'SUCCESS')
 ### 33. getLogos()
 Vráti detaily všetkých lôg. Návratová hodnota je objekt (JSON).
 
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/value-lists.md#logos))
+
 ## 34. getExpenseCategories()
 Vráti zoznam všetkých kategórií nákladov. Návratová hodnota je objekt (JSON). 
 
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/value-lists.md#expense-categories))
+
 ## 35. setInvoiceSettings($settings)
 nastaví vlastnosti pri zobrazovaní faktúry
+
 ##### Parametre 
 * **$settings** *array*, povinné.
 
@@ -1103,21 +1189,33 @@ Zoznam možných parametrov:
 
 ### 37. deleteInvoicePayment
 Zmaže  úhradu k faktúre.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#delete-invoice-payment))
+
 ##### Parametre
 * **$id** int povinné. 
 
 ### 38. deleteExpensePayment
 Zmaže  úhradu k nákladu.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/expenses.md#delete-expense-payment))
+
 ##### Parametre
 * **$id** int povinné. 
 
 ### 39. cashRegister
 Vrati detail pokladne vrátane pohybov v pokladni.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/cash-register-item.md#get-cash-register-items))
+
 ##### Parametre
 * **$id** int povinné. 
 
 ### 40. sendSMS($data)
 odošle SMS.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/other.md#send-sms-reminder))
+
 ##### Parametre 
 * **$data** *array*, povinné.
 
@@ -1157,6 +1255,9 @@ Zoznam možných úprav v údajoch dodávateľa:
 
 ### 42. getInvoiceDetails($ids)
 vráti detaily faktúr
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/invoice.md#get-invoice-details))
+
 ##### Parametre 
 * **$ids** *array*, limit 100
 
@@ -1167,6 +1268,8 @@ $api->getInvoiceDetails(array(1, 2, 3, 4, 5, 6, 7, 8));
   
 ### 43. getUserCompaniesData($getAllCompanies)
 Vráti údaje o firme, do ktorej ste momentálne prihlásený, prípadne o všetkých firmách, ku ktorým má účet prístup.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/other.md#get-user-companies-data))
 
 ##### Parametre 
 * **$getAllCompanies** bool nepovinné. Ak je parameter true, vracia údaje o všetkých firmách, ku ktorým má účet prístup. Default je false - vráti údaje len o firme, v ktorej je účet momentálne prihlásený.
@@ -1206,6 +1309,8 @@ Zoznam možných stavov cenovej ponuky:
 
 Vráti zoznam bankových účtov.
 
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/bank-account.md#get-list-of-bank-accounts))
+
 ```php
 $api->getBankAccounts();
 ```
@@ -1213,6 +1318,8 @@ $api->getBankAccounts();
 ### 47. addBankAccount(array $data)
 
 Pridá bankový účet.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/bank-account.md#add-bank-account))
 
 ##### Parametre
 
@@ -1240,6 +1347,7 @@ $api->addBankAccount([
 
 Uprav bankový účet.
 
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/bank-account.md#update-bank-account))
 
 ##### Parametre
 
@@ -1267,6 +1375,8 @@ $api->updateBankAccount(123, [
 
 Zmaže bankový účet.
 
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/bank-account.md#delete-bank-account))
+
 ##### Parametre
 
 * **$id** *int* povinné. ID bankového účtu
@@ -1280,6 +1390,8 @@ $api->deleteBankAccount(123);
 ### 50. addTag(array $data)
 
 Pridá nový tag.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/tags.md#add-tag))
 
 ##### Parametre
 
@@ -1297,6 +1409,8 @@ $api->addTag(['name' => 'nový tag',]);
 
 Upraví existujúci tag.
 
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/tags.md#edit-tag))
+
 ##### Parametre
 
 * **$id** *int* povinné. ID tagu
@@ -1312,6 +1426,8 @@ $api->editTag(123, ['name' => 'starý tag',]);
 ### 52. deleteTag(int $id)
 
 Zmaže tag.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/tags.md#delete-tag))
 
 ##### Parametre
 
