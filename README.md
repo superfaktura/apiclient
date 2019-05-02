@@ -821,7 +821,8 @@ $api->setExpense(array(
 		'amount' => 10, // suma bez DPH
 		'vat' => 20, // DPH v percentách
 		'variable' => '123456', // variabilný symbol
-		'constant' => '0308' // konštantný symbol
+		'constant' => '0308', // konštantný symbol
+		'attachment' => base64_encode(file_get_contents('/tmp/foo.pdf')),
 ));
 ```
 
@@ -843,6 +844,7 @@ Zoznam možných vlastností nákladu:
 *  **taxable_supply** - Dátum zdaniteľného plnenia
 *  **document_number** - Číslo dokladu. Napríklad číslo došlej faktúry, číslo pokladničného bloku a podobne.
 *  **expense_category_id** - ID príslušnej kategórie. Zoznam všetkých kategórií je možné získať pomocou funkcie getExpenseCategories()
+* **atttachment** - súbor prílohy vo formáte base64. Maximálna veľkosť súboru sú 4MB. Povolené typy: `jpg`, `jpeg`, `png`, `tif`, `tiff`, `gif`, `pdf`, `tmp`, `xls`, `xlsx`, `ods`, `doc`, `docx`, `xml`, `csv`, `msg` 
 
 ### 23. setInvoice
 Nastaví hodnoty pre faktúru
