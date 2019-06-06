@@ -1022,7 +1022,7 @@ class SFAPIclient {
                 array('timeout' => $this->timeout)
             );
 
-            if ($response->status_code != 200) {
+            if (substr($response->status_code, 0, 1) != 2) {
                 $error_message = json_decode($response->body);
                 $this->last_error = array(
                     'status' => $response->status_code,
@@ -1060,7 +1060,7 @@ class SFAPIclient {
                 array('timeout' => $this->timeout)
             );
 
-            if ($response->status_code != 200) {
+            if (substr($response->status_code, 0, 1) != 2) {
                 $error_message = json_decode($response->body);
                 $this->last_error = array(
                     'status' => $response->status_code,
