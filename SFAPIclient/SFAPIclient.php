@@ -2,9 +2,9 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.22.1
+ * @version    1.22.2
  * @link https://github.com/superfaktura/docs
- * @lastUpdate 06.06.2019
+ * @lastUpdate 10.6.2019
  *
  */
 
@@ -872,18 +872,24 @@ class SFAPIclient {
     public function createRegularFromProforma($proforma_id)
     {
         if (empty($proforma_id)) {
-            $this->last_error = 'HTTP Status: 404 error message: Item not found';
+            $this->last_error = array(
+                'status' => 404,
+                'message' => 'Item not found',
+            ); 
             return null;
         }
 
         $proforma = $this->get('/invoices/regular.json/' . $proforma_id);
 
-        if (!empty($proforma_data->error)) {
-            $this->last_error = 'HTTP Status: 404 error message: Item not found';
+        if (empty($proforma)) {
+            $this->last_error = array(
+                'status' => 404,
+                'message' => 'Item not found',
+            ); 
             return null;
         }
 
-        return $this->post('/invoices/create', $proforma->body);
+        return $this->post('/invoices/create', $proforma);
     }
 
     /**
@@ -897,12 +903,18 @@ class SFAPIclient {
     public function setEstimateStatus($estimate_id, $status)
     {
         if (empty($estimate_id)) {
-            $this->last_error = 'HTTP Status: 404 error message: Item not found';
+            $this->last_error = array(
+                'status' => 404,
+                'message' => 'Item not found',
+            );
             return null;
         }
 
         if (empty($status)) {
-            $this->last_error = 'HTTP Status: 404 error message: Estimate status not found';
+            $this->last_error = array(
+                'status' => 404,
+                'message' => 'Estimate status not found',
+            );
             return null;
         }
 
