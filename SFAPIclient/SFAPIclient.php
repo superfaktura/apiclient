@@ -54,8 +54,12 @@ class SFAPIclient {
     }
 
     /**
-    * set data
-    */
+     * Set data
+     *
+     * @param string $dataSet
+     * @param string|array $key
+     * @param mixed $value
+     */
     private function _setData($dataSet, $key, $value)
     {
         if (is_array($key)) {
@@ -140,9 +144,9 @@ class SFAPIclient {
      * Delete existing invoice item
      *
      * @param int $invoice_id
-     * @param int $item_id
+     * @param int|array $item_id
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#delete-invoice-item
      */
@@ -160,7 +164,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/expenses.md#delete-expense
      */
@@ -185,7 +189,7 @@ class SFAPIclient {
      * @param array $params
      * @param bool $list_info
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/clients.md#get-client-list
      */
@@ -199,7 +203,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#delete-invoice
      */
@@ -213,7 +217,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/stock.md#delete-stock-item
      */
@@ -228,7 +232,7 @@ class SFAPIclient {
      * @param array $params
      * @param bool $list_info
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/expenses.md#get-list-of-expenses
      */
@@ -252,7 +256,7 @@ class SFAPIclient {
     /**
      * Get list of countries
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/value-lists.md#country-list
      */
@@ -264,7 +268,7 @@ class SFAPIclient {
     /**
      * Get list of sequences
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/value-lists.md#sequences
      */
@@ -276,7 +280,7 @@ class SFAPIclient {
     /**
      * Get list of tags
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/tags.md#get-list-of-tags
      */
@@ -292,7 +296,7 @@ class SFAPIclient {
      * @param string $token
      * @param string $language
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#get-invoice-pdf
      */
@@ -306,7 +310,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#get-invoice-detail
      */
@@ -321,7 +325,7 @@ class SFAPIclient {
      * @param array $params
      * @param bool $list_info
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#get-list-of-invoices
      */
@@ -335,7 +339,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/expenses.md#expense-detail
      */
@@ -349,7 +353,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/stock.md#view-stock-item-details
      */
@@ -362,9 +366,9 @@ class SFAPIclient {
      * Add stock movement
      *
      * @param array $options
-     * 
+     *
      * @return mixed|stdClass
-     * 
+     *
      * @link https://github.com/superfaktura/docs/blob/master/stock.md#add-stock-movement
      */
     public function addStockMovement($options)
@@ -400,7 +404,7 @@ class SFAPIclient {
 
     /**
      * Edit stock item
-     * 
+     *
      * @param array $options
      *
      * @return mixed|stdClass
@@ -419,7 +423,7 @@ class SFAPIclient {
      * @param array $params
      * @param bool $list_info
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/stock.md#get-list-of-stock-items
      */
@@ -434,7 +438,7 @@ class SFAPIclient {
      * @param int $id
      * @param string $lang
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#set-invoice-language
      */
@@ -615,7 +619,7 @@ class SFAPIclient {
 
     /**
      * Add client
-     * 
+     *
      * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/clients.md#create-client 
@@ -683,7 +687,7 @@ class SFAPIclient {
     /**
      * Get list of logos
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/value-lists.md#logos
      */
@@ -695,7 +699,7 @@ class SFAPIclient {
     /**
      * Get list of expense categories
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/value-lists.md#expense-categories
      */
@@ -751,7 +755,7 @@ class SFAPIclient {
      *
      * @param int $payment_id
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#delete-invoice-payment
      */
@@ -765,7 +769,7 @@ class SFAPIclient {
      *
      * @param int $payment_id
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/expenses.md#delete-expense-payment
      */
@@ -810,7 +814,7 @@ class SFAPIclient {
      * @param int $cash_register_id
      * @param array $params 
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/cash-register-item.md#get-cash-register-items
      */
@@ -822,7 +826,7 @@ class SFAPIclient {
     /**
      * Send SMS reminder
      *
-     * @param array $options
+     * @param array $data
      *
      * @return mixed|stdClass
      *
@@ -838,7 +842,7 @@ class SFAPIclient {
      *
      * @param int|array $ids
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#get-invoice-details
      */
@@ -853,7 +857,7 @@ class SFAPIclient {
      *
      * @param bool $getAllCompanies
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/other.md#get-user-companies-data
      */
@@ -867,7 +871,7 @@ class SFAPIclient {
      *
      * @param int $proforma_id
      *
-     * @return mixed|stdClass
+     * @return mixed|null
      */
     public function createRegularFromProforma($proforma_id)
     {
@@ -898,7 +902,7 @@ class SFAPIclient {
      * @param int $estimate_id
      * @param int $status
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      */
     public function setEstimateStatus($estimate_id, $status)
     {
@@ -924,7 +928,7 @@ class SFAPIclient {
     /**
      * Get list of bank accounts
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/bank-account.md#get-list-of-bank-accounts
      */
@@ -942,7 +946,7 @@ class SFAPIclient {
      */
     public function addBankAccount($data)
     {
-        return $this->post('/bank_accounts/add/' . $id, $data);
+        return $this->post('/bank_accounts/add/', $data);
     }
 
     /**
@@ -950,7 +954,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/bank-account.md#delete-bank-account
      */
@@ -980,7 +984,7 @@ class SFAPIclient {
      * @param array $data
      *
      * @return mixed|stdClass
-     * 
+     *
      * @link https://github.com/superfaktura/docs/blob/3d896497c01def0d69ea4281c7c48b3618495770/tags.md#add-tag
      */
     public function addTag(array $data)
@@ -993,7 +997,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      *
      * @link https://github.com/superfaktura/docs/blob/master/tags.md#delete-tag
      */
@@ -1023,7 +1027,7 @@ class SFAPIclient {
      * @param string $url
      * @param bool $json_decode
      *
-     * @return mixed|stdClass
+     * @return mixed|Requests_Response|null
      */
     public function get($url, $json_decode = true)
     {
@@ -1060,7 +1064,7 @@ class SFAPIclient {
      * @param string $url
      * @param array $data
      *
-     * @return mixed|stdClass
+     * @return mixed|null
      */
     public function post($url, $data)
     {
