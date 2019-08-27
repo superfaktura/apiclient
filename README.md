@@ -1190,6 +1190,11 @@ rozžírené parametre faktúry
 
 Zoznam možných parametrov:
 * **pickup_point_id** *int*, ID odberného miesta pre Zásielkovňu
+* **weight** *float*, váha balíku,
+* **parcel_count** *int*, počet balíkov,
+* **insurance**, *float*, hodnota poistenia,
+* **dimension**, *string*, rozmer balíku v cm (d x š x v)
+* **tracking_number** *string*, podacie číslo
 
 ### 37. deleteInvoicePayment
 Zmaže  úhradu k faktúre.
