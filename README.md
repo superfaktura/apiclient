@@ -1184,7 +1184,7 @@ Zoznam možných vlastností faktúry:
 ```
 
 ## 36. setInvoiceExtras($extras)
-rozžírené parametre faktúry
+rozšírené parametre faktúry
 ##### Parametre 
 * **$extras** *array*, povinné.
 
