@@ -2,9 +2,9 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.22.4
+ * @version    1.23
  * @link https://github.com/superfaktura/docs
- * @lastUpdate 12.6.2019
+ * @lastUpdate 17.01.2020
  *
  */
 
@@ -22,7 +22,8 @@ class SFAPIclient {
         $headers,
         $className,
         $timeout = 30,
-        $last_error = array();
+        $last_error = array(),
+        $checksum = null;
 
     public
         $data = array(
@@ -49,16 +50,11 @@ class SFAPIclient {
             'Authorization' => self::API_AUTH_KEYWORD." " . http_build_query(array('email' => $this->email, 'apikey' => $this->apikey, 'company_id' => $this->company_id, 'module' => $module))
         );
         $this->data['apptitle'] = $apptitle;
-
     }
 
     /**
-     * Set data
-     *
-     * @param string $dataSet
-     * @param string|array $key
-     * @param mixed $value
-     */
+    * set data
+    */
     private function _setData($dataSet, $key, $value)
     {
         if (is_array($key)) {
@@ -125,6 +121,8 @@ class SFAPIclient {
         foreach ($options as $option) {
             $this->data[$option] = array();
         }
+
+        $this->checksum = null;
     }
 
     /**
@@ -143,9 +141,9 @@ class SFAPIclient {
      * Delete existing invoice item
      *
      * @param int $invoice_id
-     * @param int|array $item_id
+     * @param int $item_id
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#delete-invoice-item
      */
@@ -163,7 +161,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/expenses.md#delete-expense
      */
@@ -188,7 +186,7 @@ class SFAPIclient {
      * @param array $params
      * @param bool $list_info
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/clients.md#get-client-list
      */
@@ -202,7 +200,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#delete-invoice
      */
@@ -216,7 +214,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/stock.md#delete-stock-item
      */
@@ -231,7 +229,7 @@ class SFAPIclient {
      * @param array $params
      * @param bool $list_info
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/expenses.md#get-list-of-expenses
      */
@@ -255,7 +253,7 @@ class SFAPIclient {
     /**
      * Get list of countries
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/value-lists.md#country-list
      */
@@ -267,7 +265,7 @@ class SFAPIclient {
     /**
      * Get list of sequences
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/value-lists.md#sequences
      */
@@ -279,7 +277,7 @@ class SFAPIclient {
     /**
      * Get list of tags
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/tags.md#get-list-of-tags
      */
@@ -295,7 +293,7 @@ class SFAPIclient {
      * @param string $token
      * @param string $language
      *
-     * @return mixed|Requests_Response|null
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#get-invoice-pdf
      */
@@ -309,7 +307,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#get-invoice-detail
      */
@@ -324,7 +322,7 @@ class SFAPIclient {
      * @param array $params
      * @param bool $list_info
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#get-list-of-invoices
      */
@@ -338,7 +336,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/expenses.md#expense-detail
      */
@@ -352,12 +350,12 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/stock.md#view-stock-item-details
      */
     public function stockItem($id)
-    {
+    {    
         return $this->get('/stock_items/view/' . $id);
     }
 
@@ -365,9 +363,9 @@ class SFAPIclient {
      * Add stock movement
      *
      * @param array $options
-     *
+     * 
      * @return mixed|stdClass
-     *
+     * 
      * @link https://github.com/superfaktura/docs/blob/master/stock.md#add-stock-movement
      */
     public function addStockMovement($options)
@@ -403,7 +401,7 @@ class SFAPIclient {
 
     /**
      * Edit stock item
-     *
+     * 
      * @param array $options
      *
      * @return mixed|stdClass
@@ -422,7 +420,7 @@ class SFAPIclient {
      * @param array $params
      * @param bool $list_info
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/stock.md#get-list-of-stock-items
      */
@@ -437,7 +435,7 @@ class SFAPIclient {
      * @param int $id
      * @param string $lang
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#set-invoice-language
      */
@@ -618,7 +616,7 @@ class SFAPIclient {
 
     /**
      * Add client
-     *
+     * 
      * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/clients.md#create-client 
@@ -686,7 +684,7 @@ class SFAPIclient {
     /**
      * Get list of logos
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/value-lists.md#logos
      */
@@ -698,7 +696,7 @@ class SFAPIclient {
     /**
      * Get list of expense categories
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/value-lists.md#expense-categories
      */
@@ -754,7 +752,7 @@ class SFAPIclient {
      *
      * @param int $payment_id
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#delete-invoice-payment
      */
@@ -768,7 +766,7 @@ class SFAPIclient {
      *
      * @param int $payment_id
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/expenses.md#delete-expense-payment
      */
@@ -813,7 +811,7 @@ class SFAPIclient {
      * @param int $cash_register_id
      * @param array $params 
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/cash-register-item.md#get-cash-register-items
      */
@@ -825,7 +823,7 @@ class SFAPIclient {
     /**
      * Send SMS reminder
      *
-     * @param array $data
+     * @param array $options
      *
      * @return mixed|stdClass
      *
@@ -841,7 +839,7 @@ class SFAPIclient {
      *
      * @param int|array $ids
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#get-invoice-details
      */
@@ -856,7 +854,7 @@ class SFAPIclient {
      *
      * @param bool $getAllCompanies
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/other.md#get-user-companies-data
      */
@@ -870,7 +868,7 @@ class SFAPIclient {
      *
      * @param int $proforma_id
      *
-     * @return mixed|null
+     * @return mixed|stdClass
      */
     public function createRegularFromProforma($proforma_id)
     {
@@ -901,7 +899,7 @@ class SFAPIclient {
      * @param int $estimate_id
      * @param int $status
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      */
     public function setEstimateStatus($estimate_id, $status)
     {
@@ -927,7 +925,7 @@ class SFAPIclient {
     /**
      * Get list of bank accounts
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/bank-account.md#get-list-of-bank-accounts
      */
@@ -945,7 +943,7 @@ class SFAPIclient {
      */
     public function addBankAccount($data)
     {
-        return $this->post('/bank_accounts/add/', $data);
+        return $this->post('/bank_accounts/add/' . $id, $data);
     }
 
     /**
@@ -953,7 +951,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/bank-account.md#delete-bank-account
      */
@@ -983,7 +981,7 @@ class SFAPIclient {
      * @param array $data
      *
      * @return mixed|stdClass
-     *
+     * 
      * @link https://github.com/superfaktura/docs/blob/3d896497c01def0d69ea4281c7c48b3618495770/tags.md#add-tag
      */
     public function addTag(array $data)
@@ -996,7 +994,7 @@ class SFAPIclient {
      *
      * @param int $id
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      *
      * @link https://github.com/superfaktura/docs/blob/master/tags.md#delete-tag
      */
@@ -1021,12 +1019,24 @@ class SFAPIclient {
     }
 
     /**
+     * Get response by checksum.
+     *
+     * @param string $checksum
+     *
+     * @return mixed|stdClass
+     */
+    public function getResponseByChecksum($checksum)
+    {
+        return $this->get('/api_logs/getResponseByChecksum/' . $checksum);
+    }
+
+    /**
      * Handling GET request
      *
      * @param string $url
      * @param bool $json_decode
      *
-     * @return mixed|Requests_Response|null|stdClass
+     * @return mixed|stdClass
      */
     public function get($url, $json_decode = true)
     {
@@ -1063,11 +1073,17 @@ class SFAPIclient {
      * @param string $url
      * @param array $data
      *
-     * @return mixed|null
+     * @return mixed|stdClass
      */
     public function post($url, $data)
     {
         try {
+            // Set actual checksum
+            $this->setChecksumData($data);
+
+            // Send checksum
+            $data['checksum'] = $this->getChecksum();
+
             $response = Requests::post(
                 $this->getConstant('SFAPI_URL') . $url,
                 $this->headers,
@@ -1078,8 +1094,9 @@ class SFAPIclient {
             if (substr($response->status_code, 0, 1) != 2) {
                 $error_message = json_decode($response->body);
                 $this->last_error = array(
-                    'status' => $response->status_code,
-                    'message' => !empty($error_message->error_message) ? $error_message->error_message : '',
+                    'status'   => $response->status_code,
+                    'message'  => !empty($error_message->error_message) ? $error_message->error_message : '',
+                    'checksum' => $this->getChecksum(),
                 );
                 return null;
             }
@@ -1088,11 +1105,34 @@ class SFAPIclient {
 
         } catch (Exception $e) {
             $this->last_error = array(
-                'status' => 500,
-                'message' => $this->exceptionHandling($e),
+                'status'   => 500,
+                'message'  => $this->exceptionHandling($e),
+                'checksum' => $this->getChecksum(),
             );
             return null;
         }
+    }
+
+    /**
+     * Set actual checksum.
+     *
+     * @param array $data
+     */
+    protected function setChecksumData($data)
+    {
+        $data['date'] = date('Y-m-d');
+
+        $this->checksum = md5(json_encode($data));
+    }
+
+    /**
+     * Get actual checksum.
+     *
+     * @return string|null
+     */
+    public function getChecksum()
+    {
+        return $this->checksum;
     }
 
     /**
