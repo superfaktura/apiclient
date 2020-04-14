@@ -1171,6 +1171,7 @@ Zoznam možných vlastností faktúry:
 * **bysquare** *boolean*, zobrazovať pay by square    
 * **paypal** *boolean*, zobrazovať PayPal
 * **show_prices** *boolean*, zobrazovať ceny (toto nastavenie sa týka výhradne dodacích listov)
+* **callback_payment** *string*, URL, ktorá sa automaticky zavolá po pridaní úhrady k faktúre
 
 ```php
 	$api->setInvoiceSettings(array(
