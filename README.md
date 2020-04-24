@@ -806,7 +806,7 @@ Uloží nastavené dáta a vystaví faktúru.
 ### 22. setExpense
 Nastaví hodnoty pre náklad.
 
-##### Paramete
+##### Parametre
 * **$key** mixed povinné. Môže byť string, alebo pole. Ak je string, nastaví sa konkrétna hodnota v $data['Expense'][$key]. Ak je pole, nastaví sa viacero hodnôt naraz.
 * **$value** mixed nepovinné. Ak je $key string, hodnota $value sa nastaví v $data['Expense'][$key]. Ak je $key pole, $value sa ignoruje.
 
@@ -1509,7 +1509,8 @@ $data = array(
 		)
 	)
 );
-Samotný request s použitím napr. Requests knižnice potom môže vyzerať nasledovne:
+
+// Samotný request s použitím napr. Requests knižnice potom môže vyzerať nasledovne:
 Requests::register_autoloader();
 $response = Requests::post('https://moja.superfaktura.sk/invoices/create',
 	$headers,
@@ -1533,3 +1534,22 @@ Po vytvorení faktúry je možné stiahnuť jej PDF na adrese
 https://moja.superfaktura.sk/invoices/pdf/ID_FAKTURY/token:TOKEN
  ```
  kde ID FAKTURY sa nachádza v $data['Invoice']['id'] a token v $data['Invoice']['token'].
+
+
+### Pre výpadok neprišiel response
+
+V prípade, že volanie vystavenia faktúry nevrátilo response - vypadol internet, neprišla odpoveď do timeoutu a pod. - je možné dodatočne zistiť response pre toto volanie a zamedziť tak napr. duplicitnému vystaveniu rovnakej faktúry.
+
+K faktúre je možné získať unikátny identifikátor (nie `invoice_id`).
+Nakoľko ide o checksum, odporúčame v dátach faktúry uvádzať unikátny údaj objednávky (napr. číslo objednávky).
+
+Postup:
+1. štandardné vystavenie faktúry
+2. `$api->save()`
+3. `$checksum = $api->getChecksum()`
+4. vybuchli internety a nemáme odpoveď do timeoutu
+5. `$response = $api->getResponseByChecksum($checksum)`
+
+`$response` obsahuje pôvodný response faktúry, ktorý ste prvýkrat nedostali.
+Response je možné získať pre volanie nie staršie ako 3 mesiace.
+Samozrejme volanie `getResponseByChecksum` je tiež potrebné kontrolovať na prípadnú chybovú odpoveď.
