@@ -2,9 +2,9 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.23
+ * @version    1.24
  * @link https://github.com/superfaktura/docs
- * @lastUpdate 17.01.2020
+ * @lastUpdate 10.06.2020
  *
  */
 
@@ -890,7 +890,7 @@ class SFAPIclient {
             return null;
         }
 
-        return $this->post('/invoices/create', $proforma);
+        return $this->post('/invoices/create', (array)$proforma);
     }
 
     /**
