@@ -968,9 +968,10 @@ $api->sendInvoicePost(array(
 	'invoice_id' => 123456, // povinné
 	
 	// pokial nasledujúce parametre nie sú vyplnené vytiahnú sa automaticky z konkrétnej faktúry
-    'delivery_address' => 'Adresa 123',
-    'delivery_city' => 'Mesto',
-	'delivery_state' => 'Slovenská republika',
+    	'delivery_address' => 'Adresa 123',
+    	'delivery_city' => 'Mesto',
+    	'delivery_zip' => 12345,
+    	'delivery_state' => 'Slovensko',
 ));
 ```
 Zoznam možných nastavení: 
