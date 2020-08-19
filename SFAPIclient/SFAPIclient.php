@@ -943,7 +943,7 @@ class SFAPIclient {
      */
     public function addBankAccount($data)
     {
-        return $this->post('/bank_accounts/add/' . $id, $data);
+        return $this->post('/bank_accounts/add/', $data);
     }
 
     /**
