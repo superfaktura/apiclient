@@ -2,9 +2,9 @@
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.24
+ * @version    1.2ť
  * @link https://github.com/superfaktura/docs
- * @lastUpdate 10.06.2020
+ * @lastUpdate 21.08.2020
  *
  */
 
