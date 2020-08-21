@@ -184,6 +184,8 @@ V prípade že potrebujete detailnejšie informácie k faktúram, stačí násle
  Pridá položku na faktúru.
 ##### Parametre
  * **$item** pole povinné
+ * **$item_type** string typ položky. Možné hodnoty Invoice(default) a Expense  
+ 
 
 ##### Formát fakturačnej položky
  ```php
