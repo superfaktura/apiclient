@@ -129,12 +129,13 @@ class SFAPIclient {
      * Set invoice item
      *
      * @param array $item
+     * @param string $item_type
      *
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#invoiceitem-1 
      */
-    public function addItem($item = array())
+    public function addItem($item = array(), $item_type = 'Invoice')
     {
-        $this->data['InvoiceItem'][] = $item;
+        $this->data[$item_type === 'Expense' ? 'ExpenseItem' : 'InvoiceItem'][] = $item;
     }
 
     /**
