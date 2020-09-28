@@ -992,9 +992,9 @@ Aktualizuje skladovú položku.
 Príklad použitia:
 ```php 
 $api->stockItemEdit(array(
-    'stock_item_id' => 123456, // povinné
-	'name' => '*New stock item name', // novy nazov skladovej polozky
-	'sku' => 'NEWST06K1T3M1D' // nove SKU
+    'id' => 123456, // povinné
+    'name' => '*New stock item name', // novy nazov skladovej polozky
+    'sku' => 'NEWST06K1T3M1D' // nove SKU
 ));
 ```  
 
