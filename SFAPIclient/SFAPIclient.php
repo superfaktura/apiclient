@@ -32,6 +32,7 @@ class SFAPIclient {
             'Client' => array(),
             'InvoiceItem' => array(),
             'MyData' => array(),
+            'ExpenseItem' => array(),
         );
 
     const
@@ -116,7 +117,7 @@ class SFAPIclient {
     public function resetData($options = array())
     {
         if (empty($options)) {
-            $options = array('Invoice', 'InvoiceItem', 'Expense', 'Client');
+            $options = array('Invoice', 'InvoiceItem', 'Expense', 'Client', 'ExpenseItem');
         }
         foreach ($options as $option) {
             $this->data[$option] = array();
