@@ -331,7 +331,7 @@ Vráti PDF súbor s faktúrou.
 ##### Parametre
 * **$invoice_id** int povinné. Získané z Invoice->id.
 * **$token** string povinné. Získané z Invoice->token.
-* **$language** string nepovinné. Jazyk požadovaného PDF. Možné hodnoty sú {slo, cze, eng, deu, rus, ukr, hun, pol, rom, hrv, slv}
+* **$language** string nepovinné. Jazyk požadovaného PDF. Možné hodnoty sú {slo, cze, eng, deu, rus, ukr, hun, pol, rom, hrv, slv, spa, ita}
 
 ### 15. getTags
 Vráti číselník existujúcich tagov.
@@ -956,6 +956,8 @@ Zoznam možných jazykov pre doklady:
 * 'rom' => rumunčina
 * 'hrv' => chorvátčina
 * 'slv' => slovinčina
+* 'spa' => španielčina
+* 'ita' => taliančina
 
 ### 25. sendInvoicePost
 Odošle faktúru poštou.
