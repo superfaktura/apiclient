@@ -1203,6 +1203,7 @@ Zoznam možných parametrov:
 * **insurance**, *float*, hodnota poistenia,
 * **dimension**, *string*, rozmer balíku v cm (d x š x v)
 * **tracking_number** *string*, podacie číslo
+* **uuid** *string*, volitelný jednoznačný identifikátor faktúry
 
 ### 37. deleteInvoicePayment
 Zmaže  úhradu k faktúre.
