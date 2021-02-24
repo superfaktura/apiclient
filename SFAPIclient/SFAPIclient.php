@@ -198,6 +198,20 @@ class SFAPIclient {
     }
 
     /**
+     * Get client detail
+     *
+     * @param int $id
+     *
+     * @return mixed|stdClass
+     *
+     * @link https://github.com/superfaktura/docs/blob/master/clients.md#view-client-detail
+     */
+    public function client($id)
+    {
+        return $this->get('/clients/view/' . $id);
+    }
+
+    /**
      * Delete existing invoice
      *
      * @param int $id
