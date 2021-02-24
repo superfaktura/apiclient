@@ -170,6 +170,7 @@ V prípade že potrebujete detailnejšie informácie k faktúram, stačí násle
   * *addTag(array $data)*
   * *updateTag(int $id, array $data)*
   * *deleteTag(int $id)*
+  * *client(int $id)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -1453,6 +1454,20 @@ Zmaže tag.
 
 ```php
 $api->deleteTag(123);
+```
+
+### 53. client(int $id)
+
+Vráti detail klienta.
+
+([všeobecná REST API dokumentácia](https://github.com/superfaktura/docs/blob/master/clients.md#view-client-detail))
+
+##### Parametre
+
+* **$id** *int* povinné. ID klienta
+
+```php
+$api->client(123);
 ```
 
 
