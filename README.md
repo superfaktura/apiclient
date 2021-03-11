@@ -11,6 +11,8 @@ pripravili sme pre Vás jednoduchého API klienta, vďaka ktorému môžete Vaš
 minimálnym úsilím.
 
 Ak si však chcete vytvoriť vlastného API klienta, máme aj [všeobecnú dokumentáciu](https://github.com/superfaktura/docs).
+
+Keď chcete API integráciu vyskúšať, máme pre vás [testovacie prostredie - sandbox](https://sandbox.superfaktura.sk).
  
 ## Inštalácia PHP-API klienta
 
