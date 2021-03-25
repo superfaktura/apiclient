@@ -6,7 +6,7 @@
  Umožňuje tiež odosielať faktúry emailom alebo poštou.
  
 ## Quickstart
-Aby ste sa nemusli trápiť s priamymi volaniami API funkcií a spôsobom prenosu dát, 
+Aby ste sa nemuseli trápiť s priamymi volaniami API funkcií a spôsobom prenosu dát, 
 pripravili sme pre Vás jednoduchého API klienta, vďaka ktorému môžete Vaše faktúry vystavovať nadiaľku s 
 minimálnym úsilím.
 
@@ -35,13 +35,19 @@ Stiahnite si SuperFaktúra PHP-API kliknutím na tlačidlo ["Stiahnuť ZIP"](htt
 ## Ukážky kódu
   Aby sme vám uľahčili prácu pri implementácii nášho API, vytvorili sme ukážky kódu 
   ([sample.php](https://github.com/superfaktura/apiclient/blob/master/examples/sample.php) a [sample2.php](https://github.com/superfaktura/apiclient/blob/master/examples/sample2.php)),
-  ktoré demonštrujú jeho funkcionalitu a dpĺňajú našu dokumentáciu o fungujúce príklady.
+  ktoré demonštrujú jeho funkcionalitu a dopĺňajú našu dokumentáciu o fungujúce príklady.
 
 ## Začíname používať SuperFaktúra PHP-API
   Na to, aby ste mohli začať API na plno využívať, je potrebné:
 ### 1. Zaregistrovať sa v SuperFaktúre
   * Na stránke https://moja.superfaktura.sk/registracia vykonajte registráciu. Automaticky získate 30 dní zadarmo.
   * Po prihlásení vystavte skúšobnú faktúru cez GUI SuperFaktúry
+
+Ak chcete skúšať API klienta na sandboxe, [zaregistrujte sa](https://sandbox.superfaktura.sk) a v kóde stačí zavolať metódu `useSandbox`.
+```
+$api = new SFAPIclient(SFAPI_EMAIL, SFAPI_KEY);
+$api->useSandBox();
+```
   
 ### 2. Urobiť základné nastavenia v kóde
 

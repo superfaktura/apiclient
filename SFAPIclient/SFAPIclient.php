@@ -23,7 +23,8 @@ class SFAPIclient {
         $className,
         $timeout = 30,
         $last_error = array(),
-        $checksum = null;
+        $checksum = null,
+        $use_sandbox = false;
 
     public
         $data = array(
@@ -37,7 +38,13 @@ class SFAPIclient {
 
     const
         API_AUTH_KEYWORD = 'SFAPI',
-        SFAPI_URL = 'https://moja.superfaktura.sk';
+        SFAPI_URL = 'https://moja.superfaktura.sk',
+        SANDBOX_URL = 'https://sandbox.superfaktura.sk';
+
+    public function useSandBox()
+    {
+        $this->use_sandbox = true;
+    }
 
     public function __construct($email, $apikey, $apptitle = '', $module = 'API', $company_id = '')
     {
@@ -263,6 +270,10 @@ class SFAPIclient {
      */
     protected function getConstant($const)
     {
+        if ($const === 'SFAPI_URL' && $this->use_sandbox) {
+            return static::SANDBOX_URL;
+        }
+
         return constant(get_class($this)."::".$const);
     }
 
@@ -1165,9 +1176,11 @@ class SFAPIclient {
 class SFAPIclientCZ extends SFAPIclient
 {
     const SFAPI_URL = 'https://moje.superfaktura.cz';
+    const SANDBOX_URL = 'https://sandbox.superfaktura.cz';
 }
 
 class SFAPIclientAT extends SFAPIclient
 {
-    const SFAPI_URL = 'http://meine.superfaktura.at';
+    const SFAPI_URL = 'https://meine.superfaktura.at';
+    const SANDBOX_URL = 'https://sandbox.superfaktura.sk';
 }
