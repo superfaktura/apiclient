@@ -656,7 +656,7 @@ class SFAPIclient {
     /**
      * Set client data
      *
-     * @param string $key
+     * @param string|array $key
      * @param mixed $value
      *  
      * @link https://github.com/superfaktura/docs/blob/master/clients.md#attributes
@@ -669,7 +669,7 @@ class SFAPIclient {
     /**
      * Set invoice data
      *
-     * @param string $key
+     * @param string|array $key
      * @param mixed $value
      *  
      * @link https://github.com/superfaktura/docs/blob/master/invoice.md#invoice-2
