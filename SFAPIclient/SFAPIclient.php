@@ -891,11 +891,11 @@ class SFAPIclient {
     }
 
     /**
-     * Create regular form proforma invoice
+     * Create regular from proforma invoice
      *
      * @param int $proforma_id
      *
-     * @return mixed|stdClass
+     * @return NULL|mixed|stdClass
      */
     public function createRegularFromProforma($proforma_id)
     {
@@ -920,6 +920,39 @@ class SFAPIclient {
         return $this->post('/invoices/create', (array)$proforma);
     }
 
+    /**
+     * Create proforma from order
+     *
+     * @param int $order_id
+     *
+     * @return NULL|mixed|stdClass
+     */
+    public function createProformaFromOrder($order_id)
+    {
+        if (empty($order_id)) {
+            $this->last_error = array(
+                'status' => 404,
+                'message' => 'Item not found',
+            );
+            return null;
+        }
+        
+        $order = $this->get('/invoices/regular.json/' . $order_id);
+        
+        if (empty($order)) {
+            $this->last_error = array(
+                'status' => 404,
+                'message' => 'Item not found',
+            );
+            return null;
+        }
+        
+        $order->Invoice->type = "proforma";
+        
+        return $this->post('/invoices/create', (array)$order);
+    }
+    
+    
     /**
      * Set estimate status
      *
