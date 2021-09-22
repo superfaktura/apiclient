@@ -937,7 +937,7 @@ class SFAPIclient {
             return null;
         }
         
-        $order = $this->get('/invoices/regular.json/' . $order_id);
+        $order = $this->get('/invoices/order.json/' . $order_id);
         
         if (empty($order)) {
             $this->last_error = array(
@@ -947,7 +947,8 @@ class SFAPIclient {
             return null;
         }
         
-        $order->Invoice->type = "proforma";
+        $order->Invoice->type = 'proforma';
+        $order->Invoice->parent_id = $order_id;
         
         return $this->post('/invoices/create', (array)$order);
     }
