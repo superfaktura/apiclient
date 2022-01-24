@@ -13,11 +13,12 @@
 	DEFINE('SFAPI_KEY', 'apikey'); 				  		 // SFAPI KEY
 	DEFINE('SFAPI_MODULE', 'API'); 				  		 // TITLE OF MODULE FE. 'WOOCOMMERCE MODULE'
 	DEFINE('SFAPI_APPTITLE', 'Example API application'); // TITLE OF YOUR APPLICATION FE. 'SUPERFAKTURA.SK'
+	DEFINE('COMPANY_ID', 1); // COMPANY_ID (optional)
 
 	require_once('../SFAPIclient/SFAPIclient.php');
 
 	// Create and init SFAPIclient
-	$api = new SFAPIclient(SFAPI_EMAIL, SFAPI_KEY, SFAPI_APPTITLE, SFAPI_MODULE);
+	$api = new SFAPIclient(SFAPI_EMAIL, SFAPI_KEY, SFAPI_APPTITLE, SFAPI_MODULE, COMPANY_ID);
 
 	/***********************************************
 	 * Example; create new invoice
