@@ -1,9 +1,16 @@
 <?php
-	// Create new contact person for existing client
+	DEFINE('SFAPI_EMAIL', 'example@example.com'); 		 // LOGIN EMAIL TO SUPERFAKTURA
+	DEFINE('SFAPI_KEY', 'apikey'); 				  		 // SFAPI KEY
+	DEFINE('SFAPI_MODULE', 'API'); 				  		 // TITLE OF MODULE FE. 'WOOCOMMERCE MODULE'
+	DEFINE('SFAPI_APPTITLE', 'Example API application'); // TITLE OF YOUR APPLICATION FE. 'SUPERFAKTURA.SK'
+	DEFINE('COMPANY_ID', 1); // COMPANY_ID (optional)
+
 	require_once('../SFAPIclient/SFAPIclient.php');
-	$email = 'example@example.com';
-	$token = 'apitoken';
-	$api = new SFAPIclient($email, $token);
+
+	// Create and init SFAPIclient
+	$api = new SFAPIclient(SFAPI_EMAIL, SFAPI_KEY, SFAPI_APPTITLE, SFAPI_MODULE, COMPANY_ID);
+
+	// Create new contact person for existing client
 	$data = array(
 		'client_id' => 503084,
 		'name' => 'Jaroslav',
