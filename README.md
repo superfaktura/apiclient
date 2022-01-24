@@ -45,7 +45,7 @@ Stiahnite si SuperFaktúra PHP-API kliknutím na tlačidlo ["Stiahnuť ZIP"](htt
 
 Ak chcete skúšať API klienta na sandboxe, [zaregistrujte sa](https://sandbox.superfaktura.sk) a v kóde stačí zavolať metódu `useSandbox`.
 ```
-$api = new SFAPIclient(SFAPI_EMAIL, SFAPI_KEY);
+$api = new SFAPIclient(SFAPI_EMAIL, SFAPI_KEY, SFAPI_APPTITLE, SFAPI_MODULE, COMPANY_ID);
 $api->useSandBox();
 ```
   
@@ -56,7 +56,10 @@ require_once('SFAPIclient/SFAPIclient.php');  // len v prípade, že nepoužíva
 
 $sf_api = new SFAPIClient(
     $login, // prihlasovací email do SuperFaktúry
-    $token  // API token, ktorý nájdete v SuperFaktúre po prihlásení do svojho účtu "[Nástroje > API prístup](https://moja.superfaktura.sk/api_access)"
+    $token, // API token, ktorý nájdete v SuperFaktúre po prihlásení do svojho účtu "[Nástroje > API prístup](https://moja.superfaktura.sk/api_access)"
+    $apptitle, // názov aplikácie
+    $module, // názov modulu
+    $company_id // (voliteľné) ID firmy, do ktorej chceme urobiť API request.
 );
 ```
   
