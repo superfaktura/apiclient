@@ -1,15 +1,15 @@
 <?php
-/**
- * @category   SuperFaktura API
- * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.31
- * @link https://github.com/superfaktura/docs
- */
 
 if (!class_exists('Requests')) {
     require_once('Requests.php');
 }
 
+/**
+ * @category   SuperFaktura API
+ * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
+ * @version    1.32
+ * @link https://github.com/superfaktura/docs
+ */
 class SFAPIclient {
 
     protected
