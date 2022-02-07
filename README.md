@@ -517,8 +517,8 @@ Dodatočne pridá úhradu ku faktúre.
 
 ##### Parametre
 * **$invoice_id** int povinné. Získané z Invoice->id
-* **$amount** float povinné. Uhradená suma.
-* **$currency** string nepovinné. Mena úhrady, predvolené EUR.
+* **$amount** float nepovinné. Predvolená, celková suma v mene dokladu
+* **$currency** string nepovinné. Mena úhrady, Ak sa nepošle amount tak mena dokladu inak EUR.
 * **$date** string nepovinné. Dátum úhrady, predvolený aktuálny dátum.
 * **$payment_type** string nepovinné. Spôsob úhrady, predvolený typ transfer. Možné hodnoty {transfer, cash, paypal, trustpay, credit, debit, cod, accreditation, gopay, viamo}
 * **$cash_register_id** int nepovinné. Určuje, ID pokladne.
