@@ -7,7 +7,7 @@ if (!class_exists('Requests')) {
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.32
+ * @version    1.33
  * @link https://github.com/superfaktura/docs
  */
 class SFAPIclient {
@@ -21,7 +21,8 @@ class SFAPIclient {
         $timeout = 30,
         $last_error = array(),
         $checksum = null,
-        $use_sandbox = false;
+        $use_sandbox = false,
+        $module;
 
     public
         $data = array(
@@ -50,7 +51,18 @@ class SFAPIclient {
         $this->className  = get_class($this);
         $this->email      = $email;
         $this->apikey     = $apikey;
-        $this->company_id = $company_id;
+        $this->data['apptitle'] = $apptitle;
+        $this->module = $module;
+        $this->setCompanyId($company_id);
+    }
+
+    /**
+     * Generates request headers
+     * 
+     * @return SFAPIclient
+     */
+    protected function generateHeaders(): SFAPIclient
+    {
         $this->headers    = array(
             'Authorization' => self::API_AUTH_KEYWORD
                 . ' '
@@ -58,10 +70,24 @@ class SFAPIclient {
                     'email' => $this->email,
                     'apikey' => $this->apikey,
                     'company_id' => $this->company_id,
-                    'module' => $this->getModuleString($module)
+                    'module' => $this->getModuleString()
                 ))
         );
-        $this->data['apptitle'] = $apptitle;
+
+        return $this;
+    }
+
+    /**
+     * Sets company ID and regenerates request headers
+     * 
+     * @param string|int $company_id
+     * 
+     * @return SFAPIclient
+     */
+    public function setCompanyId($company_id): SFAPIclient
+    {
+        $this->company_id = $company_id;
+        return $this->generateHeaders();
     }
 
     /**
@@ -1228,19 +1254,17 @@ class SFAPIclient {
     }
 
     /**
-     * @param string $module
-     *
      * @return string
      */
-    private function getModuleString($module)
+    private function getModuleString()
     {
         $version = $this->getVersion();
 
-        if ($module !== 'API') {
+        if ($this->module !== 'API') {
             $version = sprintf('(w/ SFAPI %s)', $this->getVersion());
         }
 
-        return sprintf('%s %s [%s]', $module, $version, PHP_VERSION_ID);
+        return sprintf('%s %s [%s]', $this->module, $version, PHP_VERSION_ID);
     }
 }
 
