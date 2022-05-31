@@ -182,6 +182,7 @@ V prípade že potrebujete detailnejšie informácie k faktúram, stačí násle
   * *updateTag(int $id, array $data)*
   * *deleteTag(int $id)*
   * *client(int $id)*
+  * *setCompanyId($company_id)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -1483,6 +1484,17 @@ Vráti detail klienta.
 $api->client(123);
 ```
 
+### 54. setCompanyId($company_id)
+
+Nastaví ID spoločnosti, do ktorej sa robia API dopyty.
+
+##### Parametre
+
+* **$company_id** *int|string* povinné. ID spoločnosti (user_profile_id)
+
+```php
+$api->setCompanyId(123);
+```
 
 
 ### Autorizácia
