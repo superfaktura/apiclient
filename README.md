@@ -923,6 +923,7 @@ Zoznam možných vlastností faktúry:
 * **order_no** - číslo objednávky
 * **logo_id** - ID loga
 * **tax_document** - (boolean) daňový doklad k prijatej platbe (pre správne prepojenie so zálohovou faktúrou je potrebné zadať proforma_id)
+* **add_rounding_item** - (boolean) pridá zaokrúhlenie na doklad (pri mene EUR zaokrúhľuje na 5 centov a pri CZK zaokrúhľuje na celé číslo)
 
 ### 24. sendInvoiceEmail
 Odošle faktúru emailom.
