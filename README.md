@@ -183,6 +183,10 @@ V prípade že potrebujete detailnejšie informácie k faktúram, stačí násle
   * *deleteTag(int $id)*
   * *client(int $id)*
   * *setCompanyId($company_id)*
+  * *addRelatedItemToInvoice(int $item_id, int $related_item_id, string $related_item_type)*
+  * *addRelatedItemToExpense(int $item_id, int $related_item_id, string $related_item_type)*
+  * *deleteRelatedItemFromInvoice(int $connection_id)*
+  * *deleteRelatedItemFromExpense(int $connection_id)*
  
 ### 1. __construct
  Konštruktor. Nastaví email a API token pre autorizáciu.
@@ -1496,6 +1500,47 @@ Nastaví ID spoločnosti, do ktorej sa robia API dopyty.
 ```php
 $api->setCompanyId(123);
 ```
+
+### 55. addRelatedItemToInvoice(int $item_id, int $related_item_id, string $related_item_type)
+Pripojí súvisiaci doklad k faktúre.
+##### Parametre
+* **$item_id** *int* povinné. ID faktúry
+* **$related_item_id** *int* povinné. ID pripájaného dokumentu
+* **$related_item_type** *string* povinné. Typ pripájaného dokument (invoice|expense)
+
+```php
+$response = $api->addRelatedItemToInvoice(89, 76, 'invoice');
+```
+
+### 56. addRelatedItemToExpense(int $item_id, int $related_item_id, string $related_item_type)
+Pripojí súvisiaci doklad k nákladu.
+##### Parametre
+* **$item_id** *int* povinné. ID nákladu
+* **$related_item_id** *int* povinné. ID pripájaného dokumentu
+* **$related_item_type** *string* povinné. Typ pripájaného dokument (invoice|expense)
+
+```php
+$response = $api->addRelatedItemToExpense(32, 89, 'invoice');
+```
+
+### 57. deleteRelatedItemFromInvoice(int $connection_id)
+Odstráni súvisiaci doklad z faktúry.
+##### Parametre
+* **$connection_id** *int* povinné. ID faktúry
+
+```php
+$response = $api->deleteRelatedItemFromInvoice(100);
+```
+
+### 58. deleteRelatedItemFromExpense(int $connection_id)
+Odstráni súvisiaci doklad z nákladu.
+##### Parametre
+* **$connection_id** *int* povinné. ID nákladu
+
+```php
+$response = $api->deleteRelatedItemFromExpense(102);
+```
+
 
 
 ### Autorizácia

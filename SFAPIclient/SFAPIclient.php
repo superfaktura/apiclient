@@ -7,7 +7,7 @@ if (!class_exists('Requests')) {
 /**
  * @category   SuperFaktura API
  * @author     SuperFaktura.sk s.r.o. <info@superfaktura.sk>
- * @version    1.33
+ * @version    1.34
  * @link https://github.com/superfaktura/docs
  */
 class SFAPIclient {
@@ -1265,6 +1265,60 @@ class SFAPIclient {
         }
 
         return sprintf('%s %s [%s]', $this->module, $version, PHP_VERSION_ID);
+    }
+
+    /**
+     * @param int $item_id
+     * @param int $related_item_id
+     * @param 'expense'|'invoice' $related_item_type
+     */
+    public function addRelatedItemToInvoice($item_id, $related_item_id, $related_item_type)
+    {
+        return $this->post(
+            '/invoices/addRelatedItem',
+            array(
+                'parent_id' => $item_id,
+                'parent_type' => 'invoice',
+                'child_id' => $related_item_id,
+                'child_type' => $related_item_type,
+            )
+        );
+    }
+
+    /**
+     * @param int $item_id
+     * @param int $related_item_id
+     * @param 'expense'|'invoice' $related_item_type
+     */
+    public function addRelatedItemToExpense($item_id, $related_item_id, $related_item_type)
+    {
+        return $this->post(
+            '/expenses/addRelatedItem',
+            array(
+                'parent_id' => $item_id,
+                'parent_type' => 'expense',
+                'child_id' => $related_item_id,
+                'child_type' => $related_item_type,
+            )
+        );
+    }
+
+    /**
+     * @param int $connection_id
+     * @return mixed|stdClass
+     */
+    public function deleteRelatedItemFromInvoice($connection_id)
+    {
+        return $this->get('/invoices/deleteRelatedItem/' . $connection_id);
+    }
+
+    /**
+     * @param int $connection_id
+     * @return mixed|stdClass
+     */
+    public function deleteRelatedItemFromExpense($connection_id)
+    {
+        return $this->get('/expenses/deleteRelatedItem/' . $connection_id);
     }
 }
 
