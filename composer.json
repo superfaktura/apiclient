@@ -17,7 +17,7 @@
         "files": ["SFAPIclient/SFAPIclient.php"]  
     },
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.3.0 <8.0.0",
         "ext-json": "*"
     }
 }
