@@ -24,6 +24,7 @@ class Requests_Response_Headers implements ArrayAccess, IteratorAggregate {
 	 * @param string $key
 	 * @return boolean
 	 */
+    #[\ReturnTypeWillChange]
 	public function offsetExists($key) {
 		$key = strtolower($key);
 		return isset($this->data[$key]);
@@ -35,6 +36,7 @@ class Requests_Response_Headers implements ArrayAccess, IteratorAggregate {
 	 * @param string $key
 	 * @return string Header value
 	 */
+    #[\ReturnTypeWillChange]
 	public function offsetGet($key) {
 		$key = strtolower($key);
 		return isset($this->data[$key]) ? $this->data[$key] : null;
@@ -48,6 +50,7 @@ class Requests_Response_Headers implements ArrayAccess, IteratorAggregate {
 	 * @param string $key Header name
 	 * @param string $value Header value
 	 */
+    #[\ReturnTypeWillChange]
 	public function offsetSet($key, $value) {
 		if (is_null($key)) {
 			throw new Requests_Exception('Headers is a dictionary, not a list', 'invalidset');
@@ -70,6 +73,7 @@ class Requests_Response_Headers implements ArrayAccess, IteratorAggregate {
 	 *
 	 * @param string $key
 	 */
+    #[\ReturnTypeWillChange]
 	public function offsetUnset($key) {
 		unset($this->data[strtolower($key)]);
 	}
@@ -79,6 +83,7 @@ class Requests_Response_Headers implements ArrayAccess, IteratorAggregate {
 	 *
 	 * @return ArrayIterator
 	 */
+    #[\ReturnTypeWillChange]
 	public function getIterator() {
 		return new ArrayIterator($this->data);
 	}
