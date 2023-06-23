@@ -1198,6 +1198,7 @@ Zoznam možných vlastností faktúry:
 * **paypal** *boolean*, zobrazovať PayPal
 * **show_prices** *boolean*, zobrazovať ceny (toto nastavenie sa týka výhradne dodacích listov)
 * **callback_payment** *string*, URL, ktorá sa automaticky zavolá po pridaní úhrady k faktúre. GET parameter `invoice_id` bude pridaný k URL. Pre poslanú URL `https://example.com/callback/`, výsledná URL pre invoice_id 123 bude `https://example.com/callback/?invoice_id=123` alebo `https://example.com/callback/?invoice_id=123&secret_key={KEY}`. Parameter `secret_key` môže byť súčasťou poslanej URL (`https://example.com/callback/?secret_key=SECRET-KEY`) alebo byť nastavený v profile.
+* **summary_bg_color** *string*, farba sumáru dokumentu. Tvar `#rrggbb`, kde `rr`, `gg` a `bb` sú hexadecimálne hodnoty `00`-`FF`
 
 ```php
 	$api->setInvoiceSettings(array(
