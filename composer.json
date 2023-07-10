@@ -26,10 +26,12 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^10.2",
-        "phpstan/phpstan": "^1.10"
+        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.21"
     },
     "scripts": {
         "test:unit": "./vendor/bin/phpunit --bootstrap vendor/autoload.php --testdox test/",
-        "php:phpstan": "./vendor/bin/phpstan analyse src test"
+        "php:phpstan": "./vendor/bin/phpstan analyse src test",
+        "php:cs-fix": "./vendor/bin/php-cs-fixer fix"
     }
 }
