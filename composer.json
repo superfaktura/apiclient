@@ -29,6 +29,7 @@
         "phpstan/phpstan": "^1.10"
     },
     "scripts": {
-        "test:unit": "./vendor/bin/phpunit --bootstrap vendor/autoload.php --testdox test/"
+        "test:unit": "./vendor/bin/phpunit --bootstrap vendor/autoload.php --testdox test/",
+        "php:phpstan": "./vendor/bin/phpstan analyse src test"
     }
 }
