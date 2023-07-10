@@ -12,12 +12,5 @@
             "homepage": "https://www.superfaktura.sk/",
             "role": "Developers"
         }
-    ],
-    "autoload": {
-        "files": ["SFAPIclient/SFAPIclient.php"]  
-    },
-    "require": {
-        "php": ">=7.0.0",
-        "ext-json": "*"
-    }
+    ]
 }
