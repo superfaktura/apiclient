@@ -1,7 +1,7 @@
 {
     "name": "superfaktura/apiclient",
-    "type": "library",
     "description": "Api client for SuperFaktura | online invoicing tool",
+    "type": "library",
     "keywords": ["invoice", "invoices", "business"],
     "homepage": "https://github.com/superfaktura/apiclient",
     "license": "MIT",
@@ -12,5 +12,11 @@
             "homepage": "https://www.superfaktura.sk/",
             "role": "Developers"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "SuperFaktura\\ApiClient\\": "src/"
+        }
+    },
+    "require": {}
 }
