@@ -1,5 +1,6 @@
 {
     "name": "superfaktura/apiclient",
+    "minimum-stability": "stable",
     "description": "Api client for SuperFaktura | online invoicing tool",
     "type": "library",
     "keywords": ["invoice", "invoices", "business"],
