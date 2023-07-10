@@ -18,5 +18,8 @@
             "SuperFaktura\\ApiClient\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "php": ">=8.2",
+        "ext-json": "*"
+    }
 }
