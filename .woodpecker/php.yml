@@ -1,0 +1,50 @@
+variables:
+  &exec_event [ push ]
+
+workspace:
+    base: /usr/src
+    path: .
+
+clone:
+    git:
+        image: sf_ci_apiclient:latest
+        commands:
+            - mkdir -m 0700 /root/.ssh
+            - echo "$${SSH_KEY_PRIV}" > /root/.ssh/id_ed25519 && chmod 0600 /root/.ssh/id_ed25519
+            - echo "$${KNOWN_HOSTS}" > /root/.ssh/known_hosts
+            - git clone "$${REPO_PATH}"
+            - cd apiclient
+            - git fetch
+            - git checkout -q "${CI_COMMIT_SHA}"
+        secrets: [ 'ssh_key_priv', 'known_hosts', 'git_host_url', 'git_host_port', 'repo_path' ]
+        when:
+            event: *exec_event
+
+pipeline:
+    phpstan:
+        image: sf_ci_apiclient:latest
+        pull: false
+        when:
+            even:  *exec_event
+        commands:
+            - cd apiclient
+            - composer install --quiet
+            - composer run php:phpstan
+    phpunit:
+        image: sf_ci_apiclient:latest
+        pull: false
+        when:
+          event: *exec_event
+        commands:
+            - cd apiclient
+            - composer install --quiet
+            - composer run test:unit
+    cs-check:                                
+        image: sf_ci_apiclient:latest        
+        pull: false                          
+        when:                                
+            event: *exec_event               
+        commands:                            
+            - cd apiclient                   
+            - composer install --quiet       
+            - composer run php:cs-check      
