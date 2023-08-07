@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  apiclient:
+    build:
+      context: .
+      args:
+        HOST_UID: ${HOST_UID:-1000}
+        HOST_GID: ${HOST_GID:-1000}
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    volumes:
+      - ./:/usr/src
+      - ./docker/php/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
