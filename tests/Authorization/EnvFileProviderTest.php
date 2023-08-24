@@ -2,12 +2,16 @@
 
 namespace SuperFaktura\ApiClient\Test\Authorization;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use SuperFaktura\ApiClient\Authorization\Authorization;
 use SuperFaktura\ApiClient\Authorization\DotEnvConfigKey;
 use SuperFaktura\ApiClient\Authorization\EnvFileProvider;
 use SuperFaktura\ApiClient\Authorization\CannotLoadFileException;
 use SuperFaktura\ApiClient\Authorization\InvalidDotEnvConfigException;
 
+#[CoversClass(EnvFileProvider::class)]
+#[CoversClass(Authorization::class)]
 final class EnvFileProviderTest extends \PHPUnit\Framework\TestCase
 {
     private const NON_EXISTING_FILE = '.non-existing-file.env';
@@ -64,9 +68,7 @@ final class EnvFileProviderTest extends \PHPUnit\Framework\TestCase
         $provider->getAuthorization();
     }
 
-    /**
-     * @dataProvider envFileDataProvider
-     */
+    #[DataProvider('envFileDataProvider')]
     public function testWithValidFile(Authorization $expected, string $path): void
     {
         self::assertEquals(

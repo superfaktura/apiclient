@@ -1,4 +1,5 @@
 /vendor/
+/coverage/
 *.cache
 /.idea/
 docker-compose.override.yml

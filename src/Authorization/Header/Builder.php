@@ -14,7 +14,7 @@ final readonly class Builder
 
     public function build(Authorization $authorization): string
     {
-        return http_build_query([
+        return 'SFAPI ' . http_build_query([
             'email' => $authorization->email,
             'apikey' => $authorization->key,
             'company_id' => $authorization->company_id,

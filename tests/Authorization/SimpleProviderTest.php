@@ -2,9 +2,13 @@
 
 namespace SuperFaktura\ApiClient\Test\Authorization;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use SuperFaktura\ApiClient\Authorization\Authorization;
 use SuperFaktura\ApiClient\Authorization\SimpleProvider;
 
+#[CoversClass(SimpleProvider::class)]
+#[CoversClass(Authorization::class)]
 final class SimpleProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -41,9 +45,7 @@ final class SimpleProviderTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @dataProvider getAuthorizationProvider
-     */
+    #[DataProvider('getAuthorizationProvider')]
     public function testGetAuthorization(
         Authorization $expected,
         string $email,
