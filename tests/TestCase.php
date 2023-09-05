@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Handler\MockHandler;
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Fig\Http\Message\StatusCodeInterface;
 use GuzzleHttp\Exception\RequestException;
@@ -73,6 +74,17 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 ]),
             ),
         ]);
+    }
+
+    protected function getHttpOkResponse(): MessageInterface
+    {
+        return (new \GuzzleHttp\Psr7\Response(StatusCodeInterface::STATUS_OK, [], '[]'))
+            ->withHeader('X-RateLimit-DailyLimit', '1000')
+            ->withHeader('X-RateLimit-DailyRemaining', '999')
+            ->withHeader('X-RateLimit-DailyReset', '01.01.2099 00:00:00')
+            ->withHeader('X-RateLimit-MonthlyLimit', '1000')
+            ->withHeader('X-RateLimit-MonthlyRemaining', '999')
+            ->withHeader('X-RateLimit-MonthlyReset', '01.01.2099 00:00:00');
     }
 
     /**

@@ -24,6 +24,7 @@
         "php": ">=8.2",
         "ext-json": "*",
         "ext-zip": "*",
+        "ext-mbstring": "*",
         "symfony/dotenv": "^6.3",
         "guzzlehttp/guzzle": "^7.7",
         "fig/http-message-util": "^1.1",
