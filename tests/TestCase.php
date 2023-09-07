@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace SuperFaktura\ApiClient\Test;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Middleware;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Handler\MockHandler;
 use Psr\Http\Message\MessageInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Fig\Http\Message\StatusCodeInterface;
 use GuzzleHttp\Exception\RequestException;
@@ -17,6 +19,18 @@ use SuperFaktura\ApiClient\Response\RateLimit;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @var array<array{request?: RequestInterface, response?: ResponseInterface}>
+     */
+    protected array $history = [];
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->history = [];
+    }
+
     protected static function getApiResponse(
         int $status_code = StatusCodeInterface::STATUS_IM_A_TEAPOT,
         array $data = [],
@@ -39,7 +53,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected function getHttpClientWithMockResponse(ResponseInterface ...$responses): Client
+    protected function getHttpClientWithMockResponse(MessageInterface ...$responses): Client
     {
         $modified_responses = [];
 
@@ -58,10 +72,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $modified_responses[] = $response;
         }
 
+        $handlerStack = HandlerStack::create(
+            new MockHandler($modified_responses),
+        );
+        $handlerStack->push(Middleware::history($this->history));
+
         return new Client([
-            'handler' => HandlerStack::create(
-                new MockHandler($modified_responses),
-            ),
+            'handler' =>  $handlerStack,
         ]);
     }
 
@@ -85,6 +102,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             ->withHeader('X-RateLimit-MonthlyLimit', '1000')
             ->withHeader('X-RateLimit-MonthlyRemaining', '999')
             ->withHeader('X-RateLimit-MonthlyReset', '01.01.2099 00:00:00');
+    }
+
+    protected function getLastRequest(): ?RequestInterface
+    {
+        return $this->history[0]['request'] ?? null;
     }
 
     /**

@@ -9,8 +9,8 @@ final readonly class Response
     public function __construct(
         public int $status_code,
         public array $data,
-        public RateLimit $rate_limit_daily,
-        public RateLimit $rate_limit_monthly,
+        public ?RateLimit $rate_limit_daily = null,
+        public ?RateLimit $rate_limit_monthly = null,
     ) {
     }
 

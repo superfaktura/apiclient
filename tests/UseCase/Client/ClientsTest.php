@@ -20,9 +20,11 @@ use SuperFaktura\ApiClient\Response\RateLimit;
 use SuperFaktura\ApiClient\Filter\SortDirection;
 use SuperFaktura\ApiClient\Filter\TimePeriodEnum;
 use SuperFaktura\ApiClient\UseCase\Client\Clients;
+use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\UseCase\Client\ClientsQuery;
+use SuperFaktura\ApiClient\UseCase\Client\Contact\Contacts;
 use SuperFaktura\ApiClient\UseCase\Client\CannotGetClientException;
 use SuperFaktura\ApiClient\UseCase\Client\CannotGetAllClientsException;
 
@@ -30,11 +32,13 @@ use SuperFaktura\ApiClient\UseCase\Client\CannotGetAllClientsException;
 #[CoversClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[CoversClass(CannotGetClientException::class)]
 #[CoversClass(CannotGetAllClientsException::class)]
+#[UsesClass(RequestException::class)]
 #[UsesClass(NamedParamsConvertor::class)]
 #[UsesClass(RateLimit::class)]
 #[UsesClass(ResponseFactory::class)]
 #[UsesClass(ClientsQuery::class)]
 #[UsesClass(Sort::class)]
+#[UsesClass(Contacts::class)]
 final class ClientsTest extends TestCase
 {
     public function testGetClientByIdSuccessResponse(): void

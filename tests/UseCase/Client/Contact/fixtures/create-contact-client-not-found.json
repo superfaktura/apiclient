@@ -1,0 +1,5 @@
+{
+  "error": 1,
+  "message": "Klient sa nenašiel. Prosím skontrolujte kľúč client_id.",
+  "state": "ERROR"
+}

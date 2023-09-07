@@ -16,23 +16,31 @@ final class ResponseFactory implements ResponseFactoryInterface
 
     public function createFromHttpResponse(ResponseInterface $response): Response
     {
-        return new Response(
-            status_code: $response->getStatusCode(),
-            data: (array) json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR),
-            rate_limit_daily: new RateLimit(
+        if ($response->hasHeader('X-RateLimit-DailyLimit')) {
+            $daily_rate_limit = new RateLimit(
                 limit: (int) $response->getHeaderLine('X-RateLimit-DailyLimit'),
                 remaining: (int) $response->getHeaderLine('X-RateLimit-DailyRemaining'),
                 resets_at: $this->createDatetimeImmutable(
                     $response->getHeaderLine('X-RateLimit-DailyReset'),
                 ),
-            ),
-            rate_limit_monthly: new RateLimit(
+            );
+        }
+
+        if ($response->hasHeader('X-RateLimit-MonthlyLimit')) {
+            $monthly_rate_limit = new RateLimit(
                 limit: (int) $response->getHeaderLine('X-RateLimit-MonthlyLimit'),
                 remaining: (int) $response->getHeaderLine('X-RateLimit-MonthlyRemaining'),
                 resets_at: $this->createDatetimeImmutable(
                     $response->getHeaderLine('X-RateLimit-MonthlyReset'),
                 ),
-            ),
+            );
+        }
+
+        return new Response(
+            status_code: $response->getStatusCode(),
+            data: (array) json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR),
+            rate_limit_daily: $daily_rate_limit ?? null,
+            rate_limit_monthly: $monthly_rate_limit ?? null,
         );
     }
 

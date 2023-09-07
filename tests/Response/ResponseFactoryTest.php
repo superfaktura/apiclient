@@ -109,6 +109,27 @@ final class ResponseFactoryTest extends TestCase
         $this->factory->createFromHttpResponse($response);
     }
 
+    public function testCreateFromHttpResponseWithoutRateLimitHeaders(): void
+    {
+        self::assertEquals(
+            expected: new Response(
+                status_code: StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR,
+                data: [
+                    'error' => 1,
+                    'message' => 'Error: 500',
+                    'error_message' => 'Error: 500',
+                ],
+            ),
+            actual: $this->factory->createFromHttpResponse(
+                new Psr7\Response(
+                    status: StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR,
+                    headers: [],
+                    body: '{"error":1,"message":"Error: 500","error_message":"Error: 500"}',
+                ),
+            ),
+        );
+    }
+
     /**
      * @param array<string, string> $headers
      */

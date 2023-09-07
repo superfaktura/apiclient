@@ -2,22 +2,8 @@
 
 namespace SuperFaktura\ApiClient\UseCase\Client;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Client\RequestExceptionInterface;
+use SuperFaktura\ApiClient\Request\RequestException;
 
-final class CannotGetClientException extends \RuntimeException implements RequestExceptionInterface
+final class CannotGetClientException extends RequestException
 {
-    public function __construct(
-        private readonly RequestInterface $request,
-        string $message = '',
-        int $code = 0,
-        \Throwable $previous = null
-    ) {
-        parent::__construct($message, $code, $previous);
-    }
-
-    public function getRequest(): RequestInterface
-    {
-        return $this->request;
-    }
 }

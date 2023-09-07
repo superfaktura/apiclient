@@ -11,10 +11,13 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
+use SuperFaktura\ApiClient\UseCase\Client\Contact\Contacts;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 
 final readonly class Clients implements Contract\Clients
 {
+    public Contacts $contacts;
+
     public function __construct(
         private ClientInterface $http_client,
         private RequestFactoryInterface $request_factory,
@@ -23,6 +26,13 @@ final readonly class Clients implements Contract\Clients
         private string $base_uri,
         private string $authorization_header_value,
     ) {
+        $this->contacts = new Contacts(
+            http_client: $this->http_client,
+            request_factory: $this->request_factory,
+            response_factory: $this->response_factory,
+            base_uri: $this->base_uri,
+            authorization_header_value: $this->authorization_header_value,
+        );
     }
 
     public function getById(int $id): Response
