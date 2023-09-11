@@ -2,16 +2,13 @@
 
 declare(strict_types=1);
 
-namespace SuperFaktura\ApiClient\Contract;
+namespace SuperFaktura\ApiClient\Contract\Client\Contact;
 
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
-use SuperFaktura\ApiClient\UseCase\Client\Contact\ClientNotFoundException;
-use SuperFaktura\ApiClient\UseCase\Client\Contact\CannotCreateContactException;
-use SuperFaktura\ApiClient\UseCase\Client\Contact\CannotDeleteContactException;
-use SuperFaktura\ApiClient\UseCase\Client\Contact\CannotGetAllContactsException;
+use SuperFaktura\ApiClient\Contract\Client\ClientNotFoundException;
 
-interface ClientContacts
+interface Contacts
 {
     /**
      * @throws CannotGetAllContactsException
@@ -30,5 +27,5 @@ interface ClientContacts
     /**
      * @throws CannotDeleteContactException
      */
-    public function deleteById(int $contact_id): void;
+    public function delete(int $contact_id): void;
 }

@@ -13,8 +13,10 @@ use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
 use SuperFaktura\ApiClient\UseCase\Client\Contact\Contacts;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
+use SuperFaktura\ApiClient\Contract\Client\CannotGetClientException;
+use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
 
-final readonly class Clients implements Contract\Clients
+final readonly class Clients implements Contract\Client\Clients
 {
     public Contacts $contacts;
 

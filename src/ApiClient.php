@@ -12,11 +12,14 @@ use SuperFaktura\ApiClient\UseCase\Client\Clients;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\Version\ComposerProvider;
 use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
+use SuperFaktura\ApiClient\UseCase\BankAccount\BankAccounts;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 
 final readonly class ApiClient
 {
-    public Contract\Clients $clients;
+    public Contract\BankAccount\BankAccounts $bank_accounts;
+
+    public Contract\Client\Clients $clients;
 
     public function __construct(
         private Authorization\Provider $authorization_provider,
@@ -27,6 +30,14 @@ final readonly class ApiClient
     ) {
         $authorization_header_value = (new Authorization\Header\Builder(new ComposerProvider()))
             ->build($this->authorization_provider->getAuthorization());
+
+        $this->bank_accounts = new BankAccounts(
+            http_client: $this->http_client,
+            request_factory: $this->request_factory,
+            response_factory: $this->response_factory,
+            base_uri: $this->base_uri,
+            authorization_header_value: $authorization_header_value,
+        );
 
         $this->clients = new Clients(
             http_client: $this->http_client,

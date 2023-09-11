@@ -18,10 +18,10 @@ use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\UseCase\Client\Contact\Contacts;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
-use SuperFaktura\ApiClient\UseCase\Client\Contact\ClientNotFoundException;
-use SuperFaktura\ApiClient\UseCase\Client\Contact\CannotCreateContactException;
-use SuperFaktura\ApiClient\UseCase\Client\Contact\CannotDeleteContactException;
-use SuperFaktura\ApiClient\UseCase\Client\Contact\CannotGetAllContactsException;
+use SuperFaktura\ApiClient\Contract\Client\ClientNotFoundException;
+use SuperFaktura\ApiClient\Contract\Client\Contact\CannotCreateContactException;
+use SuperFaktura\ApiClient\Contract\Client\Contact\CannotDeleteContactException;
+use SuperFaktura\ApiClient\Contract\Client\Contact\CannotGetAllContactsException;
 
 #[CoversClass(Contacts::class)]
 #[CoversClass(ClientNotFoundException::class)]
@@ -100,11 +100,11 @@ final class ContactsTest extends TestCase
             ->getAllByClientId(1);
     }
 
-    public function testDeleteById(): void
+    public function testDelete(): void
     {
         $this
             ->getContacts($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
-            ->deleteById(1);
+            ->delete(1);
 
         $request = $this->getLastRequest();
 
@@ -114,7 +114,7 @@ final class ContactsTest extends TestCase
         self::assertSame(self::AUTHORIZATION_HEADER_VALUE, $request->getHeaderLine('Authorization'));
     }
 
-    public function testDeleteByIdClientNotFound(): void
+    public function testDeleteClientNotFound(): void
     {
         $this->expectException(CannotDeleteContactException::class);
 
@@ -125,10 +125,10 @@ final class ContactsTest extends TestCase
                 new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
             ),
         )
-            ->deleteById(1);
+            ->delete(1);
     }
 
-    public function testDeleteByIdInsufficientPermissions(): void
+    public function testDeleteInsufficientPermissions(): void
     {
         $this->expectException(CannotDeleteContactException::class);
 
@@ -139,13 +139,13 @@ final class ContactsTest extends TestCase
                 new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
             ),
         )
-            ->deleteById(1);
+            ->delete(1);
     }
 
     /**
      * @return \Generator<array{client_id: int, data: array<string, mixed>}>
      */
-    public static function createContactProvider(): \Generator
+    public static function createProvider(): \Generator
     {
         $data = [
             'name' => 'Joe Doe',
@@ -174,8 +174,8 @@ final class ContactsTest extends TestCase
     /**
      * @param array<string, mixed> $data
      */
-    #[DataProvider('createContactProvider')]
-    public function testCreateContact(int $client_id, array $data, string $request_body): void
+    #[DataProvider('createProvider')]
+    public function testCreate(int $client_id, array $data, string $request_body): void
     {
         $this
             ->getContacts($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
@@ -191,7 +191,7 @@ final class ContactsTest extends TestCase
         self::assertSame(self::AUTHORIZATION_HEADER_VALUE, $request->getHeaderLine('Authorization'));
     }
 
-    public function testCreateContactMissingRequiredData(): void
+    public function testCreateMissingRequiredData(): void
     {
         $this->expectException(CannotCreateContactException::class);
 
@@ -205,7 +205,7 @@ final class ContactsTest extends TestCase
             ->create(1, []);
     }
 
-    public function testCreateContactInsufficientPermissions(): void
+    public function testCreateInsufficientPermissions(): void
     {
         $this->expectException(CannotCreateContactException::class);
 
@@ -219,7 +219,7 @@ final class ContactsTest extends TestCase
             ->create(1, []);
     }
 
-    public function testCreateContactClientNotFound(): void
+    public function testCreateClientNotFound(): void
     {
         $this->expectException(CannotCreateContactException::class);
 
@@ -233,7 +233,7 @@ final class ContactsTest extends TestCase
             ->create(1, []);
     }
 
-    public function testCreateContactResponseDecodeFailed(): void
+    public function testCreateResponseDecodeFailed(): void
     {
         $this->expectException(CannotCreateContactException::class);
 
@@ -245,7 +245,7 @@ final class ContactsTest extends TestCase
             ->create(1, []);
     }
 
-    public function testCreateContactInvalidRequestData(): void
+    public function testCreateInvalidRequestData(): void
     {
         $this->expectException(CannotCreateRequestException::class);
 

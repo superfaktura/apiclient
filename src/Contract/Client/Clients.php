@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-namespace SuperFaktura\ApiClient\Contract;
+namespace SuperFaktura\ApiClient\Contract\Client;
 
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\UseCase\Client\ClientsQuery;
-use SuperFaktura\ApiClient\UseCase\Client\CannotGetClientException;
-use SuperFaktura\ApiClient\UseCase\Client\CannotGetAllClientsException;
 
 interface Clients
 {

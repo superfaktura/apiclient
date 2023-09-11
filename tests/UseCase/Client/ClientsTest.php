@@ -25,8 +25,8 @@ use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\UseCase\Client\ClientsQuery;
 use SuperFaktura\ApiClient\UseCase\Client\Contact\Contacts;
-use SuperFaktura\ApiClient\UseCase\Client\CannotGetClientException;
-use SuperFaktura\ApiClient\UseCase\Client\CannotGetAllClientsException;
+use SuperFaktura\ApiClient\Contract\Client\CannotGetClientException;
+use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
 
 #[CoversClass(Clients::class)]
 #[CoversClass(\SuperFaktura\ApiClient\Response\Response::class)]
@@ -41,11 +41,11 @@ use SuperFaktura\ApiClient\UseCase\Client\CannotGetAllClientsException;
 #[UsesClass(Contacts::class)]
 final class ClientsTest extends TestCase
 {
-    public function testGetClientByIdSuccessResponse(): void
+    public function testGetClientById(): void
     {
         $fixture = __DIR__ . '/fixtures/client.json';
 
-        $response = $this->getClientsFacadeWithMockedHttpClient(
+        $response = $this->getClients(
             $this->getHttpClientWithMockResponse(
                 new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
             ),
@@ -61,7 +61,7 @@ final class ClientsTest extends TestCase
 
         $fixture = __DIR__ . '/fixtures/not-found.json';
 
-        $this->getClientsFacadeWithMockedHttpClient(
+        $this->getClients(
             $this->getHttpClientWithMockResponse(
                 new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
             ),
@@ -73,7 +73,7 @@ final class ClientsTest extends TestCase
     {
         $this->expectException(CannotGetClientException::class);
 
-        $this->getClientsFacadeWithMockedHttpClient(
+        $this->getClients(
             $this->getHttpClientWithMockRequestException(),
         )
             ->getById(1);
@@ -83,7 +83,7 @@ final class ClientsTest extends TestCase
     {
         $this->expectException(CannotGetClientException::class);
 
-        $this->getClientsFacadeWithMockedHttpClient(
+        $this->getClients(
             $this->getHttpClientWithMockResponse(
                 new Response(StatusCodeInterface::STATUS_OK, [], '{"Client":'),
             ),
@@ -91,11 +91,11 @@ final class ClientsTest extends TestCase
             ->getById(1);
     }
 
-    public function testGetAllSuccessResponse(): void
+    public function testGetAll(): void
     {
         $fixture = __DIR__ . '/fixtures/clients.json';
 
-        $response = $this->getClientsFacadeWithMockedHttpClient(
+        $response = $this->getClients(
             $this->getHttpClientWithMockResponse(
                 new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
             ),
@@ -105,7 +105,7 @@ final class ClientsTest extends TestCase
         self::assertSame($this->arrayFromFixture($fixture), $response->data);
     }
 
-    public static function getAllClientsQueryProvider(): \Generator
+    public static function getAllQueryProvider(): \Generator
     {
         $base_uri = '/clients/index.json/';
 
@@ -177,8 +177,8 @@ final class ClientsTest extends TestCase
         ];
     }
 
-    #[DataProvider('getAllClientsQueryProvider')]
-    public function testGetAllClientsQuery(string $expected, ClientsQuery $query): void
+    #[DataProvider('getAllQueryProvider')]
+    public function testGetAllQuery(string $expected, ClientsQuery $query): void
     {
         $http_client = $this->createMock(Client::class);
         $http_client
@@ -193,14 +193,14 @@ final class ClientsTest extends TestCase
             )
             ->willReturn($this->getHttpOkResponse());
 
-        $this->getClientsFacadeWithMockedHttpClient($http_client)->getAll($query);
+        $this->getClients($http_client)->getAll($query);
     }
 
     public function testGetAllRequestFailed(): void
     {
         $this->expectException(CannotGetAllClientsException::class);
 
-        $this->getClientsFacadeWithMockedHttpClient(
+        $this->getClients(
             $this->getHttpClientWithMockRequestException(),
         )
             ->getAll();
@@ -210,7 +210,7 @@ final class ClientsTest extends TestCase
     {
         $this->expectException(CannotGetAllClientsException::class);
 
-        $this->getClientsFacadeWithMockedHttpClient(
+        $this->getClients(
             $this->getHttpClientWithMockResponse(
                 new Response(StatusCodeInterface::STATUS_OK, [], '{"items":'),
             ),
@@ -218,7 +218,7 @@ final class ClientsTest extends TestCase
             ->getAll();
     }
 
-    private function getClientsFacadeWithMockedHttpClient(Client $client): Clients
+    private function getClients(Client $client): Clients
     {
         return new Clients(
             http_client: $client,
