@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use SuperFaktura\ApiClient\UseCase\CashRegister;
 use SuperFaktura\ApiClient\UseCase\Client\Clients;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\Version\ComposerProvider;
@@ -20,6 +21,8 @@ final readonly class ApiClient
     public Contract\BankAccount\BankAccounts $bank_accounts;
 
     public Contract\Client\Clients $clients;
+
+    public Contract\CashRegister\Items\Items $cash_register_items;
 
     public function __construct(
         private Authorization\Provider $authorization_provider,
@@ -44,6 +47,14 @@ final readonly class ApiClient
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
             query_params_convertor: new NamedParamsConvertor(),
+            base_uri: $this->base_uri,
+            authorization_header_value: $authorization_header_value,
+        );
+
+        $this->cash_register_items = new CashRegister\Items(
+            http_client: $this->http_client,
+            request_factory: $this->request_factory,
+            response_factory: $this->response_factory,
             base_uri: $this->base_uri,
             authorization_header_value: $authorization_header_value,
         );
