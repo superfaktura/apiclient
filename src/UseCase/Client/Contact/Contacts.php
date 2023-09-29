@@ -7,6 +7,7 @@ namespace SuperFaktura\ApiClient\UseCase\Client\Contact;
 use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Client\ClientInterface;
 use SuperFaktura\ApiClient\Contract;
+use Fig\Http\Message\StatusCodeInterface;
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -14,6 +15,7 @@ use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Client\ClientNotFoundException;
+use SuperFaktura\ApiClient\Contract\Client\Contact\ContactNotFoundException;
 use SuperFaktura\ApiClient\Contract\Client\Contact\CannotCreateContactException;
 use SuperFaktura\ApiClient\Contract\Client\Contact\CannotDeleteContactException;
 use SuperFaktura\ApiClient\Contract\Client\Contact\CannotGetAllContactsException;
@@ -48,7 +50,7 @@ final readonly class Contacts implements Contract\Client\Contact\Contacts
             throw new CannotGetAllContactsException($request, $e->getMessage(), $e->getCode(), $e);
         }
 
-        if ($this->isClientNotFoundResponse($response)) {
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
             throw new ClientNotFoundException($request);
         }
 
@@ -72,15 +74,19 @@ final readonly class Contacts implements Contract\Client\Contact\Contacts
             $response = $this->response_factory->createFromHttpResponse(
                 $this->http_client->sendRequest($request),
             );
-
-            if ($response->isError()) {
-                throw new CannotCreateContactException($request, $response->data['message'] ?? '');
-            }
-
-            return $response;
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotCreateContactException($request, $e->getMessage(), $e->getCode(), $e);
         }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new ClientNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotCreateContactException($request, $response->data['message'] ?? '');
+        }
+
+        return $response;
     }
 
     public function delete(int $contact_id): void
@@ -95,20 +101,17 @@ final readonly class Contacts implements Contract\Client\Contact\Contacts
         try {
             $response = $this->response_factory
                 ->createFromHttpResponse($this->http_client->sendRequest($request));
-
-            if ($response->isError()) {
-                throw new CannotDeleteContactException($request, $response->data['error_message'] ?? '');
-            }
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotDeleteContactException($request, $e->getMessage(), $e->getCode(), $e);
         }
-    }
 
-    private function isClientNotFoundResponse(Response $response): bool
-    {
-        return $response->data === [
-            [self::CONTACT => ['client' => true]],
-        ];
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new ContactNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotDeleteContactException($request, $response->data['error_message'] ?? '');
+        }
     }
 
     /**

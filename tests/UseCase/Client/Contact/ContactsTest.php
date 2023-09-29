@@ -19,6 +19,7 @@ use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\UseCase\Client\Contact\Contacts;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Client\ClientNotFoundException;
+use SuperFaktura\ApiClient\Contract\Client\Contact\ContactNotFoundException;
 use SuperFaktura\ApiClient\Contract\Client\Contact\CannotCreateContactException;
 use SuperFaktura\ApiClient\Contract\Client\Contact\CannotDeleteContactException;
 use SuperFaktura\ApiClient\Contract\Client\Contact\CannotGetAllContactsException;
@@ -73,7 +74,7 @@ final class ContactsTest extends TestCase
 
         $this->getContacts(
             $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
+                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
             ),
         )
             ->getAllByClientId(1);
@@ -114,15 +115,15 @@ final class ContactsTest extends TestCase
         self::assertSame(self::AUTHORIZATION_HEADER_VALUE, $request->getHeaderLine('Authorization'));
     }
 
-    public function testDeleteClientNotFound(): void
+    public function testDeleteContactNotFound(): void
     {
-        $this->expectException(CannotDeleteContactException::class);
+        $this->expectException(ContactNotFoundException::class);
 
         $fixture = __DIR__ . '/fixtures/delete-contact-not-found.json';
 
         $this->getContacts(
             $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
+                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
             ),
         )
             ->delete(1);
@@ -221,13 +222,13 @@ final class ContactsTest extends TestCase
 
     public function testCreateClientNotFound(): void
     {
-        $this->expectException(CannotCreateContactException::class);
+        $this->expectException(ClientNotFoundException::class);
 
         $fixture = __DIR__ . '/fixtures/create-contact-client-not-found.json';
 
         $this->getContacts(
             $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
+                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
             ),
         )
             ->create(1, []);

@@ -21,11 +21,13 @@ interface Contacts
      *
      * @throws CannotCreateContactException
      * @throws CannotCreateRequestException
+     * @throws ClientNotFoundException
      */
     public function create(int $client_id, array $contact): Response;
 
     /**
      * @throws CannotDeleteContactException
+     * @throws ContactNotFoundException
      */
     public function delete(int $contact_id): void;
 }
