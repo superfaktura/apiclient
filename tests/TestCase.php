@@ -14,11 +14,16 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Fig\Http\Message\StatusCodeInterface;
 use GuzzleHttp\Exception\RequestException;
+use Fig\Http\Message\RequestMethodInterface;
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Response\RateLimit;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+    protected const ERROR_COMMUNICATING_WITH_SERVER_MESSAGE = 'Error communicating with server';
+
+    protected const JSON_ENCODE_FAILURE_MESSAGE = 'Inf and NaN cannot be JSON encoded';
+
     /**
      * @var array<array{request?: RequestInterface, response?: ResponseInterface}>
      */
@@ -87,7 +92,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return new Client([
             'handler' => HandlerStack::create(
                 new MockHandler([
-                    new RequestException('Error communicating with server', new Request('GET', 'test')),
+                    new RequestException(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE, new Request('GET', 'test')),
                 ]),
             ),
         ]);
@@ -102,6 +107,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             ->withHeader('X-RateLimit-MonthlyLimit', '1000')
             ->withHeader('X-RateLimit-MonthlyRemaining', '999')
             ->withHeader('X-RateLimit-MonthlyReset', '01.01.2099 00:00:00');
+    }
+
+    protected function getHttpOkResponseContainingInvalidJson(): MessageInterface
+    {
+        return (new \GuzzleHttp\Psr7\Response(StatusCodeInterface::STATUS_OK, [], '{'));
     }
 
     protected function getLastRequest(): ?RequestInterface
@@ -137,5 +147,15 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             512,
             JSON_THROW_ON_ERROR,
         );
+    }
+
+    protected static function assertPostRequest(RequestInterface $request): void
+    {
+        self::assertSame(RequestMethodInterface::METHOD_POST, $request->getMethod());
+    }
+
+    protected static function assertContentTypeJson(RequestInterface $request): void
+    {
+        self::assertSame('application/json', $request->getHeaderLine('Content-Type'));
     }
 }

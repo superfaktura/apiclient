@@ -25,6 +25,7 @@ use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\UseCase\Client\ClientsQuery;
 use SuperFaktura\ApiClient\UseCase\Client\Contact\Contacts;
+use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetClientException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
 
@@ -32,6 +33,8 @@ use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
 #[CoversClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[CoversClass(CannotGetClientException::class)]
 #[CoversClass(CannotGetAllClientsException::class)]
+#[CoversClass(CannotCreateClientException::class)]
+#[CoversClass(CannotCreateRequestException::class)]
 #[UsesClass(RequestException::class)]
 #[UsesClass(NamedParamsConvertor::class)]
 #[UsesClass(RateLimit::class)]
@@ -247,5 +250,72 @@ final class ClientsTest extends TestCase
         return (new NamedParamsConvertor())->convert(
             array_merge($default_query_params, $params),
         );
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    public function testCreate(): void
+    {
+        $data = ['Client' => ['name' => 'Jozef Mrkvicka']];
+
+        $request_body = json_encode($data, JSON_THROW_ON_ERROR);
+
+        $fixture = __DIR__ . '/fixtures/create.json';
+        $response_body_json = $this->jsonFromFixture($fixture);
+
+        $use_case = $this->getClients($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
+        ));
+        $response = $use_case->create($data);
+
+        $request = $this->getLastRequest();
+
+        $expected_response_body = json_decode($response_body_json, true, 512, JSON_THROW_ON_ERROR);
+
+        self::assertNotNull($request);
+        self::assertPostRequest($request);
+        self::assertSame($request_body, (string) $request->getBody());
+        self::assertContentTypeJson($request);
+        self::assertEquals($expected_response_body, $response->data);
+    }
+
+    public function testCreateInsufficientPermissions(): void
+    {
+        $this->expectException(CannotCreateClientException::class);
+        $this->expectExceptionMessage('You can\'t create new items');
+
+        $fixture = __DIR__ . '/fixtures/insufficient-permissions.json';
+        $use_case = $this->getClients($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_FORBIDDEN, [], $this->jsonFromFixture($fixture)),
+        ));
+        $use_case->create([]);
+    }
+
+    public function testCreateResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotCreateClientException::class);
+        $this->expectExceptionMessage('Syntax error');
+
+        $use_case = $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()));
+        $use_case->create([]);
+    }
+
+    public function testCreateRequestFailed(): void
+    {
+        $this->expectException(CannotCreateClientException::class);
+        $this->expectExceptionMessage(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
+
+        $use_case = $this->getClients($this->getHttpClientWithMockRequestException());
+        $use_case->create([]);
+    }
+
+    public function testCreateWithNonValidJsonArray(): void
+    {
+        $this->expectException(CannotCreateRequestException::class);
+        $this->expectExceptionMessage(self::JSON_ENCODE_FAILURE_MESSAGE);
+
+        $use_case = $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponse()));
+        $use_case->create(['Client' => ['name' => NAN]]);
     }
 }
