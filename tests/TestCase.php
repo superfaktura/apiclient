@@ -58,6 +58,27 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
+    protected static function assertContentTypeJson(RequestInterface $request): void
+    {
+        self::assertSame('application/json', $request->getHeaderLine('Content-Type'));
+    }
+
+    protected static function assertPatchRequest(RequestInterface $request): void
+    {
+        self::assertSame(RequestMethodInterface::METHOD_PATCH, $request->getMethod());
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    protected static function assertJsonEquals(string $expected_json, string $actual_json): void
+    {
+        self::assertEquals(
+            json_decode($expected_json, true, 512, JSON_THROW_ON_ERROR),
+            json_decode($actual_json, true, 512, JSON_THROW_ON_ERROR),
+        );
+    }
+
     protected function getHttpClientWithMockResponse(MessageInterface ...$responses): Client
     {
         $modified_responses = [];
@@ -157,10 +178,5 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected static function assertDeleteRequest(RequestInterface $request): void
     {
         self::assertSame(RequestMethodInterface::METHOD_DELETE, $request->getMethod());
-    }
-
-    protected static function assertContentTypeJson(RequestInterface $request): void
-    {
-        self::assertSame('application/json', $request->getHeaderLine('Content-Type'));
     }
 }

@@ -28,7 +28,9 @@ use SuperFaktura\ApiClient\UseCase\Client\Contact\Contacts;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Client\ClientNotFoundException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetClientException;
+use SuperFaktura\ApiClient\Contract\Client\CannotCreateClientException;
 use SuperFaktura\ApiClient\Contract\Client\CannotDeleteClientException;
+use SuperFaktura\ApiClient\Contract\Client\CannotUpdateClientException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
 
 #[CoversClass(Clients::class)]
@@ -381,6 +383,86 @@ final class ClientsTest extends TestCase
     }
 
     public function testCreateWithNonValidJsonArray(): void
+    {
+        $this->expectException(CannotCreateRequestException::class);
+        $this->expectExceptionMessage(self::JSON_ENCODE_FAILURE_MESSAGE);
+
+        $use_case = $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponse()));
+        $use_case->create(['Client' => ['name' => NAN]]);
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    public function testUpdate(): void
+    {
+        $id = 1;
+        $data = [
+            'Client' => ['name' => 'Jozef Mrkvicka', 'email' => 'jozef.mrkvicka@gmail.com'],
+        ];
+        $expected_request_body = [
+            'Client' => ['id' => $id, ...$data['Client']],
+        ];
+
+        $request_body = json_encode($expected_request_body, JSON_THROW_ON_ERROR);
+
+        $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
+            ->update($id, $data);
+
+        $request = $this->getLastRequest();
+
+        self::assertNotNull($request);
+        self::assertPatchRequest($request);
+        self::assertSame('/clients/edit/' . $id, $request->getUri()->getPath());
+        self::assertJsonEquals($request_body, (string) $request->getBody());
+        self::assertContentTypeJson($request);
+    }
+
+    public function testUpdateNotFound(): void
+    {
+        $this->expectException(ClientNotFoundException::class);
+
+        $fixture = __DIR__ . '/fixtures/not-found.json';
+
+        $this->getClients(
+            $this->getHttpClientWithMockResponse(
+                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
+            ),
+        )
+            ->update(1, ['Client' => ['name' => 'Jozef Mrkvicka II', 'email' => 'jozef.mrkvicka2@gmail.com']]);
+    }
+
+    public function testUpdateInsufficientPermissions(): void
+    {
+        $this->expectException(CannotUpdateClientException::class);
+        $this->expectExceptionMessage('You can\'t edit this item');
+
+        $fixture = __DIR__ . '/fixtures/edit-insufficient-permissions.json';
+        $use_case = $this->getClients($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_FORBIDDEN, [], $this->jsonFromFixture($fixture)),
+        ));
+        $use_case->update(0, []);
+    }
+
+    public function testUpdateResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotUpdateClientException::class);
+        $this->expectExceptionMessage('Syntax error');
+
+        $use_case = $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()));
+        $use_case->update(0, []);
+    }
+
+    public function testUpdateRequestFailed(): void
+    {
+        $this->expectException(CannotUpdateClientException::class);
+        $this->expectExceptionMessage(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
+
+        $use_case = $this->getClients($this->getHttpClientWithMockRequestException());
+        $use_case->update(0, []);
+    }
+
+    public function testUpdateWithNonValidJsonArray(): void
     {
         $this->expectException(CannotCreateRequestException::class);
         $this->expectExceptionMessage(self::JSON_ENCODE_FAILURE_MESSAGE);

@@ -18,9 +18,10 @@ use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Client\ClientNotFoundException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetClientException;
+use SuperFaktura\ApiClient\Contract\Client\CannotCreateClientException;
 use SuperFaktura\ApiClient\Contract\Client\CannotDeleteClientException;
+use SuperFaktura\ApiClient\Contract\Client\CannotUpdateClientException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
-use SuperFaktura\ApiClient\Test\UseCase\Client\CannotCreateClientException;
 
 final readonly class Clients implements Contract\Client\Clients
 {
@@ -126,6 +127,34 @@ final readonly class Clients implements Contract\Client\Clients
 
         if ($response->isError()) {
             throw new CannotCreateClientException($request, $response->data['message'] ?? '');
+        }
+
+        return $response;
+    }
+
+    public function update(int $id, array $data): Response
+    {
+        $data['Client']['id'] = $id;
+        $request = $this->request_factory
+            ->createRequest(RequestMethodInterface::METHOD_PATCH, $this->base_uri . '/clients/edit/' . $id)
+            ->withHeader('Authorization', $this->authorization_header_value)
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(Utils::streamFor($this->transformClientDataToJson($data)));
+
+        try {
+            $response = $this->response_factory->createFromHttpResponse(
+                $this->http_client->sendRequest($request),
+            );
+        } catch (\JsonException|ClientExceptionInterface $e) {
+            throw new CannotUpdateClientException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new ClientNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotUpdateClientException($request, $response->data['message'] ?? '');
         }
 
         return $response;

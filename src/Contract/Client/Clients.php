@@ -21,6 +21,14 @@ interface Clients
     public function getAll(ClientsQuery $query): Response;
 
     /**
+     * @param array<string, array<string, mixed>> $data
+     *
+     * @throws ClientNotFoundException
+     * @throws CannotUpdateClientException
+     */
+    public function update(int $id, array $data): Response;
+
+    /**
      * @throws ClientNotFoundException
      * @throws CannotDeleteClientException
      */
