@@ -11,6 +11,7 @@ interface Clients
 {
     /**
      * @throws CannotGetClientException
+     * @throws ClientNotFoundException
      */
     public function getById(int $id): Response;
 

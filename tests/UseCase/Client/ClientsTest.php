@@ -26,6 +26,7 @@ use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\UseCase\Client\ClientsQuery;
 use SuperFaktura\ApiClient\UseCase\Client\Contact\Contacts;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
+use SuperFaktura\ApiClient\Contract\Client\ClientNotFoundException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetClientException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
 
@@ -60,13 +61,13 @@ final class ClientsTest extends TestCase
 
     public function testGetClientByIdNotFound(): void
     {
-        $this->expectException(CannotGetClientException::class);
+        $this->expectException(ClientNotFoundException::class);
 
         $fixture = __DIR__ . '/fixtures/not-found.json';
 
         $this->getClients(
             $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
+                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
             ),
         )
             ->getById(1);

@@ -7,6 +7,7 @@ namespace SuperFaktura\ApiClient\UseCase\Client;
 use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Client\ClientInterface;
 use SuperFaktura\ApiClient\Contract;
+use Fig\Http\Message\StatusCodeInterface;
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -15,6 +16,7 @@ use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
 use SuperFaktura\ApiClient\UseCase\Client\Contact\Contacts;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
+use SuperFaktura\ApiClient\Contract\Client\ClientNotFoundException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetClientException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
 use SuperFaktura\ApiClient\Test\UseCase\Client\CannotCreateClientException;
@@ -49,15 +51,19 @@ final readonly class Clients implements Contract\Client\Clients
         try {
             $response = $this->response_factory
                 ->createFromHttpResponse($this->http_client->sendRequest($request));
-
-            if ($response->isError()) {
-                throw new CannotGetClientException($request, $response->data['error_message'] ?? '');
-            }
-
-            return $response;
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotGetClientException($request, $e->getMessage(), $e->getCode(), $e);
         }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new ClientNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotGetClientException($request, $response->data['error_message'] ?? '');
+        }
+
+        return $response;
     }
 
     public function getAll(ClientsQuery $query = new ClientsQuery()): Response
