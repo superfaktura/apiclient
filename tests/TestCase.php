@@ -154,6 +154,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         self::assertSame(RequestMethodInterface::METHOD_POST, $request->getMethod());
     }
 
+    protected static function assertDeleteRequest(RequestInterface $request): void
+    {
+        self::assertSame(RequestMethodInterface::METHOD_DELETE, $request->getMethod());
+    }
+
     protected static function assertContentTypeJson(RequestInterface $request): void
     {
         self::assertSame('application/json', $request->getHeaderLine('Content-Type'));

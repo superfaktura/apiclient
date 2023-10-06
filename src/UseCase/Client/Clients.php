@@ -18,6 +18,7 @@ use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Client\ClientNotFoundException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetClientException;
+use SuperFaktura\ApiClient\Contract\Client\CannotDeleteClientException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
 use SuperFaktura\ApiClient\Test\UseCase\Client\CannotCreateClientException;
 
@@ -140,5 +141,30 @@ final readonly class Clients implements Contract\Client\Clients
         } catch (\JsonException $e) {
             throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    public function delete(int $id): Response
+    {
+        $request = $this->request_factory
+            ->createRequest(RequestMethodInterface::METHOD_DELETE, $this->base_uri . '/clients/delete/' . $id)
+            ->withHeader('Authorization', $this->authorization_header_value)
+            ->withHeader('Content-Type', 'application/json');
+
+        try {
+            $response = $this->response_factory
+                ->createFromHttpResponse($this->http_client->sendRequest($request));
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotDeleteClientException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new ClientNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotDeleteClientException($request, $response->data['error_message'] ?? '');
+        }
+
+        return $response;
     }
 }

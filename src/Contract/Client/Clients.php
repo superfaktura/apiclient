@@ -19,4 +19,10 @@ interface Clients
      * @throws CannotGetAllClientsException
      */
     public function getAll(ClientsQuery $query): Response;
+
+    /**
+     * @throws ClientNotFoundException
+     * @throws CannotDeleteClientException
+     */
+    public function delete(int $id): Response;
 }

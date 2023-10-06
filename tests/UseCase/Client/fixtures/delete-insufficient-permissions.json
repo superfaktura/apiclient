@@ -1,0 +1,5 @@
+{
+  "error": 1,
+  "message": "You are not authorized to delete this client",
+  "error_message": "You are not authorized to delete this client"
+}

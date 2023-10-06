@@ -28,6 +28,7 @@ use SuperFaktura\ApiClient\UseCase\Client\Contact\Contacts;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Client\ClientNotFoundException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetClientException;
+use SuperFaktura\ApiClient\Contract\Client\CannotDeleteClientException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
 
 #[CoversClass(Clients::class)]
@@ -220,6 +221,74 @@ final class ClientsTest extends TestCase
             ),
         )
             ->getAll();
+    }
+
+    public function testDelete(): void
+    {
+        $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
+            ->delete(1);
+
+        $request = $this->getLastRequest();
+
+        self::assertNotNull($request);
+        self::assertDeleteRequest($request);
+        self::assertSame('/clients/delete/1', $request->getUri()->getPath());
+        self::assertContentTypeJson($request);
+    }
+
+    public function testDeleteNotFound(): void
+    {
+        $this->expectException(ClientNotFoundException::class);
+
+        $fixture = __DIR__ . '/fixtures/not-found.json';
+
+        $this->getClients($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
+        ))
+            ->delete(0);
+    }
+
+    public function testDeleteInsufficientPermissions(): void
+    {
+        $this->expectException(CannotDeleteClientException::class);
+        $this->expectExceptionMessage('You are not authorized to delete this client');
+
+        $fixture = __DIR__ . '/fixtures/delete-insufficient-permissions.json';
+        $use_case = $this->getClients($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_FORBIDDEN, [], $this->jsonFromFixture($fixture)),
+        ));
+        $use_case->delete(0);
+    }
+
+    public function testDeleteWithInvoices(): void
+    {
+        $this->expectException(CannotDeleteClientException::class);
+        $this->expectExceptionMessage('You can\'t delete contact with invoices');
+
+        $fixture = __DIR__ . '/fixtures/delete-client-with-contacts.json';
+
+        $use_case = $this->getClients($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_FORBIDDEN, [], $this->jsonFromFixture($fixture)),
+        ));
+        $use_case->delete(1);
+    }
+
+    public function testDeleteResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotDeleteClientException::class);
+        $this->expectExceptionMessage('Syntax error');
+
+        $use_case = $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()));
+        $use_case->delete(0);
+    }
+
+    public function testDeleteRequestFailed(): void
+    {
+        $this->expectException(CannotDeleteClientException::class);
+        $this->expectExceptionMessage(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
+
+        $use_case = $this->getClients($this->getHttpClientWithMockRequestException());
+        $use_case->delete(0);
     }
 
     private function getClients(Client $client): Clients
