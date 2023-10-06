@@ -106,11 +106,6 @@ final readonly class Clients implements Contract\Client\Clients
         ]);
     }
 
-    /**
-     * @param array<string, mixed> $data
-     *
-     * @throws CannotCreateClientException
-     */
     public function create(array $data): Response
     {
         $request = $this->request_factory

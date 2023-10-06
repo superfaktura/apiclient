@@ -33,4 +33,11 @@ interface Clients
      * @throws CannotDeleteClientException
      */
     public function delete(int $id): Response;
+
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @throws CannotCreateClientException
+     */
+    public function create(array $data): Response;
 }
