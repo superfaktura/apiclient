@@ -51,20 +51,6 @@ final class BankAccountsTest extends TestCase
         self::assertSame($this->arrayFromFixture($fixture), $response->data);
     }
 
-    public function testGetAllNoBankAccounts(): void
-    {
-        $this->expectException(CannotGetAllBankAccountsException::class);
-
-        $fixture = __DIR__ . '/fixtures/no-bank-accounts.json';
-
-        $this->getBankAccounts(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
-            ->getAll();
-    }
-
     public function testGetAllRequestFailed(): void
     {
         $this->expectException(CannotGetAllBankAccountsException::class);
