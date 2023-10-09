@@ -19,7 +19,7 @@ use SuperFaktura\ApiClient\UseCase\CashRegister\Items;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 
 #[CoversClass(Items::class)]
-#[CoversClass(CashRegister\Items\CannotCreateCashRegisterItemException::class)]
+#[CoversClass(CashRegister\CannotCreateCashRegisterItemException::class)]
 #[UsesClass(RequestException::class)]
 #[UsesClass(CannotCreateRequestException::class)]
 #[UsesClass(ResponseFactory::class)]
@@ -63,7 +63,7 @@ final class ItemsTest extends TestCase
 
     public function testCreateWithNonExistentCashRegister(): void
     {
-        $this->expectException(CashRegister\Items\CannotCreateCashRegisterItemException::class);
+        $this->expectException(CashRegister\CannotCreateCashRegisterItemException::class);
 
         $this->getUseCase($this->getHttpClientWithMockResponse($this->getNonExistentCashRegisterErrorResponse()))
             ->create(self::NON_EXISTENT_CASH_REGISTER, ['amount' => 1.25]);
@@ -71,13 +71,13 @@ final class ItemsTest extends TestCase
 
     public function testCreateWithInsufficientPermissions(): void
     {
-        $this->expectException(CashRegister\Items\CannotCreateCashRegisterItemException::class);
+        $this->expectException(CashRegister\CannotCreateCashRegisterItemException::class);
 
         $this->getUseCase($this->getHttpClientWithMockResponse($this->getInsufficientPermissionsResponse()))
             ->create(self::CASH_REGISTER_ID, ['amount' => 1.25]);
     }
 
-    private function getUseCase(Client $client): CashRegister\Items\Items
+    private function getUseCase(Client $client): CashRegister\Items
     {
         return new Items(
             http_client: $client,

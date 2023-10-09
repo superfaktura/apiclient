@@ -22,7 +22,7 @@ final readonly class ApiClient
 
     public Contract\Client\Clients $clients;
 
-    public Contract\CashRegister\Items\Items $cash_register_items;
+    public Contract\CashRegister\Items $cash_register_items;
 
     public function __construct(
         private Authorization\Provider $authorization_provider,

@@ -11,7 +11,7 @@ use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Contract\CashRegister;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 
-final readonly class Items implements CashRegister\Items\Items
+final readonly class Items implements CashRegister\Items
 {
     public function __construct(
         private ClientInterface $http_client,
@@ -35,11 +35,11 @@ final readonly class Items implements CashRegister\Items\Items
             $http_response = $this->http_client->sendRequest($request);
             $response = $this->response_factory->createFromHttpResponse($http_response);
         } catch (ClientExceptionInterface|\JsonException $e) {
-            throw new CashRegister\Items\CannotCreateCashRegisterItemException($request, $e->getMessage(), $e->getCode(), $e);
+            throw new CashRegister\CannotCreateCashRegisterItemException($request, $e->getMessage(), $e->getCode(), $e);
         }
 
         if ($response->isError()) {
-            throw new CashRegister\Items\CannotCreateCashRegisterItemException($request, $response->data['message'] ?? '');
+            throw new CashRegister\CannotCreateCashRegisterItemException($request, $response->data['message'] ?? '');
         }
 
         return $response;
