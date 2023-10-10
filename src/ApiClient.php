@@ -18,11 +18,11 @@ use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 
 final readonly class ApiClient
 {
-    public Contract\BankAccount\BankAccounts $bank_accounts;
+    public BankAccounts $bank_accounts;
 
-    public Contract\Client\Clients $clients;
+    public Clients $clients;
 
-    public Contract\CashRegister\Items $cash_register_items;
+    public CashRegister\Items $cash_register_items;
 
     public function __construct(
         private Authorization\Provider $authorization_provider,
