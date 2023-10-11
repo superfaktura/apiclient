@@ -1,0 +1,32 @@
+[
+  {
+    "CashRegister": {
+      "id": "12",
+      "user_id": "1",
+      "user_profile_id": "1",
+      "sequencein_id": null,
+      "sequenceout_id": null,
+      "id_provoz": null,
+      "name": "Pokladnica",
+      "currency": "CZK",
+      "description": null,
+      "items": "0",
+      "total": null
+    }
+  },
+  {
+    "CashRegister": {
+      "id": "11",
+      "user_id": "22",
+      "user_profile_id": "12",
+      "sequencein_id": "106",
+      "sequenceout_id": "107",
+      "id_provoz": null,
+      "name": "test",
+      "currency": "EUR",
+      "description": "",
+      "items": "11",
+      "total": "33.75"
+    }
+  }
+]

@@ -170,6 +170,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
+    protected static function assertGetRequest(RequestInterface $request): void
+    {
+        self::assertSame(RequestMethodInterface::METHOD_GET, $request->getMethod());
+    }
+
     protected static function assertPostRequest(RequestInterface $request): void
     {
         self::assertSame(RequestMethodInterface::METHOD_POST, $request->getMethod());
@@ -178,5 +183,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected static function assertDeleteRequest(RequestInterface $request): void
     {
         self::assertSame(RequestMethodInterface::METHOD_DELETE, $request->getMethod());
+    }
+
+    protected static function assertAuthorizationHeader(RequestInterface $request, string $value): void
+    {
+        self::assertSame($value, $request->getHeaderLine('Authorization'));
     }
 }

@@ -8,13 +8,13 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
-use SuperFaktura\ApiClient\UseCase\CashRegister;
 use SuperFaktura\ApiClient\UseCase\Client\Clients;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\Version\ComposerProvider;
 use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\UseCase\BankAccount\BankAccounts;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
+use SuperFaktura\ApiClient\UseCase\CashRegister\CashRegisters;
 
 final readonly class ApiClient
 {
@@ -22,7 +22,7 @@ final readonly class ApiClient
 
     public Clients $clients;
 
-    public CashRegister\Items $cash_register_items;
+    public CashRegisters $cash_registers;
 
     public function __construct(
         private Authorization\Provider $authorization_provider,
@@ -51,7 +51,7 @@ final readonly class ApiClient
             authorization_header_value: $authorization_header_value,
         );
 
-        $this->cash_register_items = new CashRegister\Items(
+        $this->cash_registers = new CashRegisters(
             http_client: $this->http_client,
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
