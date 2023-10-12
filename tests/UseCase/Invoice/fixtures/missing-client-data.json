@@ -1,0 +1,6 @@
+{
+  "error": 4,
+  "error_message": {
+    "data_bad_format": "Missing required client data."
+  }
+}

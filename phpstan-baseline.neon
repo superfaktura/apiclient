@@ -9,3 +9,73 @@ parameters:
 			message: "#^Method SuperFaktura\\\\ApiClient\\\\Test\\\\TestCase\\:\\:getApiResponse\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/TestCase.php
+
+		-
+			message: "#^Parameter \\$client of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:create\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$client of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:update\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$extra of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:create\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$extra of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:update\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$invoice of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:create\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$invoice of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:update\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$items of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:create\\(\\) expects array\\<int, array\\<string, mixed\\>\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$items of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:update\\(\\) expects array\\<int, array\\<string, mixed\\>\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$my_data of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:create\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$my_data of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:update\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$settings of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:create\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$settings of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:update\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$tags of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:create\\(\\) expects array\\<int\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php
+
+		-
+			message: "#^Parameter \\$tags of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:update\\(\\) expects array\\<int\\>, mixed given\\.$#"
+			count: 1
+			path: tests/UseCase/Invoice/InvoicesTest.php

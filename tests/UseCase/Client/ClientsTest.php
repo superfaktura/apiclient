@@ -143,13 +143,13 @@ final class ClientsTest extends TestCase
 
         yield 'filter by created date since to range' => [
             'expected' => $base_uri . self::getQueryString([
-                'created' => TimePeriodEnum::SINCE_TO->value,
+                'created' => TimePeriodEnum::FROM_TO->value,
                 'created_since' => '2023-01-02T01:02:03+00:00',
                 'created_to' => '2023-02-03T04:05:06+00:00',
             ]),
             'query' => new ClientsQuery(
                 created: new TimePeriod(
-                    period: TimePeriodEnum::SINCE_TO,
+                    period: TimePeriodEnum::FROM_TO,
                     from: new \DateTimeImmutable('2023-01-02 01:02:03'),
                     to: new \DateTimeImmutable('2023-02-03 04:05:06'),
                 ),
@@ -158,13 +158,13 @@ final class ClientsTest extends TestCase
 
         yield 'filter by modified date since to range' => [
             'expected' => $base_uri . self::getQueryString([
-                'modified' => TimePeriodEnum::SINCE_TO->value,
+                'modified' => TimePeriodEnum::FROM_TO->value,
                 'modified_since' => '2023-01-02T01:02:03+00:00',
                 'modified_to' => '2023-02-03T04:05:06+00:00',
             ]),
             'query' => new ClientsQuery(
                 modified: new TimePeriod(
-                    period: TimePeriodEnum::SINCE_TO,
+                    period: TimePeriodEnum::FROM_TO,
                     from: new \DateTimeImmutable('2023-01-02 01:02:03'),
                     to: new \DateTimeImmutable('2023-02-03 04:05:06'),
                 ),

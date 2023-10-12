@@ -15,7 +15,7 @@ final class ResponseTest extends TestCase
 {
     public static function isErrorDataProvider(): \Generator
     {
-        foreach ([1, '1', true] as $value) {
+        foreach ([1, '1', true, 2, 3, 4] as $value) {
             yield sprintf('response is error if error property is %s (%s)', $value, gettype($value)) => [
                 'expected' => true,
                 'response' => self::getApiResponse(

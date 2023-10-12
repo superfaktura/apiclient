@@ -10,7 +10,7 @@ enum TimePeriodEnum: int
 
     case YESTERDAY = 2;
 
-    case SINCE_TO = 3;
+    case FROM_TO = 3;
 
     case THIS_MONTH = 4;
 

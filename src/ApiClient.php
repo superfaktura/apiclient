@@ -10,6 +10,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\UseCase\Client\Clients;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
+use SuperFaktura\ApiClient\UseCase\Invoice\Invoices;
 use SuperFaktura\ApiClient\Version\ComposerProvider;
 use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\UseCase\BankAccount\BankAccounts;
@@ -23,6 +24,8 @@ final readonly class ApiClient
     public Clients $clients;
 
     public CashRegisters $cash_registers;
+
+    public Invoices $invoices;
 
     public function __construct(
         private Authorization\Provider $authorization_provider,
@@ -55,6 +58,15 @@ final readonly class ApiClient
             http_client: $this->http_client,
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
+            base_uri: $this->base_uri,
+            authorization_header_value: $authorization_header_value,
+        );
+
+        $this->invoices = new Invoices(
+            http_client: $this->http_client,
+            request_factory: $this->request_factory,
+            response_factory: $this->response_factory,
+            query_params_convertor: new NamedParamsConvertor(),
             base_uri: $this->base_uri,
             authorization_header_value: $authorization_header_value,
         );

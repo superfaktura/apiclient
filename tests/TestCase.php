@@ -58,14 +58,34 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected static function assertContentTypeJson(RequestInterface $request): void
+    protected static function assertGetRequest(RequestInterface $request): void
     {
-        self::assertSame('application/json', $request->getHeaderLine('Content-Type'));
+        self::assertSame(RequestMethodInterface::METHOD_GET, $request->getMethod());
+    }
+
+    protected static function assertPostRequest(RequestInterface $request): void
+    {
+        self::assertSame(RequestMethodInterface::METHOD_POST, $request->getMethod());
     }
 
     protected static function assertPatchRequest(RequestInterface $request): void
     {
         self::assertSame(RequestMethodInterface::METHOD_PATCH, $request->getMethod());
+    }
+
+    protected static function assertDeleteRequest(RequestInterface $request): void
+    {
+        self::assertSame(RequestMethodInterface::METHOD_DELETE, $request->getMethod());
+    }
+
+    protected static function assertAuthorizationHeader(RequestInterface $request, string $value): void
+    {
+        self::assertSame($value, $request->getHeaderLine('Authorization'));
+    }
+
+    protected static function assertContentTypeJson(RequestInterface $request): void
+    {
+        self::assertSame('application/json', $request->getHeaderLine('Content-Type'));
     }
 
     /**
@@ -168,25 +188,5 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             512,
             JSON_THROW_ON_ERROR,
         );
-    }
-
-    protected static function assertGetRequest(RequestInterface $request): void
-    {
-        self::assertSame(RequestMethodInterface::METHOD_GET, $request->getMethod());
-    }
-
-    protected static function assertPostRequest(RequestInterface $request): void
-    {
-        self::assertSame(RequestMethodInterface::METHOD_POST, $request->getMethod());
-    }
-
-    protected static function assertDeleteRequest(RequestInterface $request): void
-    {
-        self::assertSame(RequestMethodInterface::METHOD_DELETE, $request->getMethod());
-    }
-
-    protected static function assertAuthorizationHeader(RequestInterface $request, string $value): void
-    {
-        self::assertSame($value, $request->getHeaderLine('Authorization'));
     }
 }

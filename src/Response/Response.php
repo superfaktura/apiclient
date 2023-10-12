@@ -16,9 +16,6 @@ final readonly class Response
 
     public function isError(): bool
     {
-        return ((bool) filter_var(
-            $this->data['error'] ?? false,
-            FILTER_VALIDATE_BOOLEAN,
-        )) === true;
+        return (int) ($this->data['error'] ?? 0) > 0;
     }
 }
