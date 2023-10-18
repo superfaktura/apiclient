@@ -10,4 +10,10 @@ interface CashRegisters
      * @throws CannotGetAllCashRegistersException
      */
     public function getAll(): Response;
+
+    /**
+     * @throws CannotGetCashRegisterException
+     * @throws CashRegisterNotFoundException
+     */
+    public function getById(int $id): Response;
 }
