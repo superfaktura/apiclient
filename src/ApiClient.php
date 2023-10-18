@@ -7,6 +7,7 @@ namespace SuperFaktura\ApiClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Client\ClientInterface;
+use SuperFaktura\ApiClient\UseCase\Stock;
 use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\UseCase\Client\Clients;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
@@ -26,6 +27,8 @@ final readonly class ApiClient
     public CashRegisters $cash_registers;
 
     public Invoices $invoices;
+
+    public Stock\Items $stock_items;
 
     public function __construct(
         private Authorization\Provider $authorization_provider,
@@ -67,6 +70,14 @@ final readonly class ApiClient
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
             query_params_convertor: new NamedParamsConvertor(),
+            base_uri: $this->base_uri,
+            authorization_header_value: $authorization_header_value,
+        );
+
+        $this->stock_items = new Stock\Items(
+            http_client: $this->http_client,
+            request_factory: $this->request_factory,
+            response_factory: $this->response_factory,
             base_uri: $this->base_uri,
             authorization_header_value: $authorization_header_value,
         );
