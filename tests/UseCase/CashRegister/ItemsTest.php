@@ -20,7 +20,7 @@ use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 
 #[CoversClass(Items::class)]
 #[CoversClass(CashRegister\CannotCreateCashRegisterItemException::class)]
-#[UsesClass(RequestException::class)]
+#[CoversClass(RequestException::class)]
 #[UsesClass(CannotCreateRequestException::class)]
 #[UsesClass(ResponseFactory::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
@@ -75,6 +75,20 @@ final class ItemsTest extends TestCase
 
         $this->getUseCase($this->getHttpClientWithMockResponse($this->getInsufficientPermissionsResponse()))
             ->create(self::CASH_REGISTER_ID, ['amount' => 1.25]);
+    }
+
+    public function testCreateResponseDecodeFailed(): void
+    {
+        $this->expectException(CashRegister\CannotCreateCashRegisterItemException::class);
+        $this->expectExceptionMessage('Syntax error');
+        $this->getUseCase($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
+            ->create(0, []);
+    }
+
+    public function testCreateRequestFailed(): void
+    {
+        $this->expectException(CashRegister\CannotCreateCashRegisterItemException::class);
+        $this->getUseCase($this->getHttpClientWithMockRequestException())->create(0, []);
     }
 
     private function getUseCase(Client $client): CashRegister\Items

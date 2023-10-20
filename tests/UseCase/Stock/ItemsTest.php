@@ -11,12 +11,14 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Attributes\CoversClass;
 use SuperFaktura\ApiClient\Response\RateLimit;
 use SuperFaktura\ApiClient\UseCase\Stock\Items;
+use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotCreateItemException;
 
 #[CoversClass(Items::class)]
 #[CoversClass(CannotCreateItemException::class)]
+#[CoversClass(RequestException::class)]
 #[UsesClass(ResponseFactory::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[UsesClass(RateLimit::class)]

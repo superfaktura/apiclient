@@ -39,11 +39,11 @@ use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
 #[CoversClass(CannotGetAllClientsException::class)]
 #[CoversClass(CannotCreateClientException::class)]
 #[CoversClass(CannotCreateRequestException::class)]
+#[CoversClass(ClientsQuery::class)]
 #[UsesClass(RequestException::class)]
 #[UsesClass(NamedParamsConvertor::class)]
 #[UsesClass(RateLimit::class)]
 #[UsesClass(ResponseFactory::class)]
-#[UsesClass(ClientsQuery::class)]
 #[UsesClass(Sort::class)]
 #[UsesClass(Contacts::class)]
 final class ClientsTest extends TestCase
@@ -74,6 +74,19 @@ final class ClientsTest extends TestCase
             ),
         )
             ->getById(1);
+    }
+
+    public function testGetClientByIdInvalidId(): void
+    {
+        $this->expectException(CannotGetClientException::class);
+
+        $fixture = __DIR__ . '/fixtures/get-by-id-invalid-id.json';
+
+        $this->getClients(
+            $this->getHttpClientWithMockResponse(
+                new Response(StatusCodeInterface::STATUS_BAD_REQUEST, [], $this->jsonFromFixture($fixture)),
+            ),
+        )->getById(0);
     }
 
     public function testGetClientByIdRequestFailed(): void

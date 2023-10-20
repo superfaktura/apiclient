@@ -9,7 +9,9 @@ use SuperFaktura\ApiClient\Test\TestCase;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Attributes\CoversClass;
 use SuperFaktura\ApiClient\Response\RateLimit;
+use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
+use SuperFaktura\ApiClient\UseCase\CashRegister\Items;
 use SuperFaktura\ApiClient\UseCase\CashRegister\CashRegisters;
 use SuperFaktura\ApiClient\Contract\CashRegister\CashRegisterNotFoundException;
 use SuperFaktura\ApiClient\Contract\CashRegister\CannotGetCashRegisterException;
@@ -17,9 +19,11 @@ use SuperFaktura\ApiClient\Contract\CashRegister\CannotGetAllCashRegistersExcept
 
 #[CoversClass(CashRegisters::class)]
 #[CoversClass(CannotGetAllCashRegistersException::class)]
+#[CoversClass(RequestException::class)]
 #[UsesClass(ResponseFactory::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[UsesClass(RateLimit::class)]
+#[UsesClass(Items::class)]
 final class CashRegistersTest extends TestCase
 {
     private const AUTHORIZATION_HEADER_VALUE = 'foo';

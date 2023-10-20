@@ -36,11 +36,11 @@ use SuperFaktura\ApiClient\Contract\Invoice\CannotChangeInvoiceLanguageException
 #[CoversClass(Invoices::class)]
 #[CoversClass(CannotCreateInvoiceException::class)]
 #[CoversClass(CannotUpdateInvoiceException::class)]
+#[CoversClass(InvoicesQuery::class)]
+#[CoversClass(RequestException::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[UsesClass(NamedParamsConvertor::class)]
 #[UsesClass(Sort::class)]
-#[UsesClass(InvoicesQuery::class)]
-#[UsesClass(RequestException::class)]
 #[UsesClass(RateLimit::class)]
 #[UsesClass(ResponseFactory::class)]
 final class InvoicesTest extends TestCase
@@ -444,36 +444,54 @@ final class InvoicesTest extends TestCase
     {
         yield 'missing client data' => [
             'response' => __DIR__ . '/fixtures/missing-client-data.json',
+            'errors' => [
+                'data_bad_format' => 'Missing required client data.',
+            ],
         ];
 
         yield 'invalid currency' => [
             'response' => __DIR__ . '/fixtures/invalid-currency.json',
+            'errors' => ['Incorrect currency'],
         ];
 
         yield 'zero invoice items' => [
             'response' => __DIR__ . '/fixtures/zero-invoice-items.json',
+            'errors' => [
+                'type' => ['Dokument musí obsahovať aspoň jednu položku'],
+            ],
         ];
 
         yield 'invalid dates' => [
             'response' => __DIR__ . '/fixtures/invalid-dates.json',
+            'errors' => [
+                'created' => ['Neplatný dátum.'],
+                'delivery' => ['Neplatný dátum.'],
+            ],
         ];
     }
 
+    /**
+     * @param string[]|array<string, string[]> $errors
+     */
     #[DataProvider('createValidationErrorsProvider')]
-    public function testCreateValidationErrors(string $response): void
+    public function testCreateValidationErrors(string $response, array $errors): void
     {
-        $this->expectException(CannotCreateInvoiceException::class);
+        try {
+            $this->getInvoices(
+                $this->getHttpClientWithMockResponse(
+                    new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($response)),
+                ),
+            )
+                ->create(
+                    invoice: [],
+                    items: [],
+                    client: [],
+                );
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($response)),
-            ),
-        )
-            ->create(
-                invoice: [],
-                items: [],
-                client: [],
-            );
+            self::fail(sprintf('Expected exception of type: %s to be thrown', CannotCreateInvoiceException::class));
+        } catch (CannotCreateInvoiceException $exception) {
+            self::assertEquals($errors, $exception->getErrors());
+        }
     }
 
     public function testCreateInsufficientPermissions(): void
@@ -522,6 +540,12 @@ final class InvoicesTest extends TestCase
                 items: [],
                 client: [],
             );
+    }
+
+    public function testCreateRequestFailed(): void
+    {
+        $this->expectException(CannotCreateInvoiceException::class);
+        $this->getInvoices($this->getHttpClientWithMockRequestException())->create([], [], []);
     }
 
     /**
@@ -595,24 +619,36 @@ final class InvoicesTest extends TestCase
     {
         yield 'invalid currency' => [
             'response' => __DIR__ . '/fixtures/invalid-currency.json',
+            'errors' => ['Incorrect currency'],
         ];
 
         yield 'invalid dates' => [
             'response' => __DIR__ . '/fixtures/invalid-dates.json',
+            'errors' => [
+                'created' => ['Neplatný dátum.'],
+                'delivery' => ['Neplatný dátum.'],
+            ],
         ];
     }
 
+    /**
+     * @param string[]|array<string, string[]> $errors
+     */
     #[DataProvider('updateValidationErrorsProvider')]
-    public function testUpdateValidationErrors(string $response): void
+    public function testUpdateValidationErrors(string $response, array $errors): void
     {
-        $this->expectException(CannotUpdateInvoiceException::class);
+        try {
+            $this->getInvoices(
+                $this->getHttpClientWithMockResponse(
+                    new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($response)),
+                ),
+            )
+                ->update(1);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($response)),
-            ),
-        )
-            ->update(1);
+            self::fail(sprintf('Expected exception of type: %s to be thrown', CannotUpdateInvoiceException::class));
+        } catch (CannotUpdateInvoiceException $exception) {
+            self::assertEquals($exception->getErrors(), $errors);
+        }
     }
 
     public function testUpdateNotFound(): void
@@ -663,6 +699,12 @@ final class InvoicesTest extends TestCase
             $this->getHttpClientWithMockResponse(),
         )
             ->update(1, ['name' => NAN]);
+    }
+
+    public function testUpdateRequestFailed(): void
+    {
+        $this->expectException(CannotUpdateInvoiceException::class);
+        $this->getInvoices($this->getHttpClientWithMockRequestException())->update(0);
     }
 
     /**
@@ -724,6 +766,13 @@ final class InvoicesTest extends TestCase
         $this
             ->getInvoices($this->getHttpClientWithMockRequestException())
             ->delete(1);
+    }
+
+    public function testDeleteResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotDeleteInvoiceException::class);
+        $this->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
+            ->delete(0);
     }
 
     /**
@@ -796,6 +845,14 @@ final class InvoicesTest extends TestCase
             $this->getHttpClientWithMockRequestException(),
         )
             ->changeLanguage(1, Language::ENGLISH);
+    }
+
+    public function testChangeLanguageResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotChangeInvoiceLanguageException::class);
+
+        $this->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
+            ->changeLanguage(0, Language::SLOVAK);
     }
 
     private function getInvoices(Client $client): Invoices

@@ -29,7 +29,7 @@ use SuperFaktura\ApiClient\Contract\Client\Contact\CannotGetAllContactsException
 #[CoversClass(CannotCreateContactException::class)]
 #[CoversClass(CannotGetAllContactsException::class)]
 #[CoversClass(CannotDeleteContactException::class)]
-#[UsesClass(RequestException::class)]
+#[CoversClass(RequestException::class)]
 #[UsesClass(CannotCreateRequestException::class)]
 #[UsesClass(ResponseFactory::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
@@ -143,6 +143,19 @@ final class ContactsTest extends TestCase
             ->delete(1);
     }
 
+    public function testDeleteResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotDeleteContactException::class);
+        $this->getContacts($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
+            ->delete(0);
+    }
+
+    public function testDeleteRequestFailed(): void
+    {
+        $this->expectException(CannotDeleteContactException::class);
+        $this->getContacts($this->getHttpClientWithMockRequestException())->delete(0);
+    }
+
     /**
      * @return \Generator<array{client_id: int, data: array<string, mixed>}>
      */
@@ -237,13 +250,14 @@ final class ContactsTest extends TestCase
     public function testCreateResponseDecodeFailed(): void
     {
         $this->expectException(CannotCreateContactException::class);
-
-        $this->getContacts(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], '{'),
-            ),
-        )
+        $this->getContacts($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->create(1, []);
+    }
+
+    public function testCreateRequestFailed(): void
+    {
+        $this->expectException(CannotCreateContactException::class);
+        $this->getContacts($this->getHttpClientWithMockRequestException())->create(1, []);
     }
 
     public function testCreateInvalidRequestData(): void

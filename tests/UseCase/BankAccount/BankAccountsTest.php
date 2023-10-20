@@ -51,6 +51,16 @@ final class BankAccountsTest extends TestCase
         self::assertSame($this->arrayFromFixture($fixture), $response->data);
     }
 
+    public function testGetAllInternalServerError(): void
+    {
+        $this->expectException(CannotGetAllBankAccountsException::class);
+        $fixture = __DIR__ . '/fixtures/unexpected-error.json';
+
+        $this->getBankAccounts($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR, [], $this->jsonFromFixture($fixture)),
+        ))->getAll();
+    }
+
     public function testGetAllRequestFailed(): void
     {
         $this->expectException(CannotGetAllBankAccountsException::class);
@@ -123,6 +133,13 @@ final class BankAccountsTest extends TestCase
             ->delete(1);
     }
 
+    public function testDeleteResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotDeleteBankAccountException::class);
+        $this->getBankAccounts($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
+            ->delete(0);
+    }
+
     /**
      * @return \Generator<array{data: array<string, mixed>, request_body: string}>
      */
@@ -189,12 +206,7 @@ final class BankAccountsTest extends TestCase
     public function testCreateResponseDecodeFailed(): void
     {
         $this->expectException(CannotCreateBankAccountException::class);
-
-        $this->getBankAccounts(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], '{'),
-            ),
-        )
+        $this->getBankAccounts($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->create([]);
     }
 
@@ -206,6 +218,12 @@ final class BankAccountsTest extends TestCase
             $this->getHttpClientWithMockResponse(),
         )
             ->create(['bank_name' => NAN]);
+    }
+
+    public function testCreateRequestFailed(): void
+    {
+        $this->expectException(CannotCreateBankAccountException::class);
+        $this->getBankAccounts($this->getHttpClientWithMockRequestException())->create([]);
     }
 
     /**
@@ -285,12 +303,7 @@ final class BankAccountsTest extends TestCase
     public function testUpdateResponseDecodeFailed(): void
     {
         $this->expectException(CannotUpdateBankAccountException::class);
-
-        $this->getBankAccounts(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], '{'),
-            ),
-        )
+        $this->getBankAccounts($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->update(1, []);
     }
 
@@ -302,6 +315,12 @@ final class BankAccountsTest extends TestCase
             $this->getHttpClientWithMockResponse(),
         )
             ->update(1, ['bank_name' => NAN]);
+    }
+
+    public function testUpdateRequestFailed(): void
+    {
+        $this->expectException(CannotUpdateBankAccountException::class);
+        $this->getBankAccounts($this->getHttpClientWithMockRequestException())->update(0, []);
     }
 
     private function getBankAccounts(Client $client): BankAccounts
