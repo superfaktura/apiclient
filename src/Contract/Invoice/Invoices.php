@@ -45,7 +45,7 @@ interface Invoices
         array $settings = [],
         array $extra = [],
         array $my_data = [],
-        array $tags = []
+        array $tags = [],
     ): Response;
 
     /**
@@ -69,7 +69,7 @@ interface Invoices
         array $settings = [],
         array $extra = [],
         array $my_data = [],
-        array $tags = []
+        array $tags = [],
     ): Response;
 
     /**

@@ -118,7 +118,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         array $settings = [],
         array $extra = [],
         array $my_data = [],
-        array $tags = []
+        array $tags = [],
     ): Response {
         $request = $this->request_factory
             ->createRequest(
@@ -165,7 +165,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         array $settings = [],
         array $extra = [],
         array $my_data = [],
-        array $tags = []
+        array $tags = [],
     ): Response {
         $request = $this->request_factory
             ->createRequest(

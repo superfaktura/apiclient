@@ -15,7 +15,7 @@ final class CannotUpdateInvoiceException extends RequestException
         private readonly array $errors,
         string $message = 'Cannot update invoice',
         int $code = 0,
-        \Throwable $previous = null
+        \Throwable $previous = null,
     ) {
         parent::__construct($request, $message, $code, $previous);
     }

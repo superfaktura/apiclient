@@ -11,7 +11,7 @@ abstract class RequestException extends \RuntimeException implements RequestExce
         private readonly RequestInterface $request,
         string $message = '',
         int $code = 0,
-        \Throwable $previous = null
+        \Throwable $previous = null,
     ) {
         parent::__construct($message, $code, $previous);
     }

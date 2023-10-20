@@ -51,7 +51,7 @@ final class SimpleProviderTest extends \PHPUnit\Framework\TestCase
         string $email,
         string $key,
         int $company_id,
-        string $app_title
+        string $app_title,
     ): void {
         $provider = new SimpleProvider($email, $key, $app_title, $company_id);
         self::assertEquals(expected: $expected, actual: $provider->getAuthorization());

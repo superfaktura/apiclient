@@ -18,7 +18,7 @@ final readonly class Items implements CashRegister\Items
         private RequestFactoryInterface $request_factory,
         private ResponseFactoryInterface $response_factory,
         private string $base_uri,
-        private string $authorization_header_value
+        private string $authorization_header_value,
     ) {
     }
 

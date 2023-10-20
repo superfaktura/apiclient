@@ -16,7 +16,7 @@ return (new PhpCsFixer\Config())
         'linebreak_after_opening_tag' => false,
 
         'array_syntax' => ['syntax' => 'short'],
-        'trailing_comma_in_multiline' => ['after_heredoc' => false, 'elements' => ['arrays', 'arguments']],
+        'trailing_comma_in_multiline' => ['after_heredoc' => false, 'elements' => ['arrays', 'arguments', 'parameters', 'match']],
         'no_trailing_comma_in_singleline_array' => true,
         'array_indentation' => true,
         'trim_array_spaces' => true,

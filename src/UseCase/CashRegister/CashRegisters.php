@@ -21,7 +21,7 @@ final readonly class CashRegisters implements Contract\CashRegister\CashRegister
         private RequestFactoryInterface $request_factory,
         private ResponseFactoryInterface $response_factory,
         private string $base_uri,
-        private string $authorization_header_value
+        private string $authorization_header_value,
     ) {
         $this->items = new Items(
             $this->http_client,
