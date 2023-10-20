@@ -12,4 +12,10 @@ interface Items
      * @throws CannotCreateItemException
      */
     public function create(array $data): Response;
+
+    /**
+     * @throws ItemNotFoundException
+     * @throws CannotGetItemByIdException
+     */
+    public function getById(int $id): Response;
 }

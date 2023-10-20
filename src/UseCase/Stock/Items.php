@@ -4,13 +4,16 @@ namespace SuperFaktura\ApiClient\UseCase\Stock;
 
 use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Client\ClientInterface;
+use Fig\Http\Message\StatusCodeInterface;
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
+use SuperFaktura\ApiClient\Contract\Stock\ItemNotFoundException;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotCreateItemException;
+use SuperFaktura\ApiClient\Contract\Stock\CannotGetItemByIdException;
 
 final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Items
 {
@@ -40,6 +43,26 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
 
         if ($response->isError()) {
             throw new CannotCreateItemException($request, $response->data['message'] ?? '');
+        }
+
+        return $response;
+    }
+
+    public function getById(int $id): Response
+    {
+        $request = $this->request_factory
+            ->createRequest(RequestMethodInterface::METHOD_GET, $this->base_uri . '/stock_items/view/' . $id)
+            ->withHeader('Authorization', $this->authorization_header_value)
+        ;
+
+        try {
+            $response = $this->response_factory->createFromHttpResponse($this->http_client->sendRequest($request));
+        } catch (\JsonException|ClientExceptionInterface $e) {
+            throw new CannotGetItemByIdException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new ItemNotFoundException($request);
         }
 
         return $response;

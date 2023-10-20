@@ -13,8 +13,10 @@ use SuperFaktura\ApiClient\Response\RateLimit;
 use SuperFaktura\ApiClient\UseCase\Stock\Items;
 use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
+use SuperFaktura\ApiClient\Contract\Stock\ItemNotFoundException;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotCreateItemException;
+use SuperFaktura\ApiClient\Contract\Stock\CannotGetItemByIdException;
 
 #[CoversClass(Items::class)]
 #[CoversClass(CannotCreateItemException::class)]
@@ -100,6 +102,48 @@ final class ItemsTest extends TestCase
 
         $use_case = $this->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponse()));
         $use_case->create(['StockItem' => ['name' => NAN]]);
+    }
+
+    public function testGetById(): void
+    {
+        $fixture = __DIR__ . '/fixtures/get-by-id.json';
+
+        $response = $this->getItems($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
+        ))->getById(1);
+
+        $request = $this->getLastRequest();
+
+        $expected_response_body = $this->arrayFromFixture($fixture);
+
+        self::assertNotNull($request);
+        self::assertGetRequest($request);
+        self::assertSame(self::BASE_URI . '/stock_items/view/1', $request->getUri()->getPath());
+        self::assertEquals($expected_response_body, $response->data);
+    }
+
+    public function testGetByIdNotFound(): void
+    {
+        $this->expectException(ItemNotFoundException::class);
+
+        $fixture = __DIR__ . '/fixtures/get-by-id-not-found.json';
+
+        $this->getItems($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
+        ))->getById(0);
+    }
+
+    public function testGetByIdRequestFailed(): void
+    {
+        $this->expectException(CannotGetItemByIdException::class);
+        $this->getItems($this->getHttpClientWithMockRequestException())->getById(0);
+    }
+
+    public function testGetClientByIdResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotGetItemByIdException::class);
+        $this->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
+            ->getById(0);
     }
 
     private function getItems(ClientInterface $http_client): Items
