@@ -44,6 +44,16 @@ class SFAPIclient {
         $this->use_sandbox = true;
     }
 
+    /**
+     * @param int $timeout
+     * 
+     * @return void
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = $timeout;
+    }
+
     public function __construct($email, $apikey, $apptitle = '', $module = 'API', $company_id = '')
     {
         Requests::register_autoloader();
