@@ -15,6 +15,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use SuperFaktura\ApiClient\Response\RateLimit;
 use SuperFaktura\ApiClient\Filter\SortDirection;
 use SuperFaktura\ApiClient\Filter\TimePeriodEnum;
+use SuperFaktura\ApiClient\UseCase\Invoice\Items;
 use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\UseCase\Invoice\Invoices;
@@ -43,6 +44,7 @@ use SuperFaktura\ApiClient\Contract\Invoice\CannotChangeInvoiceLanguageException
 #[UsesClass(Sort::class)]
 #[UsesClass(RateLimit::class)]
 #[UsesClass(ResponseFactory::class)]
+#[UsesClass(Items::class)]
 final class InvoicesTest extends TestCase
 {
     private const AUTHORIZATION_HEADER_VALUE = 'foo';

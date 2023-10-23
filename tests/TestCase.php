@@ -161,22 +161,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @throws \RuntimeException Cannot read fixture
+     * @throws \RuntimeException Cannot read fixtures
      */
     protected function jsonFromFixture(string $fixture_path): string
     {
         $content = file_get_contents($fixture_path);
 
         if ($content === false) {
-            throw new \RuntimeException(sprintf('Cannot read fixture "%s"', $fixture_path));
+            throw new \RuntimeException(sprintf('Cannot read fixtures "%s"', $fixture_path));
         }
 
         return $content;
     }
 
     /**
-     * @throws \RuntimeException Cannot read fixture
-     * @throws \JsonException Cannot decode fixture
+     * @throws \RuntimeException Cannot read fixtures
+     * @throws \JsonException Cannot decode fixtures
      *
      * @return array<string|int, mixed>
      */

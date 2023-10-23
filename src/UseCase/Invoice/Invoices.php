@@ -40,6 +40,8 @@ final readonly class Invoices implements Contract\Invoice\Invoices
 
     public const TAG = 'Tag';
 
+    public Items $items;
+
     public function __construct(
         private ClientInterface $http_client,
         private RequestFactoryInterface $request_factory,
@@ -48,6 +50,13 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         private string $base_uri,
         private string $authorization_header_value,
     ) {
+        $this->items = new Items(
+            http_client: $this->http_client,
+            request_factory: $this->request_factory,
+            response_factory: $this->response_factory,
+            base_uri: $this->base_uri,
+            authorization_header_value: $this->authorization_header_value,
+        );
     }
 
     public function getById(int $id): Response
