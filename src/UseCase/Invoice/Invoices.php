@@ -18,10 +18,12 @@ use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceNotFoundException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotGetInvoiceException;
+use SuperFaktura\ApiClient\Contract\Invoice\CannotSendInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotCreateInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotDeleteInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotUpdateInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotGetAllInvoicesException;
+use SuperFaktura\ApiClient\Contract\Invoice\CannotMarkInvoiceAsSentException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotChangeInvoiceLanguageException;
 
 final readonly class Invoices implements Contract\Invoice\Invoices
@@ -34,9 +36,15 @@ final readonly class Invoices implements Contract\Invoice\Invoices
 
     public const INVOICE_EXTRA = 'InvoiceExtra';
 
+    public const INVOICE_EMAIL = 'InvoiceEmail';
+
     public const CLIENT = 'Client';
 
     public const MY_DATA = 'MyData';
+
+    public const SEND_EMAIL = 'Email';
+
+    public const SEND_POST_OFFICE = 'Post';
 
     public const TAG = 'Tag';
 
@@ -137,7 +145,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
             ->withHeader('Authorization', $this->authorization_header_value)
             ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
             ->withBody(
-                Utils::streamFor('data=' . $this->transformDataToJson(
+                Utils::streamFor('data=' . $this->invoiceDataToJson(
                     invoice: $invoice,
                     items: $items,
                     client: $client,
@@ -184,7 +192,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
             ->withHeader('Authorization', $this->authorization_header_value)
             ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
             ->withBody(
-                Utils::streamFor('data=' . $this->transformDataToJson(
+                Utils::streamFor('data=' . $this->invoiceDataToJson(
                     invoice: ['id' => $id, ...$invoice],
                     items: $items,
                     client: $client,
@@ -267,6 +275,126 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         };
     }
 
+    public function markAsSent(int $id): void
+    {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_GET,
+                $this->base_uri . '/invoices/mark_sent/' . $id,
+            )
+            ->withHeader('Authorization', $this->authorization_header_value);
+
+        try {
+            $response = $this->response_factory
+                ->createFromHttpResponse($this->http_client->sendRequest($request));
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotMarkInvoiceAsSentException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new InvoiceNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotMarkInvoiceAsSentException($request, $response->data['error_message'] ?? '');
+        }
+    }
+
+    public function markAsSentViaEmail(
+        int $id,
+        string $email,
+        string $subject = '',
+        string $message = '',
+    ): void {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_POST,
+                $this->base_uri . '/invoices/mark_as_sent',
+            )
+            ->withHeader('Authorization', $this->authorization_header_value)
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(
+                Utils::streamFor($this->invoiceEmailDataToJson(
+                    id: $id,
+                    email: $email,
+                    subject: $subject,
+                    message: $message,
+                )),
+            );
+
+        try {
+            $response = $this->response_factory->createFromHttpResponse(
+                $this->http_client->sendRequest($request),
+            );
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotMarkInvoiceAsSentException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new InvoiceNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotMarkInvoiceAsSentException($request, $response->data['error_message'] ?? '');
+        }
+    }
+
+    public function sendViaEmail(int $id, Email $email): void
+    {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_POST,
+                $this->base_uri . '/invoices/send',
+            )
+            ->withHeader('Authorization', $this->authorization_header_value)
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(Utils::streamFor($this->emailDataToJson($id, $email)));
+
+        try {
+            $response = $this->response_factory->createFromHttpResponse(
+                $this->http_client->sendRequest($request),
+            );
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotSendInvoiceException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new InvoiceNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotSendInvoiceException($request, $response->data['error_message'] ?? '');
+        }
+    }
+
+    public function sendViaPostOffice(int $id, Address $address = new Address()): void
+    {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_POST,
+                $this->base_uri . '/invoices/post',
+            )
+            ->withHeader('Authorization', $this->authorization_header_value)
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(Utils::streamFor($this->postOfficeDataToJson($id, $address)));
+
+        try {
+            $response = $this->response_factory->createFromHttpResponse(
+                $this->http_client->sendRequest($request),
+            );
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotSendInvoiceException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new InvoiceNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotSendInvoiceException($request, $response->data['error_message'] ?? '');
+        }
+    }
+
     /**
      * @return string[]
      */
@@ -290,7 +418,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
      *
      * @throws CannotCreateRequestException
      */
-    private function transformDataToJson(
+    private function invoiceDataToJson(
         array $invoice,
         array $items,
         array $client,
@@ -312,6 +440,86 @@ final readonly class Invoices implements Contract\Invoice\Invoices
                         ? [self::TAG => $tags]
                         : [],
                 ]),
+                JSON_THROW_ON_ERROR,
+            );
+        } catch (\JsonException $e) {
+            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @throws CannotCreateRequestException
+     */
+    private function invoiceEmailDataToJson(
+        int $id,
+        string $email,
+        string $subject,
+        string $message,
+    ): string {
+        try {
+            return json_encode(
+                [
+                    self::INVOICE_EMAIL => [
+                        'invoice_id' => $id,
+                        'email' => $email,
+                        'subject' => $subject,
+                        'message' => $message,
+                    ],
+                ],
+                JSON_THROW_ON_ERROR,
+            );
+        } catch (\JsonException $e) {
+            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @throws CannotCreateRequestException
+     */
+    private function emailDataToJson(int $id, Email $email): string
+    {
+        try {
+            return json_encode(
+                [
+                    self::SEND_EMAIL => array_filter(
+                        [
+                            'invoice_id' => $id,
+                            'to' => $email->email,
+                            'pdf_language' => $email->pdf_language->value,
+                            'bcc' => $email->bcc,
+                            'cc' => $email->cc,
+                            'subject' => $email->subject,
+                            'message' => $email->message,
+                        ],
+                    ),
+                ],
+                JSON_THROW_ON_ERROR,
+            );
+        } catch (\JsonException $e) {
+            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @throws CannotCreateRequestException
+     */
+    private function postOfficeDataToJson(int $id, Address $address): string
+    {
+        try {
+            return json_encode(
+                [
+                    self::SEND_POST_OFFICE => array_filter(
+                        [
+                            'invoice_id' => $id,
+                            'delivery_name' => $address->name,
+                            'delivery_address' => $address->address,
+                            'delivery_city' => $address->city,
+                            'delivery_country_id' => $address->country_id,
+                            'delivery_state' => $address->state,
+                            'delivery_zip' => $address->zip,
+                        ],
+                    ),
+                ],
                 JSON_THROW_ON_ERROR,
             );
         } catch (\JsonException $e) {

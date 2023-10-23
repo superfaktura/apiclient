@@ -2,12 +2,9 @@
 
 namespace SuperFaktura\ApiClient\Test\UseCase\Invoice;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\HttpFactory;
 use SuperFaktura\ApiClient\Filter\Sort;
 use Fig\Http\Message\StatusCodeInterface;
-use SuperFaktura\ApiClient\Test\TestCase;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Attributes\CoversClass;
 use SuperFaktura\ApiClient\Filter\TimePeriod;
@@ -45,10 +42,8 @@ use SuperFaktura\ApiClient\Contract\Invoice\CannotChangeInvoiceLanguageException
 #[UsesClass(RateLimit::class)]
 #[UsesClass(ResponseFactory::class)]
 #[UsesClass(Items::class)]
-final class InvoicesTest extends TestCase
+final class InvoicesTest extends InvoicesTestCase
 {
-    private const AUTHORIZATION_HEADER_VALUE = 'foo';
-
     public function testGetById(): void
     {
         $fixture = __DIR__ . '/fixtures/detail-single.json';
@@ -709,16 +704,7 @@ final class InvoicesTest extends TestCase
         $this->getInvoices($this->getHttpClientWithMockRequestException())->update(0);
     }
 
-    /**
-     * @return \Generator<int[]>
-     */
-    public static function deleteProvider(): \Generator
-    {
-        yield 'delete invoice' => [1];
-        yield 'delete another invoice' => [2];
-    }
-
-    #[DataProvider('deleteProvider')]
+    #[DataProvider('invoiceIdProvider')]
     public function testDelete(int $id): void
     {
         $this
@@ -855,18 +841,6 @@ final class InvoicesTest extends TestCase
 
         $this->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->changeLanguage(0, Language::SLOVAK);
-    }
-
-    private function getInvoices(Client $client): Invoices
-    {
-        return new Invoices(
-            http_client: $client,
-            request_factory: new HttpFactory(),
-            response_factory: new ResponseFactory(),
-            query_params_convertor: new NamedParamsConvertor(),
-            base_uri: '',
-            authorization_header_value: self::AUTHORIZATION_HEADER_VALUE,
-        );
     }
 
     /**

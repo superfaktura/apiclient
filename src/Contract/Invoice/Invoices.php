@@ -3,6 +3,8 @@
 namespace SuperFaktura\ApiClient\Contract\Invoice;
 
 use SuperFaktura\ApiClient\Response\Response;
+use SuperFaktura\ApiClient\UseCase\Invoice\Email;
+use SuperFaktura\ApiClient\UseCase\Invoice\Address;
 use SuperFaktura\ApiClient\UseCase\Invoice\InvoicesQuery;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 
@@ -83,4 +85,33 @@ interface Invoices
      * @throws InvoiceNotFoundException
      */
     public function changeLanguage(int $id, Language $language): void;
+
+    /**
+     * @throws InvoiceNotFoundException
+     * @throws CannotMarkInvoiceAsSentException
+     */
+    public function markAsSent(int $id): void;
+
+    /**
+     * @throws InvoiceNotFoundException
+     * @throws CannotMarkInvoiceAsSentException
+     */
+    public function markAsSentViaEmail(
+        int $id,
+        string $email,
+        string $subject = '',
+        string $message = '',
+    ): void;
+
+    /**
+     * @throws CannotSendInvoiceException
+     * @throws InvoiceNotFoundException
+     */
+    public function sendViaEmail(int $id, Email $email): void;
+
+    /**
+     * @throws CannotSendInvoiceException
+     * @throws InvoiceNotFoundException
+     */
+    public function sendViaPostOffice(int $id, Address $address = new Address()): void;
 }
