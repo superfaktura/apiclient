@@ -41,7 +41,7 @@ final readonly class CashRegisters implements Contract\CashRegister\CashRegister
             )->withHeader('Authorization', $this->authorization_header_value);
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
         } catch (\JsonException|ClientExceptionInterface $e) {
@@ -60,7 +60,7 @@ final readonly class CashRegisters implements Contract\CashRegister\CashRegister
             )->withHeader('Authorization', $this->authorization_header_value);
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
         } catch (\JsonException|ClientExceptionInterface $e) {

@@ -43,7 +43,7 @@ final readonly class Contacts implements Contract\Client\Contact\Contacts
             ->withHeader('Authorization', $this->authorization_header_value);
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
         } catch (ClientExceptionInterface|\JsonException $e) {
@@ -71,7 +71,7 @@ final readonly class Contacts implements Contract\Client\Contact\Contacts
             );
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
         } catch (ClientExceptionInterface|\JsonException $e) {
@@ -100,7 +100,7 @@ final readonly class Contacts implements Contract\Client\Contact\Contacts
 
         try {
             $response = $this->response_factory
-                ->createFromHttpResponse($this->http_client->sendRequest($request));
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotDeleteContactException($request, $e->getMessage(), $e->getCode(), $e);
         }

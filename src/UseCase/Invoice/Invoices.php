@@ -10,12 +10,14 @@ use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\Response\Response;
+use SuperFaktura\ApiClient\Response\BinaryResponse;
 use SuperFaktura\ApiClient\Contract\Invoice\Language;
 use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
 use SuperFaktura\ApiClient\Contract\Invoice\PaymentType;
 use SuperFaktura\ApiClient\Contract\Invoice\DeliveryType;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
+use SuperFaktura\ApiClient\Response\CannotCreateResponseException;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceNotFoundException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotGetInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotSendInvoiceException;
@@ -23,6 +25,7 @@ use SuperFaktura\ApiClient\Contract\Invoice\CannotCreateInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotDeleteInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotUpdateInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotGetAllInvoicesException;
+use SuperFaktura\ApiClient\Contract\Invoice\CannotDownloadInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotMarkInvoiceAsSentException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotChangeInvoiceLanguageException;
 
@@ -78,7 +81,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
 
         try {
             $response = $this->response_factory
-                ->createFromHttpResponse($this->http_client->sendRequest($request));
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotGetInvoiceException($request, $e->getMessage(), $e->getCode(), $e);
         }
@@ -105,7 +108,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
 
         try {
             return $this->response_factory
-                ->createFromHttpResponse($this->http_client->sendRequest($request));
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotGetInvoiceException($request, $e->getMessage(), $e->getCode(), $e);
         }
@@ -122,10 +125,33 @@ final readonly class Invoices implements Contract\Invoice\Invoices
 
         try {
             return $this->response_factory
-                ->createFromHttpResponse($this->http_client->sendRequest($request));
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotGetAllInvoicesException($request, $e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    public function downloadPdf(int $id, Language $language): BinaryResponse
+    {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_GET,
+                sprintf('%s/%s/invoices/pdf/%d', $this->base_uri, $language->value, $id),
+            )
+            ->withHeader('Authorization', $this->authorization_header_value);
+
+        try {
+            $response = $this->response_factory
+                ->createFromBinaryResponse($this->http_client->sendRequest($request));
+        } catch (ClientExceptionInterface|CannotCreateResponseException $e) {
+            throw new CannotDownloadInvoiceException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        return match ($response->status_code) {
+            StatusCodeInterface::STATUS_OK => $response,
+            StatusCodeInterface::STATUS_NOT_FOUND => throw new InvoiceNotFoundException($request),
+            default => throw new CannotDownloadInvoiceException($request),
+        };
     }
 
     public function create(
@@ -157,7 +183,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
             );
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
         } catch (ClientExceptionInterface|\JsonException $e) {
@@ -204,7 +230,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
             );
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
         } catch (ClientExceptionInterface|\JsonException $e) {
@@ -236,7 +262,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
 
         try {
             $response = $this->response_factory
-                ->createFromHttpResponse($this->http_client->sendRequest($request));
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotDeleteInvoiceException($request, $e->getMessage(), $e->getCode(), $e);
         }
@@ -261,7 +287,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
 
         try {
             $response = $this->response_factory
-                ->createFromHttpResponse($this->http_client->sendRequest($request));
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotChangeInvoiceLanguageException($request, $e->getMessage(), $e->getCode(), $e);
         }
@@ -286,7 +312,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
 
         try {
             $response = $this->response_factory
-                ->createFromHttpResponse($this->http_client->sendRequest($request));
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotMarkInvoiceAsSentException($request, $e->getMessage(), $e->getCode(), $e);
         }
@@ -323,7 +349,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
             );
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
         } catch (ClientExceptionInterface|\JsonException $e) {
@@ -351,7 +377,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
             ->withBody(Utils::streamFor($this->emailDataToJson($id, $email)));
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
         } catch (ClientExceptionInterface|\JsonException $e) {
@@ -379,7 +405,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
             ->withBody(Utils::streamFor($this->postOfficeDataToJson($id, $address)));
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
         } catch (ClientExceptionInterface|\JsonException $e) {

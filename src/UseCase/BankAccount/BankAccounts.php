@@ -39,7 +39,7 @@ final readonly class BankAccounts implements Contract\BankAccount\BankAccounts
             ->withHeader('Authorization', $this->authorization_header_value);
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
 
@@ -65,7 +65,7 @@ final readonly class BankAccounts implements Contract\BankAccount\BankAccounts
             ->withBody(Utils::streamFor($this->transformBankAccountDataToJson($bank_account)));
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
 
@@ -91,7 +91,7 @@ final readonly class BankAccounts implements Contract\BankAccount\BankAccounts
             ->withBody(Utils::streamFor($this->transformBankAccountDataToJson($bank_account)));
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
         } catch (ClientExceptionInterface|\JsonException $e) {
@@ -120,7 +120,7 @@ final readonly class BankAccounts implements Contract\BankAccount\BankAccounts
 
         try {
             $response = $this->response_factory
-                ->createFromHttpResponse($this->http_client->sendRequest($request));
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotDeleteBankAccountException($request, $e->getMessage(), $e->getCode(), $e);
         }

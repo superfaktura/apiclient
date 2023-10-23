@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace SuperFaktura\ApiClient\Test;
 
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Client;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Handler\MockHandler;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
@@ -99,6 +99,21 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
+    /**
+     * @param array<string, string> $headers
+     */
+    protected static function getPsrBinaryResponse(
+        string $filename,
+        int $status_code = StatusCodeInterface::STATUS_IM_A_TEAPOT,
+        array $headers = [],
+    ): Psr7\Response {
+        return new Psr7\Response(
+            status: $status_code,
+            headers: $headers,
+            body: Psr7\Utils::tryFopen($filename, 'rb'),
+        );
+    }
+
     protected function getHttpClientWithMockResponse(MessageInterface ...$responses): Client
     {
         $modified_responses = [];
@@ -133,7 +148,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return new Client([
             'handler' => HandlerStack::create(
                 new MockHandler([
-                    new RequestException(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE, new Request('GET', 'test')),
+                    new RequestException(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE, new Psr7\Request('GET', 'test')),
                 ]),
             ),
         ]);

@@ -4,6 +4,7 @@ namespace SuperFaktura\ApiClient\Contract\Invoice;
 
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\UseCase\Invoice\Email;
+use SuperFaktura\ApiClient\Response\BinaryResponse;
 use SuperFaktura\ApiClient\UseCase\Invoice\Address;
 use SuperFaktura\ApiClient\UseCase\Invoice\InvoicesQuery;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
@@ -27,6 +28,12 @@ interface Invoices
      * @throws CannotGetAllInvoicesException
      */
     public function getAll(InvoicesQuery $query = new InvoicesQuery()): Response;
+
+    /**
+     * @throws CannotDownloadInvoiceException
+     * @throws InvoiceNotFoundException
+     */
+    public function downloadPdf(int $id, Language $language): BinaryResponse;
 
     /**
      * @param array<string, mixed> $invoice

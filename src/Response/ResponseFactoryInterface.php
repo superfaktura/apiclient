@@ -12,5 +12,10 @@ interface ResponseFactoryInterface
      * @throws \JsonException
      * @throws \UnexpectedValueException
      */
-    public function createFromHttpResponse(ResponseInterface $response): Response;
+    public function createFromJsonResponse(ResponseInterface $response): Response;
+
+    /**
+     * @throws CannotCreateResponseException
+     */
+    public function createFromBinaryResponse(ResponseInterface $response): BinaryResponse;
 }

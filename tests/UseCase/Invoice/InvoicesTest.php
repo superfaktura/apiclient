@@ -13,6 +13,7 @@ use SuperFaktura\ApiClient\Response\RateLimit;
 use SuperFaktura\ApiClient\Filter\SortDirection;
 use SuperFaktura\ApiClient\Filter\TimePeriodEnum;
 use SuperFaktura\ApiClient\UseCase\Invoice\Items;
+use SuperFaktura\ApiClient\Response\BinaryResponse;
 use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\UseCase\Invoice\Invoices;
@@ -37,6 +38,7 @@ use SuperFaktura\ApiClient\Contract\Invoice\CannotChangeInvoiceLanguageException
 #[CoversClass(InvoicesQuery::class)]
 #[CoversClass(RequestException::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
+#[UsesClass(BinaryResponse::class)]
 #[UsesClass(NamedParamsConvertor::class)]
 #[UsesClass(Sort::class)]
 #[UsesClass(RateLimit::class)]

@@ -36,7 +36,7 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
         ;
 
         try {
-            $response = $this->response_factory->createFromHttpResponse($this->http_client->sendRequest($request));
+            $response = $this->response_factory->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (\JsonException|ClientExceptionInterface $e) {
             throw new CannotCreateItemException($request, $e->getMessage(), $e->getCode(), $e);
         }
@@ -56,7 +56,7 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
         ;
 
         try {
-            $response = $this->response_factory->createFromHttpResponse($this->http_client->sendRequest($request));
+            $response = $this->response_factory->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (\JsonException|ClientExceptionInterface $e) {
             throw new CannotGetItemByIdException($request, $e->getMessage(), $e->getCode(), $e);
         }

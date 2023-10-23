@@ -52,7 +52,7 @@ final readonly class Clients implements Contract\Client\Clients
 
         try {
             $response = $this->response_factory
-                ->createFromHttpResponse($this->http_client->sendRequest($request));
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotGetClientException($request, $e->getMessage(), $e->getCode(), $e);
         }
@@ -79,7 +79,7 @@ final readonly class Clients implements Contract\Client\Clients
 
         try {
             return $this->response_factory
-                ->createFromHttpResponse($this->http_client->sendRequest($request));
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotGetAllClientsException($request, $e->getMessage(), $e->getCode(), $e);
         }
@@ -115,7 +115,7 @@ final readonly class Clients implements Contract\Client\Clients
             ->withBody(Utils::streamFor($this->transformClientDataToJson($data)));
 
         try {
-            $response = $this->response_factory->createFromHttpResponse($this->http_client->sendRequest($request));
+            $response = $this->response_factory->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (\JsonException|ClientExceptionInterface $e) {
             throw new CannotCreateClientException($request, $e->getMessage(), $e->getCode(), $e);
         }
@@ -137,7 +137,7 @@ final readonly class Clients implements Contract\Client\Clients
             ->withBody(Utils::streamFor($this->transformClientDataToJson($data)));
 
         try {
-            $response = $this->response_factory->createFromHttpResponse(
+            $response = $this->response_factory->createFromJsonResponse(
                 $this->http_client->sendRequest($request),
             );
         } catch (\JsonException|ClientExceptionInterface $e) {
@@ -176,7 +176,7 @@ final readonly class Clients implements Contract\Client\Clients
 
         try {
             $response = $this->response_factory
-                ->createFromHttpResponse($this->http_client->sendRequest($request));
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotDeleteClientException($request, $e->getMessage(), $e->getCode(), $e);
         }

@@ -33,7 +33,7 @@ final readonly class Items implements CashRegister\Items
 
         try {
             $http_response = $this->http_client->sendRequest($request);
-            $response = $this->response_factory->createFromHttpResponse($http_response);
+            $response = $this->response_factory->createFromJsonResponse($http_response);
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CashRegister\CannotCreateCashRegisterItemException($request, $e->getMessage(), $e->getCode(), $e);
         }

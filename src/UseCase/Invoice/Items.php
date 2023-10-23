@@ -36,7 +36,7 @@ final class Items implements Contract\Invoice\Item\Items
 
         try {
             $response = $this->response_factory
-                ->createFromHttpResponse($this->http_client->sendRequest($request));
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotDeleteInvoiceItemException($request, $e->getMessage(), $e->getCode(), $e);
         }
