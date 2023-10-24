@@ -15,6 +15,7 @@ use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\UseCase\Invoice\Invoices;
 use SuperFaktura\ApiClient\Contract\Invoice\Language;
+use SuperFaktura\ApiClient\UseCase\Invoice\Payment\Payments;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceNotFoundException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotSendInvoiceException;
@@ -24,6 +25,7 @@ use SuperFaktura\ApiClient\Contract\Invoice\CannotMarkInvoiceAsSentException;
 #[CoversClass(Email::class)]
 #[CoversClass(Address::class)]
 #[UsesClass(Items::class)]
+#[UsesClass(Payments::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[UsesClass(RequestException::class)]
 #[UsesClass(RateLimit::class)]

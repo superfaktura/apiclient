@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace SuperFaktura\ApiClient\Contract\Invoice;
+namespace SuperFaktura\ApiClient\Contract\Invoice\Payment;
 
 enum PaymentType: string
 {

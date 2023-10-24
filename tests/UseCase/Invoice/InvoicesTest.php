@@ -20,10 +20,11 @@ use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\UseCase\Invoice\Invoices;
 use SuperFaktura\ApiClient\Contract\Invoice\Language;
 use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
-use SuperFaktura\ApiClient\Contract\Invoice\PaymentType;
 use SuperFaktura\ApiClient\Contract\Invoice\DeliveryType;
 use SuperFaktura\ApiClient\UseCase\Invoice\InvoicesQuery;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceStatus;
+use SuperFaktura\ApiClient\UseCase\Invoice\Payment\Payments;
+use SuperFaktura\ApiClient\Contract\Invoice\Payment\PaymentType;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceNotFoundException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotGetInvoiceException;
@@ -45,6 +46,7 @@ use SuperFaktura\ApiClient\Contract\Invoice\CannotChangeInvoiceLanguageException
 #[UsesClass(RateLimit::class)]
 #[UsesClass(ResponseFactory::class)]
 #[UsesClass(Items::class)]
+#[UsesClass(Payments::class)]
 final class InvoicesTest extends InvoicesTestCase
 {
     public function testGetById(): void

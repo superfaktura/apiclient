@@ -14,11 +14,13 @@ use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\UseCase\Invoice\Invoices;
 use SuperFaktura\ApiClient\Contract\Invoice\Language;
+use SuperFaktura\ApiClient\UseCase\Invoice\Payment\Payments;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceNotFoundException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotDownloadInvoiceException;
 
 #[CoversClass(Invoices::class)]
 #[UsesClass(Items::class)]
+#[UsesClass(Payments::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[UsesClass(BinaryResponse::class)]
 #[UsesClass(RequestException::class)]

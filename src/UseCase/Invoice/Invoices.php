@@ -13,9 +13,10 @@ use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Response\BinaryResponse;
 use SuperFaktura\ApiClient\Contract\Invoice\Language;
 use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
-use SuperFaktura\ApiClient\Contract\Invoice\PaymentType;
 use SuperFaktura\ApiClient\Contract\Invoice\DeliveryType;
+use SuperFaktura\ApiClient\UseCase\Invoice\Payment\Payments;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
+use SuperFaktura\ApiClient\Contract\Invoice\Payment\PaymentType;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Response\CannotCreateResponseException;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceNotFoundException;
@@ -53,6 +54,8 @@ final readonly class Invoices implements Contract\Invoice\Invoices
 
     public Items $items;
 
+    public Payments $payments;
+
     public function __construct(
         private ClientInterface $http_client,
         private RequestFactoryInterface $request_factory,
@@ -62,6 +65,13 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         private string $authorization_header_value,
     ) {
         $this->items = new Items(
+            http_client: $this->http_client,
+            request_factory: $this->request_factory,
+            response_factory: $this->response_factory,
+            base_uri: $this->base_uri,
+            authorization_header_value: $this->authorization_header_value,
+        );
+        $this->payments = new Payments(
             http_client: $this->http_client,
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
