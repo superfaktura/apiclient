@@ -78,6 +78,7 @@ final readonly class ApiClient
             http_client: $this->http_client,
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
+            query_params_convertor: new NamedParamsConvertor(),
             base_uri: $this->base_uri,
             authorization_header_value: $authorization_header_value,
         );

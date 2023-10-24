@@ -9,10 +9,13 @@ use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\Response\Response;
+use SuperFaktura\ApiClient\Contract\Stock\ItemsQuery;
+use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Contract\Stock\ItemNotFoundException;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotCreateItemException;
+use SuperFaktura\ApiClient\Contract\Stock\CannotGetAllItemsException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetItemByIdException;
 
 final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Items
@@ -21,6 +24,7 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
         private ClientInterface $http_client,
         private RequestFactoryInterface $request_factory,
         private ResponseFactoryInterface $response_factory,
+        private QueryParamsConvertor $query_params_convertor,
         private string $base_uri,
         private string $authorization_header_value,
     ) {
@@ -78,5 +82,44 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
         } catch (\JsonException $e) {
             throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    public function getAll(ItemsQuery $query = new ItemsQuery()): Response
+    {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_GET,
+                $this->base_uri . '/stock_items/index.json/' . $this->getParamsOf($query),
+            )->withHeader('Authorization', $this->authorization_header_value)
+        ;
+
+        try {
+            $response = $this->response_factory
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
+
+            if ($response->isError()) {
+                throw new CannotGetAllItemsException($request, $response->data['message'] ?? '');
+            }
+
+            return $response;
+        } catch (\JsonException|ClientExceptionInterface $e) {
+            throw new CannotGetAllItemsException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    private function getParamsOf(ItemsQuery $query): string
+    {
+        return $this->query_params_convertor->convert([
+            'listinfo' => 1,
+            'page' => $query->page,
+            'per_page' => $query->per_page,
+            'sort' => $query->sort?->attribute,
+            'direction' => $query->sort?->direction->value,
+            'price_from' => $query->price_from,
+            'price_to' => $query->price_to,
+            'search' => $query->search !== null ? base64_encode($query->search) : null,
+            'sku' => $query->sku !== null ? base64_encode($query->sku) : null,
+            'status' => $query->status,
+        ]);
     }
 }

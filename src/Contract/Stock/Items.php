@@ -18,4 +18,9 @@ interface Items
      * @throws CannotGetItemByIdException
      */
     public function getById(int $id): Response;
+
+    /**
+     * @throws CannotGetAllItemsException
+     */
+    public function getAll(ItemsQuery $query = new ItemsQuery()): Response;
 }

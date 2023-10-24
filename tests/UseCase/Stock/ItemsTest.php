@@ -5,30 +5,41 @@ namespace SuperFaktura\ApiClient\Test\UseCase\Stock;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Client\ClientInterface;
+use SuperFaktura\ApiClient\Filter\Sort;
 use Fig\Http\Message\StatusCodeInterface;
 use SuperFaktura\ApiClient\Test\TestCase;
 use PHPUnit\Framework\Attributes\UsesClass;
+use Fig\Http\Message\RequestMethodInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use SuperFaktura\ApiClient\Response\RateLimit;
 use SuperFaktura\ApiClient\UseCase\Stock\Items;
+use SuperFaktura\ApiClient\Filter\SortDirection;
 use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
+use SuperFaktura\ApiClient\Contract\Stock\ItemsQuery;
+use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\Contract\Stock\ItemNotFoundException;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotCreateItemException;
+use SuperFaktura\ApiClient\Contract\Stock\CannotGetAllItemsException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetItemByIdException;
 
 #[CoversClass(Items::class)]
 #[CoversClass(CannotCreateItemException::class)]
 #[CoversClass(RequestException::class)]
+#[CoversClass(ItemsQuery::class)]
 #[UsesClass(ResponseFactory::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[UsesClass(RateLimit::class)]
+#[UsesClass(NamedParamsConvertor::class)]
 final class ItemsTest extends TestCase
 {
     private const AUTHORIZATION_HEADER_VALUE = 'foo';
 
     private const BASE_URI = 'base_uri';
+
+    private const DEFAULT_QUERY_PARAMS = ['listinfo' => 1];
 
     /**
      * @throws \JsonException
@@ -145,13 +156,117 @@ final class ItemsTest extends TestCase
             ->getById(0);
     }
 
+    public function testGetAll(): void
+    {
+        $fixture = __DIR__ . '/fixtures/stock-items.json';
+
+        $response = $this->getItems($this->getHttpClientReturning($fixture))->getAll();
+        $request = $this->getLastRequest();
+
+        self::assertSame($this->arrayFromFixture($fixture), $response->data);
+
+        self::assertNotNull($request);
+        self::assertSame(RequestMethodInterface::METHOD_GET, $request->getMethod());
+        self::assertSame(self::BASE_URI . '/stock_items/index.json/listinfo%3A1', $request->getUri()->getPath());
+        self::assertSame(self::AUTHORIZATION_HEADER_VALUE, $request->getHeaderLine('Authorization'));
+    }
+
+    public static function getAllQueryProvider(): \Generator
+    {
+        yield 'no filter specified, default query parameters' => [
+            'expected_query_params' => [],
+            'query' => new ItemsQuery(),
+        ];
+
+        yield 'sort by id descending' => [
+            'expected_query_params' => ['sort' => 'id', 'direction' => 'DESC'],
+            'query' => new ItemsQuery(sort: new Sort('id', SortDirection::DESC)),
+        ];
+
+        yield 'pagination support with limit' => [
+            'expected_query_params' => ['page' => 2, 'per_page' => 10],
+            'query' => new ItemsQuery(page: 2, per_page: 10),
+        ];
+
+        yield 'price from' => [
+            'expected_query_params' => ['price_from' => 12.99],
+            'query' => new ItemsQuery(price_from: 12.99),
+        ];
+
+        yield 'price to' => [
+            'expected_query_params' => ['price_to' => 12.99],
+            'query' => new ItemsQuery(price_to: 12.99),
+        ];
+
+        yield 'search' => [
+            'expected_query_params' => ['search' => base64_encode('Rozok')],
+            'query' => new ItemsQuery(search: 'Rozok'),
+        ];
+
+        yield 'sku' => [
+            'expected_query_params' => ['sku' => base64_encode('RZK-GRHMV')],
+            'query' => new ItemsQuery(sku: 'RZK-GRHMV'),
+        ];
+
+        yield 'status' => [
+            'expected_query_params' => ['status' => 1],
+            'query' => new ItemsQuery(status: 1),
+        ];
+    }
+
+    /**
+     * @param array<string, string|int|float> $expected_query_params
+     */
+    #[DataProvider('getAllQueryProvider')]
+    public function testGetAllQuery(array $expected_query_params, ItemsQuery $query): void
+    {
+        $fixture = __DIR__ . '/fixtures/stock-items.json';
+        $this->getItems($this->getHttpClientReturning($fixture))->getAll($query);
+
+        $expected_uri = self::BASE_URI . '/stock_items/index.json/'
+            . (new NamedParamsConvertor())->convert(array_merge(self::DEFAULT_QUERY_PARAMS, $expected_query_params));
+
+        $this->request()
+            ->get($expected_uri)
+            ->assert();
+    }
+
+    public function testGetAllInternalServerError(): void
+    {
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
+
+        $this->expectException(CannotGetAllItemsException::class);
+
+        $this->getItems($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR, [], $this->jsonFromFixture($fixture)),
+        ))->getAll();
+    }
+
+    public function testGetAllRequestFailed(): void
+    {
+        $this->expectException(CannotGetAllItemsException::class);
+
+        $this->getItems(
+            $this->getHttpClientWithMockRequestException(),
+        )
+            ->getAll();
+    }
+
+    public function testGetAllResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotGetAllItemsException::class);
+
+        $this->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
+            ->getAll();
+    }
+
     private function getItems(ClientInterface $http_client): Items
     {
         return new Items(
             $http_client,
             request_factory: new HttpFactory(),
             response_factory: new ResponseFactory(),
-            // no real requests are made during testing
+            query_params_convertor: new NamedParamsConvertor(),
             base_uri: self::BASE_URI,
             authorization_header_value: self::AUTHORIZATION_HEADER_VALUE,
         );

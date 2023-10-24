@@ -53,7 +53,7 @@ final class BankAccountsTest extends TestCase
     public function testGetAllInternalServerError(): void
     {
         $this->expectException(CannotGetAllBankAccountsException::class);
-        $fixture = __DIR__ . '/fixtures/unexpected-error.json';
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
         $this->getBankAccounts($this->getHttpClientWithMockResponse(
             new Response(StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR, [], $this->jsonFromFixture($fixture)),

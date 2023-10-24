@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\MockHandler;
+use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -142,6 +143,16 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return new Client([
             'handler' =>  $handlerStack,
         ]);
+    }
+
+    /**
+     * @param StatusCodeInterface::* $status_code
+     */
+    protected function getHttpClientReturning(string $fixture, int $status_code = StatusCodeInterface::STATUS_OK): ClientInterface
+    {
+        return $this->getHttpClientWithMockResponse(
+            new \GuzzleHttp\Psr7\Response($status_code, [], $this->jsonFromFixture($fixture)),
+        );
     }
 
     protected function getHttpClientWithMockRequestException(): Client
