@@ -38,13 +38,11 @@ final class CashRegistersTest extends TestCase
             ),
         )->getAll();
 
-        $request = $this->getLastRequest();
+        $this->request()
+            ->get('/cash_registers/getDetails')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
 
-        self::assertNotNull($request);
-        self::assertGetRequest($request);
-        self::assertSame('/cash_registers/getDetails', $request->getUri()->getPath());
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame(self::AUTHORIZATION_HEADER_VALUE, $request->getHeaderLine('Authorization'));
         self::assertSame($this->arrayFromFixture($fixture), $response->data);
     }
 
@@ -71,12 +69,10 @@ final class CashRegistersTest extends TestCase
 
         self::assertSame($this->arrayFromFixture($fixture), $response->data);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertGetRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/cash_registers/view/1', $request->getUri()->getPath());
+        $this->request()
+            ->get('/cash_registers/view/1')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
     }
 
     public function testGetByIdNotFound(): void

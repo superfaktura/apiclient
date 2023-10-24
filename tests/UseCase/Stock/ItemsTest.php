@@ -54,15 +54,14 @@ final class ItemsTest extends TestCase
         ));
         $response = $use_case->create($data);
 
-        $request = $this->getLastRequest();
-
         $expected_response_body = json_decode($response_body_json, true, 512, JSON_THROW_ON_ERROR);
 
-        self::assertNotNull($request);
-        self::assertPostRequest($request);
-        self::assertSame($request_body, (string) $request->getBody());
-        self::assertContentTypeJson($request);
-        self::assertSame(self::BASE_URI . '/stock_items/add', $request->getUri()->getPath());
+        $this->request()
+            ->post(self::BASE_URI . '/stock_items/add')
+            ->withBody($request_body)
+            ->withContentTypeJson()
+            ->assert();
+
         self::assertEquals($expected_response_body, $response->data);
     }
 

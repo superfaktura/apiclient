@@ -10,7 +10,6 @@ use GuzzleHttp\Psr7\HttpFactory;
 use Fig\Http\Message\StatusCodeInterface;
 use SuperFaktura\ApiClient\Test\TestCase;
 use PHPUnit\Framework\Attributes\UsesClass;
-use Fig\Http\Message\RequestMethodInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use SuperFaktura\ApiClient\Response\RateLimit;
@@ -107,12 +106,10 @@ final class ContactsTest extends TestCase
             ->getContacts($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->delete(1);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertSame(RequestMethodInterface::METHOD_GET, $request->getMethod());
-        self::assertSame('/contact_people/delete/1', $request->getUri()->getPath());
-        self::assertSame(self::AUTHORIZATION_HEADER_VALUE, $request->getHeaderLine('Authorization'));
+        $this->request()
+            ->get('/contact_people/delete/1')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
     }
 
     public function testDeleteContactNotFound(): void
@@ -195,14 +192,12 @@ final class ContactsTest extends TestCase
             ->getContacts($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->create($client_id, $data);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertSame(RequestMethodInterface::METHOD_POST, $request->getMethod());
-        self::assertSame('/contact_people/add/api%3A1', $request->getUri()->getPath());
-        self::assertSame($request_body, (string) $request->getBody());
-        self::assertSame('application/x-www-form-urlencoded', $request->getHeaderLine('Content-Type'));
-        self::assertSame(self::AUTHORIZATION_HEADER_VALUE, $request->getHeaderLine('Authorization'));
+        $this->request()
+            ->post('/contact_people/add/api%3A1')
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+        self::assertSame($request_body, (string) $this->getLastRequest()?->getBody());
     }
 
     public function testCreateMissingRequiredData(): void

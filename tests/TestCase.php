@@ -17,6 +17,7 @@ use GuzzleHttp\Exception\RequestException;
 use Fig\Http\Message\RequestMethodInterface;
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Response\RateLimit;
+use SuperFaktura\ApiClient\Test\Utils\AssertRequestBuilder;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -203,5 +204,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             512,
             JSON_THROW_ON_ERROR,
         );
+    }
+
+    protected function request(): AssertRequestBuilder
+    {
+        return new AssertRequestBuilder($this->getLastRequest());
     }
 }

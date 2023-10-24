@@ -6,6 +6,7 @@ use GuzzleHttp\Psr7\Response;
 use SuperFaktura\ApiClient\Filter\Sort;
 use Fig\Http\Message\StatusCodeInterface;
 use PHPUnit\Framework\Attributes\UsesClass;
+use Fig\Http\Message\RequestMethodInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use SuperFaktura\ApiClient\Filter\TimePeriod;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -54,15 +55,12 @@ final class InvoicesTest extends InvoicesTestCase
             $this->getHttpClientWithMockResponse(
                 new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
             ),
-        )
-            ->getById(1);
+        )->getById(1);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertGetRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/invoices/view/1.json', $request->getUri()->getPath());
+        $this->request()
+            ->get('/invoices/view/1.json')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
         self::assertSame($this->arrayFromFixture($fixture), $response->data);
     }
 
@@ -124,15 +122,12 @@ final class InvoicesTest extends InvoicesTestCase
             $this->getHttpClientWithMockResponse(
                 new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
             ),
-        )
-            ->getByIds([1,2]);
+        )->getByIds([1,2]);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertGetRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/invoices/getInvoiceDetails/1,2', $request->getUri()->getPath());
+        $this->request()
+            ->get('/invoices/getInvoiceDetails/1,2')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
         self::assertSame($this->arrayFromFixture($fixture), $response->data);
     }
 
@@ -169,11 +164,10 @@ final class InvoicesTest extends InvoicesTestCase
         )
             ->getAll();
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertGetRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
+        $this->request()
+            ->withMethod(RequestMethodInterface::METHOD_GET)
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
         self::assertSame($this->arrayFromFixture($fixture), $response->data);
     }
 
@@ -367,10 +361,9 @@ final class InvoicesTest extends InvoicesTestCase
             ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->getAll($query);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertSame($expected, $request->getUri()->getPath());
+        $this->request()
+            ->get($expected)
+            ->assert();
     }
 
     /**
@@ -429,14 +422,12 @@ final class InvoicesTest extends InvoicesTestCase
                 tags: $data[Invoices::TAG] ?? [],
             );
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertPostRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/invoices/create', $request->getUri()->getPath());
-        self::assertSame($request_body, (string) $request->getBody());
-        self::assertSame('application/x-www-form-urlencoded', $request->getHeaderLine('Content-Type'));
+        $this->request()
+            ->post('/invoices/create')
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+        self::assertSame($request_body, (string) $this->getLastRequest()?->getBody());
     }
 
     public static function createValidationErrorsProvider(): \Generator
@@ -604,14 +595,12 @@ final class InvoicesTest extends InvoicesTestCase
                 tags: $data[Invoices::TAG] ?? [],
             );
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertPostRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/invoices/edit', $request->getUri()->getPath());
-        self::assertSame($request_body, (string) $request->getBody());
-        self::assertSame('application/x-www-form-urlencoded', $request->getHeaderLine('Content-Type'));
+        $this->request()
+            ->post('/invoices/edit')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->assert();
+        self::assertSame($request_body, (string) $this->getLastRequest()?->getBody());
     }
 
     public static function updateValidationErrorsProvider(): \Generator
@@ -713,12 +702,10 @@ final class InvoicesTest extends InvoicesTestCase
             ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->delete($id);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertDeleteRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/invoices/delete/' . $id, $request->getUri()->getPath());
+        $this->request()
+            ->delete('/invoices/delete/' . $id)
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
     }
 
     public function testDeleteNotFound(): void
@@ -788,15 +775,10 @@ final class InvoicesTest extends InvoicesTestCase
             ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->changeLanguage($id, $language);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertGetRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame(
-            sprintf('/invoices/setinvoicelanguage/%d/lang:%s', $id, $language->value),
-            $request->getUri()->getPath(),
-        );
+        $this->request()
+            ->get(sprintf('/invoices/setinvoicelanguage/%d/lang:%s', $id, $language->value))
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
     }
 
     public function testChangeLanguageInvoiceNotFound(): void

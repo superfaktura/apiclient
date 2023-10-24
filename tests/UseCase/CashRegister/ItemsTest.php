@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 use Fig\Http\Message\StatusCodeInterface;
 use SuperFaktura\ApiClient\Test\TestCase;
 use PHPUnit\Framework\Attributes\UsesClass;
-use Fig\Http\Message\RequestMethodInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use SuperFaktura\ApiClient\Response\RateLimit;
 use SuperFaktura\ApiClient\Contract\CashRegister;
@@ -47,18 +46,17 @@ final class ItemsTest extends TestCase
                 ],
             );
 
-        $request = $this->getLastRequest();
         $expected_body = json_encode(['CashRegisterItem' => [
             'cash_register_id' => self::CASH_REGISTER_ID,
             'amount' => 1.25,
         ]], JSON_THROW_ON_ERROR);
 
-        self::assertNotNull($request);
-        self::assertSame(RequestMethodInterface::METHOD_POST, $request->getMethod());
-        self::assertSame('/cash_register_items/add', $request->getUri()->getPath());
-        self::assertSame($expected_body, (string) $request->getBody());
-        self::assertSame('application/json', $request->getHeaderLine('Content-Type'));
-        self::assertSame(self::AUTHORIZATION_HEADER_VALUE, $request->getHeaderLine('Authorization'));
+        $this->request()
+            ->post('/cash_register_items/add')
+            ->withBody($expected_body)
+            ->withContentTypeJson()
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
     }
 
     public function testCreateWithNonExistentCashRegister(): void

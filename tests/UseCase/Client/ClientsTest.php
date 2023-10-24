@@ -243,12 +243,10 @@ final class ClientsTest extends TestCase
         $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->delete(1);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertDeleteRequest($request);
-        self::assertSame('/clients/delete/1', $request->getUri()->getPath());
-        self::assertContentTypeJson($request);
+        $this->request()
+            ->delete('/clients/delete/1')
+            ->withContentTypeJson()
+            ->assert();
     }
 
     public function testDeleteNotFound(): void
@@ -352,16 +350,16 @@ final class ClientsTest extends TestCase
         $use_case = $this->getClients($this->getHttpClientWithMockResponse(
             new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
         ));
+
         $response = $use_case->create($data);
-
-        $request = $this->getLastRequest();
-
         $expected_response_body = json_decode($response_body_json, true, 512, JSON_THROW_ON_ERROR);
 
-        self::assertNotNull($request);
-        self::assertPostRequest($request);
-        self::assertSame($request_body, (string) $request->getBody());
-        self::assertContentTypeJson($request);
+        $this->request()
+            ->post('/clients/create')
+            ->withBody($request_body)
+            ->withContentTypeJson()
+            ->assert();
+
         self::assertEquals($expected_response_body, $response->data);
     }
 
@@ -422,13 +420,11 @@ final class ClientsTest extends TestCase
         $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->update($id, $data);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertPatchRequest($request);
-        self::assertSame('/clients/edit/' . $id, $request->getUri()->getPath());
-        self::assertJsonEquals($request_body, (string) $request->getBody());
-        self::assertContentTypeJson($request);
+        $this->request()
+            ->patch('/clients/edit/' . $id)
+            ->withBody($request_body)
+            ->withContentTypeJson()
+            ->assert();
     }
 
     public function testUpdateNotFound(): void
