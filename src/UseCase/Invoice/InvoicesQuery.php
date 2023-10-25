@@ -6,10 +6,10 @@ namespace SuperFaktura\ApiClient\UseCase\Invoice;
 
 use SuperFaktura\ApiClient\Filter\Sort;
 use SuperFaktura\ApiClient\Filter\TimePeriod;
+use SuperFaktura\ApiClient\Contract\PaymentType;
 use SuperFaktura\ApiClient\Filter\SortDirection;
 use SuperFaktura\ApiClient\Contract\Invoice\DeliveryType;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceStatus;
-use SuperFaktura\ApiClient\Contract\Invoice\Payment\PaymentType;
 
 final class InvoicesQuery
 {

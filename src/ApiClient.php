@@ -11,6 +11,7 @@ use SuperFaktura\ApiClient\UseCase\Stock;
 use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\UseCase\Client\Clients;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
+use SuperFaktura\ApiClient\UseCase\Expense\Expenses;
 use SuperFaktura\ApiClient\UseCase\Invoice\Invoices;
 use SuperFaktura\ApiClient\Version\ComposerProvider;
 use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
@@ -27,6 +28,8 @@ final readonly class ApiClient
     public CashRegisters $cash_registers;
 
     public Invoices $invoices;
+
+    public Expenses $expenses;
 
     public Stock\Items $stock_items;
 
@@ -66,6 +69,15 @@ final readonly class ApiClient
         );
 
         $this->invoices = new Invoices(
+            http_client: $this->http_client,
+            request_factory: $this->request_factory,
+            response_factory: $this->response_factory,
+            query_params_convertor: new NamedParamsConvertor(),
+            base_uri: $this->base_uri,
+            authorization_header_value: $authorization_header_value,
+        );
+
+        $this->expenses = new Expenses(
             http_client: $this->http_client,
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,

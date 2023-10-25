@@ -2,8 +2,8 @@
 
 namespace SuperFaktura\ApiClient\UseCase\Invoice\Payment;
 
+use SuperFaktura\ApiClient\Contract\PaymentType;
 use SuperFaktura\ApiClient\UseCase\Money\Currency;
-use SuperFaktura\ApiClient\Contract\Invoice\Payment\PaymentType;
 
 final class Payment
 {

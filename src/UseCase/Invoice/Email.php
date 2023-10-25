@@ -2,7 +2,7 @@
 
 namespace SuperFaktura\ApiClient\UseCase\Invoice;
 
-use SuperFaktura\ApiClient\Contract\Invoice\Language;
+use SuperFaktura\ApiClient\Contract\Language;
 
 final class Email
 {

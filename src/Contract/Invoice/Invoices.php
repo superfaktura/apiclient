@@ -2,6 +2,7 @@
 
 namespace SuperFaktura\ApiClient\Contract\Invoice;
 
+use SuperFaktura\ApiClient\Contract\Language;
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\UseCase\Invoice\Email;
 use SuperFaktura\ApiClient\Response\BinaryResponse;
