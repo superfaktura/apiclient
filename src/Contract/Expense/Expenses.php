@@ -11,4 +11,10 @@ interface Expenses
      * @throws CannotGetAllExpensesException
      */
     public function getAll(ExpensesQuery $query = new ExpensesQuery()): Response;
+
+    /**
+     * @throws CannotGetExpenseException
+     * @throws ExpenseNotFoundException
+     */
+    public function getById(int $id): Response;
 }

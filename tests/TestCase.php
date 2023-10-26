@@ -177,6 +177,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             ->withHeader('X-RateLimit-MonthlyReset', '01.01.2099 00:00:00');
     }
 
+    protected function getHttpNotFoundResponse(): MessageInterface
+    {
+        return (new \GuzzleHttp\Psr7\Response(StatusCodeInterface::STATUS_NOT_FOUND, [], '[]'));
+    }
+
     protected function getHttpOkResponseContainingInvalidJson(): MessageInterface
     {
         return (new \GuzzleHttp\Psr7\Response(StatusCodeInterface::STATUS_OK, [], '{'));

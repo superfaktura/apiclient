@@ -21,6 +21,8 @@ use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseType;
 use SuperFaktura\ApiClient\UseCase\Expense\ExpensesQuery;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseStatus;
+use SuperFaktura\ApiClient\Contract\Expense\ExpenseNotFoundException;
+use SuperFaktura\ApiClient\Contract\Expense\CannotGetExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllExpensesException;
 
 #[CoversClass(Expenses::class)]
@@ -33,6 +35,63 @@ use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllExpensesException;
 #[UsesClass(ResponseFactory::class)]
 final class ExpensesTest extends ExpensesTestCase
 {
+    public function testGetById(): void
+    {
+        $fixture = __DIR__ . '/fixtures/expense.json';
+
+        $response = $this
+            ->getExpenses($this->getHttpClientReturning($fixture))
+            ->getById(1);
+
+        $this->request()
+            ->get('/expenses/view/1.json')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+
+        self::assertSame($this->arrayFromFixture($fixture), $response->data);
+    }
+
+    public function testGetByIdNotFound(): void
+    {
+        $this->expectException(ExpenseNotFoundException::class);
+
+        $this
+            ->getExpenses($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
+            ->getById(1);
+    }
+
+    public function testGetByIdGenericError(): void
+    {
+        $fixture = __DIR__ . '/fixtures/generic-error.json';
+
+        $this->expectException(CannotGetExpenseException::class);
+        $this->expectExceptionMessage('Expense error');
+
+        $this
+            ->getExpenses($this->getHttpClientReturning($fixture))
+            ->getById(1);
+    }
+
+    public function testGetByIdRequestFailed(): void
+    {
+        $this->expectException(CannotGetExpenseException::class);
+
+        $this
+            ->getExpenses($this->getHttpClientWithMockRequestException())
+            ->getById(1);
+    }
+
+    public function testGetByIdResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotGetExpenseException::class);
+
+        $this
+            ->getExpenses(
+                $this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()),
+            )
+            ->getById(1);
+    }
+
     public function testGetAll(): void
     {
         $fixture = __DIR__ . '/fixtures/list.json';

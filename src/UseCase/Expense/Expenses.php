@@ -6,6 +6,7 @@ namespace SuperFaktura\ApiClient\UseCase\Expense;
 
 use Psr\Http\Client\ClientInterface;
 use SuperFaktura\ApiClient\Contract;
+use Fig\Http\Message\StatusCodeInterface;
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -13,6 +14,8 @@ use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseStatus;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
+use SuperFaktura\ApiClient\Contract\Expense\ExpenseNotFoundException;
+use SuperFaktura\ApiClient\Contract\Expense\CannotGetExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllExpensesException;
 
 final class Expenses implements Contract\Expense\Expenses
@@ -25,6 +28,33 @@ final class Expenses implements Contract\Expense\Expenses
         private string $base_uri,
         private string $authorization_header_value,
     ) {
+    }
+
+    public function getById(int $id): Response
+    {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_GET,
+                sprintf('%s/expenses/view/%d.json', $this->base_uri, $id),
+            )
+            ->withHeader('Authorization', $this->authorization_header_value);
+
+        try {
+            $response = $this->response_factory
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotGetExpenseException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new ExpenseNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotGetExpenseException($request, $response->data['error_message'] ?? '');
+        }
+
+        return $response;
     }
 
     public function getAll(ExpensesQuery $query = new ExpensesQuery()): Response
