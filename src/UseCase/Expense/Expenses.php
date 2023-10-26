@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SuperFaktura\ApiClient\UseCase\Expense;
 
+use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Client\ClientInterface;
 use SuperFaktura\ApiClient\Contract;
 use Fig\Http\Message\StatusCodeInterface;
@@ -14,12 +15,26 @@ use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseStatus;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
+use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseNotFoundException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetExpenseException;
+use SuperFaktura\ApiClient\Contract\Expense\CannotCreateExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllExpensesException;
 
-final class Expenses implements Contract\Expense\Expenses
+final readonly class Expenses implements Contract\Expense\Expenses
 {
+    public const EXPENSE = 'Expense';
+
+    public const EXPENSE_ITEM = 'ExpenseItem';
+
+    public const EXPENSE_EXTRA = 'ExpenseExtra';
+
+    public const CLIENT = 'Client';
+
+    public const MY_DATA = 'MyData';
+
+    public const TAG = 'Tag';
+
     public function __construct(
         private ClientInterface $http_client,
         private RequestFactoryInterface $request_factory,
@@ -111,5 +126,98 @@ final class Expenses implements Contract\Expense\Expenses
                 ? base64_encode($query->full_text)
                 : null,
         ]);
+    }
+
+    public function create(
+        array $expense,
+        array $items = [],
+        array $client = [],
+        array $extra = [],
+        array $my_data = [],
+        array $tags = [],
+    ): Response {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_POST,
+                $this->base_uri . '/expenses/add',
+            )
+            ->withHeader('Authorization', $this->authorization_header_value)
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withBody(
+                Utils::streamFor('data=' . $this->expenseDataToJson(
+                    expense: $expense,
+                    items: $items,
+                    client: $client,
+                    extra: $extra,
+                    my_data: $my_data,
+                    tags: $tags,
+                )),
+            );
+
+        try {
+            $response = $this->response_factory->createFromJsonResponse(
+                $this->http_client->sendRequest($request),
+            );
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotCreateExpenseException($request, [], $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->isError()) {
+            throw new CannotCreateExpenseException(
+                $request,
+                $this->normalizeErrorMessages($response),
+            );
+        }
+
+        return $response;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function normalizeErrorMessages(Response $response): array
+    {
+        if (is_array($response->data['error_message'])) {
+            return $response->data['error_message'];
+        }
+
+        return [$response->data['error_message'] ?? ''];
+    }
+
+    /**
+     * @param array<string, mixed> $expense
+     * @param array<int, array<string, mixed>> $items
+     * @param array<string, mixed> $client
+     * @param array<string, mixed> $extra
+     * @param array<string, mixed> $my_data
+     * @param int[] $tags
+     *
+     * @throws CannotCreateRequestException
+     */
+    private function expenseDataToJson(
+        array $expense,
+        array $items,
+        array $client,
+        array $extra,
+        array $my_data,
+        array $tags,
+    ): string {
+        try {
+            return json_encode(
+                array_filter([
+                    self::EXPENSE => $expense,
+                    self::EXPENSE_ITEM => $items,
+                    self::CLIENT => $client,
+                    self::EXPENSE_EXTRA => $extra,
+                    self::MY_DATA => $my_data,
+                    self::TAG => $tags !== []
+                        ? [self::TAG => $tags]
+                        : [],
+                ]),
+                JSON_THROW_ON_ERROR,
+            );
+        } catch (\JsonException $e) {
+            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

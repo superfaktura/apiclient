@@ -43,7 +43,7 @@
     "scripts": {
         "test:unit": "./vendor/bin/phpunit",
         "test:coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-filter src/ --coverage-html coverage",
-        "php:phpstan": "XDEBUG_MODE=off ./vendor/bin/phpstan analyse src tests",
+        "php:phpstan": "XDEBUG_MODE=off ./vendor/bin/phpstan analyse src tests --memory-limit 256M",
         "php:phpstan-baseline": "XDEBUG_MODE=off ./vendor/bin/phpstan analyse src tests --generate-baseline",
         "php:cs-fix": "XDEBUG_MODE=off ./vendor/bin/php-cs-fixer fix --allow-risky=yes",
         "php:cs-check": "XDEBUG_MODE=off ./vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes -n 2> /dev/null"

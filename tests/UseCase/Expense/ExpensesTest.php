@@ -21,11 +21,14 @@ use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseType;
 use SuperFaktura\ApiClient\UseCase\Expense\ExpensesQuery;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseStatus;
+use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseNotFoundException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetExpenseException;
+use SuperFaktura\ApiClient\Contract\Expense\CannotCreateExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllExpensesException;
 
 #[CoversClass(Expenses::class)]
+#[CoversClass(CannotCreateExpenseException::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[UsesClass(NamedParamsConvertor::class)]
 #[UsesClass(Sort::class)]
@@ -274,6 +277,125 @@ final class ExpensesTest extends ExpensesTestCase
         $this->request()
             ->get($expected)
             ->assert();
+    }
+
+    public static function createProvider(): \Generator
+    {
+        $data = [
+            Expenses::EXPENSE => ['name' => 'Expense'],
+        ];
+
+        yield 'expense is created with minimal data' => [
+            'data' => $data,
+            'request_body' => 'data=' . json_encode($data),
+        ];
+
+        $data = [
+            Expenses::EXPENSE => ['name' => 'Expense 2'],
+            Expenses::EXPENSE_ITEM => [
+                ['name' => 'Bar', 'unit_price' => 10],
+            ],
+            Expenses::CLIENT => ['name' => 'Jane Doe', 'ico' => '87654321'],
+            Expenses::EXPENSE_EXTRA => ['pickup_point_id' => 1],
+            Expenses::MY_DATA => ['name' => 'SuperFaktura s.r.o.'],
+            Expenses::TAG => [1, 2, 3],
+        ];
+
+        yield 'expense is created with all data' => [
+            'data' => $data,
+            'request_body' => 'data=' . json_encode(
+                array_merge($data, [Expenses::TAG => [Expenses::TAG => $data[Expenses::TAG]]]),
+            ),
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    #[DataProvider('createProvider')]
+    public function testCreate(array $data, string $request_body): void
+    {
+        $fixture = __DIR__ . '/fixtures/create-update-success.json';
+
+        $response = $this
+            ->getExpenses($this->getHttpClientReturning($fixture))
+            ->create(
+                expense: $data[Expenses::EXPENSE],
+                items: $data[Expenses::EXPENSE_ITEM] ?? [],
+                client: $data[Expenses::CLIENT] ?? [],
+                extra: $data[Expenses::EXPENSE_EXTRA] ?? [],
+                my_data: $data[Expenses::MY_DATA] ?? [],
+                tags: $data[Expenses::TAG] ?? [],
+            );
+
+        $this->request()
+            ->post('/expenses/add')
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+
+        self::assertSame($request_body, (string) $this->getLastRequest()?->getBody());
+        self::assertSame($this->arrayFromFixture($fixture), $response->data);
+    }
+
+    public static function createErrorsProvider(): \Generator
+    {
+        yield 'generic error' => [
+            'fixture' => __DIR__ . '/fixtures/create-error.json',
+            'errors' => ['Chýbajúce údaje'],
+        ];
+
+        yield 'validation error' => [
+            'fixture' => __DIR__ . '/fixtures/create-validation-error.json',
+            'errors' => [
+                'number' => ['Číslo dokladu sa nezhoduje s uvedeným obdobím'],
+            ],
+        ];
+    }
+
+    /**
+     * @param string[]|array<string, string[]> $errors
+     */
+    #[DataProvider('createErrorsProvider')]
+    public function testCreateValidationErrors(string $fixture, array $errors): void
+    {
+        try {
+            $this
+                ->getExpenses($this->getHttpClientReturning($fixture))
+                ->create(expense: []);
+
+            self::fail(sprintf('Expected exception of type: %s to be thrown', CannotCreateExpenseException::class));
+        } catch (CannotCreateExpenseException $exception) {
+            self::assertEquals($errors, $exception->getErrors());
+        }
+    }
+
+    public function testCreateResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotCreateExpenseException::class);
+
+        $this
+            ->getExpenses(
+                $this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()),
+            )
+            ->create(expense: []);
+    }
+
+    public function testCreateInvalidRequestData(): void
+    {
+        $this->expectException(CannotCreateRequestException::class);
+
+        $this
+            ->getExpenses($this->getHttpClientWithMockResponse())
+            ->create(expense: ['name' => NAN]);
+    }
+
+    public function testCreateRequestFailed(): void
+    {
+        $this->expectException(CannotCreateExpenseException::class);
+        $this
+            ->getExpenses($this->getHttpClientWithMockRequestException())
+            ->create(expense: []);
     }
 
     /**
