@@ -18,6 +18,7 @@ use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\UseCase\BankAccount\BankAccounts;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\UseCase\CashRegister\CashRegisters;
+use SuperFaktura\ApiClient\UseCase\Invoice\ExportRequestFactory;
 
 final readonly class ApiClient
 {
@@ -73,6 +74,7 @@ final readonly class ApiClient
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
             query_params_convertor: new NamedParamsConvertor(),
+            export_request_factory: new ExportRequestFactory(),
             base_uri: $this->base_uri,
             authorization_header_value: $authorization_header_value,
         );
