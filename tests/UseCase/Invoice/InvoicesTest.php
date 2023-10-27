@@ -405,7 +405,15 @@ final class InvoicesTest extends InvoicesTestCase
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param array{
+     *     Invoice: array<string, mixed>,
+     *     InvoiceItem: array<array<string, mixed>>,
+     *     Client: array<string, mixed>,
+     *     InvoiceSetting?: array<string, mixed>,
+     *     InvoiceExtra?: array<string, mixed>,
+     *     MyData?: array<string, mixed>,
+     *     Tag?: int[]
+     * } $data
      */
     #[DataProvider('createProvider')]
     public function testCreate(array $data, string $request_body): void
@@ -577,7 +585,15 @@ final class InvoicesTest extends InvoicesTestCase
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param array{
+     *      Invoice: array<string, mixed>,
+     *      InvoiceItem?: array<array<string, mixed>>,
+     *      Client?: array<string, mixed>,
+     *      InvoiceSetting?: array<string, mixed>,
+     *      InvoiceExtra?: array<string, mixed>,
+     *      MyData?: array<string, mixed>,
+     *      Tag?: int[]
+     *  } $data
      */
     #[DataProvider('updateProvider')]
     public function testUpdate(int $invoice_id, array $data, string $request_body): void
@@ -586,7 +602,7 @@ final class InvoicesTest extends InvoicesTestCase
             ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->update(
                 id: $invoice_id,
-                invoice: $data[Invoices::INVOICE] ?? [],
+                invoice: $data[Invoices::INVOICE],
                 items: $data[Invoices::INVOICE_ITEM] ?? [],
                 client: $data[Invoices::CLIENT] ?? [],
                 settings: $data[Invoices::INVOICE_SETTING] ?? [],

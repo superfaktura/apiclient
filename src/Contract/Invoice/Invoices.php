@@ -51,7 +51,7 @@ interface Invoices
 
     /**
      * @param array<string, mixed> $invoice
-     * @param array<int, array<string, mixed>> $items
+     * @param array<array<string, mixed>> $items
      * @param array<string, mixed> $client
      * @param array<string, mixed> $settings
      * @param array<string, mixed> $extra
@@ -73,7 +73,7 @@ interface Invoices
 
     /**
      * @param array<string, mixed> $invoice
-     * @param array<int, array<string, mixed>> $items
+     * @param array<array<string, mixed>> $items
      * @param array<string, mixed> $client
      * @param array<string, mixed> $settings
      * @param array<string, mixed> $extra
