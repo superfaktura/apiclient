@@ -15,6 +15,7 @@ use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Contract\Stock\ItemNotFoundException;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotCreateItemException;
+use SuperFaktura\ApiClient\Contract\Stock\CannotDeleteItemException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotUpdateItemException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetAllItemsException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetItemByIdException;
@@ -105,6 +106,30 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
             return $response;
         } catch (\JsonException|ClientExceptionInterface $e) {
             throw new CannotGetAllItemsException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    public function delete(int $id): void
+    {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_DELETE,
+                $this->base_uri . '/stock_items/delete/' . $id,
+            )->withHeader('Authorization', $this->authorization_header_value);
+
+        try {
+            $response = $this->response_factory
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
+        } catch (\JsonException|ClientExceptionInterface $e) {
+            throw new CannotDeleteItemException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new ItemNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotDeleteItemException($request, $response->data['message'] ?? '');
         }
     }
 

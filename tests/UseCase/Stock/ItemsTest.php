@@ -22,6 +22,7 @@ use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\Contract\Stock\ItemNotFoundException;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotCreateItemException;
+use SuperFaktura\ApiClient\Contract\Stock\CannotDeleteItemException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotUpdateItemException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetAllItemsException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetItemByIdException;
@@ -327,6 +328,48 @@ final class ItemsTest extends TestCase
         $this->expectException(CannotCreateRequestException::class);
         $this->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->update(0, ['StockItem' => ['name' => NAN]]);
+    }
+
+    public function testDelete(): void
+    {
+        $this->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
+            ->delete(1);
+
+        $this->request()
+            ->delete(self::BASE_URI . '/stock_items/delete/1')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+    }
+
+    public function testDeleteNotFound(): void
+    {
+        $this->expectException(ItemNotFoundException::class);
+
+        $this->getItems($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
+            ->delete(123);
+    }
+
+    public function testDeleteInsufficientPermissions(): void
+    {
+        $this->expectException(CannotDeleteItemException::class);
+
+        $fixture = __DIR__ . '/fixtures/insufficient-permissions.json';
+        $this->getItems($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_FORBIDDEN, [], $this->jsonFromFixture($fixture)),
+        ))->delete(0);
+    }
+
+    public function testDeleteRequestFailed(): void
+    {
+        $this->expectException(CannotDeleteItemException::class);
+        $this->getItems($this->getHttpClientWithMockRequestException())->delete(0);
+    }
+
+    public function testDeleteResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotDeleteItemException::class);
+        $this->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
+            ->delete(0);
     }
 
     private function getItems(ClientInterface $http_client): Items

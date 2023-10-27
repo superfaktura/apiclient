@@ -31,4 +31,10 @@ interface Items
      * @throws CannotUpdateItemException
      */
     public function update(int $id, array $data): Response;
+
+    /**
+     * @throws ItemNotFoundException
+     * @throws CannotDeleteItemException
+     */
+    public function delete(int $id): void;
 }
