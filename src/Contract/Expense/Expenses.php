@@ -21,7 +21,7 @@ interface Expenses
 
     /**
      * @param array<string, mixed> $expense
-     * @param array<int, array<string, mixed>> $items
+     * @param array<array<string, mixed>> $items
      * @param array<string, mixed> $client
      * @param array<string, mixed> $extra
      * @param array<string, mixed> $my_data
@@ -32,6 +32,28 @@ interface Expenses
      */
     public function create(
         array $expense,
+        array $items = [],
+        array $client = [],
+        array $extra = [],
+        array $my_data = [],
+        array $tags = [],
+    ): Response;
+
+    /**
+     * @param array<string, mixed> $expense
+     * @param array<array<string, mixed>> $items
+     * @param array<string, mixed> $client
+     * @param array<string, mixed> $extra
+     * @param array<string, mixed> $my_data
+     * @param int[] $tags
+     *
+     * @throws CannotUpdateExpenseException
+     * @throws CannotCreateRequestException
+     * @throws ExpenseNotFoundException
+     */
+    public function update(
+        int $id,
+        array $expense = [],
         array $items = [],
         array $client = [],
         array $extra = [],

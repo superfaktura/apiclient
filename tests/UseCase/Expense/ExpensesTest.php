@@ -25,10 +25,12 @@ use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseNotFoundException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotCreateExpenseException;
+use SuperFaktura\ApiClient\Contract\Expense\CannotUpdateExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllExpensesException;
 
 #[CoversClass(Expenses::class)]
 #[CoversClass(CannotCreateExpenseException::class)]
+#[CoversClass(CannotUpdateExpenseException::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[UsesClass(NamedParamsConvertor::class)]
 #[UsesClass(Sort::class)]
@@ -287,7 +289,7 @@ final class ExpensesTest extends ExpensesTestCase
 
         yield 'expense is created with minimal data' => [
             'data' => $data,
-            'request_body' => 'data=' . json_encode($data),
+            'request_body' => json_encode($data),
         ];
 
         $data = [
@@ -303,14 +305,21 @@ final class ExpensesTest extends ExpensesTestCase
 
         yield 'expense is created with all data' => [
             'data' => $data,
-            'request_body' => 'data=' . json_encode(
+            'request_body' => json_encode(
                 array_merge($data, [Expenses::TAG => [Expenses::TAG => $data[Expenses::TAG]]]),
             ),
         ];
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param array{
+     *     Expense: array<string, mixed>,
+     *     ExpenseItem?: array<array<string, mixed>>,
+     *     Client?: array<string, mixed>,
+     *     ExpenseExtra?: array<string, mixed>,
+     *     MyData?: array<string, mixed>,
+     *     Tag?: int[]
+     * } $data
      */
     #[DataProvider('createProvider')]
     public function testCreate(array $data, string $request_body): void
@@ -330,7 +339,7 @@ final class ExpensesTest extends ExpensesTestCase
 
         $this->request()
             ->post('/expenses/add')
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Content-Type', 'application/json')
             ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
             ->assert();
 
@@ -338,7 +347,7 @@ final class ExpensesTest extends ExpensesTestCase
         self::assertSame($this->arrayFromFixture($fixture), $response->data);
     }
 
-    public static function createErrorsProvider(): \Generator
+    public static function errorsProvider(): \Generator
     {
         yield 'generic error' => [
             'fixture' => __DIR__ . '/fixtures/create-error.json',
@@ -356,8 +365,8 @@ final class ExpensesTest extends ExpensesTestCase
     /**
      * @param string[]|array<string, string[]> $errors
      */
-    #[DataProvider('createErrorsProvider')]
-    public function testCreateValidationErrors(string $fixture, array $errors): void
+    #[DataProvider('errorsProvider')]
+    public function testCreateErrors(string $fixture, array $errors): void
     {
         try {
             $this
@@ -396,6 +405,131 @@ final class ExpensesTest extends ExpensesTestCase
         $this
             ->getExpenses($this->getHttpClientWithMockRequestException())
             ->create(expense: []);
+    }
+
+    public static function updateProvider(): \Generator
+    {
+        $data = [
+            Expenses::EXPENSE => ['name' => 'Expense'],
+        ];
+
+        yield 'expense is updated' => [
+            'id' => 1,
+            'data' => $data,
+            'request_body' => json_encode([
+                Expenses::EXPENSE => ['id' => 1, ...$data[Expenses::EXPENSE]],
+            ]),
+        ];
+
+        $data = [
+            Expenses::EXPENSE => ['id' => 2],
+            Expenses::EXPENSE_ITEM => [
+                ['name' => 'Bar', 'unit_price' => 10],
+            ],
+            Expenses::CLIENT => ['name' => 'Jane Doe', 'ico' => '87654321'],
+            Expenses::EXPENSE_EXTRA => ['pickup_point_id' => 1],
+            Expenses::MY_DATA => ['name' => 'SuperFaktura s.r.o.'],
+            Expenses::TAG => [1, 2, 3],
+        ];
+
+        yield 'another expense is updated' => [
+            'id' => 2,
+            'data' => $data,
+            'request_body' => json_encode(
+                array_merge($data, [Expenses::TAG => [Expenses::TAG => $data[Expenses::TAG]]]),
+            ),
+        ];
+    }
+
+    /**
+     * @param array{
+     *     Expense?: array<string, mixed>,
+     *     ExpenseItem?: array<array<string, mixed>>,
+     *     Client?: array<string, mixed>,
+     *     ExpenseExtra?: array<string, mixed>,
+     *     MyData?: array<string, mixed>,
+     *     Tag?: int[]
+     * } $data
+     */
+    #[DataProvider('updateProvider')]
+    public function testUpdate(int $id, array $data, string $request_body): void
+    {
+        $fixture = __DIR__ . '/fixtures/create-update-success.json';
+
+        $response = $this
+            ->getExpenses($this->getHttpClientReturning($fixture))
+            ->update(
+                id: $id,
+                expense: $data[Expenses::EXPENSE] ?? [],
+                items: $data[Expenses::EXPENSE_ITEM] ?? [],
+                client: $data[Expenses::CLIENT] ?? [],
+                extra: $data[Expenses::EXPENSE_EXTRA] ?? [],
+                my_data: $data[Expenses::MY_DATA] ?? [],
+                tags: $data[Expenses::TAG] ?? [],
+            );
+
+        $this->request()
+            ->patch('/expenses/edit')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->withHeader('Content-Type', 'application/json')
+            ->assert();
+
+        self::assertSame($request_body, (string) $this->getLastRequest()?->getBody());
+        self::assertSame($this->arrayFromFixture($fixture), $response->data);
+    }
+
+    /**
+     * @param string[]|array<string, string[]> $errors
+     */
+    #[DataProvider('errorsProvider')]
+    public function testUpdateErrors(string $fixture, array $errors): void
+    {
+        try {
+            $this
+                ->getExpenses($this->getHttpClientReturning($fixture))
+                ->update(1);
+
+            self::fail(sprintf('Expected exception of type: %s to be thrown', CannotUpdateExpenseException::class));
+        } catch (CannotUpdateExpenseException $exception) {
+            self::assertEquals($errors, $exception->getErrors());
+        }
+    }
+
+    public function testUpdateNotFound(): void
+    {
+        $this->expectException(ExpenseNotFoundException::class);
+
+        $this
+            ->getExpenses($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
+            ->update(1);
+    }
+
+    public function testUpdateResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotUpdateExpenseException::class);
+
+        $this
+            ->getExpenses(
+                $this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()),
+            )
+            ->update(1);
+    }
+
+    public function testUpdateInvalidRequestData(): void
+    {
+        $this->expectException(CannotCreateRequestException::class);
+
+        $this
+            ->getExpenses($this->getHttpClientWithMockResponse())
+            ->update(1, ['name' => NAN]);
+    }
+
+    public function testUpdateRequestFailed(): void
+    {
+        $this->expectException(CannotUpdateExpenseException::class);
+        $this
+            ->getExpenses($this->getHttpClientWithMockRequestException())
+            ->update(1);
     }
 
     /**

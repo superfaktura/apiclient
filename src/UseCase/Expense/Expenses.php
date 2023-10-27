@@ -19,6 +19,7 @@ use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseNotFoundException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotCreateExpenseException;
+use SuperFaktura\ApiClient\Contract\Expense\CannotUpdateExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllExpensesException;
 
 final readonly class Expenses implements Contract\Expense\Expenses
@@ -142,9 +143,9 @@ final readonly class Expenses implements Contract\Expense\Expenses
                 $this->base_uri . '/expenses/add',
             )
             ->withHeader('Authorization', $this->authorization_header_value)
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Content-Type', 'application/json')
             ->withBody(
-                Utils::streamFor('data=' . $this->expenseDataToJson(
+                Utils::streamFor($this->expenseDataToJson(
                     expense: $expense,
                     items: $items,
                     client: $client,
@@ -164,6 +165,55 @@ final readonly class Expenses implements Contract\Expense\Expenses
 
         if ($response->isError()) {
             throw new CannotCreateExpenseException(
+                $request,
+                $this->normalizeErrorMessages($response),
+            );
+        }
+
+        return $response;
+    }
+
+    public function update(
+        int $id,
+        array $expense = [],
+        array $items = [],
+        array $client = [],
+        array $extra = [],
+        array $my_data = [],
+        array $tags = [],
+    ): Response {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_PATCH,
+                $this->base_uri . '/expenses/edit',
+            )
+            ->withHeader('Authorization', $this->authorization_header_value)
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(
+                Utils::streamFor($this->expenseDataToJson(
+                    expense: ['id' => $id, ...$expense],
+                    items: $items,
+                    client: $client,
+                    extra: $extra,
+                    my_data: $my_data,
+                    tags: $tags,
+                )),
+            );
+
+        try {
+            $response = $this->response_factory->createFromJsonResponse(
+                $this->http_client->sendRequest($request),
+            );
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotUpdateExpenseException($request, [], $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new ExpenseNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotUpdateExpenseException(
                 $request,
                 $this->normalizeErrorMessages($response),
             );

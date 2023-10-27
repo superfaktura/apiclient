@@ -11,36 +11,6 @@ parameters:
 			path: tests/TestCase.php
 
 		-
-			message: "#^Parameter \\$client of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Expense\\\\Expenses\\:\\:create\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
-			count: 1
-			path: tests/UseCase/Expense/ExpensesTest.php
-
-		-
-			message: "#^Parameter \\$expense of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Expense\\\\Expenses\\:\\:create\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
-			count: 1
-			path: tests/UseCase/Expense/ExpensesTest.php
-
-		-
-			message: "#^Parameter \\$extra of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Expense\\\\Expenses\\:\\:create\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
-			count: 1
-			path: tests/UseCase/Expense/ExpensesTest.php
-
-		-
-			message: "#^Parameter \\$items of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Expense\\\\Expenses\\:\\:create\\(\\) expects array\\<int, array\\<string, mixed\\>\\>, mixed given\\.$#"
-			count: 1
-			path: tests/UseCase/Expense/ExpensesTest.php
-
-		-
-			message: "#^Parameter \\$my_data of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Expense\\\\Expenses\\:\\:create\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
-			count: 1
-			path: tests/UseCase/Expense/ExpensesTest.php
-
-		-
-			message: "#^Parameter \\$tags of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Expense\\\\Expenses\\:\\:create\\(\\) expects array\\<int\\>, mixed given\\.$#"
-			count: 1
-			path: tests/UseCase/Expense/ExpensesTest.php
-
-		-
 			message: "#^Parameter \\$client of method SuperFaktura\\\\ApiClient\\\\UseCase\\\\Invoice\\\\Invoices\\:\\:create\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
 			count: 1
 			path: tests/UseCase/Invoice/InvoicesTest.php
