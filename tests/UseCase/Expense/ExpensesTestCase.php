@@ -13,6 +13,15 @@ abstract class ExpensesTestCase extends TestCase
 {
     protected const AUTHORIZATION_HEADER_VALUE = 'foo';
 
+    /**
+     * @return \Generator<int[]>
+     */
+    public static function expenseIdProvider(): \Generator
+    {
+        yield 'expense' => [1];
+        yield 'another expense' => [2];
+    }
+
     protected function getExpenses(ClientInterface $client): Expenses
     {
         return new Expenses(
