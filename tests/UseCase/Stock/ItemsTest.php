@@ -22,6 +22,7 @@ use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\Contract\Stock\ItemNotFoundException;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotCreateItemException;
+use SuperFaktura\ApiClient\Contract\Stock\CannotUpdateItemException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetAllItemsException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetItemByIdException;
 
@@ -258,6 +259,74 @@ final class ItemsTest extends TestCase
 
         $this->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->getAll();
+    }
+
+    public function testUpdate(): void
+    {
+        $id = 1;
+        $data = ['StockItem' => ['description' => 'new description']];
+        $expected_body = json_encode($data, JSON_THROW_ON_ERROR);
+        $fixture = __DIR__ . '/fixtures/update.json';
+
+        $response = $this->getItems($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
+        ))->update($id, $data);
+
+        $this->request()
+            ->patch(self::BASE_URI . '/stock_items/edit/' . $id)
+            ->withBody($expected_body)
+            ->withContentTypeJson()
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+
+        self::assertSame($this->arrayFromFixture($fixture), $response->data);
+    }
+
+    public function testUpdateNotFound(): void
+    {
+        $this->expectException(ItemNotFoundException::class);
+        $this->getItems($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))->update(123, []);
+    }
+
+    public function testUpdateInsufficientPermissions(): void
+    {
+        $this->expectException(CannotUpdateItemException::class);
+
+        $fixture = __DIR__ . '/fixtures/insufficient-permissions.json';
+
+        $this->getItems($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_FORBIDDEN, [], $this->jsonFromFixture($fixture)),
+        ))->update(0, []);
+    }
+
+    public function testUpdateInternalServerError(): void
+    {
+        $this->expectException(CannotUpdateItemException::class);
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
+
+        $this->getItems($this->getHttpClientWithMockResponse(
+            new Response(StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR, [], $this->jsonFromFixture($fixture)),
+        ))->update(0, []);
+    }
+
+    public function testUpdateResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotUpdateItemException::class);
+        $this->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
+            ->update(0, []);
+    }
+
+    public function testUpdateRequestFailed(): void
+    {
+        $this->expectException(CannotUpdateItemException::class);
+        $this->getItems($this->getHttpClientWithMockRequestException())->update(0, []);
+    }
+
+    public function testUpdateWithNonValidJsonArray(): void
+    {
+        $this->expectException(CannotCreateRequestException::class);
+        $this->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
+            ->update(0, ['StockItem' => ['name' => NAN]]);
     }
 
     private function getItems(ClientInterface $http_client): Items

@@ -15,6 +15,7 @@ use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Contract\Stock\ItemNotFoundException;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotCreateItemException;
+use SuperFaktura\ApiClient\Contract\Stock\CannotUpdateItemException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetAllItemsException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetItemByIdException;
 
@@ -121,5 +122,32 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
             'sku' => $query->sku !== null ? base64_encode($query->sku) : null,
             'status' => $query->status,
         ]);
+    }
+
+    public function update(int $id, array $data): Response
+    {
+        $request = $this->request_factory
+            ->createRequest(RequestMethodInterface::METHOD_PATCH, $this->base_uri . '/stock_items/edit/' . $id)
+            ->withHeader('Authorization', $this->authorization_header_value)
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(Utils::streamFor($this->transformDataToJson($data)));
+
+        try {
+            $response = $this->response_factory->createFromJsonResponse(
+                $this->http_client->sendRequest($request),
+            );
+        } catch (\JsonException|ClientExceptionInterface $e) {
+            throw new CannotUpdateItemException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new ItemNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotUpdateItemException($request, $response->data['message'] ?? '');
+        }
+
+        return $response;
     }
 }

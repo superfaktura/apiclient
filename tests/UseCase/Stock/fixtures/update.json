@@ -1,0 +1,36 @@
+{
+  "error": 0,
+  "error_message": "",
+  "data": {
+    "StockItem": {
+      "id": 1,
+      "user_id": "22",
+      "user_profile_id": "12",
+      "name": "Rozok grahamovy",
+      "description": "new description",
+      "sku": "RZK-GRHMV",
+      "unit": "ks",
+      "unit_price": 0.1,
+      "purchase_unit_price": "0.1200",
+      "purchase_currency": null,
+      "vat": 20,
+      "purchase_vat": null,
+      "watch_stock": true,
+      "stock": 0,
+      "import_type": null,
+      "import_id": null,
+      "internal_comment": null,
+      "hide_in_autocomplete": null,
+      "created": "2023-10-10 07:59:57",
+      "modified": "2023-10-10 07:59:57",
+      "stock_previous": 0
+    },
+    "StockLog": [
+      {
+        "quantity": 0,
+        "note": "Ručná úprava stavu na sklade",
+        "log_data": "{\"purchase_unit_price\":\"0.1200\",\"purchase_tax\":null,\"purchase_exchange_rate\":1,\"purchase_country_exchange_rate\":1,\"purchase_currency\":null,\"unit_price\":\"0.1\",\"tax\":20,\"exchange_rate\":1,\"country_exchange_rate\":1,\"currency\":\"EUR\",\"home_currency\":\"EUR\"}"
+      }
+    ]
+  }
+}

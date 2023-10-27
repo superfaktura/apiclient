@@ -23,4 +23,12 @@ interface Items
      * @throws CannotGetAllItemsException
      */
     public function getAll(ItemsQuery $query = new ItemsQuery()): Response;
+
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @throws ItemNotFoundException
+     * @throws CannotUpdateItemException
+     */
+    public function update(int $id, array $data): Response;
 }
