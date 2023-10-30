@@ -25,6 +25,7 @@ use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseNotFoundException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotCreateExpenseException;
+use SuperFaktura\ApiClient\Contract\Expense\CannotDeleteExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotUpdateExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllExpensesException;
 
@@ -67,10 +68,10 @@ final class ExpensesTest extends ExpensesTestCase
 
     public function testGetByIdGenericError(): void
     {
-        $fixture = __DIR__ . '/fixtures/generic-error.json';
-
         $this->expectException(CannotGetExpenseException::class);
-        $this->expectExceptionMessage('Expense error');
+        $this->expectExceptionMessage('Unexpected error');
+
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
         $this
             ->getExpenses($this->getHttpClientReturning($fixture))
@@ -548,5 +549,56 @@ final class ExpensesTest extends ExpensesTestCase
         return (new NamedParamsConvertor())->convert(
             array_merge($default_query_params, $params),
         );
+    }
+
+    #[DataProvider('expenseIdProvider')]
+    public function testDelete(int $id): void
+    {
+        $this
+            ->getExpenses($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
+            ->delete($id);
+
+        $this->request()
+            ->delete('/expenses/delete/' . $id)
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+    }
+
+    public function testDeleteNotFound(): void
+    {
+        $this->expectException(ExpenseNotFoundException::class);
+
+        $this
+            ->getExpenses($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
+            ->delete(1);
+    }
+
+    public function testDeleteGenericError(): void
+    {
+        $this->expectException(CannotDeleteExpenseException::class);
+        $this->expectExceptionMessage('Unexpected error');
+
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
+
+        $this
+            ->getExpenses($this->getHttpClientReturning($fixture))
+            ->delete(1);
+    }
+
+    public function testDeleteRequestFailed(): void
+    {
+        $this->expectException(CannotDeleteExpenseException::class);
+
+        $this
+            ->getExpenses($this->getHttpClientWithMockRequestException())
+            ->delete(1);
+    }
+
+    public function testDeleteResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotDeleteExpenseException::class);
+        $this
+            ->getExpenses($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
+            ->delete(0);
     }
 }

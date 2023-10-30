@@ -60,4 +60,10 @@ interface Expenses
         array $my_data = [],
         array $tags = [],
     ): Response;
+
+    /**
+     * @throws CannotDeleteExpenseException
+     * @throws ExpenseNotFoundException
+     */
+    public function delete(int $id): void;
 }

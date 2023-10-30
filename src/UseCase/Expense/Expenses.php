@@ -19,6 +19,7 @@ use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseNotFoundException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotCreateExpenseException;
+use SuperFaktura\ApiClient\Contract\Expense\CannotDeleteExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotUpdateExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllExpensesException;
 
@@ -87,6 +88,31 @@ final readonly class Expenses implements Contract\Expense\Expenses
                 ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotGetAllExpensesException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    public function delete(int $id): void
+    {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_DELETE,
+                $this->base_uri . '/expenses/delete/' . $id,
+            )
+            ->withHeader('Authorization', $this->authorization_header_value);
+
+        try {
+            $response = $this->response_factory
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotDeleteExpenseException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new ExpenseNotFoundException($request);
+        }
+
+        if ($response->isError()) {
+            throw new CannotDeleteExpenseException($request, $response->data['error_message'] ?? '');
         }
     }
 
