@@ -54,7 +54,7 @@ final class Payments implements Contract\Invoice\Payment\Payments
         }
     }
 
-    public function pay(int $id, Payment $payment = new Payment()): void
+    public function create(int $id, Payment $payment = new Payment()): void
     {
         $request = $this->request_factory
             ->createRequest(

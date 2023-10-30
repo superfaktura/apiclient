@@ -196,9 +196,9 @@ final class InvoicesExportTest extends InvoicesTestCase
     public function testExportBadRequest(): void
     {
         $this->expectException(CannotExportInvoicesException::class);
-        $this->expectExceptionMessage('Vyberte prosím typ dokumentu a požadovaný typ exportu');
+        $this->expectExceptionMessage('Unexpected error');
 
-        $fixture = __DIR__ . '/fixtures/export-bad-request.json';
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
         $this
             ->getInvoices($this->getHttpClientReturning($fixture, StatusCodeInterface::STATUS_BAD_REQUEST))

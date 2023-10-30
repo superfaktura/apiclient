@@ -2,7 +2,6 @@
 
 namespace SuperFaktura\ApiClient\Test\UseCase\Invoice;
 
-use GuzzleHttp\Psr7\Response;
 use SuperFaktura\ApiClient\Filter\Sort;
 use Fig\Http\Message\StatusCodeInterface;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -51,11 +50,9 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $fixture = __DIR__ . '/fixtures/detail-single.json';
 
-        $response = $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )->getById(1);
+        $response = $this
+            ->getInvoices($this->getHttpClientReturning($fixture))
+            ->getById(1);
 
         $this->request()
             ->get('/invoices/view/1.json')
@@ -68,13 +65,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(InvoiceNotFoundException::class);
 
-        $fixture = __DIR__ . '/fixtures/not-found.json';
-
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
             ->getById(1);
     }
 
@@ -84,11 +76,8 @@ final class InvoicesTest extends InvoicesTestCase
 
         $fixture = __DIR__ . '/fixtures/insufficient-permissions.json';
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientReturning($fixture))
             ->getById(1);
     }
 
@@ -96,9 +85,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(CannotGetInvoiceException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockRequestException(),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockRequestException())
             ->getById(1);
     }
 
@@ -106,11 +94,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(CannotGetInvoiceException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], '{"Invoice":'),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->getById(1);
     }
 
@@ -118,11 +103,9 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $fixture = __DIR__ . '/fixtures/detail-multiple.json';
 
-        $response = $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )->getByIds([1,2]);
+        $response = $this
+            ->getInvoices($this->getHttpClientReturning($fixture))
+            ->getByIds([1,2]);
 
         $this->request()
             ->get('/invoices/getInvoiceDetails/1,2')
@@ -135,9 +118,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(CannotGetInvoiceException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockRequestException(),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockRequestException())
             ->getByIds([1,2]);
     }
 
@@ -145,11 +127,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(CannotGetInvoiceException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], '{"Invoice":'),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->getByIds([1,2]);
     }
 
@@ -157,11 +136,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $fixture = __DIR__ . '/fixtures/list.json';
 
-        $response = $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $response = $this
+            ->getInvoices($this->getHttpClientReturning($fixture))
             ->getAll();
 
         $this->request()
@@ -175,9 +151,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(CannotGetAllInvoicesException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockRequestException(),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockRequestException())
             ->getAll();
     }
 
@@ -185,11 +160,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(CannotGetAllInvoicesException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], '{"items":'),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->getAll();
     }
 
@@ -441,26 +413,26 @@ final class InvoicesTest extends InvoicesTestCase
     public static function createValidationErrorsProvider(): \Generator
     {
         yield 'missing client data' => [
-            'response' => __DIR__ . '/fixtures/missing-client-data.json',
+            'fixture' => __DIR__ . '/fixtures/missing-client-data.json',
             'errors' => [
                 'data_bad_format' => 'Missing required client data.',
             ],
         ];
 
         yield 'invalid currency' => [
-            'response' => __DIR__ . '/fixtures/invalid-currency.json',
+            'fixture' => __DIR__ . '/fixtures/invalid-currency.json',
             'errors' => ['Incorrect currency'],
         ];
 
         yield 'zero invoice items' => [
-            'response' => __DIR__ . '/fixtures/zero-invoice-items.json',
+            'fixture' => __DIR__ . '/fixtures/zero-invoice-items.json',
             'errors' => [
                 'type' => ['Dokument musí obsahovať aspoň jednu položku'],
             ],
         ];
 
         yield 'invalid dates' => [
-            'response' => __DIR__ . '/fixtures/invalid-dates.json',
+            'fixture' => __DIR__ . '/fixtures/invalid-dates.json',
             'errors' => [
                 'created' => ['Neplatný dátum.'],
                 'delivery' => ['Neplatný dátum.'],
@@ -472,14 +444,11 @@ final class InvoicesTest extends InvoicesTestCase
      * @param string[]|array<string, string[]> $errors
      */
     #[DataProvider('createValidationErrorsProvider')]
-    public function testCreateValidationErrors(string $response, array $errors): void
+    public function testCreateValidationErrors(string $fixture, array $errors): void
     {
         try {
-            $this->getInvoices(
-                $this->getHttpClientWithMockResponse(
-                    new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($response)),
-                ),
-            )
+            $this
+                ->getInvoices($this->getHttpClientReturning($fixture))
                 ->create(
                     invoice: [],
                     items: [],
@@ -498,11 +467,8 @@ final class InvoicesTest extends InvoicesTestCase
 
         $fixture = __DIR__ . '/fixtures/insufficient-permissions.json';
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientReturning($fixture))
             ->create(
                 invoice: [],
                 items: [],
@@ -514,11 +480,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(CannotCreateInvoiceException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], '{'),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->create(
                 invoice: [],
                 items: [],
@@ -530,9 +493,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(CannotCreateRequestException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse())
             ->create(
                 invoice: ['name' => NAN],
                 items: [],
@@ -543,7 +505,10 @@ final class InvoicesTest extends InvoicesTestCase
     public function testCreateRequestFailed(): void
     {
         $this->expectException(CannotCreateInvoiceException::class);
-        $this->getInvoices($this->getHttpClientWithMockRequestException())->create([], [], []);
+
+        $this
+            ->getInvoices($this->getHttpClientWithMockRequestException())
+            ->create([], [], []);
     }
 
     /**
@@ -622,12 +587,12 @@ final class InvoicesTest extends InvoicesTestCase
     public static function updateValidationErrorsProvider(): \Generator
     {
         yield 'invalid currency' => [
-            'response' => __DIR__ . '/fixtures/invalid-currency.json',
+            'fixture' => __DIR__ . '/fixtures/invalid-currency.json',
             'errors' => ['Incorrect currency'],
         ];
 
         yield 'invalid dates' => [
-            'response' => __DIR__ . '/fixtures/invalid-dates.json',
+            'fixture' => __DIR__ . '/fixtures/invalid-dates.json',
             'errors' => [
                 'created' => ['Neplatný dátum.'],
                 'delivery' => ['Neplatný dátum.'],
@@ -639,14 +604,11 @@ final class InvoicesTest extends InvoicesTestCase
      * @param string[]|array<string, string[]> $errors
      */
     #[DataProvider('updateValidationErrorsProvider')]
-    public function testUpdateValidationErrors(string $response, array $errors): void
+    public function testUpdateValidationErrors(string $fixture, array $errors): void
     {
         try {
-            $this->getInvoices(
-                $this->getHttpClientWithMockResponse(
-                    new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($response)),
-                ),
-            )
+            $this
+                ->getInvoices($this->getHttpClientReturning($fixture))
                 ->update(1);
 
             self::fail(sprintf('Expected exception of type: %s to be thrown', CannotUpdateInvoiceException::class));
@@ -659,13 +621,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(InvoiceNotFoundException::class);
 
-        $fixture = __DIR__ . '/fixtures/not-found.json';
-
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
             ->update(1);
     }
 
@@ -675,11 +632,8 @@ final class InvoicesTest extends InvoicesTestCase
 
         $fixture = __DIR__ . '/fixtures/insufficient-permissions.json';
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientReturning($fixture))
             ->update(1);
     }
 
@@ -687,11 +641,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(CannotUpdateInvoiceException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], '{'),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->update(1);
     }
 
@@ -699,16 +650,18 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(CannotCreateRequestException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse())
             ->update(1, ['name' => NAN]);
     }
 
     public function testUpdateRequestFailed(): void
     {
         $this->expectException(CannotUpdateInvoiceException::class);
-        $this->getInvoices($this->getHttpClientWithMockRequestException())->update(0);
+
+        $this
+            ->getInvoices($this->getHttpClientWithMockRequestException())
+            ->update(0);
     }
 
     #[DataProvider('invoiceIdProvider')]
@@ -728,27 +681,20 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(InvoiceNotFoundException::class);
 
-        $fixture = __DIR__ . '/fixtures/not-found.json';
-
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
             ->delete(1);
     }
 
     public function testDeleteFailed(): void
     {
         $this->expectException(CannotDeleteInvoiceException::class);
+        $this->expectExceptionMessage('Unexpected error');
 
-        $fixture = __DIR__ . '/fixtures/delete-error.json';
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientReturning($fixture))
             ->delete(1);
     }
 
@@ -764,7 +710,9 @@ final class InvoicesTest extends InvoicesTestCase
     public function testDeleteResponseDecodeFailed(): void
     {
         $this->expectException(CannotDeleteInvoiceException::class);
-        $this->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
+
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->delete(0);
     }
 
@@ -801,13 +749,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(InvoiceNotFoundException::class);
 
-        $fixture = __DIR__ . '/fixtures/not-found.json';
-
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
             ->changeLanguage(1, Language::ENGLISH);
     }
 
@@ -817,11 +760,8 @@ final class InvoicesTest extends InvoicesTestCase
 
         $fixture = __DIR__ . '/fixtures/change-language-insufficient-permissions.json';
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_FORBIDDEN, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientReturning($fixture, StatusCodeInterface::STATUS_FORBIDDEN))
             ->changeLanguage(1, Language::ENGLISH);
     }
 
@@ -829,9 +769,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(CannotChangeInvoiceLanguageException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockRequestException(),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockRequestException())
             ->changeLanguage(1, Language::ENGLISH);
     }
 
@@ -839,7 +778,8 @@ final class InvoicesTest extends InvoicesTestCase
     {
         $this->expectException(CannotChangeInvoiceLanguageException::class);
 
-        $this->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->changeLanguage(0, Language::SLOVAK);
     }
 

@@ -2,8 +2,6 @@
 
 namespace SuperFaktura\ApiClient\Test\UseCase\Invoice;
 
-use GuzzleHttp\Psr7\Response;
-use Fig\Http\Message\StatusCodeInterface;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Attributes\CoversClass;
 use SuperFaktura\ApiClient\Contract\Language;
@@ -39,39 +37,30 @@ final class InvoicesSendTest extends InvoicesTestCase
             ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->markAsSent($id);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertGetRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/invoices/mark_sent/' . $id, $request->getUri()->getPath());
+        $this->request()
+            ->get('/invoices/mark_sent/' . $id)
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
     }
 
     public function testMarkAsSentNotFound(): void
     {
         $this->expectException(InvoiceNotFoundException::class);
 
-        $fixture = __DIR__ . '/fixtures/not-found.json';
-
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
             ->markAsSent(1);
     }
 
     public function testMarkAsSentWrongInvoice(): void
     {
         $this->expectException(CannotMarkInvoiceAsSentException::class);
+        $this->expectExceptionMessage('Unexpected error');
 
-        $fixture = __DIR__ . '/fixtures/mark-as-sent-wrong-invoice.json';
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientReturning($fixture))
             ->markAsSent(1);
     }
 
@@ -125,39 +114,32 @@ final class InvoicesSendTest extends InvoicesTestCase
 
         $request = $this->getLastRequest();
 
-        self::assertNotNull($request);
-        self::assertPostRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/invoices/mark_as_sent', $request->getUri()->getPath());
-        self::assertSame($request_body, (string) $request->getBody());
-        self::assertSame('application/json', $request->getHeaderLine('Content-Type'));
+        $this->request()
+            ->post('/invoices/mark_as_sent')
+            ->withHeader('Content-Type', 'application/json')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+        self::assertSame($request_body, (string) $request?->getBody());
     }
 
     public function testMarkAsSentViaEmailInvoiceNotFound(): void
     {
         $this->expectException(InvoiceNotFoundException::class);
 
-        $fixture = __DIR__ . '/fixtures/not-found.json';
-
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
             ->markAsSentViaEmail(1, 'joe.doe@superfaktura.sk');
     }
 
     public function testMarkAsSentViaEmailBadRequest(): void
     {
         $this->expectException(CannotMarkInvoiceAsSentException::class);
+        $this->expectExceptionMessage('Unexpected error');
 
-        $fixture = __DIR__ . '/fixtures/mark-as-sent-bad-request.json';
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientReturning($fixture))
             ->markAsSentViaEmail(1, 'joe.doe@superfaktura.sk');
     }
 
@@ -165,9 +147,8 @@ final class InvoicesSendTest extends InvoicesTestCase
     {
         $this->expectException(CannotMarkInvoiceAsSentException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockRequestException(),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockRequestException())
             ->markAsSentViaEmail(1, 'joe.doe@superfaktura.sk');
     }
 
@@ -175,9 +156,8 @@ final class InvoicesSendTest extends InvoicesTestCase
     {
         $this->expectException(CannotCreateRequestException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse())
             ->markAsSentViaEmail(1, 'joe.doe@superfaktura.sk', "\xB1\x31");
     }
 
@@ -249,25 +229,20 @@ final class InvoicesSendTest extends InvoicesTestCase
 
         $request = $this->getLastRequest();
 
-        self::assertNotNull($request);
-        self::assertPostRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/invoices/send', $request->getUri()->getPath());
-        self::assertSame($request_body, (string) $request->getBody());
-        self::assertSame('application/json', $request->getHeaderLine('Content-Type'));
+        $this->request()
+            ->post('/invoices/send')
+            ->withHeader('Content-Type', 'application/json')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+        self::assertSame($request_body, (string) $request?->getBody());
     }
 
     public function testSendViaEmailInvoiceNotFound(): void
     {
         $this->expectException(InvoiceNotFoundException::class);
 
-        $fixture = __DIR__ . '/fixtures/not-found.json';
-
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
             ->sendViaEmail(
                 1,
                 new Email(email: 'joe.doe@superfaktura.sk', pdf_language: Language::SLOVAK),
@@ -277,14 +252,12 @@ final class InvoicesSendTest extends InvoicesTestCase
     public function testSendViaEmailBadRequest(): void
     {
         $this->expectException(CannotSendInvoiceException::class);
+        $this->expectExceptionMessage('Unexpected error');
 
-        $fixture = __DIR__ . '/fixtures/send-email-bad-request.json';
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientReturning($fixture))
             ->sendViaEmail(
                 1,
                 new Email(email: 'joe.doe@superfaktura.sk', pdf_language: Language::SLOVAK),
@@ -295,9 +268,8 @@ final class InvoicesSendTest extends InvoicesTestCase
     {
         $this->expectException(CannotSendInvoiceException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockRequestException(),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockRequestException())
             ->sendViaEmail(
                 1,
                 new Email(email: 'joe.doe@superfaktura.sk', pdf_language: Language::SLOVAK),
@@ -308,9 +280,8 @@ final class InvoicesSendTest extends InvoicesTestCase
     {
         $this->expectException(CannotCreateRequestException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse())
             ->sendViaEmail(
                 1,
                 new Email(email: "\xB1\x31", pdf_language: Language::SLOVAK),
@@ -381,39 +352,33 @@ final class InvoicesSendTest extends InvoicesTestCase
 
         $request = $this->getLastRequest();
 
-        self::assertNotNull($request);
-        self::assertPostRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/invoices/post', $request->getUri()->getPath());
-        self::assertSame($request_body, (string) $request->getBody());
-        self::assertSame('application/json', $request->getHeaderLine('Content-Type'));
+        $this->request()
+            ->post('/invoices/post')
+            ->withHeader('Content-Type', 'application/json')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+
+        self::assertSame($request_body, (string) $request?->getBody());
     }
 
     public function testSendViaPostOfficeInvoiceNotFound(): void
     {
         $this->expectException(InvoiceNotFoundException::class);
 
-        $fixture = __DIR__ . '/fixtures/not-found.json';
-
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
             ->sendViaPostOffice(1);
     }
 
     public function testSendViaPostOfficeBadRequest(): void
     {
         $this->expectException(CannotSendInvoiceException::class);
+        $this->expectExceptionMessage('Unexpected error');
 
-        $fixture = __DIR__ . '/fixtures/send-email-bad-request.json';
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getInvoices($this->getHttpClientReturning($fixture))
             ->sendViaPostOffice(1);
     }
 
@@ -421,9 +386,8 @@ final class InvoicesSendTest extends InvoicesTestCase
     {
         $this->expectException(CannotSendInvoiceException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockRequestException(),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockRequestException())
             ->sendViaPostOffice(1);
     }
 
@@ -431,9 +395,8 @@ final class InvoicesSendTest extends InvoicesTestCase
     {
         $this->expectException(CannotCreateRequestException::class);
 
-        $this->getInvoices(
-            $this->getHttpClientWithMockResponse(),
-        )
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse())
             ->sendViaPostOffice(1, new Address(name: "\xB1\x31"));
     }
 }

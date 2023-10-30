@@ -18,7 +18,7 @@ interface Payments
      * @throws CannotPayInvoiceException
      * @throws CannotCreateRequestException
      */
-    public function pay(int $id, Payment $payment = new Payment()): void;
+    public function create(int $id, Payment $payment = new Payment()): void;
 
     /**
      * @throws CannotDeleteInvoicePaymentException

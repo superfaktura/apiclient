@@ -72,7 +72,7 @@ enum Currency: string
 
     case CAPE_VERDEAN_ESCUDO = 'CVE';
 
-    case CZECH_REPUBLIC_KORUNA = 'CZK';
+    case CZECH_KORUNA = 'CZK';
 
     case DJIBOUTIAN_FRANC = 'DJF';
 

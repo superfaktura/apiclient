@@ -2,10 +2,8 @@
 
 namespace SuperFaktura\ApiClient\Test\UseCase\Invoice\Payment;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\HttpFactory;
-use Fig\Http\Message\StatusCodeInterface;
+use Psr\Http\Client\ClientInterface;
 use SuperFaktura\ApiClient\Test\TestCase;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -46,39 +44,30 @@ final class PaymentsTest extends TestCase
             ->getPayments($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->markAsUnPayable($id);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertGetRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/invoices/will_not_be_paid/' . $id, $request->getUri()->getPath());
+        $this->request()
+            ->get('/invoices/will_not_be_paid/' . $id)
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
     }
 
     public function testMarkAsUnPayableNotFound(): void
     {
         $this->expectException(InvoiceNotFoundException::class);
 
-        $fixture = __DIR__ . '/../fixtures/not-found.json';
-
-        $this->getPayments(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_NOT_FOUND, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getPayments($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
             ->markAsUnPayable(1);
     }
 
     public function testMarkAsUnPayableWrongInvoice(): void
     {
         $this->expectException(CannotMarkAsUnpayableException::class);
+        $this->expectExceptionMessage('Unexpected error');
 
-        $fixture = __DIR__ . '/fixtures/mark-as-unpayable-wrong-invoice.json';
+        $fixture = __DIR__ . '/../../fixtures/unexpected-error.json';
 
-        $this->getPayments(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getPayments($this->getHttpClientReturning($fixture))
             ->markAsUnPayable(1);
     }
 
@@ -107,7 +96,7 @@ final class PaymentsTest extends TestCase
                 Payments::INVOICE_PAYMENT => [
                     'invoice_id' => 1,
                     'amount' => 9.99,
-                    'currency' => Currency::CZECH_REPUBLIC_KORUNA->value,
+                    'currency' => Currency::CZECH_KORUNA->value,
                     'payment_type' => PaymentType::CASH->value,
                     'document_number' => 'ABC123',
                     'cash_register_id' => 2,
@@ -117,7 +106,7 @@ final class PaymentsTest extends TestCase
             'id' => 1,
             'payment_type' => PaymentType::CASH,
             'amount' => 9.99,
-            'currency' => Currency::CZECH_REPUBLIC_KORUNA,
+            'currency' => Currency::CZECH_KORUNA,
             'document_number' => 'ABC123',
             'cash_register_id' => 2,
             'payment_date' => new \DateTimeImmutable('2023-12-24'),
@@ -137,7 +126,7 @@ final class PaymentsTest extends TestCase
     ): void {
         $this
             ->getPayments($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
-            ->pay(
+            ->create(
                 id: $id,
                 payment: new Payment(
                     amount: $amount,
@@ -151,26 +140,24 @@ final class PaymentsTest extends TestCase
 
         $request = $this->getLastRequest();
 
-        self::assertNotNull($request);
-        self::assertPostRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/invoice_payments/add/ajax%3A1/api%3A1', $request->getUri()->getPath());
-        self::assertSame($request_body, (string) $request->getBody());
+        $this->request()
+            ->post('/invoice_payments/add/ajax%3A1/api%3A1')
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+        self::assertSame($request_body, (string) $request?->getBody());
     }
 
     public function testPayErrorResponse(): void
     {
         $this->expectException(CannotPayInvoiceException::class);
-        $this->expectExceptionMessage('Invalid document type');
+        $this->expectExceptionMessage('Unexpected error');
 
-        $fixture = __DIR__ . '/fixtures/pay-error-response.json';
+        $fixture = __DIR__ . '/../../fixtures/unexpected-error.json';
 
-        $this->getPayments(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
-            ->pay(1);
+        $this
+            ->getPayments($this->getHttpClientReturning($fixture))
+            ->create(1);
     }
 
     public function testPayRequestFailed(): void
@@ -179,7 +166,7 @@ final class PaymentsTest extends TestCase
 
         $this
             ->getPayments($this->getHttpClientWithMockRequestException())
-            ->pay(1);
+            ->create(1);
     }
 
     public function testPayInvalidRequestData(): void
@@ -188,10 +175,7 @@ final class PaymentsTest extends TestCase
 
         $this
             ->getPayments($this->getHttpClientWithMockResponse())
-            ->pay(
-                id: 1,
-                payment: new Payment(amount: NAN),
-            );
+            ->create(1, new Payment(amount: NAN));
     }
 
     #[DataProvider('idProvider')]
@@ -201,26 +185,21 @@ final class PaymentsTest extends TestCase
             ->getPayments($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->delete($id);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertDeleteRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame('/invoice_payments/delete/' . $id, $request->getUri()->getPath());
+        $this->request()
+            ->delete('/invoice_payments/delete/' . $id)
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
     }
 
     public function testDeleteFailed(): void
     {
         $this->expectException(CannotDeleteInvoicePaymentException::class);
-        $this->expectExceptionMessage('Error deleting payment');
+        $this->expectExceptionMessage('Unexpected error');
 
-        $fixture = __DIR__ . '/fixtures/delete-payment-error-response.json';
+        $fixture = __DIR__ . '/../../fixtures/unexpected-error.json';
 
-        $this->getPayments(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getPayments($this->getHttpClientReturning($fixture))
             ->delete(1);
     }
 
@@ -233,7 +212,7 @@ final class PaymentsTest extends TestCase
             ->delete(1);
     }
 
-    private function getPayments(Client $client): Payments
+    private function getPayments(ClientInterface $client): Payments
     {
         return new Payments(
             http_client: $client,

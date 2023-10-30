@@ -46,7 +46,7 @@ final class PaymentsTest extends ExpensesTestCase
                 Payments::EXPENSE_PAYMENT => [
                     'expense_id' => 1,
                     'amount' => 9.99,
-                    'currency' => Currency::CZECH_REPUBLIC_KORUNA->value,
+                    'currency' => Currency::CZECH_KORUNA->value,
                     'payment_type' => PaymentType::CASH->value,
                     'created' => (new \DateTimeImmutable('2023-12-24'))->format('Y-m-d'),
                 ],
@@ -54,7 +54,7 @@ final class PaymentsTest extends ExpensesTestCase
             'id' => 1,
             'amount' => 9.99,
             'payment_type' => PaymentType::CASH,
-            'currency' => Currency::CZECH_REPUBLIC_KORUNA,
+            'currency' => Currency::CZECH_KORUNA,
             'payment_date' => new \DateTimeImmutable('2023-12-24'),
         ];
     }

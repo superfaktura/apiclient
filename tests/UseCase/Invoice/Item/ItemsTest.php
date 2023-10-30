@@ -2,10 +2,8 @@
 
 namespace SuperFaktura\ApiClient\Test\UseCase\Invoice\Item;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\HttpFactory;
-use Fig\Http\Message\StatusCodeInterface;
+use Psr\Http\Client\ClientInterface;
 use SuperFaktura\ApiClient\Test\TestCase;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -48,29 +46,21 @@ final class ItemsTest extends TestCase
             ->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->delete($invoice_id, $items);
 
-        $request = $this->getLastRequest();
-
-        self::assertNotNull($request);
-        self::assertDeleteRequest($request);
-        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
-        self::assertSame(
-            sprintf('/invoice_items/delete/%s/invoice_id%%3A%d', implode(',', $items), $invoice_id),
-            $request->getUri()->getPath(),
-        );
+        $this->request()
+            ->delete(sprintf('/invoice_items/delete/%s/invoice_id%%3A%d', implode(',', $items), $invoice_id))
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
     }
 
     public function testDeleteFailed(): void
     {
         $this->expectException(CannotDeleteInvoiceItemException::class);
-        $this->expectExceptionMessage('Chyba pri mazaní položky');
+        $this->expectExceptionMessage('Unexpected error');
 
-        $fixture = __DIR__ . '/fixtures/delete-item-error-response.json';
+        $fixture = __DIR__ . '/../../fixtures/unexpected-error.json';
 
-        $this->getItems(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $this
+            ->getItems($this->getHttpClientReturning($fixture))
             ->delete(1, [2]);
     }
 
@@ -83,7 +73,7 @@ final class ItemsTest extends TestCase
             ->delete(1, [2]);
     }
 
-    private function getItems(Client $client): Items
+    private function getItems(ClientInterface $client): Items
     {
         return new Items(
             http_client: $client,
