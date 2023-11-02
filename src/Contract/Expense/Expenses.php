@@ -14,6 +14,11 @@ interface Expenses
     public function getAll(ExpensesQuery $query = new ExpensesQuery()): Response;
 
     /**
+     * @throws CannotGetAllCategoriesException
+     */
+    public function getAllCategories(): Response;
+
+    /**
      * @throws CannotGetExpenseException
      * @throws ExpenseNotFoundException
      */

@@ -28,6 +28,7 @@ use SuperFaktura\ApiClient\Contract\Expense\CannotCreateExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotDeleteExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotUpdateExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllExpensesException;
+use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllCategoriesException;
 
 #[CoversClass(Expenses::class)]
 #[CoversClass(CannotCreateExpenseException::class)]
@@ -137,6 +138,47 @@ final class ExpensesTest extends ExpensesTestCase
             ),
         )
             ->getAll();
+    }
+
+    public function testGetAllCategories(): void
+    {
+        $fixture = __DIR__ . '/fixtures/list-categories.json';
+
+        $response = $this->getExpenses(
+            $this->getHttpClientWithMockResponse(
+                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
+            ),
+        )
+            ->getAllCategories();
+
+        $this->request()
+            ->withMethod(RequestMethodInterface::METHOD_GET)
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+
+        self::assertSame($this->arrayFromFixture($fixture), $response->data);
+    }
+
+    public function testGetAllCategoriesRequestFailed(): void
+    {
+        $this->expectException(CannotGetAllCategoriesException::class);
+
+        $this->getExpenses(
+            $this->getHttpClientWithMockRequestException(),
+        )
+            ->getAllCategories();
+    }
+
+    public function testGetAllCategoriesResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotGetAllCategoriesException::class);
+
+        $this->getExpenses(
+            $this->getHttpClientWithMockResponse(
+                new Response(StatusCodeInterface::STATUS_OK, [], '{"items":'),
+            ),
+        )
+            ->getAllCategories();
     }
 
     public static function getAllQueryProvider(): \Generator

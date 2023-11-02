@@ -22,6 +22,7 @@ use SuperFaktura\ApiClient\Contract\Expense\CannotCreateExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotDeleteExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotUpdateExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllExpensesException;
+use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllCategoriesException;
 
 final readonly class Expenses implements Contract\Expense\Expenses
 {
@@ -88,6 +89,23 @@ final readonly class Expenses implements Contract\Expense\Expenses
                 ->createFromJsonResponse($this->http_client->sendRequest($request));
         } catch (ClientExceptionInterface|\JsonException $e) {
             throw new CannotGetAllExpensesException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    public function getAllCategories(): Response
+    {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_GET,
+                $this->base_uri . '/expenses/expense_categories',
+            )
+            ->withHeader('Authorization', $this->authorization_header_value);
+
+        try {
+            return $this->response_factory
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotGetAllCategoriesException($request, $e->getMessage(), $e->getCode(), $e);
         }
     }
 
