@@ -20,6 +20,7 @@ use SuperFaktura\ApiClient\UseCase\BankAccount\BankAccounts;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\UseCase\CashRegister\CashRegisters;
 use SuperFaktura\ApiClient\UseCase\Invoice\ExportRequestFactory;
+use SuperFaktura\ApiClient\UseCase\RelatedDocument\RelatedDocuments;
 
 final readonly class ApiClient
 {
@@ -32,6 +33,8 @@ final readonly class ApiClient
     public Invoices $invoices;
 
     public Expenses $expenses;
+
+    public RelatedDocuments $related_documents;
 
     public Stock\Items $stock_items;
 
@@ -87,6 +90,14 @@ final readonly class ApiClient
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
             query_params_convertor: new NamedParamsConvertor(),
+            base_uri: $this->base_uri,
+            authorization_header_value: $authorization_header_value,
+        );
+
+        $this->related_documents = new RelatedDocuments(
+            http_client: $this->http_client,
+            request_factory: $this->request_factory,
+            response_factory: $this->response_factory,
             base_uri: $this->base_uri,
             authorization_header_value: $authorization_header_value,
         );
