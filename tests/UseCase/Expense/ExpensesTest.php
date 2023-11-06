@@ -2,9 +2,7 @@
 
 namespace SuperFaktura\ApiClient\Test\UseCase\Expense;
 
-use GuzzleHttp\Psr7\Response;
 use SuperFaktura\ApiClient\Filter\Sort;
-use Fig\Http\Message\StatusCodeInterface;
 use PHPUnit\Framework\Attributes\UsesClass;
 use Fig\Http\Message\RequestMethodInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -93,9 +91,7 @@ final class ExpensesTest extends ExpensesTestCase
         $this->expectException(CannotGetExpenseException::class);
 
         $this
-            ->getExpenses(
-                $this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()),
-            )
+            ->getExpenses($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->getById(1);
     }
 
@@ -103,11 +99,8 @@ final class ExpensesTest extends ExpensesTestCase
     {
         $fixture = __DIR__ . '/fixtures/list.json';
 
-        $response = $this->getExpenses(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $response = $this
+            ->getExpenses($this->getHttpClientReturning($fixture))
             ->getAll();
 
         $this->request()
@@ -122,9 +115,8 @@ final class ExpensesTest extends ExpensesTestCase
     {
         $this->expectException(CannotGetAllExpensesException::class);
 
-        $this->getExpenses(
-            $this->getHttpClientWithMockRequestException(),
-        )
+        $this
+            ->getExpenses($this->getHttpClientWithMockRequestException())
             ->getAll();
     }
 
@@ -132,11 +124,8 @@ final class ExpensesTest extends ExpensesTestCase
     {
         $this->expectException(CannotGetAllExpensesException::class);
 
-        $this->getExpenses(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], '{"items":'),
-            ),
-        )
+        $this
+            ->getExpenses($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->getAll();
     }
 
@@ -144,15 +133,12 @@ final class ExpensesTest extends ExpensesTestCase
     {
         $fixture = __DIR__ . '/fixtures/list-categories.json';
 
-        $response = $this->getExpenses(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], $this->jsonFromFixture($fixture)),
-            ),
-        )
+        $response = $this
+            ->getExpenses($this->getHttpClientReturning($fixture))
             ->getAllCategories();
 
         $this->request()
-            ->withMethod(RequestMethodInterface::METHOD_GET)
+            ->get('/expenses/expense_categories')
             ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
             ->assert();
 
@@ -163,9 +149,8 @@ final class ExpensesTest extends ExpensesTestCase
     {
         $this->expectException(CannotGetAllCategoriesException::class);
 
-        $this->getExpenses(
-            $this->getHttpClientWithMockRequestException(),
-        )
+        $this
+            ->getExpenses($this->getHttpClientWithMockRequestException())
             ->getAllCategories();
     }
 
@@ -173,11 +158,8 @@ final class ExpensesTest extends ExpensesTestCase
     {
         $this->expectException(CannotGetAllCategoriesException::class);
 
-        $this->getExpenses(
-            $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_OK, [], '{"items":'),
-            ),
-        )
+        $this
+            ->getExpenses($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->getAllCategories();
     }
 
@@ -317,8 +299,6 @@ final class ExpensesTest extends ExpensesTestCase
             ->getExpenses($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->getAll($query);
 
-        $request = $this->getLastRequest();
-
         $this->request()
             ->get($expected)
             ->assert();
@@ -427,9 +407,7 @@ final class ExpensesTest extends ExpensesTestCase
         $this->expectException(CannotCreateExpenseException::class);
 
         $this
-            ->getExpenses(
-                $this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()),
-            )
+            ->getExpenses($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->create(expense: []);
     }
 
@@ -552,9 +530,7 @@ final class ExpensesTest extends ExpensesTestCase
         $this->expectException(CannotUpdateExpenseException::class);
 
         $this
-            ->getExpenses(
-                $this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()),
-            )
+            ->getExpenses($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->update(1);
     }
 
