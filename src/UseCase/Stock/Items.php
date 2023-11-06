@@ -22,6 +22,8 @@ use SuperFaktura\ApiClient\Contract\Stock\CannotGetItemByIdException;
 
 final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Items
 {
+    public Movements $movements;
+
     public function __construct(
         private ClientInterface $http_client,
         private RequestFactoryInterface $request_factory,
@@ -30,6 +32,13 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
         private string $base_uri,
         private string $authorization_header_value,
     ) {
+        $this->movements = new Movements(
+            $this->http_client,
+            $this->request_factory,
+            $this->response_factory,
+            $this->base_uri,
+            $this->authorization_header_value,
+        );
     }
 
     public function create(array $data): Response
