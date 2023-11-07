@@ -36,6 +36,7 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
             $this->http_client,
             $this->request_factory,
             $this->response_factory,
+            $this->query_params_convertor,
             $this->base_uri,
             $this->authorization_header_value,
         );

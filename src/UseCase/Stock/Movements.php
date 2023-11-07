@@ -9,9 +9,12 @@ use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\Response\Response;
+use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
+use SuperFaktura\ApiClient\Contract\Stock\MovementsQuery;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotCreateMovementException;
+use SuperFaktura\ApiClient\Contract\Stock\CannotGetAllMovementsException;
 
 final readonly class Movements implements Stock\Movements
 {
@@ -19,6 +22,7 @@ final readonly class Movements implements Stock\Movements
         private ClientInterface $http_client,
         private RequestFactoryInterface $request_factory,
         private ResponseFactoryInterface $response_factory,
+        private QueryParamsConvertor $query_params_convertor,
         private string $base_uri,
         private string $authorization_header_value,
     ) {
@@ -78,5 +82,37 @@ final readonly class Movements implements Stock\Movements
         }
 
         return $response;
+    }
+
+    public function getAll(int $id, MovementsQuery $query = new MovementsQuery()): Response
+    {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_GET,
+                $this->base_uri . '/stock_items/movements/' . $id . '/' . $this->getParamsOf($query),
+            )
+            ->withHeader('Authorization', $this->authorization_header_value);
+
+        try {
+            $response = $this->response_factory->createFromJsonResponse($this->http_client->sendRequest($request));
+        } catch (\JsonException|ClientExceptionInterface $e) {
+            throw new CannotGetAllMovementsException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->isError()) {
+            throw new CannotGetAllMovementsException($request, $response->data['message'] ?? '');
+        }
+
+        return $response;
+    }
+
+    private function getParamsOf(MovementsQuery $query): string
+    {
+        return $this->query_params_convertor->convert([
+            'sort' => $query->sort?->attribute,
+            'direction' => $query->sort?->direction->value,
+            'page' => $query->page,
+            'per_page' => $query->per_page,
+        ]);
     }
 }

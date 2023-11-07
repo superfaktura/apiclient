@@ -21,4 +21,9 @@ interface Movements
      * @throws ItemNotFoundException
      */
     public function createWithSku(string $sku, array $data): Response;
+
+    /**
+     * @throws CannotGetAllMovementsException
+     */
+    public function getAll(int $id, MovementsQuery $query = new MovementsQuery()): Response;
 }
