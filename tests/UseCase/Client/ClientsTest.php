@@ -140,7 +140,7 @@ final class ClientsTest extends TestCase
         ];
 
         yield 'full text search' => [
-            'expected' => $base_uri . self::getQueryString(['search' => 'SuperFaktúra']),
+            'expected' => $base_uri . self::getQueryString(['search' => base64_encode('SuperFaktúra')]),
             'query' => new ClientsQuery(full_text: 'SuperFaktúra'),
         ];
 

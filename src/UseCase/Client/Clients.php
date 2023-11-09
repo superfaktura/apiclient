@@ -94,7 +94,9 @@ final readonly class Clients implements Contract\Client\Clients
             'sort' => $query->sort->attribute,
             'direction' => $query->sort->direction->value,
             'search_uuid' => $query->uuid,
-            'search' => $query->full_text,
+            'search' => $query->full_text !== null
+                ? base64_encode($query->full_text)
+                : null,
             'char_filter' => $query->first_letter,
             'tag' => $query->tag,
             'created' => $query->created?->period->value,
