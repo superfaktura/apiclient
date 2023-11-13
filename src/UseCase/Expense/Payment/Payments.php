@@ -8,6 +8,7 @@ use SuperFaktura\ApiClient\Contract;
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Expense\Payment\CannotPayExpenseException;
@@ -26,7 +27,7 @@ final readonly class Payments implements Contract\Expense\Payment\Payments
     ) {
     }
 
-    public function create(int $id, Payment $payment): void
+    public function create(int $id, Payment $payment): Response
     {
         $request = $this->request_factory
             ->createRequest(
@@ -48,6 +49,8 @@ final readonly class Payments implements Contract\Expense\Payment\Payments
         if ($response->isError()) {
             throw new CannotPayExpenseException($request, $response->data['message'] ?? '');
         }
+
+        return $response;
     }
 
     public function delete(int $id): void

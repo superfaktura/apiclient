@@ -68,8 +68,10 @@ final class PaymentsTest extends ExpensesTestCase
         ?Currency $currency = null,
         ?\DateTimeImmutable $payment_date = null,
     ): void {
-        $this
-            ->getPayments($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
+        $fixture = __DIR__ . '/fixtures/pay-success.json';
+
+        $response = $this
+            ->getPayments($this->getHttpClientReturning($fixture))
             ->create(
                 id: $id,
                 payment: new Payment(
@@ -88,6 +90,7 @@ final class PaymentsTest extends ExpensesTestCase
             ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
             ->assert();
         self::assertSame($request_body, (string) $request?->getBody());
+        self::assertSame($this->arrayFromFixture($fixture), $response->data);
     }
 
     public function testPayErrorResponse(): void

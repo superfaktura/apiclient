@@ -14,6 +14,7 @@ use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseStatus;
+use SuperFaktura\ApiClient\UseCase\Expense\Payment\Payments;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseNotFoundException;
@@ -38,6 +39,8 @@ final readonly class Expenses implements Contract\Expense\Expenses
 
     public const TAG = 'Tag';
 
+    public Payments $payments;
+
     public function __construct(
         private ClientInterface $http_client,
         private RequestFactoryInterface $request_factory,
@@ -46,6 +49,13 @@ final readonly class Expenses implements Contract\Expense\Expenses
         private string $base_uri,
         private string $authorization_header_value,
     ) {
+        $this->payments = new Payments(
+            http_client: $this->http_client,
+            request_factory: $this->request_factory,
+            response_factory: $this->response_factory,
+            base_uri: $this->base_uri,
+            authorization_header_value: $authorization_header_value,
+        );
     }
 
     public function getById(int $id): Response

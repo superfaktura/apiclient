@@ -19,6 +19,7 @@ use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseType;
 use SuperFaktura\ApiClient\UseCase\Expense\ExpensesQuery;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseStatus;
+use SuperFaktura\ApiClient\UseCase\Expense\Payment\Payments;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseNotFoundException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetExpenseException;
@@ -31,6 +32,7 @@ use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllCategoriesException;
 #[CoversClass(Expenses::class)]
 #[CoversClass(CannotCreateExpenseException::class)]
 #[CoversClass(CannotUpdateExpenseException::class)]
+#[UsesClass(Payments::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[UsesClass(NamedParamsConvertor::class)]
 #[UsesClass(Sort::class)]
