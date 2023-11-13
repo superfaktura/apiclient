@@ -21,7 +21,7 @@ interface Clients
     public function getAll(ClientsQuery $query): Response;
 
     /**
-     * @param array<string, array<string, mixed>> $data
+     * @param array<string, mixed> $data
      *
      * @throws ClientNotFoundException
      * @throws CannotUpdateClientException

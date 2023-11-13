@@ -25,6 +25,8 @@ use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
 
 final readonly class Clients implements Contract\Client\Clients
 {
+    private const CLIENT = 'Client';
+
     public Contacts $contacts;
 
     public function __construct(
@@ -123,7 +125,7 @@ final readonly class Clients implements Contract\Client\Clients
         }
 
         if ($response->isError()) {
-            throw new CannotCreateClientException($request, $response->data['message'] ?? '');
+            throw new CannotCreateClientException($request, $response->data['error_message'] ?? '');
         }
 
         return $response;
@@ -131,7 +133,7 @@ final readonly class Clients implements Contract\Client\Clients
 
     public function update(int $id, array $data): Response
     {
-        $data['Client']['id'] = $id;
+        $data['id'] = $id;
         $request = $this->request_factory
             ->createRequest(RequestMethodInterface::METHOD_PATCH, $this->base_uri . '/clients/edit/' . $id)
             ->withHeader('Authorization', $this->authorization_header_value)
@@ -163,7 +165,7 @@ final readonly class Clients implements Contract\Client\Clients
     private function transformClientDataToJson(array $data): string
     {
         try {
-            return json_encode($data, JSON_THROW_ON_ERROR);
+            return json_encode([self::CLIENT => $data], JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
         }

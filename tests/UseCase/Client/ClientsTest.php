@@ -340,9 +340,9 @@ final class ClientsTest extends TestCase
      */
     public function testCreate(): void
     {
-        $data = ['Client' => ['name' => 'Jozef Mrkvicka']];
+        $data = ['name' => 'Jozef Mrkvicka'];
 
-        $request_body = json_encode($data, JSON_THROW_ON_ERROR);
+        $request_body = json_encode(['Client' => $data], JSON_THROW_ON_ERROR);
 
         $fixture = __DIR__ . '/fixtures/create.json';
         $response_body_json = $this->jsonFromFixture($fixture);
@@ -408,11 +408,9 @@ final class ClientsTest extends TestCase
     public function testUpdate(): void
     {
         $id = 1;
-        $data = [
-            'Client' => ['name' => 'Jozef Mrkvicka', 'email' => 'jozef.mrkvicka@gmail.com'],
-        ];
+        $data = ['name' => 'Jozef Mrkvicka', 'email' => 'jozef.mrkvicka@gmail.com'];
         $expected_request_body = [
-            'Client' => ['id' => $id, ...$data['Client']],
+            'Client' => ['id' => $id, ...$data],
         ];
 
         $request_body = json_encode($expected_request_body, JSON_THROW_ON_ERROR);
