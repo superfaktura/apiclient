@@ -22,11 +22,13 @@ use SuperFaktura\ApiClient\Contract\Stock\CannotCreateMovementException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetAllMovementsException;
 
 #[CoversClass(Movements::class)]
+#[CoversClass(MovementsQuery::class)]
 #[CoversClass(CannotCreateMovementException::class)]
 #[CoversClass(RequestException::class)]
 #[UsesClass(ResponseFactory::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[UsesClass(RateLimit::class)]
+#[UsesClass(NamedParamsConvertor::class)]
 final class MovementsTest extends TestCase
 {
     private const BASE_URI = 'base-uri';

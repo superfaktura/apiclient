@@ -15,6 +15,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use SuperFaktura\ApiClient\Response\RateLimit;
 use SuperFaktura\ApiClient\UseCase\Stock\Items;
 use SuperFaktura\ApiClient\Filter\SortDirection;
+use SuperFaktura\ApiClient\UseCase\Stock\Movements;
 use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\Contract\Stock\ItemsQuery;
@@ -31,6 +32,7 @@ use SuperFaktura\ApiClient\Contract\Stock\CannotGetItemByIdException;
 #[CoversClass(CannotCreateItemException::class)]
 #[CoversClass(RequestException::class)]
 #[CoversClass(ItemsQuery::class)]
+#[UsesClass(Movements::class)]
 #[UsesClass(ResponseFactory::class)]
 #[UsesClass(\SuperFaktura\ApiClient\Response\Response::class)]
 #[UsesClass(RateLimit::class)]
