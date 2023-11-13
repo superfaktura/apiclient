@@ -2,6 +2,7 @@
 
 namespace SuperFaktura\ApiClient\Contract\Invoice\Payment;
 
+use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\UseCase\Invoice\Payment\Payment;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceNotFoundException;
@@ -18,7 +19,7 @@ interface Payments
      * @throws CannotPayInvoiceException
      * @throws CannotCreateRequestException
      */
-    public function create(int $id, Payment $payment = new Payment()): void;
+    public function create(int $id, Payment $payment = new Payment()): Response;
 
     /**
      * @throws CannotDeleteInvoicePaymentException

@@ -9,6 +9,7 @@ use Fig\Http\Message\StatusCodeInterface;
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceNotFoundException;
@@ -54,7 +55,7 @@ final class Payments implements Contract\Invoice\Payment\Payments
         }
     }
 
-    public function create(int $id, Payment $payment = new Payment()): void
+    public function create(int $id, Payment $payment = new Payment()): Response
     {
         $request = $this->request_factory
             ->createRequest(
@@ -76,6 +77,8 @@ final class Payments implements Contract\Invoice\Payment\Payments
         if ($response->isError()) {
             throw new CannotPayInvoiceException($request, $response->data['message'] ?? '');
         }
+
+        return $response;
     }
 
     public function delete(int $id): void
