@@ -7,7 +7,7 @@ use SuperFaktura\ApiClient\Response\Response;
 interface Movements
 {
     /**
-     * @param array{StockLog: array<string, mixed>[]} $data
+     * @param array<string, mixed>[] $data
      *
      * @throws CannotCreateMovementException
      * @throws ItemNotFoundException
@@ -15,7 +15,7 @@ interface Movements
     public function create(int $item_id, array $data): Response;
 
     /**
-     * @param array{StockLog: array<string, mixed>[]} $data
+     * @param array<string, mixed>[] $data
      *
      * @throws CannotCreateMovementException
      * @throws ItemNotFoundException

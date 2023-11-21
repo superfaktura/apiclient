@@ -35,15 +35,13 @@ final class MovementsTest extends TestCase
 
     private const AUTHORIZATION_HEADER_VALUE = 'foo';
 
-    private const EMPTY_DATA = ['StockLog' => []];
+    private const EMPTY_DATA = [];
 
     public function testCreate(): void
     {
         $fixture = __DIR__ . '/fixtures/create-movement.json';
         $response = $this->getMovements($this->getHttpClientReturning($fixture))
-            ->create(1, ['StockLog' => [
-                ['quantity' => 5, 'note' => 'Hungry binge shopping at kaufland'],
-            ]]);
+            ->create(1, [['quantity' => 5, 'note' => 'Hungry binge shopping at kaufland']]);
 
         $expected_body_json = json_encode(
             ['StockLog' => [['quantity' => 5, 'stock_item_id' => 1, 'note' => 'Hungry binge shopping at kaufland']]],
@@ -88,16 +86,14 @@ final class MovementsTest extends TestCase
         $this->expectException(CannotCreateRequestException::class);
 
         $this->getMovements($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
-            ->create(0, ['StockLog' => [['quantity' => NAN]]]);
+            ->create(0, [['quantity' => NAN]]);
     }
 
     public function testCreateWithSku(): void
     {
         $fixture = __DIR__ . '/fixtures/create-movement.json';
         $response = $this->getMovements($this->getHttpClientReturning($fixture))
-            ->createWithSku('RZK-GRHMV', ['StockLog' => [
-                ['quantity' => 5, 'note' => 'Hungry binge shopping at kaufland'],
-            ]]);
+            ->createWithSku('RZK-GRHMV', [['quantity' => 5, 'note' => 'Hungry binge shopping at kaufland']]);
 
         $expected_body_json = json_encode(
             ['StockLog' => [['quantity' => 5, 'sku' => 'RZK-GRHMV', 'note' => 'Hungry binge shopping at kaufland']]],
@@ -142,7 +138,7 @@ final class MovementsTest extends TestCase
         $this->expectException(CannotCreateRequestException::class);
 
         $this->getMovements($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
-            ->createWithSku('', ['StockLog' => [['quantity' => NAN]]]);
+            ->createWithSku('', [['quantity' => NAN]]);
     }
 
     public function testGetAll(): void

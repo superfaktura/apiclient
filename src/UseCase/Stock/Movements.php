@@ -30,22 +30,26 @@ final readonly class Movements implements Stock\Movements
 
     public function create(int $item_id, array $data): Response
     {
-        $data['StockLog'] = array_map(
-            static fn ($movement) => array_merge($movement, ['stock_item_id' => $item_id]),
-            $data['StockLog'],
-        );
+        $request_data = [
+            'StockLog' => array_map(
+                static fn ($movement) => array_merge($movement, ['stock_item_id' => $item_id]),
+                $data,
+            ),
+        ];
 
-        return $this->createAndGetResponse($data);
+        return $this->createAndGetResponse($request_data);
     }
 
     public function createWithSku(string $sku, array $data): Response
     {
-        $data['StockLog'] = array_map(
-            static fn ($movement) => array_merge($movement, ['sku' => $sku]),
-            $data['StockLog'],
-        );
+        $request_data = [
+            'StockLog' => array_map(
+                static fn ($movement) => array_merge($movement, ['sku' => $sku]),
+                $data,
+            ),
+        ];
 
-        return $this->createAndGetResponse($data);
+        return $this->createAndGetResponse($request_data);
     }
 
     /**

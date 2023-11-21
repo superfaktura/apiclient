@@ -51,15 +51,13 @@ final class ItemsTest extends TestCase
     public function testCreate(): void
     {
         $data = [
-            'StockItem' => [
-                'name' => 'Rozok grahamovy',
-                'sku'  => 'RZK-GRHMV',
-                'unit_price' => 0.1,
-                'purchase_unit_price' => 0.12,
-            ],
+            'name' => 'Rozok grahamovy',
+            'sku'  => 'RZK-GRHMV',
+            'unit_price' => 0.1,
+            'purchase_unit_price' => 0.12,
         ];
 
-        $request_body = json_encode($data, JSON_THROW_ON_ERROR);
+        $request_body = json_encode(['StockItem' => $data], JSON_THROW_ON_ERROR);
 
         $fixture = __DIR__ . '/fixtures/create.json';
         $response_body_json = $this->jsonFromFixture($fixture);
@@ -115,7 +113,7 @@ final class ItemsTest extends TestCase
         $this->expectExceptionMessage(self::JSON_ENCODE_FAILURE_MESSAGE);
 
         $use_case = $this->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponse()));
-        $use_case->create(['StockItem' => ['name' => NAN]]);
+        $use_case->create(['name' => NAN]);
     }
 
     public function testGetById(): void
@@ -267,8 +265,8 @@ final class ItemsTest extends TestCase
     public function testUpdate(): void
     {
         $id = 1;
-        $data = ['StockItem' => ['description' => 'new description']];
-        $expected_body = json_encode($data, JSON_THROW_ON_ERROR);
+        $data = ['description' => 'new description'];
+        $expected_body = json_encode(['StockItem' => $data], JSON_THROW_ON_ERROR);
         $fixture = __DIR__ . '/fixtures/update.json';
 
         $response = $this->getItems($this->getHttpClientWithMockResponse(

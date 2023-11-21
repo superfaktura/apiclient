@@ -24,6 +24,8 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
 {
     public Movements $movements;
 
+    private const STOCK_ITEM = 'StockItem';
+
     public function __construct(
         private ClientInterface $http_client,
         private RequestFactoryInterface $request_factory,
@@ -46,7 +48,7 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
     {
         $request = $this->request_factory
             ->createRequest(RequestMethodInterface::METHOD_POST, $this->base_uri . '/stock_items/add')
-            ->withBody(Utils::streamFor($this->transformDataToJson($data)))
+            ->withBody(Utils::streamFor($this->transformDataToJson([self::STOCK_ITEM => $data])))
             ->withHeader('Authorization', $this->authorization_header_value)
             ->withHeader('Content-Type', 'application/json')
         ;
@@ -165,7 +167,7 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
             ->createRequest(RequestMethodInterface::METHOD_PATCH, $this->base_uri . '/stock_items/edit/' . $id)
             ->withHeader('Authorization', $this->authorization_header_value)
             ->withHeader('Content-Type', 'application/json')
-            ->withBody(Utils::streamFor($this->transformDataToJson($data)));
+            ->withBody(Utils::streamFor($this->transformDataToJson([self::STOCK_ITEM => $data])));
 
         try {
             $response = $this->response_factory->createFromJsonResponse(

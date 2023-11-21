@@ -45,11 +45,13 @@ final readonly class ApiClient
 
     public function __construct(
         private Authorization\Provider $authorization_provider,
-        private string $base_uri,
+        MarketUri|string $base_uri,
         private ClientInterface $http_client = new Client(),
         private RequestFactoryInterface $request_factory = new HttpFactory(),
         private ResponseFactoryInterface $response_factory = new ResponseFactory(),
     ) {
+        $base_uri = is_string($base_uri) ? $base_uri : $base_uri->value;
+
         $authorization_header_value = (new Authorization\Header\Builder(new ComposerProvider()))
             ->build($this->authorization_provider->getAuthorization());
 
@@ -57,7 +59,7 @@ final readonly class ApiClient
             http_client: $this->http_client,
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
-            base_uri: $this->base_uri,
+            base_uri: $base_uri,
             authorization_header_value: $authorization_header_value,
         );
 
@@ -66,7 +68,7 @@ final readonly class ApiClient
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
             query_params_convertor: new NamedParamsConvertor(),
-            base_uri: $this->base_uri,
+            base_uri: $base_uri,
             authorization_header_value: $authorization_header_value,
         );
 
@@ -74,7 +76,7 @@ final readonly class ApiClient
             http_client: $this->http_client,
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
-            base_uri: $this->base_uri,
+            base_uri: $base_uri,
             authorization_header_value: $authorization_header_value,
         );
 
@@ -82,7 +84,7 @@ final readonly class ApiClient
             http_client: $this->http_client,
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
-            base_uri: $this->base_uri,
+            base_uri: $base_uri,
             authorization_header_value: $authorization_header_value,
         );
 
@@ -92,7 +94,7 @@ final readonly class ApiClient
             response_factory: $this->response_factory,
             query_params_convertor: new NamedParamsConvertor(),
             export_request_factory: new ExportRequestFactory(),
-            base_uri: $this->base_uri,
+            base_uri: $base_uri,
             authorization_header_value: $authorization_header_value,
         );
 
@@ -101,7 +103,7 @@ final readonly class ApiClient
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
             query_params_convertor: new NamedParamsConvertor(),
-            base_uri: $this->base_uri,
+            base_uri: $base_uri,
             authorization_header_value: $authorization_header_value,
         );
 
@@ -109,7 +111,7 @@ final readonly class ApiClient
             http_client: $this->http_client,
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
-            base_uri: $this->base_uri,
+            base_uri: $base_uri,
             authorization_header_value: $authorization_header_value,
         );
 
@@ -118,7 +120,7 @@ final readonly class ApiClient
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
             query_params_convertor: new NamedParamsConvertor(),
-            base_uri: $this->base_uri,
+            base_uri: $base_uri,
             authorization_header_value: $authorization_header_value,
         );
 
@@ -126,7 +128,7 @@ final readonly class ApiClient
             http_client: $this->http_client,
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
-            base_uri: $this->base_uri,
+            base_uri: $base_uri,
             authorization_header_value: $authorization_header_value,
         );
     }
