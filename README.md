@@ -16,22 +16,9 @@ Keď chcete API integráciu vyskúšať, máme pre vás [testovacie prostredie -
  
 ## Inštalácia PHP-API klienta
 
-### 1. pomocou [composer-u](https://getcomposer.org/) (doporučený spôsob)
-
 ```sh
-$ composer require superfaktura/apiclient
+$ composer require superfaktura/apiclient:^1.0
 ```
-
-### 2. pomocou git-u (vyžaduje nainštalovaný systém [git](https://git-scm.com/))
-
-```sh
-$ mkdir /var/www/myproject/libs
-$ git clone https://github.com/superfaktura/apiclient.git
-```
-  
-### 3. stiahnutie ZIP balíčka
-Stiahnite si SuperFaktúra PHP-API kliknutím na tlačidlo ["Stiahnuť ZIP"](https://github.com/superfaktura/apiclient/archive/master.zip), ktoré sa nachádza na github stránke nášho API.
-
 ## Ukážky kódu
   Aby sme vám uľahčili prácu pri implementácii nášho API, vytvorili sme ukážky kódu 
   ([sample.php](https://github.com/superfaktura/apiclient/blob/master/examples/sample.php) a [sample2.php](https://github.com/superfaktura/apiclient/blob/master/examples/sample2.php)),
