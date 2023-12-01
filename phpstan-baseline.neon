@@ -1,0 +1,11 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method SuperFaktura\\\\ApiClient\\\\Response\\\\Response\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Response/Response.php
+
+		-
+			message: "#^Method SuperFaktura\\\\ApiClient\\\\Test\\\\TestCase\\:\\:getApiResponse\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/TestCase.php

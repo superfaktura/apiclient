@@ -1,0 +1,13 @@
+{
+  "error": 5,
+  "error_message": {
+    "type": [
+      "Dokument musí obsahovať aspoň jednu položku"
+    ]
+  },
+  "error_data": {
+    "Invoice": {
+      "id": 0
+    }
+  }
+}

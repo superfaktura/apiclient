@@ -1,0 +1,19 @@
+{
+  "itemCount": 27,
+  "pageCount": 14,
+  "perPage": 2,
+  "page": 1,
+  "items": [
+    {
+      "Invoice": {
+        "id": "1"
+      }
+    },
+    {
+      "Invoice": {
+        "id": "2"
+      }
+    }
+  ],
+  "filtered": false
+}

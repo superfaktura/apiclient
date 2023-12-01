@@ -1,0 +1,76 @@
+[
+  {
+    "ContactPerson": {
+      "id": "2",
+      "user_id": "1",
+      "user_profile_id": "2",
+      "client_id": "2",
+      "name": "Joe Doe",
+      "email": "joe.doe@supefaktura.sk",
+      "phone": "+421949123456",
+      "created": "2023-08-23 11:17:12",
+      "modified": "2023-08-23 11:17:12"
+    }
+  },
+  {
+    "ContactPerson": {
+      "id": "3",
+      "user_id": "1",
+      "user_profile_id": "2",
+      "client_id": "2",
+      "name": "Jane Doe",
+      "email": "jane.doe@supefaktura.sk",
+      "phone": "+421949654321",
+      "created": "2023-08-23 11:17:12",
+      "modified": "2023-08-23 11:17:12"
+    }
+  },
+  {
+    "ContactPerson": {
+      "id": "2",
+      "user_id": "1",
+      "user_profile_id": "2",
+      "uuid": null,
+      "country_id": "191",
+      "name": "SuperFaktura, s.r.o.",
+      "ico": "46655034",
+      "dic": "2023513470",
+      "ic_dph": "SK2023513470",
+      "iban": "",
+      "swift": "",
+      "bank_account_prefix": "",
+      "bank_account": "",
+      "bank_code": "",
+      "account": null,
+      "email": "",
+      "address": "Pri Suchom mlyne 6",
+      "city": "Bratislava - mestská časť Staré Mesto",
+      "zip": "811 04",
+      "state": "",
+      "country": "Slovensko",
+      "delivery_name": "",
+      "delivery_address": "",
+      "delivery_city": "",
+      "delivery_zip": "",
+      "delivery_state": "",
+      "delivery_country": "Slovensko",
+      "delivery_country_id": "191",
+      "phone": "",
+      "delivery_phone": "",
+      "fax": "",
+      "due_date": null,
+      "default_variable": "",
+      "discount": null,
+      "currency": null,
+      "bank_account_id": "0",
+      "comment": "",
+      "tags": null,
+      "distance": "0.00",
+      "dont_travel": null,
+      "created": "2023-06-12 07:00:39",
+      "modified": "2023-08-23 11:17:12",
+      "notices": true,
+      "client": true
+    }
+  }
+]

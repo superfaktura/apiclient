@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "icon": "building",
+    "icon_color": "#3a4345",
+    "name": "Kancelária",
+    "children": [
+      {
+        "id": 2,
+        "icon": "bolt",
+        "icon_color": "#1c212b",
+        "name": "Nájomné \/ energie",
+        "children": []
+      }
+    ]
+  }
+]

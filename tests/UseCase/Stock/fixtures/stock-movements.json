@@ -1,0 +1,62 @@
+{
+  "itemCount": 3,
+  "pageCount": 1,
+  "perPage": 50,
+  "page": 1,
+  "items": [
+    {
+      "StockLog": {
+        "id": "3",
+        "stock_item_id": "1",
+        "user_id": "1",
+        "user_profile_id": "1",
+        "invoice_id": null,
+        "expense_id": null,
+        "document_item_id": null,
+        "quantity": 5,
+        "note": "Hungry binge shopping at kaufland",
+        "document": null,
+        "document_subtype": null,
+        "log_data": "{\"purchase_unit_price\":\"0.1200\",\"purchase_tax\":null,\"purchase_currency\":null,\"unit_price\":0.1,\"tax\":20,\"currency\":\"EUR\"}",
+        "created": "2023-11-06 11:02:53",
+        "modified": "2023-11-06 11:02:53"
+      }
+    },
+    {
+      "StockLog": {
+        "id": "2",
+        "stock_item_id": "1",
+        "user_id": "1",
+        "user_profile_id": "1",
+        "invoice_id": null,
+        "expense_id": null,
+        "document_item_id": null,
+        "quantity": 0,
+        "note": "Ručná úprava stavu na sklade",
+        "document": null,
+        "document_subtype": null,
+        "log_data": "{\"purchase_unit_price\":\"0.1200\",\"purchase_tax\":null,\"purchase_exchange_rate\":1,\"purchase_country_exchange_rate\":1,\"purchase_currency\":null,\"unit_price\":\"0.1\",\"tax\":20,\"exchange_rate\":1,\"country_exchange_rate\":1,\"currency\":\"EUR\",\"home_currency\":\"EUR\"}",
+        "created": "2023-10-24 11:45:19",
+        "modified": "2023-10-24 11:45:19"
+      }
+    },
+    {
+      "StockLog": {
+        "id": "1",
+        "stock_item_id": "1",
+        "user_id": "1",
+        "user_profile_id": "1",
+        "invoice_id": null,
+        "expense_id": null,
+        "document_item_id": null,
+        "quantity": 0,
+        "note": "Počiatočný stav skladu",
+        "document": null,
+        "document_subtype": null,
+        "log_data": "{\"purchase_unit_price\":0.12,\"purchase_tax\":null,\"purchase_currency\":null,\"unit_price\":0.1,\"tax\":20,\"currency\":null}",
+        "created": "2023-10-10 07:59:57",
+        "modified": "2023-10-10 07:59:57"
+      }
+    }
+  ]
+}

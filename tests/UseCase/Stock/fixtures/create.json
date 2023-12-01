@@ -1,0 +1,25 @@
+{
+  "error": 0,
+  "error_message": "",
+  "data": {
+    "StockItem": {
+      "description": "Basic stock item",
+      "name": "Rozok grahamovy",
+      "sku": "RZK-GRHMV",
+      "unit": "ks",
+      "unit_price": 0.1,
+      "purchase_unit_price": 0.12,
+      "vat": 20,
+      "watch_stock": 1,
+      "stock": 0,
+      "id": "1"
+    },
+    "StockLog": [
+      {
+        "quantity": 0,
+        "note": "Počiatočný stav skladu",
+        "log_data": "{\"purchase_unit_price\":0.12,\"purchase_tax\":null,\"purchase_currency\":null,\"unit_price\":0.1,\"tax\":20,\"currency\":null}"
+      }
+    ]
+  }
+}

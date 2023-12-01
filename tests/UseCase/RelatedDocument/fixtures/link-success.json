@@ -1,0 +1,10 @@
+{
+  "data": {
+    "Invoice": {
+      "id": 1
+    },
+    "RelatedItem": {
+      "id": "2"
+    }
+  }
+}

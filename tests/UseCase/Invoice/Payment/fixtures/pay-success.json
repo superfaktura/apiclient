@@ -1,0 +1,22 @@
+{
+  "country_exchange_rate": 1,
+  "created": "2050-01-01",
+  "currency": "€",
+  "error": 0,
+  "exchange_rate": 1,
+  "flash_message": {
+    "text": "Úhrada bola uložená",
+    "type": "success"
+  },
+  "home_currency": "€",
+  "invoice_currency": "€",
+  "invoice_id": 1,
+  "invoice_type": "regular",
+  "overdue": false,
+  "paid": 12,
+  "parent_id": null,
+  "payment_id": "1",
+  "status": 3,
+  "to_pay": 0,
+  "to_pay_home_cur": 0
+}

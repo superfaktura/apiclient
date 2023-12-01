@@ -1,0 +1,10 @@
+{
+  "data": {
+    "ExpensePayment": {
+      "amount": 12,
+      "currency": "EUR",
+      "expense_id": 1,
+      "id": "1"
+    }
+  }
+}

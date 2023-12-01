@@ -1,0 +1,15 @@
+{
+  "CashRegister": {
+    "id": 1,
+    "user_id": 1,
+    "user_profile_id": 1,
+    "sequencein_id": null,
+    "sequenceout_id": null,
+    "id_provoz": null,
+    "name": "Pokladnica",
+    "currency": "EUR",
+    "description": null,
+    "items": "0",
+    "total": null
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "error": 0,
+  "BankAccounts": [
+    {
+      "BankAccount": {
+        "id": "10",
+        "user_id": "1",
+        "user_profile_id": "2",
+        "currency": "EUR",
+        "default": true,
+        "show": true,
+        "country_id": "191",
+        "bank_name": "Tatra banka, a.s.",
+        "bank_code": "1100",
+        "account": "2926858237",
+        "iban": "SK3211000000002926858237",
+        "swift": "TATRSKBX",
+        "created": "2023-09-06 07:02:29",
+        "modified": "2023-09-06 07:02:29"
+      }
+    },
+    {
+      "BankAccount": {
+        "id": "11",
+        "user_id": "1",
+        "user_profile_id": "2",
+        "currency": "CZK",
+        "default": null,
+        "show": true,
+        "country_id": "191",
+        "bank_name": "Fio banka, a.s.",
+        "bank_code": "2010",
+        "account": "2100961334",
+        "iban": "CZ4720100000002100961334",
+        "swift": "FIOBCZPP",
+        "created": "2023-09-06 07:02:29",
+        "modified": "2023-09-06 07:02:29"
+      }
+    }
+  ]
+}
