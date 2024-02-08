@@ -624,6 +624,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
             'per_page' => $query->items_per_page,
             'sort' => $query->sort->attribute,
             'direction' => $query->sort->direction->value,
+            'type'      => $query->type?->value,
             'amount_from' => $query->amount_from,
             'amount_to' => $query->amount_to,
             'client_id' => $query->client_id,

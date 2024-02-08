@@ -8,6 +8,7 @@ use SuperFaktura\ApiClient\Filter\Sort;
 use SuperFaktura\ApiClient\Filter\TimePeriod;
 use SuperFaktura\ApiClient\Contract\PaymentType;
 use SuperFaktura\ApiClient\Filter\SortDirection;
+use SuperFaktura\ApiClient\Contract\Invoice\InvoiceType;
 use SuperFaktura\ApiClient\Contract\Invoice\DeliveryType;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceStatus;
 
@@ -42,6 +43,7 @@ final class InvoicesQuery
         public int $page = 1,
         public int $items_per_page = self::ITEMS_PER_PAGE_MAX,
         public array $ignored_invoices = [],
+        public ?InvoiceType $type = null,
     ) {
         if ($this->page < 1) {
             throw new \InvalidArgumentException('Page argument must be greater than or equal to 1');

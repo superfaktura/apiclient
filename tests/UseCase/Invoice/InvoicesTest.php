@@ -19,6 +19,7 @@ use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\UseCase\Invoice\Invoices;
 use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
+use SuperFaktura\ApiClient\Contract\Invoice\InvoiceType;
 use SuperFaktura\ApiClient\Contract\Invoice\DeliveryType;
 use SuperFaktura\ApiClient\UseCase\Invoice\InvoicesQuery;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceStatus;
@@ -323,6 +324,11 @@ final class InvoicesTest extends InvoicesTestCase
                 ['sort' => 'name', 'direction' => SortDirection::DESC->value],
             ),
             'query' => new InvoicesQuery(sort: new Sort(attribute: 'name', direction: SortDirection::DESC)),
+        ];
+
+        yield 'type' => [
+            'expected' => $base_uri . self::getQueryString(['type' => InvoiceType::PROFORMA->value]),
+            'query' => new InvoicesQuery(type: InvoiceType::PROFORMA),
         ];
     }
 
