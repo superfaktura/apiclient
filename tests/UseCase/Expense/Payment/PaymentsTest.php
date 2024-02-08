@@ -2,7 +2,6 @@
 
 namespace SuperFaktura\ApiClient\Test\UseCase\Expense\Payment;
 
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Client\ClientInterface;
 use PHPUnit\Framework\Attributes\UsesClass;
