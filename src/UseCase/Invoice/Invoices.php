@@ -665,4 +665,39 @@ final readonly class Invoices implements Contract\Invoice\Invoices
             'modified_to' => $query->modified?->to?->format('c'),
         ]);
     }
+
+    public function createRegularFromProforma(int $proforma_id): Response
+    {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_GET,
+                sprintf('%s/invoices/regular/%d.json', $this->base_uri, $proforma_id),
+            )
+            ->withHeader('Authorization', $this->authorization_header_value);
+
+        try {
+            $response = $this->response_factory
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotGetInvoiceException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new InvoiceNotFoundException($request);
+        }
+
+        if ($response->status_code !== StatusCodeInterface::STATUS_OK || $response->isError()) {
+            throw new CannotGetInvoiceException($request, $response->data['error_message'] ?? '');
+        }
+
+        return $this->create(
+            invoice: $response->data['Invoice'],
+            items: $response->data['InvoiceItem'],
+            client: $response->data['ClientData'],
+            settings: $response->data['InvoiceSetting'] ?? [],
+            extra: $response->data['InvoiceExtra'] ?? [],
+            my_data: $response->data['MyData'] ?? [],
+            tags: $response->data['Tag'] ?? [],
+        );
+    }
 }

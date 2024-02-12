@@ -806,4 +806,88 @@ final class InvoicesTest extends InvoicesTestCase
             array_merge($default_query_params, $params),
         );
     }
+
+    public function testCreateRegularFromProforma(): void
+    {
+        $fixture = __DIR__ . '/fixtures/regular.json';
+
+        $http_client_mock = $this->getHttpClientWithMockResponse(
+            new \GuzzleHttp\Psr7\Response(200, [], $this->jsonFromFixture($fixture)),
+            $this->getHttpOkResponse(),
+        );
+
+        $this->getInvoices($http_client_mock)
+            ->createRegularFromProforma(1);
+
+        $get_regular_request = $this->history[0]['request']
+            ?? throw new \RuntimeException('Expected request to be made');
+
+        $this->request($get_regular_request)
+            ->get('/invoices/regular/1.json')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+
+        $create_request = $this->history[1]['request']
+            ?? throw new \RuntimeException('Expected request to be made');
+
+        $this->request($create_request)
+            ->post('/invoices/create')
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+    }
+
+    public function testCreateRegularFromNonExistingProforma(): void
+    {
+        $this->expectException(InvoiceNotFoundException::class);
+
+        $this->getInvoices($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
+            ->createRegularFromProforma(1);
+    }
+
+    public function testCreateRegularProformaInsufficientPermissions(): void
+    {
+        $this->expectException(CannotGetInvoiceException::class);
+
+        $fixture = __DIR__ . '/fixtures/insufficient-permissions.json';
+
+        $this->getInvoices($this->getHttpClientReturning($fixture, StatusCodeInterface::STATUS_FORBIDDEN))
+            ->createRegularFromProforma(0);
+    }
+
+    public function testCreateRegularProformaUnexpectedError(): void
+    {
+        $this->expectException(CannotGetInvoiceException::class);
+        $this->expectExceptionMessage('Unexpected error');
+
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
+
+        $this->getInvoices($this->getHttpClientReturning($fixture))
+            ->createRegularFromProforma(0);
+    }
+
+    public function testCreateRegularProformaResponseDecodeFailed(): void
+    {
+        $this->expectException(CannotCreateInvoiceException::class);
+
+        $fixture = __DIR__ . '/fixtures/regular.json';
+
+        $http_client_mock = $this->getHttpClientWithMockResponse(
+            new \GuzzleHttp\Psr7\Response(200, [], $this->jsonFromFixture($fixture)),
+            $this->getHttpOkResponseContainingInvalidJson(),
+        );
+
+        $this
+            ->getInvoices($http_client_mock)
+            ->createRegularFromProforma(0);
+    }
+
+    public function testCreateRegularProformaRequestFailed(): void
+    {
+        $this->expectException(CannotGetInvoiceException::class);
+
+        $this
+            ->getInvoices($this->getHttpClientWithMockRequestException())
+            ->createRegularFromProforma(0);
+    }
 }

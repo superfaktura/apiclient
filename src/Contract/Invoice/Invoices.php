@@ -135,4 +135,10 @@ interface Invoices
      * @throws InvoiceNotFoundException
      */
     public function sendViaPostOffice(int $id, Address $address = new Address()): void;
+
+    /**
+     * @throws CannotCreateInvoiceException
+     * @throws CannotCreateRequestException
+     */
+    public function createRegularFromProforma(int $proforma_id): Response;
 }
