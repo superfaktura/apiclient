@@ -15,6 +15,7 @@ use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\UseCase\Expense\Expenses;
 use SuperFaktura\ApiClient\UseCase\Invoice\Invoices;
 use SuperFaktura\ApiClient\Version\ComposerProvider;
+use SuperFaktura\ApiClient\UseCase\Company\Companies;
 use SuperFaktura\ApiClient\UseCase\Country\Countries;
 use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\UseCase\BankAccount\BankAccounts;
@@ -42,6 +43,8 @@ final readonly class ApiClient
     public Stock\Items $stock_items;
 
     public Tags $tags;
+
+    public Companies $companies;
 
     public function __construct(
         private Authorization\Provider $authorization_provider,
@@ -125,6 +128,14 @@ final readonly class ApiClient
         );
 
         $this->tags = new Tags(
+            http_client: $this->http_client,
+            request_factory: $this->request_factory,
+            response_factory: $this->response_factory,
+            base_uri: $base_uri,
+            authorization_header_value: $authorization_header_value,
+        );
+
+        $this->companies = new Companies(
             http_client: $this->http_client,
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,

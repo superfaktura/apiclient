@@ -1,0 +1,69 @@
+{
+  "status_code": 200,
+  "data": {
+    "error": 0,
+    "error_message": "",
+    "data": {
+      "643": {
+        "UserProfile": {
+          "id": "643",
+          "user_id": "469",
+          "country_id": "191",
+          "company_name": "tjOyZeVOGCfo",
+          "ico": "uGmJbjYSTt93",
+          "dic": "I8AV1dGoYmMg",
+          "ic_dph": "",
+          "business_register": null,
+          "address": "2VHsVrrRkj0z",
+          "city": "axiejZoe4iXG",
+          "zip": "A54Ui",
+          "phone": "",
+          "web": "",
+          "tax_payer": null,
+          "company_type": "ltd",
+          "modified": "2024-02-14 20:17:54"
+        },
+        "BankAccount": []
+      },
+      "1221": {
+        "UserProfile": {
+          "id": "1221",
+          "user_id": "469",
+          "country_id": "191",
+          "company_name": "yZQp5IDAze75",
+          "ico": "GNMjpfu4jt4B",
+          "dic": "avoRU2Ec17Ci",
+          "ic_dph": null,
+          "business_register": null,
+          "address": "L2ohSyKcvOqr",
+          "city": "ZMOTYoexPJTm",
+          "zip": "CgNwd",
+          "phone": null,
+          "web": null,
+          "tax_payer": null,
+          "company_type": "ltd",
+          "modified": "2024-02-15 09:50:30"
+        },
+        "BankAccount": []
+      }
+    }
+  },
+  "rate_limit_daily": {
+    "limit": 1000,
+    "remaining": 986,
+    "resets_at": {
+      "date": "2024-02-15 23:00:00.000000",
+      "timezone_type": 3,
+      "timezone": "UTC"
+    }
+  },
+  "rate_limit_monthly": {
+    "limit": 29000,
+    "remaining": 28965,
+    "resets_at": {
+      "date": "2024-02-29 23:00:00.000000",
+      "timezone_type": 3,
+      "timezone": "UTC"
+    }
+  }
+}
