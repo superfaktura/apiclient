@@ -100,7 +100,7 @@ final class PaymentsTest extends TestCase
                     'payment_type' => PaymentType::CASH->value,
                     'document_number' => 'ABC123',
                     'cash_register_id' => 2,
-                    'date' => (new \DateTimeImmutable('2023-12-24'))->format('Y-m-d'),
+                    'created' => (new \DateTimeImmutable('2023-12-24'))->format('Y-m-d'),
                 ],
             ], JSON_THROW_ON_ERROR),
             'id' => 1,

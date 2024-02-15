@@ -768,6 +768,7 @@ For more information check [API documentation](https://github.com/superfaktura/d
 - [Expense types](./src/Contract/Expense/ExpenseType.php)
 - [Expense statuses](./src/Contract/Expense/ExpenseStatus.php)
 - [Invoice statuses](./src/Contract/Invoice/InvoiceStatus.php)
+- [Invoice types](./src/Contract/Invoice/InvoiceType.php)
 - [Payment types](./src/Contract/PaymentType.php)
 - [Time filter constants](./src/Filter/TimePeriodEnum.php)
 

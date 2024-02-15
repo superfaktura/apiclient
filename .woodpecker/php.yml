@@ -20,12 +20,12 @@ clone:
         when:
             event: *exec_event
 
-pipeline:
+steps:
     phpstan:
         image: sf_ci_apiclient:latest
         pull: false
         when:
-            even:  *exec_event
+            event: *exec_event
         commands:
             - cd apiclient
             - composer install --quiet
@@ -39,12 +39,12 @@ pipeline:
             - cd apiclient
             - composer install --quiet
             - composer run test:unit
-    cs-check:                                
-        image: sf_ci_apiclient:latest        
-        pull: false                          
-        when:                                
-            event: *exec_event               
-        commands:                            
-            - cd apiclient                   
-            - composer install --quiet       
-            - composer run php:cs-check      
+    cs-check:
+        image: sf_ci_apiclient:latest
+        pull: false
+        when:
+            event: *exec_event
+        commands:
+            - cd apiclient
+            - composer install --quiet
+            - composer run php:cs-check

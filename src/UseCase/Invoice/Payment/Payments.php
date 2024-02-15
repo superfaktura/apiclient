@@ -117,7 +117,7 @@ final class Payments implements Contract\Invoice\Payment\Payments
                         'payment_type' => $payment->payment_type?->value,
                         'document_number' => $payment->document_number,
                         'cash_register_id' => $payment->cash_register_id,
-                        'date' => $payment->payment_date?->format('Y-m-d'),
+                        'created' => $payment->payment_date?->format('Y-m-d'),
                     ]),
                 ],
                 JSON_THROW_ON_ERROR,

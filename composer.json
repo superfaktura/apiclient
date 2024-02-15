@@ -25,18 +25,18 @@
         "ext-json": "*",
         "ext-zip": "*",
         "ext-mbstring": "*",
-        "symfony/dotenv": "^6.3",
-        "guzzlehttp/guzzle": "^7.7",
+        "symfony/dotenv": "^6.4",
+        "guzzlehttp/guzzle": "^7.8",
         "fig/http-message-util": "^1.1",
-        "guzzlehttp/psr7": "^2.5",
+        "guzzlehttp/psr7": "^2.6",
         "psr/http-factory": "^1.0",
         "psr/http-message": "^2.0",
         "psr/http-client": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^10.2",
+        "phpunit/phpunit": "^10.5",
         "phpstan/phpstan": "^1.10",
-        "friendsofphp/php-cs-fixer": "^3.21",
+        "friendsofphp/php-cs-fixer": "^3.49",
         "phpstan/phpstan-strict-rules": "^1.5",
         "phpstan/phpstan-deprecation-rules": "^1.1"
     },

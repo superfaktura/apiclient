@@ -189,7 +189,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function getLastRequest(): ?RequestInterface
     {
-        return $this->history[0]['request'] ?? null;
+        return $this->history[array_key_last($this->history)]['request'] ?? null;
     }
 
     /**
@@ -222,8 +222,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected function request(): AssertRequestBuilder
+    protected function request(?RequestInterface $request = null): AssertRequestBuilder
     {
-        return new AssertRequestBuilder($this->getLastRequest());
+        return new AssertRequestBuilder($request ?? $this->getLastRequest());
     }
 }
