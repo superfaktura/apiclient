@@ -8,7 +8,6 @@ use SuperFaktura\ApiClient\Test\TestCase;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\UseCase\Invoice\Invoices;
 use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
-use SuperFaktura\ApiClient\UseCase\Invoice\ExportRequestFactory;
 
 abstract class InvoicesTestCase extends TestCase
 {
@@ -30,7 +29,6 @@ abstract class InvoicesTestCase extends TestCase
             request_factory: new HttpFactory(),
             response_factory: new ResponseFactory(),
             query_params_convertor: new NamedParamsConvertor(),
-            export_request_factory: new ExportRequestFactory(),
             base_uri: '',
             authorization_header_value: self::AUTHORIZATION_HEADER_VALUE,
         );

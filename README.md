@@ -434,11 +434,12 @@ For more information check [API documentation](https://github.com/superfaktura/d
 
 ##### 5. `Invoices::export`
 Returns export of multiple invoices with possible configuration.
+
 ```php
 $response = $api->invoices->export(
     [1,2,3],
-    \SuperFaktura\ApiClient\Contract\Invoice\Export\Format::PDF,
-    new \SuperFaktura\ApiClient\UseCase\Invoice\PdfExportOptions(
+    \SuperFaktura\ApiClient\Contract\Export\Format::PDF,
+    new \SuperFaktura\ApiClient\UseCase\Export\PdfExportOptions(
         language: \SuperFaktura\ApiClient\Contract\Language::SLOVAK,
         hide_signature: true,
     ),

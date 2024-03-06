@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace SuperFaktura\ApiClient\Contract\Invoice\Export;
+namespace SuperFaktura\ApiClient\Contract\Export;
 
 enum Format: string
 {

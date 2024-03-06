@@ -11,6 +11,7 @@ use SuperFaktura\ApiClient\UseCase\Stock;
 use SuperFaktura\ApiClient\UseCase\Tag\Tags;
 use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\UseCase\Client\Clients;
+use SuperFaktura\ApiClient\UseCase\Export\Exports;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\UseCase\Expense\Expenses;
 use SuperFaktura\ApiClient\UseCase\Invoice\Invoices;
@@ -20,8 +21,8 @@ use SuperFaktura\ApiClient\Filter\NamedParamsConvertor;
 use SuperFaktura\ApiClient\UseCase\BankAccount\BankAccounts;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\UseCase\CashRegister\CashRegisters;
-use SuperFaktura\ApiClient\UseCase\Invoice\ExportRequestFactory;
 use SuperFaktura\ApiClient\UseCase\RelatedDocument\RelatedDocuments;
+use SuperFaktura\ApiClient\UseCase\Export\InvoiceExportRequestFactory;
 
 final readonly class ApiClient
 {
@@ -36,6 +37,8 @@ final readonly class ApiClient
     public Invoices $invoices;
 
     public Expenses $expenses;
+
+    public Exports $exports;
 
     public RelatedDocuments $related_documents;
 
@@ -93,7 +96,6 @@ final readonly class ApiClient
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
             query_params_convertor: new NamedParamsConvertor(),
-            export_request_factory: new ExportRequestFactory(),
             base_uri: $base_uri,
             authorization_header_value: $authorization_header_value,
         );
@@ -103,6 +105,15 @@ final readonly class ApiClient
             request_factory: $this->request_factory,
             response_factory: $this->response_factory,
             query_params_convertor: new NamedParamsConvertor(),
+            base_uri: $base_uri,
+            authorization_header_value: $authorization_header_value,
+        );
+
+        $this->exports = new Exports(
+            http_client: $this->http_client,
+            request_factory: $this->request_factory,
+            response_factory: $this->response_factory,
+            invoice_export_request_factory: new InvoiceExportRequestFactory(),
             base_uri: $base_uri,
             authorization_header_value: $authorization_header_value,
         );
