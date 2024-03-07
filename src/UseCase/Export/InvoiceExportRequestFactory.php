@@ -62,7 +62,6 @@ final class InvoiceExportRequestFactory
                     default => [],
                 },
             ],
-            Format::XLSX => ['invoices_xls' => true],
         };
     }
 }

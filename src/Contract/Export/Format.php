@@ -9,7 +9,4 @@ enum Format: string
 
     /** Documents in zip archive */
     case ZIP = 'zip';
-
-    /** Documents in xlsx */
-    case XLSX = 'xlsx';
 }
