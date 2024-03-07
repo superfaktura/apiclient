@@ -11,14 +11,17 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Response\RateLimit;
 use SuperFaktura\ApiClient\UseCase\Export\Exports;
+use SuperFaktura\ApiClient\Response\BinaryResponse;
 use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\Contract\Export\ExportNotFoundException;
 use SuperFaktura\ApiClient\UseCase\Export\InvoiceExportRequestFactory;
+use SuperFaktura\ApiClient\Contract\Export\CannotDownloadExportException;
 use SuperFaktura\ApiClient\Contract\Export\CannotGetExportStatusException;
 
 #[CoversClass(Exports::class)]
 #[UsesClass(Response::class)]
+#[UsesClass(BinaryResponse::class)]
 #[UsesClass(RateLimit::class)]
 #[UsesClass(ResponseFactory::class)]
 #[UsesClass(RequestException::class)]
@@ -78,6 +81,54 @@ final class ExportTest extends TestCase
         $this
             ->getExports($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->getStatus(1);
+    }
+
+    public function testDownload(): void
+    {
+        $fixture = __DIR__ . '/../../Response/fixtures/foo.pdf';
+        $response = $this->getExports(
+            $this->getHttpClientWithMockResponse(
+                self::getPsrBinaryResponse($fixture, StatusCodeInterface::STATUS_OK),
+            ),
+        )
+            ->download(1);
+
+        $request = $this->getLastRequest();
+
+        self::assertNotNull($request);
+        self::assertGetRequest($request);
+        self::assertAuthorizationHeader($request, self::AUTHORIZATION_HEADER_VALUE);
+        self::assertSame('/exports/download_export/1', $request->getUri()->getPath());
+        self::assertStringEqualsFile($fixture, (string) stream_get_contents($response->data));
+    }
+
+    public function testDownloadNotFound(): void
+    {
+        $this->expectException(ExportNotFoundException::class);
+
+        $this
+            ->getExports($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
+            ->download(1);
+    }
+
+    public function testDownloadInsufficientPermissions(): void
+    {
+        $this->expectException(CannotDownloadExportException::class);
+
+        $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
+
+        $this
+            ->getExports($this->getHttpClientReturning($fixture, StatusCodeInterface::STATUS_UNAUTHORIZED))
+            ->download(1);
+    }
+
+    public function testDownloadRequestFailed(): void
+    {
+        $this->expectException(CannotDownloadExportException::class);
+
+        $this
+            ->getExports($this->getHttpClientWithMockRequestException())
+            ->download(1);
     }
 
     protected function getExports(ClientInterface $client): Exports
