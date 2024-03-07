@@ -652,6 +652,40 @@ Removes link between two documents.
 $api->related_documents->unlink(1);
 ```
 For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#delete-related-item).
+
+#### Exports
+
+##### 1. `Exports::exportInvoices`
+Export multiple invoices with possible configuration.
+
+```php
+$response = $api->exports->exportInvoices(
+    [1,2,3],
+    \SuperFaktura\ApiClient\Contract\Export\Format::PDF,
+    new \SuperFaktura\ApiClient\UseCase\Export\PdfExportOptions(
+        language: \SuperFaktura\ApiClient\Contract\Language::SLOVAK,
+        hide_signature: true,
+    ),
+);
+var_dump($response->data);
+```
+
+##### 2. `Exports::getStatus`
+Returns progress of the export.
+
+```php
+$response = $api->exports->getStatus(1);
+var_dump($response->data);
+```
+
+##### 3. `Exports::download`
+Download completed export.
+
+```php
+$response = $api->exports->download(1);
+file_put_contents(__DIR__ . '/export.zip', $response->data);
+```
+
 #### Stock items
 
 ##### 1. `Stock\Items::create`
