@@ -2,6 +2,7 @@
 
 namespace SuperFaktura\ApiClient\UseCase\Export;
 
+use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Client\ClientInterface;
 use SuperFaktura\ApiClient\Contract;
 use Fig\Http\Message\StatusCodeInterface;
@@ -16,6 +17,7 @@ use SuperFaktura\ApiClient\Response\CannotCreateResponseException;
 use SuperFaktura\ApiClient\Contract\Export\ExportNotFoundException;
 use SuperFaktura\ApiClient\Contract\Export\CannotDownloadExportException;
 use SuperFaktura\ApiClient\Contract\Export\CannotGetExportStatusException;
+use SuperFaktura\ApiClient\Contract\Invoice\CannotExportInvoicesException;
 
 final readonly class Exports implements Contract\Export\Exports
 {
@@ -84,7 +86,29 @@ final readonly class Exports implements Contract\Export\Exports
         Format $format,
         PdfExportOptions $pdf_options = new PdfExportOptions(),
     ): Response {
-        throw new \RuntimeException(__METHOD__ . ' not implemented');
+        $request = $this->request_factory
+            ->createRequest(RequestMethodInterface::METHOD_POST, $this->base_uri . '/exports')
+            ->withHeader('Authorization', $this->authorization_header_value)
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withBody(
+                Utils::streamFor(
+                    'data='
+                    . $this->invoice_export_request_factory->createJsonRequest($ids, $format, $pdf_options),
+                ),
+            );
+
+        try {
+            $response = $this->response_factory
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotExportInvoicesException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        return match ($response->status_code) {
+            StatusCodeInterface::STATUS_OK => $response,
+            StatusCodeInterface::STATUS_NOT_FOUND => throw new ExportNotFoundException($request),
+            default => throw new CannotExportInvoicesException($request, $response->data['error_message'] ?? ''),
+        };
     }
 
     private function getErrorMessageFromBinaryResponse(BinaryResponse $response): string

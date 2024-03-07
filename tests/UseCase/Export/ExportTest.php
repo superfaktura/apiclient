@@ -2,10 +2,7 @@
 
 namespace SuperFaktura\ApiClient\Test\UseCase\Export;
 
-use GuzzleHttp\Psr7\HttpFactory;
-use Psr\Http\Client\ClientInterface;
 use Fig\Http\Message\StatusCodeInterface;
-use SuperFaktura\ApiClient\Test\TestCase;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Attributes\CoversClass;
 use SuperFaktura\ApiClient\Response\Response;
@@ -15,7 +12,6 @@ use SuperFaktura\ApiClient\Response\BinaryResponse;
 use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\Contract\Export\ExportNotFoundException;
-use SuperFaktura\ApiClient\UseCase\Export\InvoiceExportRequestFactory;
 use SuperFaktura\ApiClient\Contract\Export\CannotDownloadExportException;
 use SuperFaktura\ApiClient\Contract\Export\CannotGetExportStatusException;
 
@@ -25,10 +21,8 @@ use SuperFaktura\ApiClient\Contract\Export\CannotGetExportStatusException;
 #[UsesClass(RateLimit::class)]
 #[UsesClass(ResponseFactory::class)]
 #[UsesClass(RequestException::class)]
-final class ExportTest extends TestCase
+final class ExportTest extends ExportTestCase
 {
-    private const AUTHORIZATION_HEADER_VALUE = 'foo';
-
     public function testGetStatus(): void
     {
         $fixture = __DIR__ . '/fixtures/get-status-success.json';
@@ -129,17 +123,5 @@ final class ExportTest extends TestCase
         $this
             ->getExports($this->getHttpClientWithMockRequestException())
             ->download(1);
-    }
-
-    protected function getExports(ClientInterface $client): Exports
-    {
-        return new Exports(
-            http_client: $client,
-            request_factory: new HttpFactory(),
-            response_factory: new ResponseFactory(),
-            invoice_export_request_factory: new InvoiceExportRequestFactory(),
-            base_uri: '',
-            authorization_header_value: self::AUTHORIZATION_HEADER_VALUE,
-        );
     }
 }
