@@ -4,11 +4,16 @@ namespace SuperFaktura\ApiClient\UseCase\Export;
 
 use Psr\Http\Client\ClientInterface;
 use SuperFaktura\ApiClient\Contract;
+use Fig\Http\Message\StatusCodeInterface;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Contract\Export\Format;
 use SuperFaktura\ApiClient\Response\BinaryResponse;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
+use _PHPStan_11268e5ee\Fig\Http\Message\RequestMethodInterface;
+use SuperFaktura\ApiClient\Contract\Export\ExportNotFoundException;
+use SuperFaktura\ApiClient\Contract\Export\CannotGetExportStatusException;
 
 final readonly class Exports implements Contract\Export\Exports
 {
@@ -24,7 +29,26 @@ final readonly class Exports implements Contract\Export\Exports
 
     public function getStatus(int $id): Response
     {
-        throw new \RuntimeException(__METHOD__ . ' not implemented');
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_GET,
+                $this->base_uri . '/exports/getStatus/' . $id,
+            )
+            ->withHeader('Authorization', $this->authorization_header_value)
+            ->withHeader('Content-Type', 'application/json');
+
+        try {
+            $response = $this->response_factory
+                ->createFromJsonResponse($this->http_client->sendRequest($request));
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotGetExportStatusException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        return match ($response->status_code) {
+            StatusCodeInterface::STATUS_OK => $response,
+            StatusCodeInterface::STATUS_NOT_FOUND => throw new ExportNotFoundException($request),
+            default => throw new CannotGetExportStatusException($request, $response->data['error_message'] ?? ''),
+        };
     }
 
     public function download(int $id): BinaryResponse
