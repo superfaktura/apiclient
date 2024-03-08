@@ -10,6 +10,7 @@ use SuperFaktura\ApiClient\Contract\Invoice\CannotExportInvoicesException;
 interface Exports
 {
     /**
+     * @throws ExportNotFoundException
      * @throws CannotGetExportStatusException
      */
     public function getStatus(int $id): Response;

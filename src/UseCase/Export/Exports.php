@@ -38,8 +38,7 @@ final readonly class Exports implements Contract\Export\Exports
                 RequestMethodInterface::METHOD_GET,
                 $this->base_uri . '/exports/getStatus/' . $id,
             )
-            ->withHeader('Authorization', $this->authorization_header_value)
-            ->withHeader('Content-Type', 'application/json');
+            ->withHeader('Authorization', $this->authorization_header_value);
 
         try {
             $response = $this->response_factory
