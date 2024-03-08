@@ -32,8 +32,13 @@ final class ResponseFactory implements ResponseFactoryInterface
             throw new CannotCreateResponseException('Stream resource is not available');
         }
 
+        if (!$response->hasHeader('Content-Type')) {
+            throw new CannotCreateResponseException('Missing content type header');
+        }
+
         return new BinaryResponse(
             status_code: $response->getStatusCode(),
+            content_type: $response->getHeaderLine('Content-Type'),
             data: $resource,
             rate_limit_daily: $this->getDailyRateLimit($response),
             rate_limit_monthly: $this->getMonthlyRateLimit($response),

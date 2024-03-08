@@ -82,7 +82,11 @@ final class ExportTest extends ExportTestCase
         $fixture = __DIR__ . '/../../Response/fixtures/foo.pdf';
         $response = $this->getExports(
             $this->getHttpClientWithMockResponse(
-                self::getPsrBinaryResponse($fixture, StatusCodeInterface::STATUS_OK),
+                self::getPsrBinaryResponse(
+                    filename: $fixture,
+                    status_code: StatusCodeInterface::STATUS_OK,
+                    headers: ['Content-Type' => 'application/pdf'],
+                ),
             ),
         )
             ->download(1);
