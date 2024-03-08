@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace SuperFaktura\ApiClient\UseCase\Invoice;
+namespace SuperFaktura\ApiClient\UseCase\Export;
 
 use SuperFaktura\ApiClient\Contract\Language;
-use SuperFaktura\ApiClient\Contract\Invoice\Export\DocumentSort;
+use SuperFaktura\ApiClient\Contract\Export\DocumentSort;
 
 final class PdfExportOptions
 {

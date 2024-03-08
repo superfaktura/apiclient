@@ -1,0 +1,10 @@
+{
+  "export": {
+    "id": 1,
+    "type": "invoice_pdf",
+    "status": 1,
+    "progress": 100,
+    "count_total": 2,
+    "count_completed": 2
+  }
+}

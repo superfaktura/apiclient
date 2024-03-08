@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace SuperFaktura\ApiClient\Contract\Invoice\Export;
+namespace SuperFaktura\ApiClient\Contract\Export;
 
 enum Format: string
 {
@@ -9,7 +9,4 @@ enum Format: string
 
     /** Documents in zip archive */
     case ZIP = 'zip';
-
-    /** Documents in xlsx */
-    case XLSX = 'xlsx';
 }

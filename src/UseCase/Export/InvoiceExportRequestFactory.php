@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace SuperFaktura\ApiClient\UseCase\Invoice;
+namespace SuperFaktura\ApiClient\UseCase\Export;
 
-use SuperFaktura\ApiClient\Contract\Invoice\Export\Format;
-use SuperFaktura\ApiClient\Contract\Invoice\Export\DocumentSort;
+use SuperFaktura\ApiClient\Contract\Export\Format;
+use SuperFaktura\ApiClient\Contract\Export\DocumentSort;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 
-final class ExportRequestFactory
+final class InvoiceExportRequestFactory
 {
     public const INVOICE = 'Invoice';
 
@@ -62,7 +62,6 @@ final class ExportRequestFactory
                     default => [],
                 },
             ],
-            Format::XLSX => ['invoices_xls' => true],
         };
     }
 }

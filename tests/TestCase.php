@@ -179,7 +179,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function getHttpNotFoundResponse(): MessageInterface
     {
-        return (new \GuzzleHttp\Psr7\Response(StatusCodeInterface::STATUS_NOT_FOUND, [], '[]'));
+        return (new \GuzzleHttp\Psr7\Response(StatusCodeInterface::STATUS_NOT_FOUND, [], '[]'))
+            ->withHeader('Content-Type', 'application/json');
     }
 
     protected function getHttpOkResponseContainingInvalidJson(): MessageInterface

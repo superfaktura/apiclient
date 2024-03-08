@@ -57,7 +57,11 @@ final class InvoicesDownloadTest extends InvoicesTestCase
     ): void {
         $response = $this->getInvoices(
             $this->getHttpClientWithMockResponse(
-                self::getPsrBinaryResponse($fixture, StatusCodeInterface::STATUS_OK),
+                self::getPsrBinaryResponse(
+                    filename: $fixture,
+                    status_code: StatusCodeInterface::STATUS_OK,
+                    headers: ['Content-Type' => 'application/pdf'],
+                ),
             ),
         )
             ->downloadPdf($invoice_id, $language);
@@ -80,7 +84,10 @@ final class InvoicesDownloadTest extends InvoicesTestCase
 
         $this->getInvoices(
             $this->getHttpClientWithMockResponse(
-                new Response(StatusCodeInterface::STATUS_NOT_FOUND),
+                new Response(
+                    status: StatusCodeInterface::STATUS_NOT_FOUND,
+                    headers: ['Content-Type' => 'application/json'],
+                ),
             ),
         )
             ->downloadPdf(1, Language::SLOVAK);

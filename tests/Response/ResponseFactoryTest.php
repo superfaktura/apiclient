@@ -140,15 +140,18 @@ final class ResponseFactoryTest extends TestCase
             'response' => self::getPsrBinaryResponse(
                 filename: __DIR__ . '/fixtures/foo.pdf',
                 status_code: StatusCodeInterface::STATUS_OK,
+                headers: ['Content-Type' => 'application/pdf'],
             ),
+            'content_type' => 'application/pdf',
         ];
 
         yield 'rate limit values are extracted from response headers and converted to UTC' => [
-            'fixture' => __DIR__ . '/fixtures/bar.pdf',
+            'fixture' => __DIR__ . '/fixtures/export.zip',
             'response' => self::getPsrBinaryResponse(
-                filename: __DIR__ . '/fixtures/bar.pdf',
+                filename: __DIR__ . '/fixtures/export.zip',
                 status_code: StatusCodeInterface::STATUS_OK,
                 headers: [
+                    'Content-Type' => 'application/zip',
                     'X-RateLimit-DailyLimit' => '500',
                     'X-RateLimit-DailyRemaining' => '499',
                     'X-RateLimit-DailyReset' => '02.01.2024 00:00:00',
@@ -157,6 +160,7 @@ final class ResponseFactoryTest extends TestCase
                     'X-RateLimit-MonthlyReset' => '01.02.2024 00:00:00',
                 ],
             ),
+            'content_type' => 'application/zip',
             'rate_limit_daily' => new RateLimit(
                 limit: 500,
                 remaining: 499,
@@ -174,6 +178,7 @@ final class ResponseFactoryTest extends TestCase
     public function testCreateBinaryResponseFromHttpResponse(
         string $fixture,
         ResponseInterface $http_response,
+        string $content_type,
         ?RateLimit $rate_limit_daily = null,
         ?RateLimit $rate_limit_monthly = null,
     ): void {
@@ -181,6 +186,7 @@ final class ResponseFactoryTest extends TestCase
 
         self::assertSame(StatusCodeInterface::STATUS_OK, $response->status_code);
         self::assertStringEqualsFile($fixture, (string) stream_get_contents($response->data));
+        self::assertEquals($content_type, $response->content_type);
         self::assertEquals($rate_limit_daily, $response->rate_limit_daily);
         self::assertEquals($rate_limit_monthly, $response->rate_limit_monthly);
     }
@@ -197,14 +203,13 @@ final class ResponseFactoryTest extends TestCase
 
     public function testCreateBinaryResponseFromEmptyBody(): void
     {
+        $this->expectException(CannotCreateResponseException::class);
+
         $http_response = new Psr7\Response(
             status: StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR,
         );
 
-        $response = $this->factory->createFromBinaryResponse($http_response);
-
-        self::assertSame(StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR, $response->status_code);
-        self::assertSame('', stream_get_contents($response->data));
+        $this->factory->createFromBinaryResponse($http_response);
     }
 
     /**
