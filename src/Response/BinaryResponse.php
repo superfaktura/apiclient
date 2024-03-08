@@ -11,6 +11,7 @@ final class BinaryResponse
      */
     public function __construct(
         public readonly int $status_code,
+        public readonly string $content_type,
         public $data,
         public readonly ?RateLimit $rate_limit_daily = null,
         public readonly ?RateLimit $rate_limit_monthly = null,

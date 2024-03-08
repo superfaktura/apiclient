@@ -8,8 +8,6 @@ use SuperFaktura\ApiClient\UseCase\Invoice\Email;
 use SuperFaktura\ApiClient\Response\BinaryResponse;
 use SuperFaktura\ApiClient\UseCase\Invoice\Address;
 use SuperFaktura\ApiClient\UseCase\Invoice\InvoicesQuery;
-use SuperFaktura\ApiClient\Contract\Invoice\Export\Format;
-use SuperFaktura\ApiClient\UseCase\Invoice\PdfExportOptions;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 
 interface Invoices
@@ -37,17 +35,6 @@ interface Invoices
      * @throws InvoiceNotFoundException
      */
     public function downloadPdf(int $id, Language $language): BinaryResponse;
-
-    /**
-     * @param int[] $ids
-     *
-     * @throws CannotExportInvoicesException
-     */
-    public function export(
-        array $ids,
-        Format $format,
-        PdfExportOptions $pdf_options = new PdfExportOptions(),
-    ): BinaryResponse;
 
     /**
      * @param array<string, mixed> $invoice

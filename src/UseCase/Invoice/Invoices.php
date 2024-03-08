@@ -15,7 +15,6 @@ use SuperFaktura\ApiClient\Contract\PaymentType;
 use SuperFaktura\ApiClient\Response\BinaryResponse;
 use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
 use SuperFaktura\ApiClient\Contract\Invoice\DeliveryType;
-use SuperFaktura\ApiClient\Contract\Invoice\Export\Format;
 use SuperFaktura\ApiClient\UseCase\Invoice\Payment\Payments;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
@@ -26,7 +25,6 @@ use SuperFaktura\ApiClient\Contract\Invoice\CannotSendInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotCreateInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotDeleteInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotUpdateInvoiceException;
-use SuperFaktura\ApiClient\Contract\Invoice\CannotExportInvoicesException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotGetAllInvoicesException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotDownloadInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotMarkInvoiceAsSentException;
@@ -63,7 +61,6 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         private RequestFactoryInterface $request_factory,
         private ResponseFactoryInterface $response_factory,
         private QueryParamsConvertor $query_params_convertor,
-        private ExportRequestFactory $export_request_factory,
         private string $base_uri,
         private string $authorization_header_value,
     ) {
@@ -434,38 +431,6 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         }
     }
 
-    public function export(
-        array $ids,
-        Format $format,
-        PdfExportOptions $pdf_options = new PdfExportOptions(),
-    ): BinaryResponse {
-        $request = $this->request_factory
-            ->createRequest(RequestMethodInterface::METHOD_POST, $this->base_uri . '/exports')
-            ->withHeader('Authorization', $this->authorization_header_value)
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-            ->withBody(
-                Utils::streamFor(
-                    'data='
-                    . $this->export_request_factory->createJsonRequest($ids, $format, $pdf_options),
-                ),
-            );
-
-        try {
-            $binary_response = $this->response_factory
-                ->createFromBinaryResponse($this->http_client->sendRequest($request));
-        } catch (ClientExceptionInterface|CannotCreateResponseException $e) {
-            throw new CannotExportInvoicesException($request, $e->getMessage(), $e->getCode(), $e);
-        }
-
-        if ($binary_response->status_code !== StatusCodeInterface::STATUS_OK) {
-            throw new CannotExportInvoicesException(
-                $request, $this->getErrorMessageFromBinaryResponse($binary_response),
-            );
-        }
-
-        return $binary_response;
-    }
-
     /**
      * @return string[]
      */
@@ -476,24 +441,6 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         }
 
         return [$response->data['error_message'] ?? ''];
-    }
-
-    private function getErrorMessageFromBinaryResponse(BinaryResponse $response): string
-    {
-        $text_body = stream_get_contents($response->data);
-
-        if ($text_body === false) {
-            return '';
-        }
-
-        try {
-            /** @var array<string, string> $json_response */
-            $json_response = json_decode($text_body, true, 512, JSON_THROW_ON_ERROR);
-
-            return $json_response['error_message'] ?? '';
-        } catch (\JsonException $e) {
-            return $e->getMessage();
-        }
     }
 
     /**

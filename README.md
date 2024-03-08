@@ -432,22 +432,7 @@ file_put_contents(__DIR__ . '/invoice.pdf', $response->data);
 ```
 For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#get-invoice-pdf).
 
-##### 5. `Invoices::export`
-Returns export of multiple invoices with possible configuration.
-```php
-$response = $api->invoices->export(
-    [1,2,3],
-    \SuperFaktura\ApiClient\Contract\Invoice\Export\Format::PDF,
-    new \SuperFaktura\ApiClient\UseCase\Invoice\PdfExportOptions(
-        language: \SuperFaktura\ApiClient\Contract\Language::SLOVAK,
-        hide_signature: true,
-    ),
-);
-file_put_contents(__DIR__ . '/invoice_export.pdf', $response->data);
-```
-For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#export-invoices).
-
-##### 6. `Invoices::create`
+##### 5. `Invoices::create`
 Creates an invoice and returns its data.
 ```php
 $response = $api->invoices->create(
@@ -491,7 +476,7 @@ $response = $api->invoices->create(
 var_dump($response->data);
 ```
 For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#add-invoice).
-##### 7. `Invoices::update`
+##### 6. `Invoices::update`
 Updates an existing invoice and returns its data.
 ```php
 $response = $api->invoices->update(
@@ -536,33 +521,33 @@ $response = $api->invoices->update(
 var_dump($response->data);
 ```
 For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#edit-invoice).
-##### 8. `Invoices::delete`
+##### 7. `Invoices::delete`
 Deletes an existing invoice.
 ```php
 $api->invoices->delete(1);
 ```
 For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#delete-invoice).
-##### 9. `Invoices::changeLanguage`
+##### 8. `Invoices::changeLanguage`
 Changes language on an existing invoice.
 ```php
 $api->invoices->changeLanguage(1, \SuperFaktura\ApiClient\Contract\Language::CZECH);
 ```
 For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#set-invoice-language).
 
-##### 10. `Invoices::markAsSent`
+##### 9. `Invoices::markAsSent`
 Toggles invoice mark as sent status.
 ```php
 $api->invoices->markAsSent(1);
 ```
 For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#mark-invoice-as-sent).
 
-##### 11. `Invoices::markAsSentViaEmail`
+##### 10. `Invoices::markAsSentViaEmail`
 Marks invoice as sent via email.
 ```php
 $api->invoices->markAsSentViaEmail(1, 'test@example.com', 'Subject', 'Message');
 ```
 For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#mark-invoice-as-sent-via-email).
-##### 12. `Invoices::sendViaEmail`
+##### 11. `Invoices::sendViaEmail`
 Sends invoice via email.
 ```php
 $email = new \SuperFaktura\ApiClient\UseCase\Invoice\Email(
@@ -577,7 +562,7 @@ $api->invoices->sendViaEmail(1, $email);
 ```
 For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#send-invoice-via-mail).
 
-##### 13. `Invoices::sendViaPostOffice`
+##### 12. `Invoices::sendViaPostOffice`
 ```php
 $address = new \SuperFaktura\ApiClient\UseCase\Invoice\Address(
     name: 'John Doe',
@@ -651,6 +636,39 @@ Removes link between two documents.
 $api->related_documents->unlink(1);
 ```
 For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#delete-related-item).
+
+#### Exports
+
+##### 1. `Exports::exportInvoices`
+Export multiple invoices with possible configuration.
+
+```php
+$response = $api->exports->exportInvoices(
+    [1,2,3],
+    \SuperFaktura\ApiClient\Contract\Export\Format::PDF,
+    new \SuperFaktura\ApiClient\UseCase\Export\PdfExportOptions(
+        language: \SuperFaktura\ApiClient\Contract\Language::SLOVAK,
+        hide_signature: true,
+    ),
+);
+var_dump($response->data);
+```
+
+##### 2. `Exports::getStatus`
+Returns progress of the export.
+
+```php
+$response = $api->exports->getStatus(1);
+var_dump($response->data);
+```
+##### 3. `Exports::download`
+Download completed export.
+
+```php
+$response = $api->exports->download(1);
+file_put_contents(__DIR__ . '/export.zip', $response->data);
+```
+
 #### Stock items
 
 ##### 1. `Stock\Items::create`
