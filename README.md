@@ -639,22 +639,7 @@ For more information check [API documentation](https://github.com/superfaktura/d
 
 #### Exports
 
-##### 1. `Exports::getStatus`
-Returns progress of the export.
-
-```php
-$response = $api->exports->getStatus(1);
-var_dump($response->data);
-```
-##### 2. `Exports::download`
-Download completed export.
-
-```php
-$response = $api->exports->download(1);
-file_put_contents(__DIR__ . '/export.zip', $response->data);
-```
-
-##### 3. `Exports::exportInvoices`
+##### 1. `Exports::exportInvoices`
 Export multiple invoices with possible configuration.
 
 ```php
@@ -667,6 +652,21 @@ $response = $api->exports->exportInvoices(
     ),
 );
 var_dump($response->data);
+```
+
+##### 2. `Exports::getStatus`
+Returns progress of the export.
+
+```php
+$response = $api->exports->getStatus(1);
+var_dump($response->data);
+```
+##### 3. `Exports::download`
+Download completed export.
+
+```php
+$response = $api->exports->download(1);
+file_put_contents(__DIR__ . '/export.zip', $response->data);
 ```
 
 #### Stock items
