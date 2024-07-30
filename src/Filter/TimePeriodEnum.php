@@ -6,6 +6,7 @@ namespace SuperFaktura\ApiClient\Filter;
 
 enum TimePeriodEnum: int
 {
+    case ALL = 0;
     case TODAY = 1;
     case YESTERDAY = 2;
     case FROM_TO = 3;
