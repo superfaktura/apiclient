@@ -326,9 +326,29 @@ final class InvoicesTest extends InvoicesTestCase
             'query' => new InvoicesQuery(sort: new Sort(attribute: 'name', direction: SortDirection::DESC)),
         ];
 
-        yield 'type' => [
+        yield 'invoice type is null' => [
+            'expected' => $base_uri . self::getQueryString(),
+            'query' => new InvoicesQuery(type: null),
+        ];
+
+        yield 'invoice type is empty array' => [
+            'expected' => $base_uri . self::getQueryString(),
+            'query' => new InvoicesQuery(type: []),
+        ];
+
+        yield 'invoice type is one value' => [
             'expected' => $base_uri . self::getQueryString(['type' => InvoiceType::PROFORMA->value]),
             'query' => new InvoicesQuery(type: InvoiceType::PROFORMA),
+        ];
+
+        yield 'invoice type is one value in array' => [
+            'expected' => $base_uri . self::getQueryString(['type' => InvoiceType::PROFORMA->value]),
+            'query' => new InvoicesQuery(type: [InvoiceType::PROFORMA]),
+        ];
+
+        yield 'invoice type is multiple values' => [
+            'expected' => $base_uri . self::getQueryString(['type' => InvoiceType::PROFORMA->value . InvoicesQuery::VALUES_SEPARATOR . InvoiceType::REGULAR->value]),
+            'query' => new InvoicesQuery(type: [InvoiceType::PROFORMA, InvoiceType::REGULAR]),
         ];
     }
 

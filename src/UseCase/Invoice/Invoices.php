@@ -14,6 +14,7 @@ use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Contract\PaymentType;
 use SuperFaktura\ApiClient\Response\BinaryResponse;
 use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
+use SuperFaktura\ApiClient\Contract\Invoice\InvoiceType;
 use SuperFaktura\ApiClient\Contract\Invoice\DeliveryType;
 use SuperFaktura\ApiClient\UseCase\Invoice\Payment\Payments;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
@@ -571,7 +572,15 @@ final readonly class Invoices implements Contract\Invoice\Invoices
             'per_page' => $query->items_per_page,
             'sort' => $query->sort->attribute,
             'direction' => $query->sort->direction->value,
-            'type'      => $query->type?->value,
+            'type' => is_array($query->type)
+                ? ($query->type !== []
+                    ? implode(
+                        InvoicesQuery::VALUES_SEPARATOR,
+                        array_map(static fn (InvoiceType $type) => $type->value, $query->type),
+                    )
+                    : null
+                )
+                : $query->type?->value,
             'amount_from' => $query->amount_from,
             'amount_to' => $query->amount_to,
             'client_id' => $query->client_id,

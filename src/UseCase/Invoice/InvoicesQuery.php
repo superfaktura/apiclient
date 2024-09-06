@@ -22,6 +22,7 @@ final class InvoicesQuery
      * @param PaymentType[] $payment_types
      * @param DeliveryType[] $delivery_types
      * @param int[] $ignored_invoices
+     * @param InvoiceType|InvoiceType[]|null $type
      */
     public function __construct(
         public ?string $full_text = null,
@@ -43,7 +44,7 @@ final class InvoicesQuery
         public int $page = 1,
         public int $items_per_page = self::ITEMS_PER_PAGE_MAX,
         public array $ignored_invoices = [],
-        public ?InvoiceType $type = null,
+        public InvoiceType|array|null $type = null,
     ) {
         if ($this->page < 1) {
             throw new \InvalidArgumentException('Page argument must be greater than or equal to 1');
