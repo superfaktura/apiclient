@@ -166,7 +166,7 @@ final class ContactsTest extends TestCase
         yield 'client contact is created' => [
             'client_id' => 1,
             'data' => $data,
-            'request_body' => 'data=' . json_encode(['ContactPerson' => ['client_id' => 1, ...$data]]),
+            'request_body' => json_encode(['ContactPerson' => ['client_id' => 1, ...$data]]),
         ];
 
         $data = [
@@ -178,7 +178,7 @@ final class ContactsTest extends TestCase
         yield 'another client contact is created' => [
             'client_id' => 2,
             'data' => $data,
-            'request_body' => 'data=' . json_encode(['ContactPerson' => ['client_id' => 2, ...$data]]),
+            'request_body' => json_encode(['ContactPerson' => ['client_id' => 2, ...$data]]),
         ];
     }
 
@@ -194,7 +194,7 @@ final class ContactsTest extends TestCase
 
         $this->request()
             ->post('/contact_people/add/api%3A1')
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Content-Type', 'application/json')
             ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
             ->assert();
         self::assertSame($request_body, (string) $this->getLastRequest()?->getBody());

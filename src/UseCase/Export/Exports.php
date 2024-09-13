@@ -88,11 +88,10 @@ final readonly class Exports implements Contract\Export\Exports
         $request = $this->request_factory
             ->createRequest(RequestMethodInterface::METHOD_POST, $this->base_uri . '/exports')
             ->withHeader('Authorization', $this->authorization_header_value)
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Content-Type', 'application/json')
             ->withBody(
                 Utils::streamFor(
-                    'data='
-                    . $this->invoice_export_request_factory->createJsonRequest($ids, $format, $pdf_options),
+                    $this->invoice_export_request_factory->createJsonRequest($ids, $format, $pdf_options),
                 ),
             );
 

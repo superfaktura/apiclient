@@ -63,8 +63,8 @@ final class Payments implements Contract\Invoice\Payment\Payments
                 $this->base_uri . '/invoice_payments/add/ajax%3A1/api%3A1',
             )
             ->withHeader('Authorization', $this->authorization_header_value)
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-            ->withBody(Utils::streamFor('data=' . $this->transformDataToJson($id, $payment)));
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(Utils::streamFor($this->transformDataToJson($id, $payment)));
 
         try {
             $response = $this->response_factory->createFromJsonResponse(

@@ -30,7 +30,7 @@ final class PaymentsTest extends ExpensesTestCase
     public static function expensePayProvider(): \Generator
     {
         yield 'with minimal data' => [
-            'request_body' => 'data=' . json_encode([
+            'request_body' => json_encode([
                 Payments::EXPENSE_PAYMENT => [
                     'expense_id' => 1,
                     'amount' => 12,
@@ -41,7 +41,7 @@ final class PaymentsTest extends ExpensesTestCase
         ];
 
         yield 'with all options' => [
-            'request_body' => 'data=' . json_encode([
+            'request_body' => json_encode([
                 Payments::EXPENSE_PAYMENT => [
                     'expense_id' => 1,
                     'amount' => 9.99,
@@ -85,7 +85,7 @@ final class PaymentsTest extends ExpensesTestCase
 
         $this->request()
             ->post('/expense_payments/add')
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Content-Type', 'application/json')
             ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
             ->assert();
         self::assertSame($request_body, (string) $request?->getBody());

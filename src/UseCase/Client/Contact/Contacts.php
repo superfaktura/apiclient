@@ -65,9 +65,9 @@ final readonly class Contacts implements Contract\Client\Contact\Contacts
                 $this->base_uri . '/contact_people/add/api%3A1',
             )
             ->withHeader('Authorization', $this->authorization_header_value)
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Content-Type', 'application/json')
             ->withBody(
-                Utils::streamFor('data=' . $this->transformContactDataToJson($client_id, $contact)),
+                Utils::streamFor($this->transformContactDataToJson($client_id, $contact)),
             );
 
         try {

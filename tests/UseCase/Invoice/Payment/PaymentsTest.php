@@ -83,7 +83,7 @@ final class PaymentsTest extends TestCase
     public static function invoicePayProvider(): \Generator
     {
         yield 'with minimal data' => [
-            'request_body' => 'data=' . json_encode([
+            'request_body' => json_encode([
                 Payments::INVOICE_PAYMENT => [
                     'invoice_id' => 1,
                 ],
@@ -92,7 +92,7 @@ final class PaymentsTest extends TestCase
         ];
 
         yield 'with all options' => [
-            'request_body' => 'data=' . json_encode([
+            'request_body' => json_encode([
                 Payments::INVOICE_PAYMENT => [
                     'invoice_id' => 1,
                     'amount' => 9.99,
@@ -144,7 +144,7 @@ final class PaymentsTest extends TestCase
 
         $this->request()
             ->post('/invoice_payments/add/ajax%3A1/api%3A1')
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Content-Type', 'application/json')
             ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
             ->assert();
         self::assertSame($request_body, (string) $request?->getBody());

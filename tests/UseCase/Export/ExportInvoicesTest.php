@@ -32,7 +32,7 @@ final class ExportInvoicesTest extends ExportTestCase
     public static function exportProvider(): \Generator
     {
         yield 'export to single pdf with default options' => [
-            'expected' => 'data=' . json_encode([
+            'expected' => json_encode([
                 InvoiceExportRequestFactory::INVOICE => ['ids' => [1, 2]],
                 InvoiceExportRequestFactory::EXPORT => [
                     'is_msel' => true,
@@ -47,7 +47,7 @@ final class ExportInvoicesTest extends ExportTestCase
         ];
 
         yield 'export to single pdf in english with custom options' => [
-            'expected' => 'data=' . json_encode([
+            'expected' => json_encode([
                 InvoiceExportRequestFactory::INVOICE => ['ids' => [3, 4]],
                 InvoiceExportRequestFactory::EXPORT => [
                     'is_msel' => true,
@@ -69,7 +69,7 @@ final class ExportInvoicesTest extends ExportTestCase
         ];
 
         yield 'export to zip archive with default options' => [
-            'expected' => 'data=' . json_encode([
+            'expected' => json_encode([
                 InvoiceExportRequestFactory::INVOICE => ['ids' => [1, 2]],
                 InvoiceExportRequestFactory::EXPORT => [
                     'is_msel' => true,
@@ -82,7 +82,7 @@ final class ExportInvoicesTest extends ExportTestCase
         ];
 
         yield 'export to zip archive in english with custom options' => [
-            'expected' => 'data=' . json_encode([
+            'expected' => json_encode([
                 InvoiceExportRequestFactory::INVOICE => ['ids' => [1, 2]],
                 InvoiceExportRequestFactory::EXPORT => [
                     'is_msel' => true,
@@ -102,7 +102,7 @@ final class ExportInvoicesTest extends ExportTestCase
         ];
 
         yield 'export to zip archive sorted to folders by client name' => [
-            'expected' => 'data=' . json_encode([
+            'expected' => json_encode([
                 InvoiceExportRequestFactory::INVOICE => ['ids' => [1, 2]],
                 InvoiceExportRequestFactory::EXPORT => [
                     'is_msel' => true,
@@ -118,7 +118,7 @@ final class ExportInvoicesTest extends ExportTestCase
         ];
 
         yield 'export to zip archive sorted to folders by created date' => [
-            'expected' => 'data=' . json_encode([
+            'expected' => json_encode([
                 InvoiceExportRequestFactory::INVOICE => ['ids' => [1, 2]],
                 InvoiceExportRequestFactory::EXPORT => [
                     'is_msel' => true,

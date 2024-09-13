@@ -180,9 +180,9 @@ final readonly class Invoices implements Contract\Invoice\Invoices
                 $this->base_uri . '/invoices/create',
             )
             ->withHeader('Authorization', $this->authorization_header_value)
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Content-Type', 'application/json')
             ->withBody(
-                Utils::streamFor('data=' . $this->invoiceDataToJson(
+                Utils::streamFor($this->invoiceDataToJson(
                     invoice: $invoice,
                     items: $items,
                     client: $client,
@@ -227,9 +227,9 @@ final readonly class Invoices implements Contract\Invoice\Invoices
                 $this->base_uri . '/invoices/edit',
             )
             ->withHeader('Authorization', $this->authorization_header_value)
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Content-Type', 'application/json')
             ->withBody(
-                Utils::streamFor('data=' . $this->invoiceDataToJson(
+                Utils::streamFor($this->invoiceDataToJson(
                     invoice: ['id' => $id, ...$invoice],
                     items: $items,
                     client: $client,

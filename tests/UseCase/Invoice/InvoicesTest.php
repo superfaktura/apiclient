@@ -379,7 +379,7 @@ final class InvoicesTest extends InvoicesTestCase
 
         yield 'invoice is created with minimal data' => [
             'data' => $data,
-            'request_body' => 'data=' . json_encode($data),
+            'request_body' => (string) json_encode($data),
         ];
 
         $data = [
@@ -396,7 +396,7 @@ final class InvoicesTest extends InvoicesTestCase
 
         yield 'invoice is created with all data' => [
             'data' => $data,
-            'request_body' => 'data=' . json_encode(
+            'request_body' => (string) json_encode(
                 array_merge($data, [Invoices::TAG => [Invoices::TAG => $data[Invoices::TAG]]]),
             ),
         ];
@@ -430,7 +430,7 @@ final class InvoicesTest extends InvoicesTestCase
 
         $this->request()
             ->post('/invoices/create')
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Content-Type', 'application/json')
             ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
             ->assert();
         self::assertSame($request_body, (string) $this->getLastRequest()?->getBody());
@@ -549,7 +549,7 @@ final class InvoicesTest extends InvoicesTestCase
         yield 'invoice is updated' => [
             'invoice_id' => 1,
             'data' => $data,
-            'request_body' => 'data=' . json_encode([
+            'request_body' => (string) json_encode([
                 Invoices::INVOICE => ['id' => 1, ...$data[Invoices::INVOICE]],
             ]),
         ];
@@ -569,7 +569,7 @@ final class InvoicesTest extends InvoicesTestCase
         yield 'another invoice is updated' => [
             'invoice_id' => 2,
             'data' => $data,
-            'request_body' => 'data=' . json_encode(
+            'request_body' => (string) json_encode(
                 array_merge($data, [Invoices::TAG => [Invoices::TAG => $data[Invoices::TAG]]]),
             ),
         ];
@@ -605,7 +605,7 @@ final class InvoicesTest extends InvoicesTestCase
         $this->request()
             ->post('/invoices/edit')
             ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Content-Type', 'application/json')
             ->assert();
         self::assertSame($request_body, (string) $this->getLastRequest()?->getBody());
     }
@@ -852,7 +852,7 @@ final class InvoicesTest extends InvoicesTestCase
 
         $this->request($create_request)
             ->post('/invoices/create')
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Content-Type', 'application/json')
             ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
             ->assert();
     }

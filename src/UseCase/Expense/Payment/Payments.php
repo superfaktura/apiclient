@@ -35,8 +35,8 @@ final readonly class Payments implements Contract\Expense\Payment\Payments
                 $this->base_uri . '/expense_payments/add',
             )
             ->withHeader('Authorization', $this->authorization_header_value)
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-            ->withBody(Utils::streamFor('data=' . $this->transformDataToJson($id, $payment)));
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(Utils::streamFor($this->transformDataToJson($id, $payment)));
 
         try {
             $response = $this->response_factory->createFromJsonResponse(
