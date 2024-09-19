@@ -526,7 +526,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
                             'bcc' => $email->bcc,
                             'cc' => $email->cc,
                             'subject' => $email->subject,
-                            'message' => $email->message,
+                            'body' => $email->message,
                         ],
                     ),
                 ],

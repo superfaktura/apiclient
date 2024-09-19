@@ -180,19 +180,21 @@ final class InvoicesSendTest extends InvoicesTestCase
             ...$data,
         ];
 
-        $data = [
+        $request = $data = [
             'invoice_id' => 2,
             'to' => 'jane.doe@superfaktura.sk',
             'pdf_language' => Language::ENGLISH,
             'bcc' => ['joe.doe@superfaktura.sk', 'joe@doe.sk'],
             'cc' => ['foo@superfaktura.sk', 'foo@bar.sk'],
             'subject' => 'Foo bar',
-            'message' => 'Lorem ipsum dolor sit amet',
+            'body' => 'Lorem ipsum dolor sit amet',
         ];
+
+        $data['message'] = $request['body'];
 
         yield 'with all options' => [
             'request_body' => json_encode([
-                Invoices::SEND_EMAIL => array_filter($data),
+                Invoices::SEND_EMAIL => array_filter($request),
             ]),
             ...$data,
         ];
