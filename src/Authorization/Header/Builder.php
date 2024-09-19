@@ -25,8 +25,9 @@ final readonly class Builder
     private function buildModule(Authorization $authorization): string
     {
         return sprintf(
-            '%s (w/ SFAPI %s) [%s]',
+            '%s [%s] (w/ SFAPI %s) [%s]',
             $authorization->module,
+            $authorization->app_title,
             $this->versionProvider->getVersion(),
             PHP_VERSION_ID,
         );

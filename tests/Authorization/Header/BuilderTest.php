@@ -23,7 +23,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
                 'email' => 'test@example.com',
                 'apikey' => 'cd114a5',
                 'company_id' => 1,
-                'module' => self::getModuleString('Test'),
+                'module' => self::getModuleString('Test', 'Example s.r.o.'),
             ]),
             'authorization' => new Authorization(
                 'test@example.com',
@@ -39,7 +39,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
                 'email' => 'test2@example.com',
                 'apikey' => 'a6b3f12',
                 'company_id' => 2,
-                'module' => self::getModuleString('API'),
+                'module' => self::getModuleString('API', 'Example2 s.r.o'),
             ]),
             'authorization' => new Authorization(
                 'test2@example.com',
@@ -51,9 +51,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    private static function getModuleString(string $module): string
+    private static function getModuleString(string $module, string $app_title): string
     {
-        return sprintf('%s (w/ SFAPI %s) [%s]', $module, self::MOCK_PACKAGE_VERSION, PHP_VERSION_ID);
+        return sprintf('%s [%s] (w/ SFAPI %s) [%s]', $module, $app_title, self::MOCK_PACKAGE_VERSION, PHP_VERSION_ID);
     }
 
     #[DataProvider('buildProvider')]
