@@ -25,7 +25,7 @@
         "ext-json": "*",
         "ext-zip": "*",
         "ext-mbstring": "*",
-        "symfony/dotenv": "^6.4",
+        "symfony/dotenv": "^6.4 | ^7.1 | ^7.2 | ^7.3",
         "guzzlehttp/guzzle": "^7.8",
         "fig/http-message-util": "^1.1",
         "guzzlehttp/psr7": "^2.6",
