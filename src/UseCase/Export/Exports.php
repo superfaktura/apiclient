@@ -6,13 +6,13 @@ use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Client\ClientInterface;
 use SuperFaktura\ApiClient\Contract;
 use Fig\Http\Message\StatusCodeInterface;
+use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Contract\Export\Format;
 use SuperFaktura\ApiClient\Response\BinaryResponse;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
-use _PHPStan_11268e5ee\Fig\Http\Message\RequestMethodInterface;
 use SuperFaktura\ApiClient\Response\CannotCreateResponseException;
 use SuperFaktura\ApiClient\Contract\Export\ExportNotFoundException;
 use SuperFaktura\ApiClient\Contract\Export\CannotDownloadExportException;
@@ -50,7 +50,7 @@ final readonly class Exports implements Contract\Export\Exports
         return match ($response->status_code) {
             StatusCodeInterface::STATUS_OK => $response,
             StatusCodeInterface::STATUS_NOT_FOUND => throw new ExportNotFoundException($request),
-            default => throw new CannotGetExportStatusException($request, $response->data['error_message'] ?? ''),
+            default => throw new CannotGetExportStatusException($request, $response->getErrorMessage()),
         };
     }
 
@@ -105,7 +105,7 @@ final readonly class Exports implements Contract\Export\Exports
         return match ($response->status_code) {
             StatusCodeInterface::STATUS_OK => $response,
             StatusCodeInterface::STATUS_NOT_FOUND => throw new ExportNotFoundException($request),
-            default => throw new CannotExportInvoicesException($request, $response->data['error_message'] ?? ''),
+            default => throw new CannotExportInvoicesException($request, $response->getErrorMessage()),
         };
     }
 
@@ -122,8 +122,8 @@ final readonly class Exports implements Contract\Export\Exports
             $json_response = json_decode($text_body, true, 512, JSON_THROW_ON_ERROR);
 
             return $json_response['error_message'] ?? '';
-        } catch (\JsonException $e) {
-            return $e->getMessage();
+        } catch (\JsonException $jsonException) {
+            return $jsonException->getMessage();
         }
     }
 }

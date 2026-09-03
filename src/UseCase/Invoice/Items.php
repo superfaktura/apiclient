@@ -10,7 +10,7 @@ use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Contract\Invoice\Item\CannotDeleteInvoiceItemException;
 
-final class Items implements Contract\Invoice\Item\Items
+final readonly class Items implements Contract\Invoice\Item\Items
 {
     public function __construct(
         private ClientInterface $http_client,
@@ -42,7 +42,7 @@ final class Items implements Contract\Invoice\Item\Items
         }
 
         if ($response->isError()) {
-            throw new CannotDeleteInvoiceItemException($request, $response->data['message'] ?? '');
+            throw new CannotDeleteInvoiceItemException($request, $response->getMessage());
         }
     }
 }

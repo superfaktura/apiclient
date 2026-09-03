@@ -17,7 +17,10 @@ use SuperFaktura\ApiClient\Contract\Invoice\Payment\CannotPayInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\Payment\CannotMarkAsUnpayableException;
 use SuperFaktura\ApiClient\Contract\Invoice\Payment\CannotDeleteInvoicePaymentException;
 
-final class Payments implements Contract\Invoice\Payment\Payments
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Invoice\Payment\PaymentsTest
+ */
+final readonly class Payments implements Contract\Invoice\Payment\Payments
 {
     public const INVOICE_PAYMENT = 'InvoicePayment';
 
@@ -51,7 +54,7 @@ final class Payments implements Contract\Invoice\Payment\Payments
         }
 
         if ($response->isError()) {
-            throw new CannotMarkAsUnpayableException($request, $response->data['error_message'] ?? '');
+            throw new CannotMarkAsUnpayableException($request, $response->getErrorMessage());
         }
     }
 
@@ -75,7 +78,7 @@ final class Payments implements Contract\Invoice\Payment\Payments
         }
 
         if ($response->isError()) {
-            throw new CannotPayInvoiceException($request, $response->data['message'] ?? '');
+            throw new CannotPayInvoiceException($request, $response->getMessage());
         }
 
         return $response;
@@ -98,7 +101,7 @@ final class Payments implements Contract\Invoice\Payment\Payments
         }
 
         if ($response->isError()) {
-            throw new CannotDeleteInvoicePaymentException($request, $response->data['message'] ?? '');
+            throw new CannotDeleteInvoicePaymentException($request, $response->getMessage());
         }
     }
 
@@ -118,12 +121,16 @@ final class Payments implements Contract\Invoice\Payment\Payments
                         'document_number' => $payment->document_number,
                         'cash_register_id' => $payment->cash_register_id,
                         'created' => $payment->payment_date?->format('Y-m-d'),
-                    ]),
+                    ], static fn (mixed $value): bool => (bool) $value),
                 ],
                 JSON_THROW_ON_ERROR,
             );
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 }

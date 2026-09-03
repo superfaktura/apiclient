@@ -55,7 +55,7 @@ final class ItemsTest extends TestCase
     public function testDeleteFailed(): void
     {
         $this->expectException(CannotDeleteInvoiceItemException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../../fixtures/unexpected-error.json';
 

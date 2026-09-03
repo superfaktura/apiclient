@@ -1,6 +1,25 @@
 /vendor/
 /coverage/
 *.cache
+/.phpstan-cache
+/.rector-cache
 /.idea/
 docker-compose.override.yml
 .env
+Makefile
+test-init.sh
+/ca/
+
+# AI
+/AGENTS.md
+/CLAUDE*.md
+/.mcp.json
+/.claude/
+/.claude/**
+/.github/copilot-instructions.md
+/.cursor/
+/.cursor/**
+/.codex/
+/.codex/**
+/docs/
+/docs/**

@@ -8,6 +8,9 @@ use SuperFaktura\ApiClient\Filter\Sort;
 use SuperFaktura\ApiClient\Filter\TimePeriod;
 use SuperFaktura\ApiClient\Filter\SortDirection;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Client\ClientsQueryTest
+ */
 final class ClientsQuery
 {
     private const ITEMS_PER_PAGE_MAX = 100;

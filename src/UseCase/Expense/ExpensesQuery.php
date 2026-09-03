@@ -11,6 +11,9 @@ use SuperFaktura\ApiClient\Filter\SortDirection;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseType;
 use SuperFaktura\ApiClient\Contract\Expense\ExpenseStatus;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Expense\ExpensesQueryTest
+ */
 final class ExpensesQuery
 {
     private const ITEMS_PER_PAGE_DEFAULT = 100;

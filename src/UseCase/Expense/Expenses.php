@@ -25,6 +25,9 @@ use SuperFaktura\ApiClient\Contract\Expense\CannotUpdateExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllExpensesException;
 use SuperFaktura\ApiClient\Contract\Expense\CannotGetAllCategoriesException;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Expense\ExpensesTest
+ */
 final readonly class Expenses implements Contract\Expense\Expenses
 {
     public const EXPENSE = 'Expense';
@@ -79,7 +82,7 @@ final readonly class Expenses implements Contract\Expense\Expenses
         }
 
         if ($response->isError()) {
-            throw new CannotGetExpenseException($request, $response->data['error_message'] ?? '');
+            throw new CannotGetExpenseException($request, $response->getErrorMessage());
         }
 
         return $response;
@@ -140,7 +143,7 @@ final readonly class Expenses implements Contract\Expense\Expenses
         }
 
         if ($response->isError()) {
-            throw new CannotDeleteExpenseException($request, $response->data['error_message'] ?? '');
+            throw new CannotDeleteExpenseException($request, $response->getErrorMessage());
         }
     }
 
@@ -220,7 +223,7 @@ final readonly class Expenses implements Contract\Expense\Expenses
         if ($response->isError()) {
             throw new CannotCreateExpenseException(
                 $request,
-                $this->normalizeErrorMessages($response),
+                $response->getNormalizedErrorMessages(),
             );
         }
 
@@ -269,7 +272,7 @@ final readonly class Expenses implements Contract\Expense\Expenses
         if ($response->isError()) {
             throw new CannotUpdateExpenseException(
                 $request,
-                $this->normalizeErrorMessages($response),
+                $response->getNormalizedErrorMessages(),
             );
         }
 
@@ -277,20 +280,8 @@ final readonly class Expenses implements Contract\Expense\Expenses
     }
 
     /**
-     * @return string[]
-     */
-    private function normalizeErrorMessages(Response $response): array
-    {
-        if (is_array($response->data['error_message'])) {
-            return $response->data['error_message'];
-        }
-
-        return [$response->data['error_message'] ?? ''];
-    }
-
-    /**
      * @param array<string, mixed> $expense
-     * @param array<int, array<string, mixed>> $items
+     * @param array<array<string, mixed>> $items
      * @param array<string, mixed> $client
      * @param array<string, mixed> $extra
      * @param array<string, mixed> $my_data
@@ -320,8 +311,12 @@ final readonly class Expenses implements Contract\Expense\Expenses
                 ]),
                 JSON_THROW_ON_ERROR,
             );
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 }

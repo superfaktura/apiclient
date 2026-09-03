@@ -2,6 +2,9 @@
 
 namespace SuperFaktura\ApiClient\Authorization;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\Authorization\SimpleProviderTest
+ */
 final readonly class SimpleProvider implements Provider
 {
     public function __construct(

@@ -168,7 +168,7 @@ final class ExportInvoicesTest extends ExportTestCase
     public function testExportBadRequest(): void
     {
         $this->expectException(CannotExportInvoicesException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 

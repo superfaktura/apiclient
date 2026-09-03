@@ -15,7 +15,10 @@ use SuperFaktura\ApiClient\Contract\RelatedDocument\DocumentType;
 use SuperFaktura\ApiClient\Contract\RelatedDocument\CannotLinkDocumentsException;
 use SuperFaktura\ApiClient\Contract\RelatedDocument\CannotUnlinkDocumentsException;
 
-final class RelatedDocuments implements Contract\RelatedDocument\RelatedDocuments
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\RelatedDocument\RelatedDocumentsTest
+ */
+final readonly class RelatedDocuments implements Contract\RelatedDocument\RelatedDocuments
 {
     public function __construct(
         private ClientInterface $http_client,
@@ -46,7 +49,7 @@ final class RelatedDocuments implements Contract\RelatedDocument\RelatedDocument
         }
 
         if ($response->isError()) {
-            throw new CannotLinkDocumentsException($request, $response->data['error_message'] ?? '');
+            throw new CannotLinkDocumentsException($request, $response->getErrorMessage());
         }
 
         return $response;
@@ -69,7 +72,7 @@ final class RelatedDocuments implements Contract\RelatedDocument\RelatedDocument
         }
 
         if ($response->isError()) {
-            throw new CannotUnlinkDocumentsException($request, $response->data['error_message'] ?? '');
+            throw new CannotUnlinkDocumentsException($request, $response->getErrorMessage());
         }
     }
 
@@ -88,8 +91,12 @@ final class RelatedDocuments implements Contract\RelatedDocument\RelatedDocument
                 ],
                 JSON_THROW_ON_ERROR,
             );
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 

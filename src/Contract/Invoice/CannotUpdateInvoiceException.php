@@ -8,20 +8,20 @@ use SuperFaktura\ApiClient\Request\RequestException;
 final class CannotUpdateInvoiceException extends RequestException
 {
     /**
-     * @param string[] $errors
+     * @param array<string|int, string|string[]> $errors
      */
     public function __construct(
         RequestInterface $request,
         private readonly array $errors,
         string $message = 'Cannot update invoice',
         int $code = 0,
-        \Throwable $previous = null,
+        ?\Throwable $previous = null,
     ) {
         parent::__construct($request, $message, $code, $previous);
     }
 
     /**
-     * @return string[]
+     * @return array<string|int, string|string[]>
      */
     public function getErrors(): array
     {

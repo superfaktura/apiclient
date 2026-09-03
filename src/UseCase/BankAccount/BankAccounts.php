@@ -18,6 +18,9 @@ use SuperFaktura\ApiClient\Contract\BankAccount\CannotDeleteBankAccountException
 use SuperFaktura\ApiClient\Contract\BankAccount\CannotUpdateBankAccountException;
 use SuperFaktura\ApiClient\Contract\BankAccount\CannotGetAllBankAccountsException;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\BankAccount\BankAccountsTest
+ */
 final readonly class BankAccounts implements Contract\BankAccount\BankAccounts
 {
     public function __construct(
@@ -44,7 +47,7 @@ final readonly class BankAccounts implements Contract\BankAccount\BankAccounts
             );
 
             if ($response->isError()) {
-                throw new CannotGetAllBankAccountsException($request, $response->data['message'] ?? '');
+                throw new CannotGetAllBankAccountsException($request, $response->getMessage());
             }
 
             return $response;
@@ -70,7 +73,7 @@ final readonly class BankAccounts implements Contract\BankAccount\BankAccounts
             );
 
             if ($response->isError()) {
-                throw new CannotCreateBankAccountException($request, $response->data['message'] ?? '');
+                throw new CannotCreateBankAccountException($request, $response->getMessage());
             }
 
             return $response;
@@ -103,7 +106,7 @@ final readonly class BankAccounts implements Contract\BankAccount\BankAccounts
         }
 
         if ($response->isError()) {
-            throw new CannotUpdateBankAccountException($request, $response->data['message'] ?? '');
+            throw new CannotUpdateBankAccountException($request, $response->getMessage());
         }
 
         return $response;
@@ -130,7 +133,7 @@ final readonly class BankAccounts implements Contract\BankAccount\BankAccounts
         }
 
         if ($response->isError()) {
-            throw new CannotDeleteBankAccountException($request, $response->data['error_message'] ?? '');
+            throw new CannotDeleteBankAccountException($request, $response->getErrorMessage());
         }
     }
 
@@ -143,8 +146,12 @@ final readonly class BankAccounts implements Contract\BankAccount\BankAccounts
     {
         try {
             return json_encode($bank_account, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 }

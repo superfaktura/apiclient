@@ -28,7 +28,7 @@ final class InvoiceExportRequestFactory
             'pdf_lang_default' => $pdf_options->language?->value,
             'hide_pdf_payment_info' => $pdf_options->hide_payment_info,
             'hide_signature' => $pdf_options->hide_signature,
-        ]);
+        ], static fn (mixed $value): bool => (bool) $value);
 
         try {
             return json_encode(
@@ -38,8 +38,12 @@ final class InvoiceExportRequestFactory
                 ],
                 JSON_THROW_ON_ERROR,
             );
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 

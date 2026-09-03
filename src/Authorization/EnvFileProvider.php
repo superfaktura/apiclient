@@ -6,6 +6,9 @@ use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Dotenv\Exception\PathException;
 use Symfony\Component\Dotenv\Exception\FormatException;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\Authorization\EnvFileProviderTest
+ */
 final readonly class EnvFileProvider implements Provider
 {
     /**
@@ -17,7 +20,14 @@ final readonly class EnvFileProvider implements Provider
             $dotenv = new Dotenv();
             $dotenv->loadEnv($path, overrideExistingVars: true);
         } catch (FormatException|PathException $exception) {
-            throw new CannotLoadFileException(previous: $exception);
+            // Symfony's FormatException message embeds a raw excerpt of the .env file
+            // around the syntax error, which may contain the API key. Keep the public
+            // message free of file contents; the original stays available via getPrevious().
+            throw new CannotLoadFileException(
+                sprintf('Cannot load env file "%s".', $path),
+                $exception->getCode(),
+                $exception,
+            );
         }
     }
 
@@ -39,6 +49,8 @@ final readonly class EnvFileProvider implements Provider
 
     private function getEnvByKey(string $key): ?string
     {
-        return $_ENV[$key] ?? null;
+        $value = $_ENV[$key] ?? null;
+
+        return is_string($value) ? $value : null;
     }
 }

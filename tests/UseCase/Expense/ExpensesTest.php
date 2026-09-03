@@ -70,7 +70,7 @@ final class ExpensesTest extends ExpensesTestCase
     public function testGetByIdGenericError(): void
     {
         $this->expectException(CannotGetExpenseException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
@@ -399,8 +399,8 @@ final class ExpensesTest extends ExpensesTestCase
                 ->create(expense: []);
 
             self::fail(sprintf('Expected exception of type: %s to be thrown', CannotCreateExpenseException::class));
-        } catch (CannotCreateExpenseException $exception) {
-            self::assertEquals($errors, $exception->getErrors());
+        } catch (CannotCreateExpenseException $cannotCreateExpenseException) {
+            self::assertEquals($errors, $cannotCreateExpenseException->getErrors());
         }
     }
 
@@ -513,8 +513,8 @@ final class ExpensesTest extends ExpensesTestCase
                 ->update(1);
 
             self::fail(sprintf('Expected exception of type: %s to be thrown', CannotUpdateExpenseException::class));
-        } catch (CannotUpdateExpenseException $exception) {
-            self::assertEquals($errors, $exception->getErrors());
+        } catch (CannotUpdateExpenseException $cannotUpdateExpenseException) {
+            self::assertEquals($errors, $cannotUpdateExpenseException->getErrors());
         }
     }
 
@@ -596,7 +596,7 @@ final class ExpensesTest extends ExpensesTestCase
     public function testDeleteGenericError(): void
     {
         $this->expectException(CannotDeleteExpenseException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 

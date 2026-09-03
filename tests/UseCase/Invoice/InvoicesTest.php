@@ -482,8 +482,8 @@ final class InvoicesTest extends InvoicesTestCase
                 );
 
             self::fail(sprintf('Expected exception of type: %s to be thrown', CannotCreateInvoiceException::class));
-        } catch (CannotCreateInvoiceException $exception) {
-            self::assertEquals($errors, $exception->getErrors());
+        } catch (CannotCreateInvoiceException $cannotCreateInvoiceException) {
+            self::assertEquals($errors, $cannotCreateInvoiceException->getErrors());
         }
     }
 
@@ -638,8 +638,8 @@ final class InvoicesTest extends InvoicesTestCase
                 ->update(1);
 
             self::fail(sprintf('Expected exception of type: %s to be thrown', CannotUpdateInvoiceException::class));
-        } catch (CannotUpdateInvoiceException $exception) {
-            self::assertEquals($exception->getErrors(), $errors);
+        } catch (CannotUpdateInvoiceException $cannotUpdateInvoiceException) {
+            self::assertEquals($cannotUpdateInvoiceException->getErrors(), $errors);
         }
     }
 
@@ -715,7 +715,7 @@ final class InvoicesTest extends InvoicesTestCase
     public function testDeleteFailed(): void
     {
         $this->expectException(CannotDeleteInvoiceException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
@@ -878,7 +878,7 @@ final class InvoicesTest extends InvoicesTestCase
     public function testCreateRegularProformaUnexpectedError(): void
     {
         $this->expectException(CannotGetInvoiceException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 

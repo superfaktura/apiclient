@@ -5,6 +5,9 @@ namespace SuperFaktura\ApiClient\Authorization\Header;
 use SuperFaktura\ApiClient\Version;
 use SuperFaktura\ApiClient\Authorization\Authorization;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\Authorization\Header\BuilderTest
+ */
 final readonly class Builder
 {
     public function __construct(

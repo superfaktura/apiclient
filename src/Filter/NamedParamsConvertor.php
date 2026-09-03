@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace SuperFaktura\ApiClient\Filter;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\Filter\NamedParamsConvertorTest
+ */
 final class NamedParamsConvertor implements QueryParamsConvertor
 {
     private const URLENCODED_COLON = '%3A';

@@ -12,6 +12,9 @@ use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Contract\CashRegister\CannotGetAllCashRegistersException;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\CashRegister\CashRegistersTest
+ */
 final readonly class CashRegisters implements Contract\CashRegister\CashRegisters
 {
     public Items $items;

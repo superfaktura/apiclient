@@ -95,7 +95,7 @@ final class PaymentsTest extends ExpensesTestCase
     public function testPayErrorResponse(): void
     {
         $this->expectException(CannotPayExpenseException::class);
-        $this->expectExceptionMessage('Expense error');
+        $this->expectExceptionMessageIsOrContains('Expense error');
 
         $fixture = __DIR__ . '/../fixtures/generic-error.json';
 
@@ -138,7 +138,7 @@ final class PaymentsTest extends ExpensesTestCase
     public function testDeleteFailed(): void
     {
         $this->expectException(CannotDeleteExpensePaymentException::class);
-        $this->expectExceptionMessage('Expense error');
+        $this->expectExceptionMessageIsOrContains('Expense error');
 
         $fixture = __DIR__ . '/../fixtures/generic-error.json';
 

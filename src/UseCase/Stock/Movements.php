@@ -16,6 +16,9 @@ use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotCreateMovementException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetAllMovementsException;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Stock\MovementsTest
+ */
 final readonly class Movements implements Stock\Movements
 {
     public function __construct(
@@ -28,11 +31,14 @@ final readonly class Movements implements Stock\Movements
     ) {
     }
 
+    /**
+     * @param array<string, mixed>[] $data
+     */
     public function create(int $item_id, array $data): Response
     {
         $request_data = [
             'StockLog' => array_map(
-                static fn ($movement) => array_merge($movement, ['stock_item_id' => $item_id]),
+                static fn (array $movement): array => array_merge($movement, ['stock_item_id' => $item_id]),
                 $data,
             ),
         ];
@@ -40,11 +46,14 @@ final readonly class Movements implements Stock\Movements
         return $this->createAndGetResponse($request_data);
     }
 
+    /**
+     * @param array<string, mixed>[] $data
+     */
     public function createWithSku(string $sku, array $data): Response
     {
         $request_data = [
             'StockLog' => array_map(
-                static fn ($movement) => array_merge($movement, ['sku' => $sku]),
+                static fn (array $movement): array => array_merge($movement, ['sku' => $sku]),
                 $data,
             ),
         ];
@@ -59,8 +68,12 @@ final readonly class Movements implements Stock\Movements
     {
         try {
             return json_encode($data, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 
@@ -82,7 +95,7 @@ final readonly class Movements implements Stock\Movements
         }
 
         if ($response->isError()) {
-            throw new CannotCreateMovementException($request, $response->data['message'] ?? '');
+            throw new CannotCreateMovementException($request, $response->getMessage());
         }
 
         return $response;
@@ -104,7 +117,7 @@ final readonly class Movements implements Stock\Movements
         }
 
         if ($response->isError()) {
-            throw new CannotGetAllMovementsException($request, $response->data['message'] ?? '');
+            throw new CannotGetAllMovementsException($request, $response->getMessage());
         }
 
         return $response;
