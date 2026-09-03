@@ -29,7 +29,7 @@ use SuperFaktura\ApiClient\Contract\Tag\TagAlreadyExistsException;
 #[UsesClass(ResponseFactory::class)]
 final class TagsTest extends TestCase
 {
-    protected const AUTHORIZATION_HEADER_VALUE = 'foo';
+    private const AUTHORIZATION_HEADER_VALUE = 'foo';
 
     public function testGetAll(): void
     {
@@ -101,7 +101,7 @@ final class TagsTest extends TestCase
     public function testCreateErrorResponse(): void
     {
         $this->expectException(CannotCreateTagException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
@@ -113,7 +113,7 @@ final class TagsTest extends TestCase
     public function testCreateTagAlreadyExists(): void
     {
         $this->expectException(TagAlreadyExistsException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
@@ -188,7 +188,7 @@ final class TagsTest extends TestCase
     public function testUpdateErrorResponse(): void
     {
         $this->expectException(CannotUpdateTagException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
@@ -200,7 +200,7 @@ final class TagsTest extends TestCase
     public function testUpdateTagNotFound(): void
     {
         $this->expectException(TagNotFoundException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
@@ -261,7 +261,7 @@ final class TagsTest extends TestCase
     public function testDeleteNotFound(): void
     {
         $this->expectException(TagNotFoundException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
@@ -273,7 +273,7 @@ final class TagsTest extends TestCase
     public function testDeleteFailed(): void
     {
         $this->expectException(CannotDeleteTagException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 

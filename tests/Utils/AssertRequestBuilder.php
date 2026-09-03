@@ -7,8 +7,6 @@ use Fig\Http\Message\RequestMethodInterface;
 
 final class AssertRequestBuilder
 {
-    private ?RequestInterface $request;
-
     private ?string $expected_request_method = null;
 
     private ?string $expected_uri = null;
@@ -20,9 +18,9 @@ final class AssertRequestBuilder
      */
     private array $expected_headers = [];
 
-    public function __construct(?RequestInterface $request)
-    {
-        $this->request = $request;
+    public function __construct(
+        private readonly ?RequestInterface $request,
+    ) {
     }
 
     /**

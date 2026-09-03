@@ -92,7 +92,7 @@ final class ItemsTest extends TestCase
     public function testCreateResponseDecodeFailed(): void
     {
         $this->expectException(CannotCreateItemException::class);
-        $this->expectExceptionMessage('Syntax error');
+        $this->expectExceptionMessageIsOrContains('Syntax error');
 
         $use_case = $this->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()));
         $use_case->create([]);
@@ -101,7 +101,7 @@ final class ItemsTest extends TestCase
     public function testCreateRequestFailed(): void
     {
         $this->expectException(CannotCreateItemException::class);
-        $this->expectExceptionMessage(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
+        $this->expectExceptionMessageIsOrContains(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
 
         $use_case = $this->getItems($this->getHttpClientWithMockRequestException());
         $use_case->create([]);
@@ -110,7 +110,7 @@ final class ItemsTest extends TestCase
     public function testCreateWithNonValidJsonArray(): void
     {
         $this->expectException(CannotCreateRequestException::class);
-        $this->expectExceptionMessage(self::JSON_ENCODE_FAILURE_MESSAGE);
+        $this->expectExceptionMessageIsOrContains(self::JSON_ENCODE_FAILURE_MESSAGE);
 
         $use_case = $this->getItems($this->getHttpClientWithMockResponse($this->getHttpOkResponse()));
         $use_case->create(['name' => NAN]);

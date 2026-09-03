@@ -55,7 +55,7 @@ final class InvoicesSendTest extends InvoicesTestCase
     public function testMarkAsSentWrongInvoice(): void
     {
         $this->expectException(CannotMarkInvoiceAsSentException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
@@ -134,7 +134,7 @@ final class InvoicesSendTest extends InvoicesTestCase
     public function testMarkAsSentViaEmailBadRequest(): void
     {
         $this->expectException(CannotMarkInvoiceAsSentException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
@@ -175,12 +175,11 @@ final class InvoicesSendTest extends InvoicesTestCase
 
         yield 'with minimal data' => [
             'request_body' => json_encode([
-                Invoices::SEND_EMAIL => array_filter($data),
+                Invoices::SEND_EMAIL => array_filter($data, static fn (mixed $value): bool => (bool) $value),
             ]),
             ...$data,
         ];
-
-        $request = $data = [
+        $request = [
             'invoice_id' => 2,
             'to' => 'jane.doe@superfaktura.sk',
             'pdf_language' => Language::ENGLISH,
@@ -189,12 +188,19 @@ final class InvoicesSendTest extends InvoicesTestCase
             'subject' => 'Foo bar',
             'body' => 'Lorem ipsum dolor sit amet',
         ];
-
-        $data['message'] = $request['body'];
+        $data = [
+            'invoice_id' => 2,
+            'to' => 'jane.doe@superfaktura.sk',
+            'pdf_language' => Language::ENGLISH,
+            'bcc' => ['joe.doe@superfaktura.sk', 'joe@doe.sk'],
+            'cc' => ['foo@superfaktura.sk', 'foo@bar.sk'],
+            'subject' => 'Foo bar',
+            'message' => $request['body'],
+        ];
 
         yield 'with all options' => [
             'request_body' => json_encode([
-                Invoices::SEND_EMAIL => array_filter($request),
+                Invoices::SEND_EMAIL => array_filter($request, static fn (mixed $value): bool => (bool) $value),
             ]),
             ...$data,
         ];
@@ -254,7 +260,7 @@ final class InvoicesSendTest extends InvoicesTestCase
     public function testSendViaEmailBadRequest(): void
     {
         $this->expectException(CannotSendInvoiceException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
@@ -304,7 +310,7 @@ final class InvoicesSendTest extends InvoicesTestCase
 
         yield 'with minimal data' => [
             'request_body' => json_encode([
-                Invoices::SEND_POST_OFFICE => array_filter($data),
+                Invoices::SEND_POST_OFFICE => array_filter($data, static fn (mixed $value): bool => (bool) $value),
             ]),
             ...$data,
         ];
@@ -321,7 +327,7 @@ final class InvoicesSendTest extends InvoicesTestCase
 
         yield 'with all options' => [
             'request_body' => json_encode([
-                Invoices::SEND_POST_OFFICE => array_filter($data),
+                Invoices::SEND_POST_OFFICE => array_filter($data, static fn (mixed $value): bool => (bool) $value),
             ]),
             ...$data,
         ];
@@ -331,24 +337,24 @@ final class InvoicesSendTest extends InvoicesTestCase
     public function testSendViaPostOffice(
         string $request_body,
         int $invoice_id,
-        ?string $name,
-        ?string $address,
-        ?string $city,
-        ?int $country_id,
-        ?string $state,
-        ?string $zip,
+        ?string $delivery_name,
+        ?string $delivery_address,
+        ?string $delivery_city,
+        ?int $delivery_country_id,
+        ?string $delivery_state,
+        ?string $delivery_zip,
     ): void {
         $this
             ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpOkResponse()))
             ->sendViaPostOffice(
                 id: $invoice_id,
                 address: new Address(
-                    name: $name,
-                    address: $address,
-                    city: $city,
-                    country_id: $country_id,
-                    state: $state,
-                    zip: $zip,
+                    name: $delivery_name,
+                    address: $delivery_address,
+                    city: $delivery_city,
+                    country_id: $delivery_country_id,
+                    state: $delivery_state,
+                    zip: $delivery_zip,
                 ),
             );
 
@@ -375,7 +381,7 @@ final class InvoicesSendTest extends InvoicesTestCase
     public function testSendViaPostOfficeBadRequest(): void
     {
         $this->expectException(CannotSendInvoiceException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 

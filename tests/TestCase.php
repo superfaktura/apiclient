@@ -27,7 +27,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected const JSON_ENCODE_FAILURE_MESSAGE = 'Inf and NaN cannot be JSON encoded';
 
     /**
-     * @var array<array{request?: RequestInterface, response?: ResponseInterface}>
+     * @var array<int, array{request?: RequestInterface, response?: ResponseInterface}>
      */
     protected array $history = [];
 
@@ -38,6 +38,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->history = [];
     }
 
+    /**
+     * @param array<string|int, mixed> $data
+     */
     protected static function getApiResponse(
         int $status_code = StatusCodeInterface::STATUS_IM_A_TEAPOT,
         array $data = [],
@@ -138,6 +141,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $handlerStack = HandlerStack::create(
             new MockHandler($modified_responses),
         );
+        // @phpstan-ignore assign.propertyType (Guzzle phpdoc widens the by-ref container to array|ArrayAccess)
         $handlerStack->push(Middleware::history($this->history));
 
         return new Client([

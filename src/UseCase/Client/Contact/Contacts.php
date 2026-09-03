@@ -20,6 +20,9 @@ use SuperFaktura\ApiClient\Contract\Client\Contact\CannotCreateContactException;
 use SuperFaktura\ApiClient\Contract\Client\Contact\CannotDeleteContactException;
 use SuperFaktura\ApiClient\Contract\Client\Contact\CannotGetAllContactsException;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Client\Contact\ContactsTest
+ */
 final readonly class Contacts implements Contract\Client\Contact\Contacts
 {
     private const CONTACT = 'ContactPerson';
@@ -83,7 +86,7 @@ final readonly class Contacts implements Contract\Client\Contact\Contacts
         }
 
         if ($response->isError()) {
-            throw new CannotCreateContactException($request, $response->data['message'] ?? '');
+            throw new CannotCreateContactException($request, $response->getMessage());
         }
 
         return $response;
@@ -110,7 +113,7 @@ final readonly class Contacts implements Contract\Client\Contact\Contacts
         }
 
         if ($response->isError()) {
-            throw new CannotDeleteContactException($request, $response->data['error_message'] ?? '');
+            throw new CannotDeleteContactException($request, $response->getErrorMessage());
         }
     }
 
@@ -126,8 +129,12 @@ final readonly class Contacts implements Contract\Client\Contact\Contacts
                 [self::CONTACT => ['client_id' => $client_id, ...$contact]],
                 JSON_THROW_ON_ERROR,
             );
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 }

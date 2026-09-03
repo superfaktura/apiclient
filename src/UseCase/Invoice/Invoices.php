@@ -31,6 +31,9 @@ use SuperFaktura\ApiClient\Contract\Invoice\CannotDownloadInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotMarkInvoiceAsSentException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotChangeInvoiceLanguageException;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Invoice\InvoicesTest
+ */
 final readonly class Invoices implements Contract\Invoice\Invoices
 {
     public const INVOICE = 'Invoice';
@@ -102,7 +105,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         }
 
         if ($response->isError()) {
-            throw new CannotGetInvoiceException($request, $response->data['error_message'] ?? '');
+            throw new CannotGetInvoiceException($request, $response->getErrorMessage());
         }
 
         return $response;
@@ -165,6 +168,11 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         };
     }
 
+    /**
+     * @param array<string, mixed> $invoice
+     * @param array<array<string, mixed>> $items
+     * @param array<string, mixed> $client
+     */
     public function create(
         array $invoice,
         array $items,
@@ -204,7 +212,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         if ($response->isError()) {
             throw new CannotCreateInvoiceException(
                 $request,
-                $this->normalizeErrorMessages($response),
+                $response->getNormalizedErrorMessages(),
             );
         }
 
@@ -255,7 +263,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         if ($response->isError()) {
             throw new CannotUpdateInvoiceException(
                 $request,
-                $this->normalizeErrorMessages($response),
+                $response->getNormalizedErrorMessages(),
             );
         }
 
@@ -283,7 +291,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         }
 
         if ($response->isError()) {
-            throw new CannotDeleteInvoiceException($request, $response->data['error_message'] ?? '');
+            throw new CannotDeleteInvoiceException($request, $response->getErrorMessage());
         }
     }
 
@@ -307,7 +315,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
             StatusCodeInterface::STATUS_OK => null,
             StatusCodeInterface::STATUS_NOT_FOUND => throw new InvoiceNotFoundException($request),
             default => throw new CannotChangeInvoiceLanguageException(
-                $request, $response->data['message'] ?? '',
+                $request, $response->getMessage(),
             ),
         };
     }
@@ -333,7 +341,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         }
 
         if ($response->isError()) {
-            throw new CannotMarkInvoiceAsSentException($request, $response->data['error_message'] ?? '');
+            throw new CannotMarkInvoiceAsSentException($request, $response->getErrorMessage());
         }
     }
 
@@ -372,7 +380,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         }
 
         if ($response->isError()) {
-            throw new CannotMarkInvoiceAsSentException($request, $response->data['error_message'] ?? '');
+            throw new CannotMarkInvoiceAsSentException($request, $response->getErrorMessage());
         }
     }
 
@@ -400,7 +408,7 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         }
 
         if ($response->isError()) {
-            throw new CannotSendInvoiceException($request, $response->data['error_message'] ?? '');
+            throw new CannotSendInvoiceException($request, $response->getErrorMessage());
         }
     }
 
@@ -428,25 +436,13 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         }
 
         if ($response->isError()) {
-            throw new CannotSendInvoiceException($request, $response->data['error_message'] ?? '');
+            throw new CannotSendInvoiceException($request, $response->getErrorMessage());
         }
-    }
-
-    /**
-     * @return string[]
-     */
-    private function normalizeErrorMessages(Response $response): array
-    {
-        if (is_array($response->data['error_message'])) {
-            return $response->data['error_message'];
-        }
-
-        return [$response->data['error_message'] ?? ''];
     }
 
     /**
      * @param array<string, mixed> $invoice
-     * @param array<int, array<string, mixed>> $items
+     * @param array<array<string, mixed>> $items
      * @param array<string, mixed> $client
      * @param array<string, mixed> $settings
      * @param array<string, mixed> $extra
@@ -479,8 +475,12 @@ final readonly class Invoices implements Contract\Invoice\Invoices
                 ]),
                 JSON_THROW_ON_ERROR,
             );
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 
@@ -505,8 +505,12 @@ final readonly class Invoices implements Contract\Invoice\Invoices
                 ],
                 JSON_THROW_ON_ERROR,
             );
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 
@@ -528,12 +532,17 @@ final readonly class Invoices implements Contract\Invoice\Invoices
                             'subject' => $email->subject,
                             'body' => $email->message,
                         ],
+                        static fn (mixed $value): bool => (bool) $value,
                     ),
                 ],
                 JSON_THROW_ON_ERROR,
             );
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 
@@ -555,12 +564,17 @@ final readonly class Invoices implements Contract\Invoice\Invoices
                             'delivery_state' => $address->state,
                             'delivery_zip' => $address->zip,
                         ],
+                        static fn (mixed $value): bool => (bool) $value,
                     ),
                 ],
                 JSON_THROW_ON_ERROR,
             );
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 
@@ -643,17 +657,30 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         }
 
         if ($response->status_code !== StatusCodeInterface::STATUS_OK || $response->isError()) {
-            throw new CannotGetInvoiceException($request, $response->data['error_message'] ?? '');
+            throw new CannotGetInvoiceException($request, $response->getErrorMessage());
         }
 
+        /**
+         * @var array{
+         *     Invoice: array<string, mixed>,
+         *     InvoiceItem: array<int, array<string, mixed>>,
+         *     ClientData: array<string, mixed>,
+         *     InvoiceSetting?: array<string, mixed>,
+         *     InvoiceExtra?: array<string, mixed>,
+         *     MyData?: array<string, mixed>,
+         *     Tag?: int[],
+         * } $data
+         */
+        $data = $response->data;
+
         return $this->create(
-            invoice: $response->data['Invoice'],
-            items: $response->data['InvoiceItem'],
-            client: $response->data['ClientData'],
-            settings: $response->data['InvoiceSetting'] ?? [],
-            extra: $response->data['InvoiceExtra'] ?? [],
-            my_data: $response->data['MyData'] ?? [],
-            tags: $response->data['Tag'] ?? [],
+            invoice: $data['Invoice'],
+            items: $data['InvoiceItem'],
+            client: $data['ClientData'],
+            settings: $data['InvoiceSetting'] ?? [],
+            extra: $data['InvoiceExtra'] ?? [],
+            my_data: $data['MyData'] ?? [],
+            tags: $data['Tag'] ?? [],
         );
     }
 }

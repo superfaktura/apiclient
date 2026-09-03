@@ -59,14 +59,14 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
     #[DataProvider('buildProvider')]
     public function testBuild(string $expected, Authorization $authorization): void
     {
-        $fake_version_provider = $this->createMock(Version\Provider::class);
+        $fake_version_provider = self::createStub(Version\Provider::class);
         $fake_version_provider->method('getVersion')->willReturn(self::MOCK_PACKAGE_VERSION);
 
         $builder = new Header\Builder($fake_version_provider);
 
         self::assertSame(
-            expected: $expected,
-            actual: $builder->build($authorization),
+            $expected,
+            $builder->build($authorization),
         );
     }
 }

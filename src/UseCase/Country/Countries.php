@@ -11,6 +11,9 @@ use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
 use SuperFaktura\ApiClient\Contract\Country\CannotGetAllCountriesException;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Country\CountriesTest
+ */
 final readonly class Countries implements Contract\Country\Countries
 {
     public function __construct(

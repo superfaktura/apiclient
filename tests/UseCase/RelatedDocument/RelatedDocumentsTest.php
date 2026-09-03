@@ -85,7 +85,7 @@ final class RelatedDocumentsTest extends TestCase
     public function testLinkErrorResponse(): void
     {
         $this->expectException(CannotLinkDocumentsException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 
@@ -125,7 +125,7 @@ final class RelatedDocumentsTest extends TestCase
     public function testUnlinkFailed(): void
     {
         $this->expectException(CannotUnlinkDocumentsException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../fixtures/unexpected-error.json';
 

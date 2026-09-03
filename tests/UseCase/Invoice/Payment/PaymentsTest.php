@@ -62,7 +62,7 @@ final class PaymentsTest extends TestCase
     public function testMarkAsUnPayableWrongInvoice(): void
     {
         $this->expectException(CannotMarkAsUnpayableException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../../fixtures/unexpected-error.json';
 
@@ -154,7 +154,7 @@ final class PaymentsTest extends TestCase
     public function testPayErrorResponse(): void
     {
         $this->expectException(CannotPayInvoiceException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../../fixtures/unexpected-error.json';
 
@@ -197,7 +197,7 @@ final class PaymentsTest extends TestCase
     public function testDeleteFailed(): void
     {
         $this->expectException(CannotDeleteInvoicePaymentException::class);
-        $this->expectExceptionMessage('Unexpected error');
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
 
         $fixture = __DIR__ . '/../../fixtures/unexpected-error.json';
 

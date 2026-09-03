@@ -59,8 +59,8 @@ final class NamedParamsConvertorTest extends TestCase
     public function testConvert(string $expected, array $params): void
     {
         self::assertSame(
-            expected: $expected,
-            actual: $this->convertor->convert($params),
+            $expected,
+            $this->convertor->convert($params),
         );
     }
 }

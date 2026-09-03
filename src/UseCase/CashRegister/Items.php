@@ -10,7 +10,11 @@ use Psr\Http\Message\RequestFactoryInterface;
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Contract\CashRegister;
 use SuperFaktura\ApiClient\Response\ResponseFactoryInterface;
+use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\CashRegister\ItemsTest
+ */
 final readonly class Items implements CashRegister\Items
 {
     public function __construct(
@@ -39,7 +43,7 @@ final readonly class Items implements CashRegister\Items
         }
 
         if ($response->isError()) {
-            throw new CashRegister\CannotCreateCashRegisterItemException($request, $response->data['message'] ?? '');
+            throw new CashRegister\CannotCreateCashRegisterItemException($request, $response->getMessage());
         }
 
         return $response;
@@ -48,10 +52,21 @@ final readonly class Items implements CashRegister\Items
     /**
      * @param array<string, mixed> $data
      *
-     * @throws \JsonException
+     * @throws CannotCreateRequestException
      */
     private function jsonFrom(int $cash_register_id, array $data): string
     {
-        return json_encode(['CashRegisterItem' => [...$data, 'cash_register_id' => $cash_register_id]], JSON_THROW_ON_ERROR);
+        try {
+            return json_encode(
+                ['CashRegisterItem' => [...$data, 'cash_register_id' => $cash_register_id]],
+                JSON_THROW_ON_ERROR,
+            );
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
+        }
     }
 }

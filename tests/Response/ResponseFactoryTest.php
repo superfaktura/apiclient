@@ -77,8 +77,8 @@ final class ResponseFactoryTest extends TestCase
     public function testCreateFromHttpResponse(Response $expected, ResponseInterface $response): void
     {
         self::assertEquals(
-            expected: $expected,
-            actual: $this->factory->createFromJsonResponse($response),
+            $expected,
+            $this->factory->createFromJsonResponse($response),
         );
     }
 
@@ -115,7 +115,7 @@ final class ResponseFactoryTest extends TestCase
     public function testCreateFromHttpResponseWithoutRateLimitHeaders(): void
     {
         self::assertEquals(
-            expected: new Response(
+            new Response(
                 status_code: StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR,
                 data: [
                     'error' => 1,
@@ -123,7 +123,7 @@ final class ResponseFactoryTest extends TestCase
                     'error_message' => 'Error: 500',
                 ],
             ),
-            actual: $this->factory->createFromJsonResponse(
+            $this->factory->createFromJsonResponse(
                 new Psr7\Response(
                     status: StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR,
                     headers: [],
@@ -137,7 +137,7 @@ final class ResponseFactoryTest extends TestCase
     {
         yield 'file is returned as binary response' => [
             'fixture' => __DIR__ . '/fixtures/foo.pdf',
-            'response' => self::getPsrBinaryResponse(
+            'http_response' => self::getPsrBinaryResponse(
                 filename: __DIR__ . '/fixtures/foo.pdf',
                 status_code: StatusCodeInterface::STATUS_OK,
                 headers: ['Content-Type' => 'application/pdf'],
@@ -147,7 +147,7 @@ final class ResponseFactoryTest extends TestCase
 
         yield 'rate limit values are extracted from response headers and converted to UTC' => [
             'fixture' => __DIR__ . '/fixtures/export.zip',
-            'response' => self::getPsrBinaryResponse(
+            'http_response' => self::getPsrBinaryResponse(
                 filename: __DIR__ . '/fixtures/export.zip',
                 status_code: StatusCodeInterface::STATUS_OK,
                 headers: [
@@ -186,7 +186,7 @@ final class ResponseFactoryTest extends TestCase
 
         self::assertSame(StatusCodeInterface::STATUS_OK, $response->status_code);
         self::assertStringEqualsFile($fixture, (string) stream_get_contents($response->data));
-        self::assertEquals($content_type, $response->content_type);
+        self::assertSame($content_type, $response->content_type);
         self::assertEquals($rate_limit_daily, $response->rate_limit_daily);
         self::assertEquals($rate_limit_monthly, $response->rate_limit_monthly);
     }

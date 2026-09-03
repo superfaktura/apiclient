@@ -14,6 +14,9 @@ use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Expense\Payment\CannotPayExpenseException;
 use SuperFaktura\ApiClient\Contract\Expense\Payment\CannotDeleteExpensePaymentException;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Expense\Payment\PaymentsTest
+ */
 final readonly class Payments implements Contract\Expense\Payment\Payments
 {
     public const EXPENSE_PAYMENT = 'ExpensePayment';
@@ -47,7 +50,7 @@ final readonly class Payments implements Contract\Expense\Payment\Payments
         }
 
         if ($response->isError()) {
-            throw new CannotPayExpenseException($request, $response->data['message'] ?? '');
+            throw new CannotPayExpenseException($request, $response->getMessage());
         }
 
         return $response;
@@ -70,7 +73,7 @@ final readonly class Payments implements Contract\Expense\Payment\Payments
         }
 
         if ($response->isError()) {
-            throw new CannotDeleteExpensePaymentException($request, $response->data['message'] ?? '');
+            throw new CannotDeleteExpensePaymentException($request, $response->getMessage());
         }
     }
 
@@ -88,12 +91,16 @@ final readonly class Payments implements Contract\Expense\Payment\Payments
                         'currency' => $payment->currency?->value,
                         'payment_type' => $payment->payment_type?->value,
                         'created' => $payment->payment_date?->format('Y-m-d'),
-                    ]),
+                    ], static fn (mixed $value): bool => (bool) $value),
                 ],
                 JSON_THROW_ON_ERROR,
             );
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 }

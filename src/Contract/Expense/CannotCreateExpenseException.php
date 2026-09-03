@@ -7,26 +7,21 @@ use SuperFaktura\ApiClient\Request\RequestException;
 
 final class CannotCreateExpenseException extends RequestException
 {
-    /** @var string[] */
-    private array $errors;
-
     /**
-     * @param string[] $errors
+     * @param array<string|int, string|string[]> $errors
      */
     public function __construct(
         RequestInterface $request,
-        array $errors = [],
+        private readonly array $errors = [],
         string $message = 'Cannot create expense',
         int $code = 0,
-        \Throwable $previous = null,
+        ?\Throwable $previous = null,
     ) {
         parent::__construct($request, $message, $code, $previous);
-
-        $this->errors = $errors;
     }
 
     /**
-     * @return string[]
+     * @return array<string|int, string|string[]>
      */
     public function getErrors(): array
     {

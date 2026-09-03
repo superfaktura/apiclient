@@ -20,6 +20,9 @@ use SuperFaktura\ApiClient\Contract\Stock\CannotUpdateItemException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetAllItemsException;
 use SuperFaktura\ApiClient\Contract\Stock\CannotGetItemByIdException;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Stock\ItemsTest
+ */
 final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Items
 {
     public Movements $movements;
@@ -60,7 +63,7 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
         }
 
         if ($response->isError()) {
-            throw new CannotCreateItemException($request, $response->data['message'] ?? '');
+            throw new CannotCreateItemException($request, $response->getMessage());
         }
 
         return $response;
@@ -93,8 +96,12 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
     {
         try {
             return json_encode($data, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 
@@ -112,7 +119,7 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
                 ->createFromJsonResponse($this->http_client->sendRequest($request));
 
             if ($response->isError()) {
-                throw new CannotGetAllItemsException($request, $response->data['message'] ?? '');
+                throw new CannotGetAllItemsException($request, $response->getMessage());
             }
 
             return $response;
@@ -141,7 +148,7 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
         }
 
         if ($response->isError()) {
-            throw new CannotDeleteItemException($request, $response->data['message'] ?? '');
+            throw new CannotDeleteItemException($request, $response->getMessage());
         }
     }
 
@@ -182,7 +189,7 @@ final readonly class Items implements \SuperFaktura\ApiClient\Contract\Stock\Ite
         }
 
         if ($response->isError()) {
-            throw new CannotUpdateItemException($request, $response->data['message'] ?? '');
+            throw new CannotUpdateItemException($request, $response->getMessage());
         }
 
         return $response;

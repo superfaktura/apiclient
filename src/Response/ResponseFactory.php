@@ -6,6 +6,9 @@ namespace SuperFaktura\ApiClient\Response;
 
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\Response\ResponseFactoryTest
+ */
 final class ResponseFactory implements ResponseFactoryInterface
 {
     private const RATE_LIMIT_RESET_DATETIME_FORMAT = 'd.m.Y H:i:s';

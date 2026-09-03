@@ -49,14 +49,14 @@ final class CashRegistersTest extends TestCase
     public function testGetAllRequestFailed(): void
     {
         $this->expectException(CannotGetAllCashRegistersException::class);
-        $this->expectExceptionMessage(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
+        $this->expectExceptionMessageIsOrContains(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
         $this->getCashRegisters($this->getHttpClientWithMockRequestException())->getAll();
     }
 
     public function testGetAllResponseDecodeFailed(): void
     {
         $this->expectException(CannotGetAllCashRegistersException::class);
-        $this->expectExceptionMessage('Syntax error');
+        $this->expectExceptionMessageIsOrContains('Syntax error');
         $this->getCashRegisters($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->getAll();
     }

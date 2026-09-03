@@ -19,7 +19,10 @@ use SuperFaktura\ApiClient\Contract\Tag\CannotUpdateTagException;
 use SuperFaktura\ApiClient\Contract\Tag\CannotGetAllTagsException;
 use SuperFaktura\ApiClient\Contract\Tag\TagAlreadyExistsException;
 
-final class Tags implements Contract\Tag\Tags
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Tag\TagsTest
+ */
+final readonly class Tags implements Contract\Tag\Tags
 {
     public function __construct(
         private ClientInterface $http_client,
@@ -67,11 +70,11 @@ final class Tags implements Contract\Tag\Tags
         }
 
         if ($response->status_code === StatusCodeInterface::STATUS_CONFLICT) {
-            throw new TagAlreadyExistsException($request, $response->data['error_message'] ?? '');
+            throw new TagAlreadyExistsException($request, $response->getErrorMessage());
         }
 
         if ($response->isError()) {
-            throw new CannotCreateTagException($request, $response->data['error_message'] ?? '');
+            throw new CannotCreateTagException($request, $response->getErrorMessage());
         }
 
         return $response;
@@ -97,11 +100,11 @@ final class Tags implements Contract\Tag\Tags
         }
 
         if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
-            throw new TagNotFoundException($request, $response->data['error_message'] ?? '');
+            throw new TagNotFoundException($request, $response->getErrorMessage());
         }
 
         if ($response->isError()) {
-            throw new CannotUpdateTagException($request, $response->data['error_message'] ?? '');
+            throw new CannotUpdateTagException($request, $response->getErrorMessage());
         }
 
         return $response;
@@ -124,11 +127,11 @@ final class Tags implements Contract\Tag\Tags
         }
 
         if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
-            throw new TagNotFoundException($request, $response->data['error_message'] ?? '');
+            throw new TagNotFoundException($request, $response->getErrorMessage());
         }
 
         if ($response->isError()) {
-            throw new CannotDeleteTagException($request, $response->data['error_message'] ?? '');
+            throw new CannotDeleteTagException($request, $response->getErrorMessage());
         }
     }
 
@@ -139,8 +142,12 @@ final class Tags implements Contract\Tag\Tags
     {
         try {
             return json_encode(['name' => $tag], JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 }

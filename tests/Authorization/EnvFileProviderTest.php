@@ -5,6 +5,7 @@ namespace SuperFaktura\ApiClient\Test\Authorization;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use SuperFaktura\ApiClient\Authorization\Authorization;
+use Symfony\Component\Dotenv\Exception\FormatException;
 use SuperFaktura\ApiClient\Authorization\DotEnvConfigKey;
 use SuperFaktura\ApiClient\Authorization\EnvFileProvider;
 use SuperFaktura\ApiClient\Authorization\CannotLoadFileException;
@@ -21,6 +22,15 @@ final class EnvFileProviderTest extends \PHPUnit\Framework\TestCase
     private const VALID_FILE = '.mock.env';
 
     private const ANOTHER_VALID_FILE = '.another-mock.env';
+
+    private const MALFORMED_FILE = '.malformed-mock.env';
+
+    /**
+     * Kept short on purpose: Symfony's FormatException quotes only ~20 characters
+     * around the syntax error, so a longer value would be truncated and the
+     * assertion would pass even against a leaking implementation.
+     */
+    private const MALFORMED_FILE_SECRET = 'leaked-key';
 
     /**
      * @return \Generator<array{expected: Authorization, path: string}>
@@ -61,6 +71,21 @@ final class EnvFileProviderTest extends \PHPUnit\Framework\TestCase
         new EnvFileProvider(__DIR__ . DIRECTORY_SEPARATOR . self::NON_EXISTING_FILE);
     }
 
+    public function testMalformedFileExceptionMessageDoesNotExposeFileContents(): void
+    {
+        try {
+            new EnvFileProvider(__DIR__ . DIRECTORY_SEPARATOR . self::MALFORMED_FILE);
+
+            self::fail(CannotLoadFileException::class . ' was not thrown.');
+        } catch (CannotLoadFileException $cannotLoadFileException) {
+            self::assertStringNotContainsString(
+                self::MALFORMED_FILE_SECRET,
+                $cannotLoadFileException->getMessage(),
+            );
+            self::assertInstanceOf(FormatException::class, $cannotLoadFileException->getPrevious());
+        }
+    }
+
     public function testWithIncompleteFile(): void
     {
         $this->expectException(InvalidDotEnvConfigException::class);
@@ -72,8 +97,8 @@ final class EnvFileProviderTest extends \PHPUnit\Framework\TestCase
     public function testWithValidFile(Authorization $expected, string $path): void
     {
         self::assertEquals(
-            expected: $expected,
-            actual: (new EnvFileProvider($path))->getAuthorization(),
+            $expected,
+            (new EnvFileProvider($path))->getAuthorization(),
         );
     }
 

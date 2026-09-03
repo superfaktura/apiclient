@@ -78,7 +78,7 @@ final class ItemsTest extends TestCase
     public function testCreateResponseDecodeFailed(): void
     {
         $this->expectException(CashRegister\CannotCreateCashRegisterItemException::class);
-        $this->expectExceptionMessage('Syntax error');
+        $this->expectExceptionMessageIsOrContains('Syntax error');
         $this->getUseCase($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()))
             ->create(0, []);
     }

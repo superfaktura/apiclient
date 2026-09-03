@@ -23,6 +23,9 @@ use SuperFaktura\ApiClient\Contract\Client\CannotDeleteClientException;
 use SuperFaktura\ApiClient\Contract\Client\CannotUpdateClientException;
 use SuperFaktura\ApiClient\Contract\Client\CannotGetAllClientsException;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Client\ClientsTest
+ */
 final readonly class Clients implements Contract\Client\Clients
 {
     private const CLIENT = 'Client';
@@ -64,7 +67,7 @@ final readonly class Clients implements Contract\Client\Clients
         }
 
         if ($response->isError()) {
-            throw new CannotGetClientException($request, $response->data['error_message'] ?? '');
+            throw new CannotGetClientException($request, $response->getErrorMessage());
         }
 
         return $response;
@@ -125,7 +128,7 @@ final readonly class Clients implements Contract\Client\Clients
         }
 
         if ($response->isError()) {
-            throw new CannotCreateClientException($request, $response->data['error_message'] ?? '');
+            throw new CannotCreateClientException($request, $response->getErrorMessage());
         }
 
         return $response;
@@ -153,7 +156,7 @@ final readonly class Clients implements Contract\Client\Clients
         }
 
         if ($response->isError()) {
-            throw new CannotUpdateClientException($request, $response->data['message'] ?? '');
+            throw new CannotUpdateClientException($request, $response->getMessage());
         }
 
         return $response;
@@ -166,8 +169,12 @@ final readonly class Clients implements Contract\Client\Clients
     {
         try {
             return json_encode([self::CLIENT => $data], JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            throw new CannotCreateRequestException($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
         }
     }
 
@@ -190,7 +197,7 @@ final readonly class Clients implements Contract\Client\Clients
         }
 
         if ($response->isError()) {
-            throw new CannotDeleteClientException($request, $response->data['error_message'] ?? '');
+            throw new CannotDeleteClientException($request, $response->getErrorMessage());
         }
 
         return $response;

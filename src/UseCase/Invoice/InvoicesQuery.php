@@ -12,6 +12,9 @@ use SuperFaktura\ApiClient\Contract\Invoice\InvoiceType;
 use SuperFaktura\ApiClient\Contract\Invoice\DeliveryType;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceStatus;
 
+/**
+ * @see \SuperFaktura\ApiClient\Test\UseCase\Invoice\InvoicesQueryTest
+ */
 final class InvoicesQuery
 {
     private const ITEMS_PER_PAGE_MAX = 200;

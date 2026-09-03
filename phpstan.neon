@@ -5,3 +5,17 @@ includes:
 
 parameters:
     level: max
+
+    phpVersion:
+        min: 80200
+        max: 80400
+
+    # https://phpstan.org/user-guide/result-cache
+    tmpDir: ./.phpstan-cache
+
+    reportUnmatchedIgnoredErrors: true
+
+    # https://phpstan.org/config-reference
+    paths:
+        - src
+        - tests

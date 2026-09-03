@@ -264,7 +264,7 @@ final class ClientsTest extends TestCase
     public function testDeleteInsufficientPermissions(): void
     {
         $this->expectException(CannotDeleteClientException::class);
-        $this->expectExceptionMessage('You are not authorized to delete this client');
+        $this->expectExceptionMessageIsOrContains('You are not authorized to delete this client');
 
         $fixture = __DIR__ . '/fixtures/delete-insufficient-permissions.json';
         $use_case = $this->getClients($this->getHttpClientWithMockResponse(
@@ -276,7 +276,7 @@ final class ClientsTest extends TestCase
     public function testDeleteWithInvoices(): void
     {
         $this->expectException(CannotDeleteClientException::class);
-        $this->expectExceptionMessage('You can\'t delete contact with invoices');
+        $this->expectExceptionMessageIsOrContains('You can\'t delete contact with invoices');
 
         $fixture = __DIR__ . '/fixtures/delete-client-with-contacts.json';
 
@@ -289,7 +289,7 @@ final class ClientsTest extends TestCase
     public function testDeleteResponseDecodeFailed(): void
     {
         $this->expectException(CannotDeleteClientException::class);
-        $this->expectExceptionMessage('Syntax error');
+        $this->expectExceptionMessageIsOrContains('Syntax error');
 
         $use_case = $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()));
         $use_case->delete(0);
@@ -298,7 +298,7 @@ final class ClientsTest extends TestCase
     public function testDeleteRequestFailed(): void
     {
         $this->expectException(CannotDeleteClientException::class);
-        $this->expectExceptionMessage(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
+        $this->expectExceptionMessageIsOrContains(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
 
         $use_case = $this->getClients($this->getHttpClientWithMockRequestException());
         $use_case->delete(0);
@@ -366,7 +366,7 @@ final class ClientsTest extends TestCase
     public function testCreateInsufficientPermissions(): void
     {
         $this->expectException(CannotCreateClientException::class);
-        $this->expectExceptionMessage('You can\'t create new items');
+        $this->expectExceptionMessageIsOrContains('You can\'t create new items');
 
         $fixture = __DIR__ . '/fixtures/insufficient-permissions.json';
         $use_case = $this->getClients($this->getHttpClientWithMockResponse(
@@ -378,7 +378,7 @@ final class ClientsTest extends TestCase
     public function testCreateResponseDecodeFailed(): void
     {
         $this->expectException(CannotCreateClientException::class);
-        $this->expectExceptionMessage('Syntax error');
+        $this->expectExceptionMessageIsOrContains('Syntax error');
 
         $use_case = $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()));
         $use_case->create([]);
@@ -387,7 +387,7 @@ final class ClientsTest extends TestCase
     public function testCreateRequestFailed(): void
     {
         $this->expectException(CannotCreateClientException::class);
-        $this->expectExceptionMessage(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
+        $this->expectExceptionMessageIsOrContains(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
 
         $use_case = $this->getClients($this->getHttpClientWithMockRequestException());
         $use_case->create([]);
@@ -396,7 +396,7 @@ final class ClientsTest extends TestCase
     public function testCreateWithNonValidJsonArray(): void
     {
         $this->expectException(CannotCreateRequestException::class);
-        $this->expectExceptionMessage(self::JSON_ENCODE_FAILURE_MESSAGE);
+        $this->expectExceptionMessageIsOrContains(self::JSON_ENCODE_FAILURE_MESSAGE);
 
         $use_case = $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponse()));
         $use_case->create(['Client' => ['name' => NAN]]);
@@ -442,7 +442,7 @@ final class ClientsTest extends TestCase
     public function testUpdateInsufficientPermissions(): void
     {
         $this->expectException(CannotUpdateClientException::class);
-        $this->expectExceptionMessage('You can\'t edit this item');
+        $this->expectExceptionMessageIsOrContains('You can\'t edit this item');
 
         $fixture = __DIR__ . '/fixtures/edit-insufficient-permissions.json';
         $use_case = $this->getClients($this->getHttpClientWithMockResponse(
@@ -454,7 +454,7 @@ final class ClientsTest extends TestCase
     public function testUpdateResponseDecodeFailed(): void
     {
         $this->expectException(CannotUpdateClientException::class);
-        $this->expectExceptionMessage('Syntax error');
+        $this->expectExceptionMessageIsOrContains('Syntax error');
 
         $use_case = $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponseContainingInvalidJson()));
         $use_case->update(0, []);
@@ -463,7 +463,7 @@ final class ClientsTest extends TestCase
     public function testUpdateRequestFailed(): void
     {
         $this->expectException(CannotUpdateClientException::class);
-        $this->expectExceptionMessage(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
+        $this->expectExceptionMessageIsOrContains(self::ERROR_COMMUNICATING_WITH_SERVER_MESSAGE);
 
         $use_case = $this->getClients($this->getHttpClientWithMockRequestException());
         $use_case->update(0, []);
@@ -472,7 +472,7 @@ final class ClientsTest extends TestCase
     public function testUpdateWithNonValidJsonArray(): void
     {
         $this->expectException(CannotCreateRequestException::class);
-        $this->expectExceptionMessage(self::JSON_ENCODE_FAILURE_MESSAGE);
+        $this->expectExceptionMessageIsOrContains(self::JSON_ENCODE_FAILURE_MESSAGE);
 
         $use_case = $this->getClients($this->getHttpClientWithMockResponse($this->getHttpOkResponse()));
         $use_case->create(['Client' => ['name' => NAN]]);
