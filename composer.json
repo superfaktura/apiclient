@@ -30,9 +30,9 @@
         "ext-zip": "*",
         "ext-mbstring": "*",
         "symfony/dotenv": "^6.4 | ^7.1 | ^7.2 | ^7.3",
-        "guzzlehttp/guzzle": "^7.15.2",
+        "guzzlehttp/guzzle": "^7.15.2 | ^8.0",
         "fig/http-message-util": "^1.1",
-        "guzzlehttp/psr7": "^2.12.3",
+        "guzzlehttp/psr7": "^2.12.3 | ^3.0",
         "psr/http-factory": "^1.0",
         "psr/http-message": "^2.0",
         "psr/http-client": "^1.0"

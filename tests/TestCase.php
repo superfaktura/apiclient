@@ -10,7 +10,6 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\MockHandler;
 use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Fig\Http\Message\StatusCodeInterface;
@@ -27,7 +26,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected const JSON_ENCODE_FAILURE_MESSAGE = 'Inf and NaN cannot be JSON encoded';
 
     /**
-     * @var array<int, array{request?: RequestInterface, response?: ResponseInterface}>
+     * @var array<int, array{request: RequestInterface, response: ResponseInterface|null, error: mixed, options: array<mixed>}>
      */
     protected array $history = [];
 
@@ -119,7 +118,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected function getHttpClientWithMockResponse(MessageInterface ...$responses): Client
+    protected function getHttpClientWithMockResponse(ResponseInterface ...$responses): Client
     {
         $modified_responses = [];
 
@@ -170,7 +169,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    protected function getHttpOkResponse(): MessageInterface
+    protected function getHttpOkResponse(): ResponseInterface
     {
         return (new \GuzzleHttp\Psr7\Response(StatusCodeInterface::STATUS_OK, [], '[]'))
             ->withHeader('X-RateLimit-DailyLimit', '1000')
@@ -181,13 +180,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             ->withHeader('X-RateLimit-MonthlyReset', '01.01.2099 00:00:00');
     }
 
-    protected function getHttpNotFoundResponse(): MessageInterface
+    protected function getHttpNotFoundResponse(): ResponseInterface
     {
         return (new \GuzzleHttp\Psr7\Response(StatusCodeInterface::STATUS_NOT_FOUND, [], '[]'))
             ->withHeader('Content-Type', 'application/json');
     }
 
-    protected function getHttpOkResponseContainingInvalidJson(): MessageInterface
+    protected function getHttpOkResponseContainingInvalidJson(): ResponseInterface
     {
         return (new \GuzzleHttp\Psr7\Response(StatusCodeInterface::STATUS_OK, [], '{'));
     }
