@@ -13,6 +13,7 @@ use SuperFaktura\ApiClient\Contract\Language;
 use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\Contract\PaymentType;
 use SuperFaktura\ApiClient\Response\BinaryResponse;
+use SuperFaktura\ApiClient\UseCase\Webhook\Webhook;
 use SuperFaktura\ApiClient\Filter\QueryParamsConvertor;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceType;
 use SuperFaktura\ApiClient\Contract\Invoice\DeliveryType;
@@ -408,8 +409,73 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         }
 
         if ($response->isError()) {
-            throw new CannotSendInvoiceException($request, $response->getErrorMessage());
+            throw new CannotSendInvoiceException(
+                $request,
+                $response->getErrorMessage(),
+                errorResponseData: $response->data,
+            );
         }
+    }
+
+    public function sendViaPeppol(
+        int $id,
+        ?Webhook $webhook = null,
+    ): Response {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_POST,
+                $this->base_uri . '/invoices/sendPeppol',
+            )
+            ->withHeader('Authorization', $this->authorization_header_value)
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(Utils::streamFor($this->peppolSendDataToJson($id, $webhook)));
+
+        try {
+            $response = $this->response_factory->createFromJsonResponse(
+                $this->http_client->sendRequest($request),
+            );
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotSendInvoiceException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code === StatusCodeInterface::STATUS_NOT_FOUND) {
+            throw new InvoiceNotFoundException($request);
+        }
+
+        if ($response->status_code !== StatusCodeInterface::STATUS_ACCEPTED || $response->isError()) {
+            throw new CannotSendInvoiceException(
+                $request,
+                $response->getErrorMessage(),
+                $response->status_code,
+                errorResponseData: $response->data,
+            );
+        }
+
+        return $response;
+    }
+
+    public function getPeppolSendingStatus(int $id): Response
+    {
+        $request = $this->request_factory
+            ->createRequest(
+                RequestMethodInterface::METHOD_GET,
+                $this->base_uri . '/invoices/getPeppolStatus/' . $id,
+            )
+            ->withHeader('Authorization', $this->authorization_header_value);
+
+        try {
+            $response = $this->response_factory->createFromJsonResponse(
+                $this->http_client->sendRequest($request),
+            );
+        } catch (ClientExceptionInterface|\JsonException $e) {
+            throw new CannotGetInvoiceException($request, $e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($response->status_code !== StatusCodeInterface::STATUS_OK || $response->isError()) {
+            throw new CannotGetInvoiceException($request, $response->getErrorMessage(), $response->status_code);
+        }
+
+        return $response;
     }
 
     public function sendViaPostOffice(int $id, Address $address = new Address()): void
@@ -436,7 +502,11 @@ final readonly class Invoices implements Contract\Invoice\Invoices
         }
 
         if ($response->isError()) {
-            throw new CannotSendInvoiceException($request, $response->getErrorMessage());
+            throw new CannotSendInvoiceException(
+                $request,
+                $response->getErrorMessage(),
+                errorResponseData: $response->data,
+            );
         }
     }
 
@@ -535,6 +605,32 @@ final readonly class Invoices implements Contract\Invoice\Invoices
                         static fn (mixed $value): bool => (bool) $value,
                     ),
                 ],
+                JSON_THROW_ON_ERROR,
+            );
+        } catch (\JsonException $jsonException) {
+            throw new CannotCreateRequestException(
+                $jsonException->getMessage(),
+                $jsonException->getCode(),
+                $jsonException,
+            );
+        }
+    }
+
+    /**
+     * @throws CannotCreateRequestException
+     */
+    private function peppolSendDataToJson(int $id, ?Webhook $webhook): string
+    {
+        try {
+            return json_encode(
+                array_filter(
+                    [
+                        'invoice_id' => $id,
+                        'webhook_url' => $webhook?->url,
+                        'webhook_secret' => $webhook?->secret,
+                    ],
+                    static fn (mixed $value): bool => $value !== null,
+                ),
                 JSON_THROW_ON_ERROR,
             );
         } catch (\JsonException $jsonException) {
