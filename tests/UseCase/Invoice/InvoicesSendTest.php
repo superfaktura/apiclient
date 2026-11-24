@@ -10,17 +10,20 @@ use SuperFaktura\ApiClient\Response\RateLimit;
 use SuperFaktura\ApiClient\UseCase\Invoice\Email;
 use SuperFaktura\ApiClient\UseCase\Invoice\Items;
 use SuperFaktura\ApiClient\UseCase\Invoice\Address;
+use SuperFaktura\ApiClient\UseCase\Webhook\Webhook;
 use SuperFaktura\ApiClient\Request\RequestException;
 use SuperFaktura\ApiClient\Response\ResponseFactory;
 use SuperFaktura\ApiClient\UseCase\Invoice\Invoices;
 use SuperFaktura\ApiClient\UseCase\Invoice\Payment\Payments;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 use SuperFaktura\ApiClient\Contract\Invoice\InvoiceNotFoundException;
+use SuperFaktura\ApiClient\Contract\Invoice\CannotGetInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotSendInvoiceException;
 use SuperFaktura\ApiClient\Contract\Invoice\CannotMarkInvoiceAsSentException;
 
 #[CoversClass(Invoices::class)]
 #[CoversClass(Email::class)]
+#[UsesClass(Webhook::class)]
 #[CoversClass(Address::class)]
 #[UsesClass(Items::class)]
 #[UsesClass(Payments::class)]
@@ -294,6 +297,201 @@ final class InvoicesSendTest extends InvoicesTestCase
                 1,
                 new Email(email: "\xB1\x31", pdf_language: Language::SLOVAK),
             );
+    }
+
+    public function testSendViaPeppol(): void
+    {
+        $data = [
+            'error' => 0,
+            'data' => ['invoice_id' => 1, 'operation_id' => 'operation-1', 'status' => 'queued'],
+        ];
+        $response = $this
+            ->getInvoices($this->getHttpClientWithMockResponse(
+                new \GuzzleHttp\Psr7\Response(202, [], json_encode($data, JSON_THROW_ON_ERROR)),
+            ))
+            ->sendViaPeppol(1);
+
+        $this->request()
+            ->post('/invoices/sendPeppol')
+            ->withHeader('Content-Type', 'application/json')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+
+        self::assertSame('{"invoice_id":1}', (string) $this->getLastRequest()?->getBody());
+        self::assertSame(202, $response->status_code);
+        self::assertSame($data, $response->data);
+    }
+
+    public function testSendViaPeppolWithWebhook(): void
+    {
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse(
+                new \GuzzleHttp\Psr7\Response(202, [], '{"error":0,"data":{"operation_id":"operation-1"}}'),
+            ))
+            ->sendViaPeppol(1, new Webhook('https://example.com/webhook', '0'));
+
+        self::assertSame([
+            'invoice_id' => 1,
+            'webhook_url' => 'https://example.com/webhook',
+            'webhook_secret' => '0',
+        ], json_decode((string) $this->getLastRequest()?->getBody(), true, 512, JSON_THROW_ON_ERROR));
+    }
+
+    public function testSendViaPeppolInvoiceNotFound(): void
+    {
+        $this->expectException(InvoiceNotFoundException::class);
+
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse($this->getHttpNotFoundResponse()))
+            ->sendViaPeppol(1);
+    }
+
+    public function testSendViaPeppolBadRequest(): void
+    {
+        $this->expectException(CannotSendInvoiceException::class);
+        $this->expectExceptionMessageIsOrContains('Unexpected error');
+
+        $this
+            ->getInvoices($this->getHttpClientReturning(__DIR__ . '/../fixtures/unexpected-error.json', 422))
+            ->sendViaPeppol(1);
+    }
+
+    public function testSendViaPeppolUnexpectedHttpStatus(): void
+    {
+        $this->expectException(CannotSendInvoiceException::class);
+
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse(
+                new \GuzzleHttp\Psr7\Response(403, [], '{}'),
+            ))
+            ->sendViaPeppol(1);
+    }
+
+    public function testSendViaPeppolRequestFailed(): void
+    {
+        $this->expectException(CannotSendInvoiceException::class);
+
+        $this->getInvoices($this->getHttpClientWithMockRequestException())->sendViaPeppol(1);
+    }
+
+    public function testSendViaPeppolInvalidResponse(): void
+    {
+        $this->expectException(CannotSendInvoiceException::class);
+
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse(
+                new \GuzzleHttp\Psr7\Response(202, [], 'invalid json'),
+            ))
+            ->sendViaPeppol(1);
+    }
+
+    public function testSendViaPeppolInvalidRequestData(): void
+    {
+        $this->expectException(CannotCreateRequestException::class);
+
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse())
+            ->sendViaPeppol(1, new Webhook('https://example.com/webhook', "\xB1\x31"));
+    }
+
+    public static function peppolResponseDataProvider(): \Generator
+    {
+        yield 'missing data' => ['{"error":0}'];
+        yield 'invalid data' => ['{"error":0,"data":"invalid"}'];
+        yield 'missing ID' => ['{"error":0,"data":{}}'];
+        yield 'numeric ID' => ['{"error":0,"data":{"operation_id":123}}'];
+        yield 'empty ID' => ['{"error":0,"data":{"operation_id":""}}'];
+        yield 'blank ID' => ['{"error":0,"data":{"operation_id":" "}}'];
+    }
+
+    #[DataProvider('peppolResponseDataProvider')]
+    public function testSendViaPeppolReturnsResponseData(string $body): void
+    {
+        $response = $this
+            ->getInvoices($this->getHttpClientWithMockResponse(
+                new \GuzzleHttp\Psr7\Response(202, [], $body),
+            ))
+            ->sendViaPeppol(1);
+
+        self::assertSame(202, $response->status_code);
+        self::assertSame(json_decode($body, true, 512, JSON_THROW_ON_ERROR), $response->data);
+    }
+
+    public static function peppolSendingStatusProvider(): \Generator
+    {
+        foreach (['queued', 'processing', 'pending', 'accepted', 'failed'] as $status) {
+            yield $status => [$status];
+        }
+    }
+
+    #[DataProvider('peppolSendingStatusProvider')]
+    public function testGetPeppolSendingStatus(string $status): void
+    {
+        $data = [
+            'error' => 0,
+            'data' => [
+                'invoice_id' => 372,
+                'operation_id' => 'operation-1',
+                'status' => $status,
+                'provider_status' => null,
+                'failure_code' => $status === 'failed' ? 'delivery_failed' : null,
+                'completed_at' => null,
+            ],
+        ];
+        $response = $this
+            ->getInvoices($this->getHttpClientWithMockResponse(
+                new \GuzzleHttp\Psr7\Response(200, [], json_encode($data, JSON_THROW_ON_ERROR)),
+            ))
+            ->getPeppolSendingStatus(372);
+
+        $this->request()
+            ->get('/invoices/getPeppolStatus/372')
+            ->withAuthorizationHeader(self::AUTHORIZATION_HEADER_VALUE)
+            ->assert();
+
+        self::assertSame(200, $response->status_code);
+        self::assertSame($data, $response->data);
+    }
+
+    public static function peppolSendingStatusErrorProvider(): \Generator
+    {
+        foreach ([400, 401, 403, 404, 429, 500] as $status) {
+            yield (string) $status => [$status, '{"error":1,"error_message":"Status unavailable"}'];
+        }
+
+        yield 'API error' => [200, '{"error":1,"error_message":"Status unavailable"}'];
+        yield 'HTTP error without error flag' => [500, '{"error_message":"Status unavailable"}'];
+    }
+
+    #[DataProvider('peppolSendingStatusErrorProvider')]
+    public function testGetPeppolSendingStatusError(int $status, string $body): void
+    {
+        $this->expectException(CannotGetInvoiceException::class);
+        $this->expectExceptionMessageIsOrContains('Status unavailable');
+
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse(
+                new \GuzzleHttp\Psr7\Response($status, [], $body),
+            ))
+            ->getPeppolSendingStatus(372);
+    }
+
+    public function testGetPeppolSendingStatusInvalidJson(): void
+    {
+        $this->expectException(CannotGetInvoiceException::class);
+
+        $this
+            ->getInvoices($this->getHttpClientWithMockResponse(
+                new \GuzzleHttp\Psr7\Response(200, [], 'invalid json'),
+            ))
+            ->getPeppolSendingStatus(372);
+    }
+
+    public function testGetPeppolSendingStatusRequestFailed(): void
+    {
+        $this->expectException(CannotGetInvoiceException::class);
+
+        $this->getInvoices($this->getHttpClientWithMockRequestException())->getPeppolSendingStatus(372);
     }
 
     public static function sendViaPostOfficeProvider(): \Generator

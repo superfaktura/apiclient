@@ -7,6 +7,7 @@ use SuperFaktura\ApiClient\Response\Response;
 use SuperFaktura\ApiClient\UseCase\Invoice\Email;
 use SuperFaktura\ApiClient\Response\BinaryResponse;
 use SuperFaktura\ApiClient\UseCase\Invoice\Address;
+use SuperFaktura\ApiClient\UseCase\Webhook\Webhook;
 use SuperFaktura\ApiClient\UseCase\Invoice\InvoicesQuery;
 use SuperFaktura\ApiClient\Request\CannotCreateRequestException;
 
@@ -116,6 +117,21 @@ interface Invoices
      * @throws InvoiceNotFoundException
      */
     public function sendViaEmail(int $id, Email $email): void;
+
+    /**
+     * @throws CannotCreateRequestException
+     * @throws CannotSendInvoiceException
+     * @throws InvoiceNotFoundException
+     */
+    public function sendViaPeppol(
+        int $id,
+        ?Webhook $webhook = null,
+    ): Response;
+
+    /**
+     * @throws CannotGetInvoiceException
+     */
+    public function getPeppolSendingStatus(int $id): Response;
 
     /**
      * @throws CannotSendInvoiceException

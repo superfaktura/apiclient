@@ -705,6 +705,34 @@ $api->invoices->sendViaPostOffice(372, $address);
 
 For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#send-invoice-via-post).
 
+##### 13. `Invoices::sendViaPeppol`
+
+Queues invoice for sending via Peppol and returns its data
+
+```php
+$response = $api->invoices->sendViaPeppol(
+    id: 372,
+    webhook: new \SuperFaktura\ApiClient\UseCase\Webhook\Webhook(
+        url: 'https://example.com/webhooks/peppol',
+        secret: 'YOUR_WEBHOOK_SECRET',
+    ),
+);
+
+$operation_id = $response->data['data']['operation_id'];
+```
+
+For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#einvoice).
+
+##### 14. `Invoices::getPeppolSendingStatus`
+
+Returns the latest Peppol sending status for an invoice.
+
+```php
+$response = $api->invoices->getPeppolSendingStatus(372);
+```
+
+For more information check [API documentation](https://github.com/superfaktura/docs/blob/master/invoice.md#get-peppol-sending-status).
+
 #### Invoice\Items
 
 ##### 1. `Invoice\Item::delete`
